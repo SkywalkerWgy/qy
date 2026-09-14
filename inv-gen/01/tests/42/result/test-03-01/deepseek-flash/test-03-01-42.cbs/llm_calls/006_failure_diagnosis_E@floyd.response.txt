@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_24: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation of i_24 cannot be proven because the available invariants do not state that the inner loop body only decreases distances. To re-establish i_24 after an update of `dist[i][j]`, the prover must know that the new value at any cell is `<=` its old value, so that the upper bound `dist[a][b] <= graph[a][m] + graph[m][b]` (which held before the update) remains true after the update. Without this monotonicity and the associated frame condition (other cells unchanged), the solver cannot relate the post-update state to the pre-update state that satisfied i_24.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The missing logical fact is that the conditional assignment `dist[i][j] = dist[i][k] + dist[k][j]` only occurs when `dist[i][k] + dist[k][j] < dist[i][j]`, hence the update is non-increasing: for all `a,b`, the value of `dist[a][b]` after the loop body is `<=` its value before. This fact must be made available to the prover to bridge the pre- and post-update states.

@@ -1,0 +1,2 @@
+[Loop A@counting_sort]
+loop invariant i_1: \forall integer i; 0 <= i < v ==> c[i] == 0 && sum_c(c, i) == 0;

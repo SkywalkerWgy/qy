@@ -1,0 +1,4574 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 71 goals scheduled
+[wp] [Timeout] typed_topo_sort_loop_invariant_i_12_preserved (Qed 271ms) (Alt-Ergo)
+[wp] Proved goals:   71 / 72
+  Unreachable:       1
+  Qed:              42 (4ms-68ms-631ms)
+  Alt-Ergo 2.6.3:   25 (9ms-237ms-1.5s)
+  CVC5 1.1.2:        2 (444ms-937ms)
+  Z3 4.13.3:         1 (9.5s)
+  Timeout:           1
+------------------------------------------------------------
+  Function topo_sort
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 44) in 'topo_sort':
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 45) in 'topo_sort':
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 46) in 'topo_sort':
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 53):
+Prove: true.
+Prover Qed returns Valid (19ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 53):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 55):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 55):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 57):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 57):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(queue_0, 0).
+Let a_2 = shift_sint32(result_0, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n) /\ separated(a_2, n, a, n) /\
+      separated(a_2, n, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_3 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_3, n, a, n) /\ separated(a_3, n, a_1, n) /\
+       separated(a_3, n, a_2, n)))).
+}
+Prove: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (18ms) (115)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (37ms) (17513)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (12ms) (78738)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 59):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 59):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(queue_0, 0).
+Let a_2 = shift_sint32(result_0, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n) /\ separated(a_2, n, a, n) /\
+      separated(a_2, n, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_3 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_3, n, a, n) /\ separated(a_3, n, a_1, n) /\
+       separated(a_3, n, a_2, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+}
+Prove: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (20ms) (119)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (30ms) (18316)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (12ms) (81876)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 61):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 61):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(queue_0, 0).
+Let a_2 = shift_sint32(result_0, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n) /\ separated(a_2, n, a, n) /\
+      separated(a_2, n, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_3 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_3, n, a, n) /\ separated(a_3, n, a_1, n) /\
+       separated(a_3, n, a_2, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+}
+Prove: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (20ms) (196)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (42ms) (24474)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (13ms) (104123)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 63):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = shift_sint32(queue_0, 0).
+Let a_5 = a_3[shift_sint32(in_degree_0, i)].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(v) /\ is_sint32(1 + pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_4, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_4, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_4, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Else *)
+  Have: n <= v.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= pass_0.
+}
+Prove: (a_5 = (-1)) \/ (a_5 = 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:40ms) (22ms) (334)
+Prover CVC5 1.1.2 returns Valid (Qed:40ms) (53ms) (35047)
+Prover Z3 4.13.3 returns Valid (Qed:40ms) (12ms) (103888)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 63):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(queue_0, 0).
+Let a_2 = shift_sint32(result_0, 0).
+Let x = Mint_0[shift_sint32(in_degree_0, i)].
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n) /\ separated(a_2, n, a, n) /\
+      separated(a_2, n, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x_1 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_3 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_3, n, a, n) /\ separated(a_3, n, a_1, n) /\
+       separated(a_3, n, a_2, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+}
+Prove: (x = (-1)) \/ (x = 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:5ms) (14ms) (74)
+Prover CVC5 1.1.2 returns Valid (Qed:5ms) (42ms) (22998)
+Prover Z3 4.13.3 returns Valid (Qed:5ms) (13ms) (90272)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 65):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(v) /\ is_sint32(1 + pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_4, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_4, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_5 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_5, n, a, n) /\ separated(a_5, n, a_4, n) /\
+       separated(a_5, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_5 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_5 = (-1)) \/ (a_5 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_5 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_5 = (-1)) \/ (a_5 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Else *)
+  Have: n <= v.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= pass_0.
+}
+Prove: a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:41ms) (21ms) (159)
+Prover CVC5 1.1.2 returns Valid (Qed:41ms) (53ms) (35030)
+Prover Z3 4.13.3 returns Valid (Qed:41ms) (16ms) (111830)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 65):
+Prove: true.
+Prover Qed returns Valid (0.70ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 67):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(v) /\ is_sint32(1 + pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_4, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_4, n).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] in
+      ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_2)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z.
+      let a_5 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0) in
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (separated(a_5, n, a, n) /\ separated(a_5, n, a_4, n) /\
+       separated(a_5, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let a_5 = a_2[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_5 = (-1)) \/ (a_5 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_1) ->
+      (a_2[shift_sint32(result_0, i_3)] != a_2[shift_sint32(result_0, i_2)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_2[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_2) <->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. let a_5 = a_3[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_5 = (-1)) \/ (a_5 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_0) ->
+      (a_3[shift_sint32(result_0, i_3)] != a_3[shift_sint32(result_0, i_2)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_3[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_2) <->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Else *)
+  Have: n <= v.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= pass_0.
+}
+Prove: a_3[shift_sint32(result_0, i)] != a_3[shift_sint32(result_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:43ms) (16ms) (151)
+Prover CVC5 1.1.2 returns Valid (Qed:43ms) (68ms) (38061)
+Prover Z3 4.13.3 returns Valid (Qed:43ms) (21ms) (111097)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 67):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 80):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_5 = a_3[shift_sint32(a_4, v)].
+Let a_6 = shift_sint32(queue_0, 0).
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + count_0) /\ is_sint32(1 + v) /\ is_sint32(a_7) /\
+      is_sint32(a_5).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Residual *)
+  When: count_0 < n.
+  (* Residual *)
+  When: a_7 != (-1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_6, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_8 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_8, n, a, n) /\ separated(a_8, n, a_6, n) /\
+       separated(a_8, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_8 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_8 = (-1)) \/ (a_8 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: 0 <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_8 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_8 = (-1)) \/ (a_8 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_4, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_5 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+}
+Prove: (-1) <= count_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:208ms) (12ms) (59)
+Prover CVC5 1.1.2 returns Valid (Qed:208ms) (13ms) (14295)
+Prover Z3 4.13.3 returns Valid (Qed:208ms) (9ms) (76082)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 80):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 82):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_5 = a_3[shift_sint32(a_4, v)].
+Let a_6 = shift_sint32(queue_0, 0).
+Let a_7 = shift_sint32(in_degree_0, v).
+Let a_8 = a_3[a_7].
+Let x = 1 + count_0.
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\ is_sint32(x) /\
+      is_sint32(1 + v) /\ is_sint32(a_8) /\ is_sint32(a_5).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Residual *)
+  When: count_0 < n.
+  (* Residual *)
+  When: a_8 != (-1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_6, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x_1 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_6, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x_1 = (-1)) \/ (x_1 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_9 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: 0 <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_9 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_4, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_5 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (-1) <= count_0.
+}
+Prove: P_valid_vertex_prefix(a_3[shift_sint32(result_0, count_0) <- v][a_7
+                               <- -1], result_0, x, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:244ms) (725ms) (16380)
+Prover CVC5 1.1.2 returns Valid (Qed:244ms) (708ms) (212530)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 82):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 84):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = shift_sint32(in_degree_0, v).
+Let a_5 = a_3[shift_sint32(result_0, count_0) <- v][a_4 <- -1].
+Let x = 1 + count_0.
+Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_7 = a_3[shift_sint32(a_6, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Let a_9 = a_3[a_4].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\ is_sint32(x) /\
+      is_sint32(1 + v) /\ is_sint32(a_9) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Residual *)
+  When: count_0 < n.
+  (* Residual *)
+  When: a_9 != (-1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x_1 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_10 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_10, n, a, n) /\ separated(a_10, n, a_8, n) /\
+       separated(a_10, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x_1 = (-1)) \/ (x_1 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_10 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: 0 <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_10 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_6, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_7 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (-1) <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_5, result_0, x, n).
+}
+Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+Prover Alt-Ergo 2.6.3 returns Timeout (Qed:271ms) (10s)
+Prover CVC5 1.1.2 returns Timeout (Qed:271ms) (10s)
+Prover Z3 4.13.3 returns Timeout (Qed:271ms) (10s)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 84):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 86):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = shift_sint32(in_degree_0, v).
+Let a_5 = a_3[shift_sint32(result_0, count_0) <- v][a_4 <- -1].
+Let x = 1 + count_0.
+Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_7 = a_3[shift_sint32(a_6, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Let a_9 = a_3[a_4].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\ is_sint32(x) /\
+      is_sint32(1 + v) /\ is_sint32(a_9) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Residual *)
+  When: count_0 < n.
+  (* Residual *)
+  When: a_9 != (-1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x_1 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_10 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_10, n, a, n) /\ separated(a_10, n, a_8, n) /\
+       separated(a_10, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x_1 = (-1)) \/ (x_1 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_10 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: 0 <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_10 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_6, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_7 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (-1) <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_5, result_0, x, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+}
+Prove: P_processed_vertices_are_output(a_5, result_0, in_degree_0, x, n).
+Prover Z3 4.13.3 returns Valid (Qed:273ms) (9.5s) (59875509)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 86):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 88):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_1, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Let x = Mint_0[shift_sint32(in_degree_0, i)].
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(count_0) /\
+      is_sint32(count_1) /\ is_sint32(count_2) /\ is_sint32(count_3) /\
+      is_sint32(count_4) /\ is_sint32(n) /\ is_sint32(pass_0) /\
+      is_sint32(u) /\ is_sint32(v) /\ is_sint32(1 + v) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x_1 = Mint_1[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_1[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_5, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_1, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_1, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_1, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x_1 = Mint_1[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x_1 = (-1)) \/ (x_1 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_4) /\ (count_4 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_4, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_4, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_4,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_4) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_4) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_4, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_3) /\ (count_3 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_3, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_3, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_3,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_3) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_3) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_3, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  If a_4 != (-1)
+  Then {
+    Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+    Have: (ta_can_output_0=false) /\ (count_3 = count_5) /\ (a_3 = Mint_2).
+    (* Block In *)
+    Have: (ta_u_0=false).
+    (* Invariant 'i_25' *)
+    Have: forall i_1 : Z. ((Mint_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+        ((0 <= i_1) -> ((i_1 < n) -> (Mint_2[shift_sint32(a_6, i_1)] = 0)))).
+    (* Invariant 'i_17' *)
+    Have: (u <= n) /\ (0 <= u).
+    (* Invariant 'i_18' *)
+    Have: (exists i_1 : Z.
+           (Mint_2[shift_sint32(in_degree_0, i_1)] != (-1)) /\
+           (Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) /\
+           (0 <= i_1) /\ (i_1 < u)) <-> (can_output_0 = 0).
+    (* Invariant 'i_19' *)
+    Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+    (* Invariant 'i_21' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         (Mint_2[shift_sint32(in_degree_0, i_1)] = (-1))))))).
+    (* Invariant 'i_22' *)
+    Have: ((can_output_0 = 1) -> ((v < u) ->
+        (Mint_2[shift_sint32(a_6, v)] = 0))).
+    (* Invariant 'i_23' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         P_appears_in_prefix(Mint_2, result_0, count_5, i_1)))))).
+    (* Else *)
+    Have: n <= u.
+    If can_output_0 != 0
+    Then {
+      Have: count_5 = count_2.
+      If count_2 < n
+      Then {
+        Have: count_2 = count_1.
+        Have: (1 + count_1) = count_0.
+        Have: Mint_2[shift_sint32(result_0, count_1) <- v]
+                [shift_sint32(in_degree_0, v) <- -1] = Mint_0.
+      }
+      Else { Have: (Mint_2 = Mint_0) /\ (count_2 = count_0). }
+    }
+    Else { Have: (Mint_2 = Mint_0) /\ (count_5 = count_0). }
+  }
+  Else { Have: (count_3 = count_0) /\ (a_3 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0,
+          count_0, n).
+}
+Prove: (x = (-1)) \/ (x = 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:369ms) (354ms) (4637)
+Prover CVC5 1.1.2 returns Valid (Qed:369ms) (296ms) (70914)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 88):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = shift_sint32(queue_0, 0).
+Let a_4 = a_2[shift_sint32(in_degree_0, i)].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(n) /\ is_sint32(pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_3, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_5 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_5, n, a, n) /\ separated(a_5, n, a_3, n) /\
+       separated(a_5, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_5 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_5 = (-1)) \/ (a_5 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+}
+Prove: (a_4 = (-1)) \/ (a_4 = 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:33ms) (44ms) (256)
+Prover CVC5 1.1.2 returns Valid (Qed:33ms) (109ms) (29024)
+Prover Z3 4.13.3 returns Valid (Qed:33ms) (20ms) (94813)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 90):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_1, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(count_0) /\
+      is_sint32(count_1) /\ is_sint32(count_2) /\ is_sint32(count_3) /\
+      is_sint32(count_4) /\ is_sint32(n) /\ is_sint32(pass_0) /\
+      is_sint32(u) /\ is_sint32(v) /\ is_sint32(1 + v) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_1[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_1[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_5, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_1, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_1, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_1, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_1[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_4) /\ (count_4 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_4, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_4, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_4,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_4) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_4) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_4, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_3) /\ (count_3 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_3, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_3, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_3,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_3) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_3) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_3, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  If a_4 != (-1)
+  Then {
+    Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+    Have: (ta_can_output_0=false) /\ (count_3 = count_5) /\ (a_3 = Mint_2).
+    (* Block In *)
+    Have: (ta_u_0=false).
+    (* Invariant 'i_25' *)
+    Have: forall i_1 : Z. ((Mint_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+        ((0 <= i_1) -> ((i_1 < n) -> (Mint_2[shift_sint32(a_6, i_1)] = 0)))).
+    (* Invariant 'i_17' *)
+    Have: (u <= n) /\ (0 <= u).
+    (* Invariant 'i_18' *)
+    Have: (exists i_1 : Z.
+           (Mint_2[shift_sint32(in_degree_0, i_1)] != (-1)) /\
+           (Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) /\
+           (0 <= i_1) /\ (i_1 < u)) <-> (can_output_0 = 0).
+    (* Invariant 'i_19' *)
+    Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+    (* Invariant 'i_21' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         (Mint_2[shift_sint32(in_degree_0, i_1)] = (-1))))))).
+    (* Invariant 'i_22' *)
+    Have: ((can_output_0 = 1) -> ((v < u) ->
+        (Mint_2[shift_sint32(a_6, v)] = 0))).
+    (* Invariant 'i_23' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         P_appears_in_prefix(Mint_2, result_0, count_5, i_1)))))).
+    (* Else *)
+    Have: n <= u.
+    If can_output_0 != 0
+    Then {
+      Have: count_5 = count_2.
+      If count_2 < n
+      Then {
+        Have: count_2 = count_1.
+        Have: (1 + count_1) = count_0.
+        Have: Mint_2[shift_sint32(result_0, count_1) <- v]
+                [shift_sint32(in_degree_0, v) <- -1] = Mint_0.
+      }
+      Else { Have: (Mint_2 = Mint_0) /\ (count_2 = count_0). }
+    }
+    Else { Have: (Mint_2 = Mint_0) /\ (count_5 = count_0). }
+  }
+  Else { Have: (count_3 = count_0) /\ (a_3 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0,
+          count_0, n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+}
+Prove: Mint_0[shift_sint32(in_degree_0, Mint_0[shift_sint32(result_0, i)])]
+         = (-1).
+Prover CVC5 1.1.2 returns Valid (Qed:396ms) (444ms) (85726)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 90):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(n) /\ is_sint32(pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_3, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_4 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_4, n, a, n) /\ separated(a_4, n, a_3, n) /\
+       separated(a_4, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_4 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_4 = (-1)) \/ (a_4 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+}
+Prove: a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:32ms) (19ms) (117)
+Prover CVC5 1.1.2 returns Valid (Qed:32ms) (83ms) (28972)
+Prover Z3 4.13.3 returns Valid (Qed:32ms) (12ms) (102275)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 92):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_1, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(count_0) /\
+      is_sint32(count_1) /\ is_sint32(count_2) /\ is_sint32(count_3) /\
+      is_sint32(count_4) /\ is_sint32(n) /\ is_sint32(pass_0) /\
+      is_sint32(u) /\ is_sint32(v) /\ is_sint32(1 + v) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z.
+      let x = Mint_1[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] in
+      ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_1[shift_sint32(in_degree_0, i_2)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0) in
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_5, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_1, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_1, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_1, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let x = Mint_1[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_4) /\ (count_4 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_4, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_4, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_4,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_4) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_4) ->
+      (a_2[shift_sint32(result_0, i_3)] != a_2[shift_sint32(result_0, i_2)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_2[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_4, i_2) <->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_3) /\ (count_3 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_3, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_3, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_3,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_3) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_3) ->
+      (a_3[shift_sint32(result_0, i_3)] != a_3[shift_sint32(result_0, i_2)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_3[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_3, i_2) <->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  If a_4 != (-1)
+  Then {
+    Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+    Have: (ta_can_output_0=false) /\ (count_3 = count_5) /\ (a_3 = Mint_2).
+    (* Block In *)
+    Have: (ta_u_0=false).
+    (* Invariant 'i_25' *)
+    Have: forall i_2 : Z. ((Mint_2[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+        ((0 <= i_2) -> ((i_2 < n) -> (Mint_2[shift_sint32(a_6, i_2)] = 0)))).
+    (* Invariant 'i_17' *)
+    Have: (u <= n) /\ (0 <= u).
+    (* Invariant 'i_18' *)
+    Have: (exists i_2 : Z.
+           (Mint_2[shift_sint32(in_degree_0, i_2)] != (-1)) /\
+           (Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) /\
+           (0 <= i_2) /\ (i_2 < u)) <-> (can_output_0 = 0).
+    (* Invariant 'i_19' *)
+    Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+    (* Invariant 'i_21' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_2 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) ->
+         ((0 <= i_2) -> ((i_2 < u) ->
+         (Mint_2[shift_sint32(in_degree_0, i_2)] = (-1))))))).
+    (* Invariant 'i_22' *)
+    Have: ((can_output_0 = 1) -> ((v < u) ->
+        (Mint_2[shift_sint32(a_6, v)] = 0))).
+    (* Invariant 'i_23' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_2 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) ->
+         ((0 <= i_2) -> ((i_2 < u) ->
+         P_appears_in_prefix(Mint_2, result_0, count_5, i_2)))))).
+    (* Else *)
+    Have: n <= u.
+    If can_output_0 != 0
+    Then {
+      Have: count_5 = count_2.
+      If count_2 < n
+      Then {
+        Have: count_2 = count_1.
+        Have: (1 + count_1) = count_0.
+        Have: Mint_2[shift_sint32(result_0, count_1) <- v]
+                [shift_sint32(in_degree_0, v) <- -1] = Mint_0.
+      }
+      Else { Have: (Mint_2 = Mint_0) /\ (count_2 = count_0). }
+    }
+    Else { Have: (Mint_2 = Mint_0) /\ (count_5 = count_0). }
+  }
+  Else { Have: (count_3 = count_0) /\ (a_3 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0,
+          count_0, n).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_0) ->
+      (Mint_0[shift_sint32(in_degree_0, Mint_0[shift_sint32(result_0, i_2)])]
+         = (-1)))).
+}
+Prove: Mint_0[shift_sint32(result_0, i)]
+         != Mint_0[shift_sint32(result_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:380ms) (1.5s) (17146)
+Prover CVC5 1.1.2 returns Valid (Qed:380ms) (1.6s) (195154)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 92):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(n) /\ is_sint32(pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i) /\ (i < count_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_3, n).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] in
+      ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_2)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z.
+      let a_4 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0) in
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (separated(a_4, n, a, n) /\ separated(a_4, n, a_3, n) /\
+       separated(a_4, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let a_4 = a_2[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_4 = (-1)) \/ (a_4 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_0) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_0) ->
+      (a_2[shift_sint32(result_0, i_3)] != a_2[shift_sint32(result_0, i_2)])))).
+  (* Then *)
+  Have: pass_0 < n.
+}
+Prove: a_2[shift_sint32(result_0, i)] != a_2[shift_sint32(result_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:30ms) (9ms) (110)
+Prover CVC5 1.1.2 returns Valid (Qed:30ms) (61ms) (30326)
+Prover Z3 4.13.3 returns Valid (Qed:30ms) (17ms) (101738)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 94):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_1, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(count_0) /\
+      is_sint32(count_1) /\ is_sint32(count_2) /\ is_sint32(count_3) /\
+      is_sint32(count_4) /\ is_sint32(n) /\ is_sint32(pass_0) /\
+      is_sint32(u) /\ is_sint32(v) /\ is_sint32(1 + v) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (Mint_0[shift_sint32(in_degree_0, i_1)] = (-1)) /\
+      (Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], i_1)] = 1) /\
+      (0 <= i_1) /\ (i_1 < n) /\ (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z.
+      let x = Mint_1[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] in
+      ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_1[shift_sint32(in_degree_0, i_2)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0) in
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_5, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_1, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_1, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_1, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let x = Mint_1[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_4) /\ (count_4 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_4, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_4, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_4,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_4) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_4) ->
+      (a_2[shift_sint32(result_0, i_3)] != a_2[shift_sint32(result_0, i_2)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_2[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_4, i_2) <->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_3) /\ (count_3 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_3, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_3, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_3,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_3) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_3) ->
+      (a_3[shift_sint32(result_0, i_3)] != a_3[shift_sint32(result_0, i_2)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((a_3[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (forall i_3 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] = 1) ->
+       ((0 <= i_3) -> ((i_3 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_3)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_3, i_2) <->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  If a_4 != (-1)
+  Then {
+    Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+    Have: (ta_can_output_0=false) /\ (count_3 = count_5) /\ (a_3 = Mint_2).
+    (* Block In *)
+    Have: (ta_u_0=false).
+    (* Invariant 'i_25' *)
+    Have: forall i_2 : Z. ((Mint_2[shift_sint32(in_degree_0, i_2)] = (-1)) ->
+        ((0 <= i_2) -> ((i_2 < n) -> (Mint_2[shift_sint32(a_6, i_2)] = 0)))).
+    (* Invariant 'i_17' *)
+    Have: (u <= n) /\ (0 <= u).
+    (* Invariant 'i_18' *)
+    Have: (exists i_2 : Z.
+           (Mint_2[shift_sint32(in_degree_0, i_2)] != (-1)) /\
+           (Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) /\
+           (0 <= i_2) /\ (i_2 < u)) <-> (can_output_0 = 0).
+    (* Invariant 'i_19' *)
+    Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+    (* Invariant 'i_21' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_2 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) ->
+         ((0 <= i_2) -> ((i_2 < u) ->
+         (Mint_2[shift_sint32(in_degree_0, i_2)] = (-1))))))).
+    (* Invariant 'i_22' *)
+    Have: ((can_output_0 = 1) -> ((v < u) ->
+        (Mint_2[shift_sint32(a_6, v)] = 0))).
+    (* Invariant 'i_23' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_2 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], v)] = 1) ->
+         ((0 <= i_2) -> ((i_2 < u) ->
+         P_appears_in_prefix(Mint_2, result_0, count_5, i_2)))))).
+    (* Else *)
+    Have: n <= u.
+    If can_output_0 != 0
+    Then {
+      Have: count_5 = count_2.
+      If count_2 < n
+      Then {
+        Have: count_2 = count_1.
+        Have: (1 + count_1) = count_0.
+        Have: Mint_2[shift_sint32(result_0, count_1) <- v]
+                [shift_sint32(in_degree_0, v) <- -1] = Mint_0.
+      }
+      Else { Have: (Mint_2 = Mint_0) /\ (count_2 = count_0). }
+    }
+    Else { Have: (Mint_2 = Mint_0) /\ (count_5 = count_0). }
+  }
+  Else { Have: (count_3 = count_0) /\ (a_3 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0,
+          count_0, n).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_0) ->
+      (Mint_0[shift_sint32(in_degree_0, Mint_0[shift_sint32(result_0, i_2)])]
+         = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_0) ->
+      (Mint_0[shift_sint32(result_0, i_3)]
+         != Mint_0[shift_sint32(result_0, i_2)])))).
+}
+Prove: Mint_0[shift_sint32(in_degree_0, i)] = (-1).
+Prover CVC5 1.1.2 returns Valid (Qed:418ms) (937ms) (133253)
+Prover Z3 4.13.3 returns Valid (Qed:418ms) (71ms) (495431)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 94):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(n) /\ is_sint32(pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (a_2[shift_sint32(in_degree_0, i_1)] = (-1)) /\
+      (a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], i_1)] = 1) /\
+      (0 <= i_1) /\ (i_1 < n) /\ (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_3, n).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_2) -> ((i_2 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_3)], i_2)] in
+      ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_2)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z.
+      let a_4 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0) in
+      ((0 <= i_2) -> ((i_2 < n) ->
+      (separated(a_4, n, a, n) /\ separated(a_4, n, a_3, n) /\
+       separated(a_4, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. let a_4 = a_2[shift_sint32(in_degree_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((a_4 = (-1)) \/ (a_4 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < count_0) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_2)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < count_0) ->
+      (a_2[shift_sint32(result_0, i_3)] != a_2[shift_sint32(result_0, i_2)])))).
+  (* Then *)
+  Have: pass_0 < n.
+}
+Prove: a_2[shift_sint32(in_degree_0, i)] = (-1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:42ms) (389ms) (5022)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 96):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_1, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(count_0) /\
+      is_sint32(count_1) /\ is_sint32(count_2) /\ is_sint32(count_3) /\
+      is_sint32(count_4) /\ is_sint32(n) /\ is_sint32(pass_0) /\
+      is_sint32(u) /\ is_sint32(v) /\ is_sint32(1 + v) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_1[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_1[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_6 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_6, n, a, n) /\ separated(a_6, n, a_5, n) /\
+       separated(a_6, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_1, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_1, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_1, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_1[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_4) /\ (count_4 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_4, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_4, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_4,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_6 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_4) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_4) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_4, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_3) /\ (count_3 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_3, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_3, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_3,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_6 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_6 = (-1)) \/ (a_6 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_3) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_3) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_3, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  If a_4 != (-1)
+  Then {
+    Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+    Have: (ta_can_output_0=false) /\ (count_3 = count_5) /\ (a_3 = Mint_2).
+    (* Block In *)
+    Have: (ta_u_0=false).
+    (* Invariant 'i_25' *)
+    Have: forall i_1 : Z. ((Mint_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+        ((0 <= i_1) -> ((i_1 < n) -> (Mint_2[shift_sint32(a_6, i_1)] = 0)))).
+    (* Invariant 'i_17' *)
+    Have: (u <= n) /\ (0 <= u).
+    (* Invariant 'i_18' *)
+    Have: (exists i_1 : Z.
+           (Mint_2[shift_sint32(in_degree_0, i_1)] != (-1)) /\
+           (Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) /\
+           (0 <= i_1) /\ (i_1 < u)) <-> (can_output_0 = 0).
+    (* Invariant 'i_19' *)
+    Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+    (* Invariant 'i_21' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         (Mint_2[shift_sint32(in_degree_0, i_1)] = (-1))))))).
+    (* Invariant 'i_22' *)
+    Have: ((can_output_0 = 1) -> ((v < u) ->
+        (Mint_2[shift_sint32(a_6, v)] = 0))).
+    (* Invariant 'i_23' *)
+    Have: ((can_output_0 = 1) ->
+        (forall i_1 : Z.
+         ((Mint_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+         ((0 <= i_1) -> ((i_1 < u) ->
+         P_appears_in_prefix(Mint_2, result_0, count_5, i_1)))))).
+    (* Else *)
+    Have: n <= u.
+    If can_output_0 != 0
+    Then {
+      Have: count_5 = count_2.
+      If count_2 < n
+      Then {
+        Have: count_2 = count_1.
+        Have: (1 + count_1) = count_0.
+        Have: Mint_2[shift_sint32(result_0, count_1) <- v]
+                [shift_sint32(in_degree_0, v) <- -1] = Mint_0.
+      }
+      Else { Have: (Mint_2 = Mint_0) /\ (count_2 = count_0). }
+    }
+    Else { Have: (Mint_2 = Mint_0) /\ (count_5 = count_0). }
+  }
+  Else { Have: (count_3 = count_0) /\ (a_3 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0,
+          count_0, n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (Mint_0[shift_sint32(in_degree_0, Mint_0[shift_sint32(result_0, i_1)])]
+         = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (Mint_0[shift_sint32(result_0, i_2)]
+         != Mint_0[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((Mint_0[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (Mint_0[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+}
+Prove: P_appears_in_prefix(Mint_0, result_0, count_0, i) <->
+    (Mint_0[shift_sint32(in_degree_0, i)] = (-1)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:631ms) (815ms) (12307)
+Prover CVC5 1.1.2 returns Valid (Qed:631ms) (222ms) (71342)
+Prover Z3 4.13.3 returns Valid (Qed:631ms) (65ms) (495721)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 96):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(n) /\ is_sint32(pass_0).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_3, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_4 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_4, n, a, n) /\ separated(a_4, n, a_3, n) /\
+       separated(a_4, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_4 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_4 = (-1)) \/ (a_4 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+}
+Prove: P_appears_in_prefix(a_2, result_0, count_0, i) <->
+    (a_2[shift_sint32(in_degree_0, i)] = (-1)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:45ms) (119ms) (1914)
+Prover CVC5 1.1.2 returns Valid (Qed:45ms) (108ms) (41609)
+Prover Z3 4.13.3 returns Valid (Qed:45ms) (28ms) (135456)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 76):
+Prove: true.
+Prover Qed returns Valid (44ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 76):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 78):
+Prove: true.
+Prover Qed returns Valid (28ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 78):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 108):
+Prove: true.
+Prover Qed returns Valid (38ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 108):
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 110):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, u)], v)].
+Let a_5 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_6 = a_3[shift_sint32(a_5, v)].
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(can_output_1) /\
+      is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + u) /\ is_sint32(a_3[shift_sint32(in_degree_0, u)]) /\
+      is_sint32(a_7) /\ is_sint32(a_4) /\ is_sint32(a_6).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_8, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_9 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_9 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_7 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_5, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: (exists i : Z. (a_3[shift_sint32(in_degree_0, i)] != (-1)) /\
+         (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) /\
+         (0 <= i) /\ (i < u)) <-> (can_output_1 = 0).
+  (* Invariant 'i_19' *)
+  Have: (can_output_1 = 0) \/ (can_output_1 = 1).
+  (* Invariant 'i_21' *)
+  Have: ((can_output_1 = 1) ->
+      (forall i : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+       ((0 <= i) -> ((i < u) ->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))))).
+  (* Invariant 'i_22' *)
+  Have: ((can_output_1 = 1) -> ((v < u) -> (a_6 = 0))).
+  (* Invariant 'i_23' *)
+  Have: ((can_output_1 = 1) ->
+      (forall i : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+       ((0 <= i) -> ((i < u) ->
+       P_appears_in_prefix(a_3, result_0, count_0, i)))))).
+  (* Then *)
+  Have: u < n.
+  If a_4 = 1
+  Then {
+    Have: can_output_1 = can_output_2.
+    If a_3[shift_sint32(in_degree_0, u)] != (-1)
+    Then { Have: can_output_0 = 0. }
+    Else { Have: can_output_2 = can_output_0. }
+  }
+  Else { Have: can_output_1 = can_output_0. }
+  (* Invariant 'i_17' *)
+  Have: (-1) <= u.
+}
+Prove: (exists i : Z. (a_3[shift_sint32(in_degree_0, i)] != (-1)) /\
+        (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) /\
+        (0 <= i) /\ (i <= u)) <-> (can_output_0 = 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:239ms) (217ms) (3673)
+Prover Z3 4.13.3 returns Valid (Qed:239ms) (87ms) (608990)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 110):
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 112):
+Prove: true.
+Prover Qed returns Valid (191ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 112):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 114):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, u)], v)].
+Let a_5 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_6 = a_3[shift_sint32(a_5, v)].
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + u) /\ is_sint32(a_3[shift_sint32(in_degree_0, u)]) /\
+      is_sint32(a_7) /\ is_sint32(a_4) /\ is_sint32(a_6).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) /\
+      (0 <= i) /\ (i <= u).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_8, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_9 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_9 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_7 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) -> (a_3[shift_sint32(a_5, i_1)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_21' *)
+  Have: forall i_1 : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+      ((0 <= i_1) -> ((i_1 < u) ->
+      (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_6 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i_1 : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+      ((0 <= i_1) -> ((i_1 < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i_1)))).
+  (* Then *)
+  Have: u < n.
+  If a_4 = 1
+  Then { Have: a_3[shift_sint32(in_degree_0, u)] = (-1). }
+  (* Invariant 'i_17' *)
+  Have: (-1) <= u.
+  (* Invariant 'i_18' *)
+  Have: forall i_1 : Z. (a_3[shift_sint32(in_degree_0, i_1)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] != 1) \/
+      (i_1 < 0) \/ (u < i_1).
+}
+Prove: a_3[shift_sint32(in_degree_0, i)] = (-1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:160ms) (40ms) (346)
+Prover CVC5 1.1.2 returns Valid (Qed:160ms) (52ms) (30607)
+Prover Z3 4.13.3 returns Valid (Qed:160ms) (32ms) (218820)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 114):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 116):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, u)], v)].
+Let a_5 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_6 = a_3[shift_sint32(a_5, v)].
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + u) /\ is_sint32(a_3[shift_sint32(in_degree_0, u)]) /\
+      is_sint32(a_7) /\ is_sint32(a_4) /\ is_sint32(a_6).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: v <= u.
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_8, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_9 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_9 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_7 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_5, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_6 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Then *)
+  Have: u < n.
+  If a_4 = 1
+  Then { Have: a_3[shift_sint32(in_degree_0, u)] = (-1). }
+  (* Invariant 'i_17' *)
+  Have: (-1) <= u.
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u < i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i <= u) ->
+      (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+}
+Prove: a_6 = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:133ms) (545ms) (8443)
+Prover CVC5 1.1.2 returns Valid (Qed:133ms) (1s) (178943)
+Prover Z3 4.13.3 returns Valid (Qed:133ms) (424ms) (2426871)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 116):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 118):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_5 = a_3[shift_sint32(a_4, v)].
+Let a_6 = a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, u)], v)].
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + u) /\ is_sint32(a_3[shift_sint32(in_degree_0, u)]) /\
+      is_sint32(a_7) /\ is_sint32(a_6) /\ is_sint32(a_5).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) /\
+      (0 <= i) /\ (i <= u).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_8, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_9 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_9 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_7 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) -> (a_3[shift_sint32(a_4, i_1)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_21' *)
+  Have: forall i_1 : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+      ((0 <= i_1) -> ((i_1 < u) ->
+      (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_5 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i_1 : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+      ((0 <= i_1) -> ((i_1 < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i_1)))).
+  (* Then *)
+  Have: u < n.
+  If a_6 = 1
+  Then { Have: a_3[shift_sint32(in_degree_0, u)] = (-1). }
+  (* Invariant 'i_17' *)
+  Have: (-1) <= u.
+  (* Invariant 'i_18' *)
+  Have: forall i_1 : Z. (a_3[shift_sint32(in_degree_0, i_1)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] != 1) \/
+      (i_1 < 0) \/ (u < i_1).
+  (* Invariant 'i_21' *)
+  Have: forall i_1 : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+      ((0 <= i_1) -> ((i_1 <= u) ->
+      (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v <= u) -> (a_5 = 0)).
+}
+Prove: P_appears_in_prefix(a_3, result_0, count_0, i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:178ms) (39ms) (403)
+Prover CVC5 1.1.2 returns Valid (Qed:178ms) (152ms) (46825)
+Prover Z3 4.13.3 returns Valid (Qed:178ms) (34ms) (207773)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 118):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 120):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_5 = a_3[shift_sint32(a_4, v)].
+Let a_6 = a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, u)], v)].
+Let a_7 = a_3[shift_sint32(in_degree_0, v)].
+Let a_8 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(can_output_0) /\ is_sint32(can_output_1) /\
+      is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\
+      is_sint32(1 + u) /\ is_sint32(a_3[shift_sint32(in_degree_0, u)]) /\
+      is_sint32(a_7) /\ is_sint32(a_6) /\ is_sint32(a_5).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (a_3[shift_sint32(in_degree_0, i)] = (-1)) /\ (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_8, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_8, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_9 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_9, n, a, n) /\ separated(a_9, n, a_8, n) /\
+       separated(a_9, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_9 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_9 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_9 = (-1)) \/ (a_9 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_7 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) -> (a_3[shift_sint32(a_4, i_1)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: (exists i_1 : Z. (a_3[shift_sint32(in_degree_0, i_1)] != (-1)) /\
+         (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) /\
+         (0 <= i_1) /\ (i_1 < u)) <-> (can_output_1 = 0).
+  (* Invariant 'i_19' *)
+  Have: (can_output_1 = 0) \/ (can_output_1 = 1).
+  (* Invariant 'i_21' *)
+  Have: ((can_output_1 = 1) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < u) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))).
+  (* Invariant 'i_22' *)
+  Have: ((can_output_1 = 1) -> ((v < u) -> (a_5 = 0))).
+  (* Invariant 'i_23' *)
+  Have: ((can_output_1 = 1) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < u) ->
+       P_appears_in_prefix(a_3, result_0, count_0, i_1)))))).
+  (* Then *)
+  Have: u < n.
+  If a_6 = 1
+  Then {
+    Have: can_output_1 = can_output_2.
+    If a_3[shift_sint32(in_degree_0, u)] != (-1)
+    Then { Have: can_output_0 = 0. }
+    Else { Have: can_output_2 = can_output_0. }
+  }
+  Else { Have: can_output_1 = can_output_0. }
+  (* Invariant 'i_17' *)
+  Have: (-1) <= u.
+  (* Invariant 'i_18' *)
+  Have: (exists i_1 : Z. (a_3[shift_sint32(in_degree_0, i_1)] != (-1)) /\
+         (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) /\
+         (0 <= i_1) /\ (i_1 <= u)) <-> (can_output_0 = 0).
+  (* Invariant 'i_19' *)
+  Have: (can_output_0 = 0) \/ (can_output_0 = 1).
+  (* Invariant 'i_21' *)
+  Have: ((can_output_0 = 1) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+       ((0 <= i_1) -> ((i_1 <= u) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))).
+  (* Invariant 'i_22' *)
+  Have: ((can_output_0 = 1) -> ((v <= u) -> (a_5 = 0))).
+  (* Invariant 'i_23' *)
+  Have: ((can_output_0 = 1) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], v)] = 1) ->
+       ((0 <= i_1) -> ((i_1 <= u) ->
+       P_appears_in_prefix(a_3, result_0, count_0, i_1)))))).
+}
+Prove: a_3[shift_sint32(a_4, i)] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:330ms) (40ms) (383)
+Prover CVC5 1.1.2 returns Valid (Qed:330ms) (76ms) (30982)
+Prover Z3 4.13.3 returns Valid (Qed:330ms) (36ms) (196504)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 120):
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let a_4 = a_3[shift_sint32(in_degree_0, v)].
+Let a_5 = shift_sint32(queue_0, 0).
+Let a_6 = Mptr_0[shift_PTR(graph_0, v)].
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(v) /\ is_sint32(a_4) /\
+      is_sint32(a_3[shift_sint32(a_6, v)]).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: (a_3[shift_sint32(in_degree_0, i)] = (-1)) /\ (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_5, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_5, n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z.
+      let x = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] in
+      ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((x = 0) \/ (x = 1)))))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i_1)] = 0))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z.
+      let a_7 = shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0) in
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (separated(a_7, n, a, n) /\ separated(a_7, n, a_5, n) /\
+       separated(a_7, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let x = Mint_0[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((x = (-1)) \/ (x = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i_1 : Z. let a_7 = a_2[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_7 = (-1)) \/ (a_7 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_1) ->
+      (a_2[shift_sint32(result_0, i_2)] != a_2[shift_sint32(result_0, i_1)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_2[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i_1) <->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. let a_7 = a_3[shift_sint32(in_degree_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((a_7 = (-1)) \/ (a_7 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i_1)])] =
+       (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      ((i_1 < count_0) ->
+      (a_3[shift_sint32(result_0, i_2)] != a_3[shift_sint32(result_0, i_1)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i_1 : Z. ((a_3[shift_sint32(in_degree_0, i_1)] = (-1)) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      (forall i_2 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_2)], i_1)] = 1) ->
+       ((0 <= i_2) -> ((i_2 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_2)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i_1) <->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_4 != (-1).
+}
+Prove: a_3[shift_sint32(a_6, i)] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:68ms) (744ms) (11091)
+Prover CVC5 1.1.2 returns Valid (Qed:68ms) (605ms) (131658)
+Prover Z3 4.13.3 returns Valid (Qed:68ms) (792ms) (4829435)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 70) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 70) (2/3):
+Effect at line 73
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 70) (3/3):
+Effect at line 102
+Prove: true.
+Prover Qed returns Valid (16ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 99) (1/5):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 99) (2/5):
+Effect at line 102
+Prove: true.
+Prover Qed returns Valid (40ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 99) (3/5):
+Effect at line 126
+Prove: true.
+Prover Qed returns Valid (15ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 99) (4/5):
+Effect at line 133
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let x = count_0 - 1.
+Let a_4 = shift_sint32(result_0, x).
+Let a_5 = shift_sint32(in_degree_0, v).
+Let a_6 = a_3[a_4 <- v][a_5 <- -1].
+Let a_7 = Mptr_0[shift_PTR(graph_0, v)].
+Let a_8 = a_3[shift_sint32(a_7, v)].
+Let a_9 = a_3[a_5].
+Let a_10 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\ is_sint32(x) /\
+      is_sint32(1 + v) /\ is_sint32(a_9) /\ is_sint32(a_8).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_4, 1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_10, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_10, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_10, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x_1 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x_1 = 0) \/ (x_1 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_11 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_11, n, a, n) /\ separated(a_11, n, a_10, n) /\
+       separated(a_11, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x_1 = (-1)) \/ (x_1 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_11 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_11 = (-1)) \/ (a_11 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (v <= n) /\ (0 <= v).
+  (* Invariant 'i_10' *)
+  Have: (0 < count_0) /\ (count_0 <= (1 + n)).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, x, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, x, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, x, n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_11 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_11 = (-1)) \/ (a_11 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> (((2 + i) <= count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (((2 + i) <= count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, x, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v < n.
+  (* Then *)
+  Have: a_9 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_7, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v < u) -> (a_8 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], v)] = 1) ->
+      ((0 <= i) -> ((i < u) -> P_appears_in_prefix(a_3, result_0, x, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Then *)
+  Have: count_0 <= n.
+  (* Invariant 'i_8' *)
+  Have: (-1) <= v.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_6, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_6, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_6, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_11 = a_6[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_11 = (-1)) \/ (a_11 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_6[shift_sint32(in_degree_0, a_6[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_6[shift_sint32(result_0, i_1)] != a_6[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_6[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_6[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_6[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_6, result_0, count_0, i) <->
+       (a_6[shift_sint32(in_degree_0, i)] = (-1))))).
+}
+Prove: included(a_4, 1, a, n) \/ included(a_4, 1, a_1, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:104ms) (68ms) (740)
+Prover CVC5 1.1.2 returns Valid (Qed:104ms) (114ms) (45915)
+Prover Z3 4.13.3 returns Valid (Qed:104ms) (54ms) (374344)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 99) (5/5):
+Effect at line 135
+Let a = shift_sint32(in_degree_0, 0).
+Let a_1 = shift_sint32(result_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = memcpy(memcpy(a_2, a, Mint_undef_2, a, n), a_1, Mint_undef_3, a_1,
+            n).
+Let x = v - 1.
+Let a_4 = shift_sint32(in_degree_0, x).
+Let a_5 = a_3[shift_sint32(result_0, count_0) <- x][a_4 <- -1].
+Let x_1 = 1 + count_0.
+Let a_6 = Mptr_0[shift_PTR(graph_0, x)].
+Let a_7 = a_3[shift_sint32(a_6, x)].
+Let a_8 = a_3[a_4].
+Let a_9 = shift_sint32(queue_0, 0).
+Assume {
+  Type: is_sint32(count_0) /\ is_sint32(count_1) /\ is_sint32(n) /\
+      is_sint32(pass_0) /\ is_sint32(u) /\ is_sint32(v) /\ is_sint32(x) /\
+      is_sint32(x_1) /\ is_sint32(a_8) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(graph_0.base) <= 0) /\ (region(in_degree_0.base) <= 0) /\
+      (region(queue_0.base) <= 0) /\ (region(result_0.base) <= 0) /\
+      linked(Malloc_0) /\ framed(Mptr_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_4, 1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 1000000).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_PTR(graph_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_9, n) /\ separated(a_1, n, a, n) /\
+      separated(a_1, n, a_9, n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 != i) -> ((0 <= i_1) -> ((i_1 < n) ->
+      ((0 <= i) -> ((i < n) ->
+      separated(shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], 0), n,
+        shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0), n)))))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z.
+      let x_2 = Mint_0[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= i) -> ((i < n) ->
+      ((x_2 = 0) \/ (x_2 = 1)))))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (Mint_0[shift_sint32(in_degree_0, i)] = 0))).
+  (* Pre-condition *)
+  Have: forall i : Z.
+      let a_10 = shift_sint32(Mptr_0[shift_PTR(graph_0, i)], 0) in
+      ((0 <= i) -> ((i < n) ->
+      (separated(a_10, n, a, n) /\ separated(a_10, n, a_9, n) /\
+       separated(a_10, n, a_1, n)))).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(Mint_0, result_0, 0, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, Mint_0, graph_0, result_0, 0, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(Mint_0, result_0, in_degree_0, 0, n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let x_2 = Mint_0[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((x_2 = (-1)) \/ (x_2 = 0)))).
+  (* Invariant 'i_0' *)
+  Have: (pass_0 <= n) /\ (0 <= pass_0).
+  (* Invariant 'i_1' *)
+  Have: (0 <= count_1) /\ (count_1 <= n).
+  (* Invariant 'i_2' *)
+  Have: P_valid_vertex_prefix(a_2, result_0, count_1, n).
+  (* Invariant 'i_3' *)
+  Have: P_output_edge_order(Mptr_0, a_2, graph_0, result_0, count_1, n).
+  (* Invariant 'i_4' *)
+  Have: P_processed_vertices_are_output(a_2, result_0, in_degree_0, count_1,
+          n).
+  (* Invariant 'i_5' *)
+  Have: forall i : Z. let a_10 = a_2[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_1) ->
+      (a_2[shift_sint32(in_degree_0, a_2[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_7' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_1) ->
+      (a_2[shift_sint32(result_0, i_1)] != a_2[shift_sint32(result_0, i)])))).
+  (* Then *)
+  Have: pass_0 < n.
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_2[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_2[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_2[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_2, result_0, count_1, i) <->
+       (a_2[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_8' *)
+  Have: (0 < v) /\ (v <= (1 + n)).
+  (* Invariant 'i_10' *)
+  Have: (0 <= count_0) /\ (count_0 <= n).
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_3, result_0, count_0, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_3, result_0, in_degree_0, count_0,
+          n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_10 = a_3[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < count_0) ->
+      (a_3[shift_sint32(in_degree_0, a_3[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < count_0) ->
+      (a_3[shift_sint32(result_0, i_1)] != a_3[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_3[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_3, result_0, count_0, i) <->
+       (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Then *)
+  Have: v <= n.
+  (* Then *)
+  Have: a_8 != (-1).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((a_3[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) -> (a_3[shift_sint32(a_6, i)] = 0)))).
+  (* Invariant 'i_17' *)
+  Have: (u <= n) /\ (0 <= u).
+  (* Invariant 'i_18' *)
+  Have: forall i : Z. (a_3[shift_sint32(in_degree_0, i)] = (-1)) \/
+      (a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], x)] != 1) \/
+      (i < 0) \/ (u <= i).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], x)] = 1) ->
+      ((0 <= i) -> ((i < u) -> (a_3[shift_sint32(in_degree_0, i)] = (-1))))).
+  (* Invariant 'i_22' *)
+  Have: ((v <= u) -> (a_7 = 0)).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z.
+      ((a_3[shift_sint32(Mptr_0[shift_PTR(graph_0, i)], x)] = 1) ->
+      ((0 <= i) -> ((i < u) ->
+      P_appears_in_prefix(a_3, result_0, count_0, i)))).
+  (* Else *)
+  Have: n <= u.
+  (* Then *)
+  Have: count_0 < n.
+  (* Invariant 'i_10' *)
+  Have: (-1) <= count_0.
+  (* Invariant 'i_11' *)
+  Have: P_valid_vertex_prefix(a_5, result_0, x_1, n).
+  (* Invariant 'i_12' *)
+  Have: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x_1, n).
+  (* Invariant 'i_13' *)
+  Have: P_processed_vertices_are_output(a_5, result_0, in_degree_0, x_1, n).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_10 = a_5[shift_sint32(in_degree_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((a_10 = (-1)) \/ (a_10 = 0)))).
+  (* Invariant 'i_15' *)
+  Have: forall i : Z. ((i <= count_0) -> ((0 <= i) ->
+      (a_5[shift_sint32(in_degree_0, a_5[shift_sint32(result_0, i)])] = (-1)))).
+  (* Invariant 'i_16' *)
+  Have: forall i_1,i : Z. ((i <= count_0) -> ((0 <= i_1) -> ((i_1 < i) ->
+      (a_5[shift_sint32(result_0, i_1)] != a_5[shift_sint32(result_0, i)])))).
+  (* Invariant 'i_20' *)
+  Have: forall i : Z. ((a_5[shift_sint32(in_degree_0, i)] = (-1)) ->
+      ((0 <= i) -> ((i < n) ->
+      (forall i_1 : Z.
+       ((a_5[shift_sint32(Mptr_0[shift_PTR(graph_0, i_1)], i)] = 1) ->
+       ((0 <= i_1) -> ((i_1 < n) ->
+       (a_5[shift_sint32(in_degree_0, i_1)] = (-1))))))))).
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (P_appears_in_prefix(a_5, result_0, x_1, i) <->
+       (a_5[shift_sint32(in_degree_0, i)] = (-1))))).
+}
+Prove: included(a_4, 1, a, n) \/ included(a_4, 1, a_1, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:97ms) (64ms) (604)
+Prover CVC5 1.1.2 returns Valid (Qed:97ms) (132ms) (46844)
+Prover Z3 4.13.3 returns Valid (Qed:97ms) (72ms) (433508)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 123):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 42) in 'topo_sort':
+Effect at line 73
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 73):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 73):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 102):
+Prove: true.
+Prover Qed returns Valid (39ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 102):
+Prove: true.
+Prover Qed returns Valid (18ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 126):
+Prove: true.
+Prover Qed returns Valid (12ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-35.cbs/.col2inv-trustc-8ikfwj4i.c, line 126):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------

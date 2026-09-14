@@ -1,0 +1,13 @@
+```
+[Failed Property]
+preservation of i_54: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation VC for i_54 reduces to proving `(i + i_1 * n) < n * row_0` under the assumptions `0 <= i_1 < row_0`, `0 <= i < n`, and `0 <= row_0 < n`. The other invariants of E@clear_row (e.g., i_51 and i_57) only provide non-strict bounds involving `j` and are too weak to imply this strict bound. The invariant i_54 itself is not available in the VC context, so it cannot be used directly. The missing logical fact is the arithmetic lemma that for `0 <= r < row` and `0 <= c < n`, `c + r*n < n*row`, which follows from `n > 0` (or `n >= 1`, derivable from `valid_board`). The loop body does not modify `n`, `row`, `r`, or `c`, so i_54 is actually inductive; the failure is not due to the invariant being too strong or non-inductive.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+Expose the needed arithmetic fact to the prover. The fact `1 <= n` is already available from `valid_board`; unfolding it or adding a local assertion such as `//@ assert n > 0;` (or the full arithmetic inequality) should allow the prover to discharge the obligation. No new loop invariant is required.
+```

@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= i <= n;
+loop invariant \forall integer v; 0 <= v <= k ==> c[v] >= 0;
+loop invariant sum_c(c, k) == i;
+```

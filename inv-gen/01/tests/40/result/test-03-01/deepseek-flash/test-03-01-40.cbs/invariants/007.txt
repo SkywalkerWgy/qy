@@ -1,0 +1,48 @@
+Loop A@counting_sort:
+  i_0: 0 <= v <= k + 1
+  i_1: \forall integer i; 0 <= i < v ==> c[i] == 0
+  i_24: sum_c(c, v - 1) == 0
+  i_35: \forall integer w; 0 <= w < v ==> sum_c(c, w) == 0
+  i_42: \forall integer i; 0 <= i < v ==> c[i] == 0 && sum_c(c, i) == 0
+Loop B@counting_sort:
+  i_5: 0 <= i <= n
+  i_6: \forall integer v; 0 <= v <= k ==> c[v] >= 0
+  i_7: sum_c(c, k) == i
+  i_36: i < n ==> 0 <= a[i] <= k
+  i_37: \forall integer w; 0 <= w <= k ==> sum_c(c, k) == sum_c(c, w - 1) + c[w] + (sum_c(c, k) - sum_c(c, w))
+  i_41: \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= i
+Loop C@counting_sort:
+  i_8: 0 <= v <= k + 1
+  i_9: 0 <= pos <= n
+  i_10: pos == sum_c(c, v - 1)
+  i_11: sum_c(c, k) == n
+  i_12: \forall integer t; 0 <= t <= k ==> c[t] >= 0
+  i_13: sorted(b, 0, pos)
+  i_14: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] < v
+  i_25: \forall integer w; 0 <= w <= k ==> sum_c(c, w - 1) + c[w] <= sum_c(c, k)
+  i_26: sum_c(c, k) == \at(sum_c(c, k), LoopEntry)
+  i_30: \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= sum_c(c, k)
+  i_31: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry)
+  i_32: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry)
+Loop D@counting_sort:
+  i_15: 0 <= j <= c[v]
+  i_16: pos == pos_start + j
+  i_17: pos_start == sum_c(c, v - 1)
+  i_18: pos_start + c[v] <= n
+  i_19: 0 <= pos_start && pos_start <= pos && pos <= n
+  i_20: sorted(b, 0, pos)
+  i_21: \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v
+  i_22: \forall integer i; pos_start <= i < pos ==> b[i] == v
+  i_23: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v
+  i_27: sum_c(c, k) == \at(sum_c(c, k), LoopEntry)
+  i_28: \forall integer w; 0 <= w <= v - 1 ==> c[w] == \at(c[w], LoopEntry)
+  i_29: sum_c(c, v - 1) == \at(sum_c(c, v - 1), LoopEntry)
+  i_33: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry)
+  i_34: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry)
+  i_38: \separated(b + (0 .. n-1), c + (0 .. k))
+  i_39: sum_c(c, k) == n
+  i_40: \forall integer i, j; 0 <= i < n && 0 <= j <= k ==> b + i != c + j
+Loop E@counting_sort:
+  i_2: 0 <= pos <= n
+  i_3: sorted(b, 0, pos)
+  i_4: \forall integer i; 0 <= i < pos ==> 0 <= b[i] <= k

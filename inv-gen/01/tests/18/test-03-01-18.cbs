@@ -1,0 +1,57 @@
+#define W 10
+#define N 10
+
+/*@
+    predicate is_max(integer a, integer b, integer result) =
+        result >= a &&
+        result >= b &&
+        (result == a || result == b);
+*/
+
+/*@
+    assigns \nothing;
+    ensures is_max(a, b, \result);
+*/
+_Safe int max(int a, int b) {
+  int max_val = a >= b ? a : b;
+  return max_val;
+}
+
+/*@
+    requires \valid_read(wt);
+    requires \valid_read(val);
+    requires \valid(wt + (0..(N - 1)));
+    requires \valid(val + (0..(N - 1)));
+    requires \valid(dp + (0..(N)));
+    requires \valid(dp[0..(N)] + (0..(W)));
+    requires \forall integer i, j; 0 <= i <= N && 0 <= j <= N && i != j ==> \separated(&dp[i] + (0..(W)), &dp[j] + (0..(W)), &wt[0..(N - 1)], &val[0..(N - 1)]);
+    requires \separated(&wt[0..(N - 1)], &val[0..(N - 1)]);
+    requires \forall integer k; 0 <= k <= N ==> wt[k] > 0 && val[k] > 0;
+    requires \forall integer k; 0 <= k <= W ==> dp[0][k] == 0;
+    requires \forall integer k; 0 <= k <= N ==> dp[k][0] == 0;
+    ensures \forall integer k; 0 <= k <= W ==> dp[0][k] == 0;
+    ensures \forall integer k; 0 <= k <= N ==> dp[k][0] == 0;
+    ensures \forall integer p, q; 1 <= p < N && 1 <= q <= W ==>
+                (q - wt[p - 1] < 0 && dp[p][q] == dp[p - 1][q]) || (is_max(dp[p - 1][q], dp[p - 1][q - wt[p - 1]] + val[p - 1], dp[p][q]));
+    assigns dp[0..(N)][0..(W)];
+*/
+_Safe int _knapsnack(int *_Nonnull wt, int *_Nonnull val, int dp[_Nonnull N + 1][W + 1]) {
+    int i = 1, j = 1;
+    /*@
+        loop assigns dp[1..(N)][1..(W)], i, j;
+    */
+    for (i = 1; i <= N; i++) {
+        /*@
+            loop assigns dp[i][1..(W)], j;
+        */
+        for (j = 1; j <= W; j++) {
+            if (j - wt[i - 1] < 0){
+                dp[i][j] = dp[i - 1][j];
+            }
+            else{
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - wt[i - 1]] + val[i - 1]);
+            }
+        }
+    }
+    return dp[N][W];
+}

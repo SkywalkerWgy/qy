@@ -1,0 +1,249 @@
+
+#include <limits.h>
+#define MAX_VERTICES 100
+#define INF INT_MAX
+
+struct Edge {
+    int u, v, weight;
+};
+
+/*@
+  predicate parent_edge(struct Edge* edges, integer e, int* parent, integer i) =
+    parent[i] == -1 || (0 <= parent[i] < e && edges[parent[i]].v == i);
+
+  predicate finite_distance(integer d, integer n) =
+    d == INF || 0 <= d <= n * 1000000;
+
+  predicate finite_distance_bound(integer d, integer bound) =
+    d == INF || 0 <= d <= bound * 1000000;
+
+  inductive path_cost_len{L}(struct Edge* edges, integer e,
+                             integer from, integer to,
+                             integer len, integer cost) {
+    case path_cost_len_refl{L}:
+      \forall struct Edge* edges, integer e, integer v;
+        path_cost_len{L}(edges,e,v,v,0,0);
+
+    case path_cost_len_step{L}:
+      \forall struct Edge* edges, integer e,
+              integer from, mid, to, rest_len, rest_cost, k;
+        0 <= k < e &&
+        \at(edges[k].u,L) == mid &&
+        \at(edges[k].v,L) == to &&
+        0 <= rest_len &&
+        0 <= rest_cost &&
+        0 <= \at(edges[k].weight,L) &&
+        path_cost_len{L}(edges,e,from,mid,rest_len,rest_cost)
+        ==> path_cost_len{L}(edges,e,from,to,rest_len + 1,
+                             \at(edges[k].weight,L) + rest_cost);
+  }
+
+  predicate bounded_path_cost{L}(struct Edge* edges, integer e,
+                                 integer n, integer from, integer to,
+                                 integer cost) =
+    \exists integer len;
+      0 <= len <= n - 1 && path_cost_len{L}(edges,e,from,to,len,cost);
+
+  predicate path_cost_len_last_before{L}(struct Edge* edges, integer e,
+                                         integer from, integer to,
+                                         integer len, integer cost,
+                                         integer edge_limit) =
+    (len == 0 && from == to && cost == 0) ||
+    (\exists integer mid, rest_cost, k;
+      len > 0 &&
+      0 <= k < edge_limit &&
+      0 <= k < e &&
+      \at(edges[k].u,L) == mid &&
+      \at(edges[k].v,L) == to &&
+      path_cost_len{L}(edges,e,from,mid,len - 1,rest_cost) &&
+      cost == rest_cost + \at(edges[k].weight,L));
+
+  lemma path_cost_len_nonnegative{L}:
+    \forall struct Edge* edges, integer e, from, to, len, cost;
+      path_cost_len{L}(edges,e,from,to,len,cost) ==>
+      0 <= len && 0 <= cost;
+
+  lemma last_before_is_path{L}:
+    \forall struct Edge* edges, integer e, from, to, len, cost, edge_limit;
+      (\forall integer k; 0 <= k < e ==>
+        0 <= \at(edges[k].u,L) <= 1000000 &&
+        0 <= \at(edges[k].v,L) <= 1000000 &&
+        0 <= \at(edges[k].weight,L) <= 1000000) ==>
+      path_cost_len_last_before{L}(edges,e,from,to,len,cost,edge_limit) ==>
+      path_cost_len{L}(edges,e,from,to,len,cost);
+
+  predicate shortest_path_result{E,D}(struct Edge* edges, integer e,
+                                      integer n, integer start, int* dist) =
+    \forall integer v;
+      0 <= v < n ==>
+      ((\at(dist[v],D) != INF ==>
+          bounded_path_cost{E}(edges,e,n,start,v,\at(dist[v],D)))
+       &&
+       (\forall integer c;
+          0 <= c < INF && bounded_path_cost{E}(edges,e,n,start,v,c)
+          ==> \at(dist[v],D) <= c));
+
+  predicate has_paths_up_to{E,D}(struct Edge* edges, integer e,
+                                 integer n, integer start, int* dist,
+                                 integer bound) =
+    \forall integer v;
+      0 <= v < n && \at(dist[v],D) != INF ==>
+      \exists integer len;
+        0 <= len <= bound &&
+        path_cost_len{E}(edges,e,start,v,len,\at(dist[v],D));
+
+  predicate upper_bounds_paths_up_to{E,D}(struct Edge* edges, integer e,
+                                          integer n, integer start, int* dist,
+                                          integer bound) =
+    \forall integer v, len, c;
+      0 <= v < n && 0 <= len <= bound &&
+      0 <= c < INF &&
+      path_cost_len{E}(edges,e,start,v,len,c)
+      ==> \at(dist[v],D) <= c;
+*/
+
+/*@
+    requires e > 0;
+    requires 1 <= n <= MAX_VERTICES;
+    requires \valid(edges + (0..e-1));
+    requires \valid(dist + (0..n-1));
+    requires \valid(parent + (0..n-1));
+    requires \separated(edges + (0..e-1), dist + (0..n-1));
+    requires \separated(edges + (0..e-1), parent + (0..n-1));
+    requires \separated(dist + (0..n-1), parent + (0..n-1));
+    requires 0 <= start < n;
+
+    requires \forall integer k; 0 <= k < e ==>
+        0 <= edges[k].u < n && 0 <= edges[k].v < n;
+
+    requires \forall integer k; 0 <= k < e ==> 0 <= edges[k].weight <= 1000000;
+    requires n * 1000000 < INT_MAX;
+    requires (n + 1) * 1000000 < INT_MAX;
+
+    requires \forall integer k; 0 <= k < n ==> parent[k] == -1;
+    requires \forall integer k; 0 <= k < n ==> dist[k] == INF;
+
+    assigns dist[0..n-1];
+
+    ensures \forall integer i; 0 <= i < n ==> dist[i] >= 0;
+    ensures \forall integer i; 0 <= i < n ==> finite_distance(dist[i], n);
+    ensures \forall integer i; 0 <= i < n ==> parent_edge(edges,e,parent,i);
+    ensures shortest_path_result{Pre,Here}(edges,e,n,start,dist);
+*/
+_Safe int _bellmanford(int n, int e, struct Edge edges[_Nonnull], int start,
+                       int dist[_Nonnull], int parent[_Nonnull]) {
+    dist[start] = 0;
+    int prev[MAX_VERTICES];
+
+        // Loop A
+/*@
+        loop invariant i_0: 1 <= i <= n;
+
+        loop invariant i_1: dist[start] == 0;
+
+        loop invariant i_2: \forall integer v; 0 <= v < n ==> dist[v] >= 0;
+
+        loop invariant i_3: \forall integer v; 0 <= v < n ==> finite_distance_bound(dist[v], i-1);
+
+        loop invariant i_4: \forall integer v; 0 <= v < n ==> parent_edge(edges, e, parent, v);
+
+        loop invariant i_5: has_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1);
+
+        loop invariant i_6: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1);
+
+        loop invariant i_21: (i == 1 ==> (dist[start] == 0 && \forall integer v; 0 <= v < n && v != start ==> dist[v] == INF)) && (i != 1 ==> has_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1));;
+
+        loop invariant i_22: \forall integer from, to, len, cost; len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==> path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e);
+
+
+        loop assigns i, prev[0..99], dist[0..n-1];
+        loop variant n - i;
+    */
+    for (int i = 1; i < n; i++) {
+                // Loop B
+/*@
+            loop invariant i_7: 0 <= k <= n;
+
+            loop invariant i_8: \forall integer x; 0 <= x < k ==> prev[x] == dist[x];
+
+
+            loop assigns k, prev[0..n-1];
+            loop variant n - k;
+        */
+        for (int k = 0; k < n; k++) {
+            prev[k] = dist[k];
+        }
+
+                // Loop C
+/*@
+            [Hint] Please refine the loop invariants in the repair scope.
+
+            loop invariant i_9: 0 <= j <= e;
+
+            loop invariant i_10: dist[start] == 0;
+
+            loop invariant i_11: \forall integer v; 0 <= v < n ==> dist[v] >= 0;
+
+            loop invariant i_12: \forall integer v; 0 <= v < n ==> finite_distance_bound(dist[v], i);
+
+            loop invariant i_13: \forall integer v; 0 <= v < n ==> parent_edge(edges, e, parent, v);
+
+            loop invariant i_14: has_paths_up_to{Here,Here}(edges, e, n, start, dist, i);
+
+            loop invariant i_15: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1);
+
+            loop invariant i_16: \forall integer v, c; 0 <= v < n && 0 <= c < INF && path_cost_len_last_before{Here}(edges, e, start, v, i, c, j) ==> dist[v] <= c;
+
+            loop invariant i_17: prev[start] == 0;
+
+            loop invariant i_18: \forall integer v; 0 <= v < n ==> finite_distance_bound(prev[v], i-1);
+
+            loop invariant i_23: \forall integer from, to, len, cost; len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==> path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e);
+
+            loop invariant i_24: has_paths_up_to{Here,Here}(edges, e, n, start, prev, i-1);
+
+            loop invariant i_25: \forall integer v; 0 <= v < n ==> dist[v] <= prev[v];
+
+            loop invariant i_26: \forall integer v; 0 <= v < n ==> prev[v] == \at(dist[v], LoopEntry);
+
+            loop invariant i_27: \forall integer v; 0 <= v < n ==> dist[v] <= \at(dist[v], LoopEntry);
+
+            loop invariant i_28: \forall integer k; 0 <= k < e ==> edges[k].u == \at(edges[k].u, LoopEntry) && edges[k].v == \at(edges[k].v, LoopEntry) && edges[k].weight == \at(edges[k].weight, LoopEntry);
+
+
+            loop assigns j, dist[0..n-1];
+            loop variant e - j;
+        */
+        for (int j = 0; j < e; j++) {
+            int u = edges[j].u;
+            int v = edges[j].v;
+            int weight = edges[j].weight;
+
+            if (prev[u] != INF &&
+                prev[u] + weight < dist[v]) {
+                dist[v] = prev[u] + weight;
+            }
+        }
+    }
+
+    return 0;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_16: \forall integer v, c; 0 <= v < n && 0 <= c < INF && path_cost_len_last_before{Here}(edges, e, start, v, i, c, j) ==> dist[v] <= c
+[Failed Property] preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[Failure Cause] The body relaxes the current edge `j` and updates `dist[v]` using `prev[u]`, not the current `dist[u]`. For the newly introduced paths whose last edge is exactly `j`, i_16 requires showing that after the update `dist[v] <= c`, where `c = rest_cost + weight` and `rest_cost` is the cost of a length `i-1` path from `start` to `u`. The available Loop C invariants do not imply the needed bound `prev[u] <= rest_cost`: i_15 bounds the current `dist`, i_24 only gives existence for `prev`, and i_25 gives `dist <= prev`, which is the wrong direction. Thus i_16 is non-inductive w.r.t. the loop body under the given invariants; it is not intrinsically too strong. The Loop C invariant set is too weak to imply the post-body goal.
+[Repair Scope] C@_bellmanford
+[Refinement Direction] The missing logical fact is an upper-bound property for the snapshot array `prev`: every path of length at most `i-1` from `start` to `u` with cost `rest_cost` must satisfy `prev[u] <= rest_cost` (equivalently, `upper_bounds_paths_up_to` for `prev` with bound `i-1`). With this fact, if the relaxation updates `dist[v]`, then `dist[v] = prev[u] + weight <= rest_cost + weight = c`; if it does not update, then `dist[v] <= prev[u] + weight <= c`, so i_16 is preserved.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in C@_bellmanford.
+2. Your answer should follow the following format:
+```
+[Loop C@_bellmanford]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

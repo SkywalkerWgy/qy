@@ -1,0 +1,34 @@
+# TEST-03-01 / CoL2Inv Python dependencies
+# Validated with Python 3.12 in the bundled Ubuntu 24.04 Docker image.
+# Install with: python3 -m pip install -r requirement.txt
+#
+# Frama-C 31.0, Why3 1.8.1, Alt-Ergo 2.6.3, Z3 4.13.3, CVC5 1.1.2
+# and Coq 8.18.0 are native verification tools, not Python packages. They are
+# built and configured by _runtime/Dockerfile. For full reproduction, prefer:
+#   bash run-03-01.sh
+
+# Direct runtime dependencies.
+openai==2.42.0
+requests==2.27.1
+
+# Transitive dependencies pinned from the validated Docker environment.
+annotated-types==0.7.0
+anyio==3.5.0
+certifi==2021.10.8
+charset-normalizer==2.0.4
+distro==1.9.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.3
+jiter==0.15.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+sniffio==1.2.0
+tqdm==4.64.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+urllib3==1.26.9
+
+# Optional local-model packages (torch, transformers, accelerate and
+# sentencepiece) are intentionally excluded: TEST-03-01 uses the DeepSeek API.

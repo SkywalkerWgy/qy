@@ -1,0 +1,163 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-31.cbs
+INFO | [INPUT] artifact=input.cbs bytes=3480
+INFO | [INIT] functions=fast_pow_mod, rabin_karp loops=6 delayed_filter_threshold=7
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@fast_pow_mod prompt=llm_calls/001_initial_reasoning_A@fast_pow_mod.prompt.txt response=llm_calls/001_initial_reasoning_A@fast_pow_mod.response.txt response_chars=161
+INFO | [LLM 001] response_preview=``` loop invariant exp >= 0; loop invariant 0 <= res < m; loop invariant 0 <= base < m; loop invariant (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m); ```
+INFO | [APPLY] loop=A@fast_pow_mod added=4
+INFO |   + i_0: exp >= 0
+INFO |   + i_1: 0 <= res < m
+INFO |   + i_2: 0 <= base < m
+INFO |   + i_3: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m)
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@rabin_karp prompt=llm_calls/002_initial_reasoning_B@rabin_karp.prompt.txt response=llm_calls/002_initial_reasoning_B@rabin_karp.response.txt response_chars=109
+INFO | [LLM 002] response_preview=``` loop invariant 0 <= j <= m; loop invariant 0 <= hp < Q; loop invariant hp == str_hash(p, 0, j, D, Q); ```
+INFO | [APPLY] loop=B@rabin_karp added=3
+INFO |   + i_4: 0 <= j <= m
+INFO |   + i_5: 0 <= hp < Q
+INFO |   + i_6: hp == str_hash(p, 0, j, D, Q)
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=F@rabin_karp prompt=llm_calls/003_initial_reasoning_F@rabin_karp.prompt.txt response=llm_calls/003_initial_reasoning_F@rabin_karp.response.txt response_chars=218
+INFO | [LLM 003] response_preview=``` loop invariant 0 <= j <= m; loop invariant \forall integer k; 0 <= k < j ==> t[i + k] == p[k]; loop invariant i == n - m; loop invariant ht == str_hash(t, i, m, D, Q); loop invariant dp == pow_mod(D, m - 1, Q); ```
+INFO | [APPLY] loop=F@rabin_karp added=5
+INFO |   + i_7: 0 <= j <= m
+INFO |   + i_8: \forall integer k; 0 <= k < j ==> t[i + k] == p[k]
+INFO |   + i_9: i == n - m
+INFO |   + i_10: ht == str_hash(t, i, m, D, Q)
+INFO |   + i_11: dp == pow_mod(D, m - 1, Q)
+INFO | [LLM 004] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@rabin_karp prompt=llm_calls/004_initial_reasoning_C@rabin_karp.prompt.txt response=llm_calls/004_initial_reasoning_C@rabin_karp.response.txt response_chars=109
+INFO | [LLM 004] response_preview=``` loop invariant 0 <= j <= m; loop invariant 0 <= ht < Q; loop invariant ht == str_hash(t, 0, j, D, Q); ```
+INFO | [APPLY] loop=C@rabin_karp added=3
+INFO |   + i_12: 0 <= j <= m
+INFO |   + i_13: 0 <= ht < Q
+INFO |   + i_14: ht == str_hash(t, 0, j, D, Q)
+INFO | [LLM 005] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=D@rabin_karp prompt=llm_calls/005_initial_reasoning_D@rabin_karp.prompt.txt response=llm_calls/005_initial_reasoning_D@rabin_karp.response.txt response_chars=141
+INFO | [LLM 005] response_preview=``` loop invariant 0 <= i <= n - m; loop invariant 0 <= ht < Q; loop invariant ht == str_hash(t, i, m, D, Q); loop invariant 0 <= j <= m; ```
+INFO | [APPLY] loop=D@rabin_karp added=4
+INFO |   + i_15: 0 <= i <= n - m
+INFO |   + i_16: 0 <= ht < Q
+INFO |   + i_17: ht == str_hash(t, i, m, D, Q)
+INFO |   + i_18: 0 <= j <= m
+INFO | [LLM 006] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=E@rabin_karp prompt=llm_calls/006_initial_reasoning_E@rabin_karp.prompt.txt response=llm_calls/006_initial_reasoning_E@rabin_karp.response.txt response_chars=227
+INFO | [LLM 006] response_preview=``` loop invariant 0 <= j <= m; loop invariant \forall integer k; 0 <= k < j ==> t[i + k] == p[k]; loop invariant 0 <= i && i < n - m; loop invariant ht == str_hash(t, i, m, D, Q); loop invariant dp == pow_mod(D, m - ...
+INFO | [APPLY] loop=E@rabin_karp added=5
+INFO |   + i_19: 0 <= j <= m
+INFO |   + i_20: \forall integer k; 0 <= k < j ==> t[i + k] == p[k]
+INFO |   + i_21: 0 <= i && i < n - m
+INFO |   + i_22: ht == str_hash(t, i, m, D, Q)
+INFO |   + i_23: dp == pow_mod(D, m - 1, Q)
+INFO | [INVARIANTS] total=24 loops=A@fast_pow_mod:4, B@rabin_karp:3, C@rabin_karp:3, D@rabin_karp:4, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-31_verified_1.cbs invariants=24
+INFO | [FRAMAC] attempt=1 result=Fail_62_65 stdout=test-03-01-31_verified_1_Fail_62_65.txt stderr=
+INFO | [FAIL] attempt=1 failures=3 summary=i_13 [preservation] Prove: (0 <= x_3) /\ (x_3 <= 1000000006).; i_5 [preservation] Prove: (0 <= x_2) /\ (x_2 <= 1000000006).; i_16 [preservation] Prove: (0 <= x_3) /\ (x_3 <= 1000000006).
+INFO | [REVISE] kind=invariant id=i_13 loop=C@rabin_karp status=preservation property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=0 <= ht < Q
+INFO | [DIAGNOSE] loop=C@rabin_karp dependency=C@rabin_karp target=i_13: 0 <= ht < Q property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007). Let x_1 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007). Let x_2 = Mint_0[shift_sint32(t, j)]. Let x_3 = (x_2 + (256 * x))...
+INFO | [LLM 007] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=C@rabin_karp prompt=llm_calls/007_failure_diagnosis_C@rabin_karp.prompt.txt response=llm_calls/007_failure_diagnosis_C@rabin_karp.response.txt response_chars=1291
+INFO | [LLM 007] response_preview=[Failed Property] preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The preservation obligation for i_13 requires ...
+INFO | [DIAGNOSIS] property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=C@rabin_karp cause=The preservation obligation for i_13 requires `0 <= ht < Q` after executing `ht = (ht * D + t[j]) % Q`. The available assumptions only give `0 <= ht < Q`, and `t[j]` is an arbitrary `int` constrained only by memory validity. Therefore `h... direction=The missing bridge is a non-negativity fact for the hashed array elements, e.g. `\forall integer k; 0 <= k < n ==> t[k] >= 0`, or an equivalent guarantee that the dividend fed to `% Q` is nonnegative. This must come from the contract/pre...
+INFO | [REFINE] failed=i_13: 0 <= ht < Q scope=C@rabin_karp property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 008] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=C@rabin_karp prompt=llm_calls/008_dependency_refinement_C@rabin_karp.prompt.txt response=llm_calls/008_dependency_refinement_C@rabin_karp.response.txt response_chars=79
+INFO | [LLM 008] response_preview=[Loop C@rabin_karp] loop invariant \forall integer k; 0 <= k < n ==> t[k] >= 0;
+INFO | [APPLY] loop=C@rabin_karp added=1
+INFO |   + i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO | [REVISE] kind=invariant id=i_5 loop=B@rabin_karp status=preservation property=preservation of i_5: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=0 <= hp < Q
+INFO | [DIAGNOSE] loop=B@rabin_karp dependency=B@rabin_karp target=i_5: 0 <= hp < Q property=preservation of i_5: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007). Let x_1 = Mint_0[shift_sint32(p, j)]. Let x_2 = (x_1 + (256 * x)) % 1000000007. Assume { Type: is_sint32(j) /\ is_sint32(m)...
+INFO | [LLM 009] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@rabin_karp prompt=llm_calls/009_failure_diagnosis_B@rabin_karp.prompt.txt response=llm_calls/009_failure_diagnosis_B@rabin_karp.response.txt response_chars=1091
+INFO | [LLM 009] response_preview=[Failed Property] preservation of i_5: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The proof obligation requires showing that afte...
+INFO | [DIAGNOSIS] property=preservation of i_5: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=B@rabin_karp cause=The proof obligation requires showing that after `hp = (hp * D + p[j]) % Q`, the new `hp` remains in `[0, Q)`. The available invariants give `0 <= hp < Q` but do not constrain `p[j]` to be nonnegative. In C/ACSL, the remainder `%` can be... direction=The missing logical fact needed to bridge the assumptions and the WP target is `p[j] >= 0` (or, for the whole loop, all `p[k]` with `0 <= k < m` are nonnegative). Together with `hp >= 0` and `D > 0`, this ensures `hp * D + p[j] >= 0`, so...
+INFO | [REFINE] failed=i_5: 0 <= hp < Q scope=B@rabin_karp property=preservation of i_5: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 010] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@rabin_karp prompt=llm_calls/010_dependency_refinement_B@rabin_karp.prompt.txt response=llm_calls/010_dependency_refinement_B@rabin_karp.response.txt response_chars=79
+INFO | [LLM 010] response_preview=[Loop B@rabin_karp] loop invariant \forall integer k; 0 <= k < m ==> p[k] >= 0;
+INFO | [APPLY] loop=B@rabin_karp added=1
+INFO |   + i_25: \forall integer k; 0 <= k < m ==> p[k] >= 0
+INFO | [REVISE] kind=invariant id=i_16 loop=D@rabin_karp status=preservation property=preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=0 <= ht < Q
+INFO | [DIAGNOSE] loop=D@rabin_karp dependency=E@rabin_karp target=i_16: 0 <= ht < Q property=preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let x = L_str_hash(Mint_0, t, i, j, 256, 1000000007). Let x_1 = Mint_0[shift_sint32(t, i)]. Let x_2 = i + j. Let x_3 = (256000001792 + Mint_0[shift_sint32(t, x_2)] + (256 * x) -...
+INFO | [LLM 011] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=D@rabin_karp prompt=llm_calls/011_failure_diagnosis_D@rabin_karp.prompt.txt response=llm_calls/011_failure_diagnosis_D@rabin_karp.response.txt response_chars=1602
+INFO | [LLM 011] response_preview=[Failed Property] preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The proof obligation requires showing that aft...
+INFO | [DIAGNOSIS] property=preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=D@rabin_karp cause=The proof obligation requires showing that after the Loop D body, the updated `ht` still satisfies `0 <= ht < Q`. The update is a modulo operation, and in C the result of `A % Q` is non-negative only if the dividend `A` is non-negative (... direction=The failed invariant `i_16` is not too strong; it is a valid range invariant for the algorithm. It is non-inductive under the current preconditions because the loop body can produce a negative `ht` if array elements are negative. The inv...
+INFO | [REFINE] failed=i_16: 0 <= ht < Q scope=D@rabin_karp property=preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 012] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=D@rabin_karp prompt=llm_calls/012_dependency_refinement_D@rabin_karp.prompt.txt response=llm_calls/012_dependency_refinement_D@rabin_karp.response.txt response_chars=159
+INFO | [LLM 012] response_preview=[Loop D@rabin_karp] loop invariant t_nonneg: \forall integer k; 0 <= k < n ==> t[k] >= 0; loop invariant p_nonneg: \forall integer k; 0 <= k < m ==> p[k] >= 0;
+INFO | [APPLY] loop=D@rabin_karp added=2
+INFO |   + i_26: \forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO |   + i_27: \forall integer k; 0 <= k < m ==> p[k] >= 0
+INFO | [INVARIANTS] total=28 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:4, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-31_verified_2.cbs invariants=28
+INFO | [FRAMAC] attempt=2 result=Fail_72_73 stdout=test-03-01-31_verified_2_Fail_72_73.txt stderr=
+INFO | [FAIL] attempt=2 failures=1 summary=i_24 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [REVISE] kind=invariant id=i_24 loop=C@rabin_karp status=establishment property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. invariant=\forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO | [DIAGNOSE] loop=C@rabin_karp dependency=B@rabin_karp target=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. wp=Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007). Assume { Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x)...
+INFO | [LLM 013] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=C@rabin_karp prompt=llm_calls/013_failure_diagnosis_C@rabin_karp.prompt.txt response=llm_calls/013_failure_diagnosis_C@rabin_karp.response.txt response_chars=1117
+INFO | [LLM 013] response_preview=[Failed Property] establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. [Failure Cause] The base-case check for i_24 requires proving `\forall integer k; 0 <= ...
+INFO | [DIAGNOSIS] property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. scope=C@rabin_karp cause=The base-case check for i_24 requires proving `\forall integer k; 0 <= k < n ==> t[k] >= 0` at the entry to Loop C. The incoming state only guarantees validity and length bounds for `t`, not nonnegativity of its elements. The preceding L... direction=The missing logical fact is that the used portion of `t` must be nonnegative, e.g. `\forall integer k; 0 <= k < n ==> t[k] >= 0`, at function entry. Without such a boundary assumption, i_24 cannot be established. The invariants of B@rabi...
+INFO | [REFINE] failed=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 scope=C@rabin_karp property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+INFO | [LLM 014] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=C@rabin_karp prompt=llm_calls/014_dependency_refinement_C@rabin_karp.prompt.txt response=llm_calls/014_dependency_refinement_C@rabin_karp.response.txt response_chars=79
+INFO | [LLM 014] response_preview=[Loop C@rabin_karp] loop invariant \forall integer k; 0 <= k < j ==> t[k] >= 0;
+INFO | [APPLY] loop=C@rabin_karp added=1
+INFO |   + i_28: \forall integer k; 0 <= k < j ==> t[k] >= 0
+INFO | [INVARIANTS] total=29 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:5, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/003.txt
+INFO | [ATTEMPT 3] phase=bounded candidate=test-03-01-31_verified_3.cbs invariants=29
+INFO | [FRAMAC] attempt=3 result=Fail_74_75 stdout=test-03-01-31_verified_3_Fail_74_75.txt stderr=
+INFO | [FAIL] attempt=3 failures=1 summary=i_24 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [REVISE] kind=invariant id=i_24 loop=C@rabin_karp status=establishment property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. invariant=\forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO | [DIAGNOSE] loop=C@rabin_karp dependency=B@rabin_karp target=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. wp=Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007). Assume { Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x)...
+INFO | [LLM 015] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=C@rabin_karp prompt=llm_calls/015_failure_diagnosis_C@rabin_karp.prompt.txt response=llm_calls/015_failure_diagnosis_C@rabin_karp.response.txt response_chars=1413
+INFO | [LLM 015] response_preview=[Failed Property] establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. [Failure Cause] i_24 asserts that every element t[k] for 0 <= k < n is nonnegative. The...
+INFO | [DIAGNOSIS] property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. scope=C@rabin_karp cause=i_24 asserts that every element t[k] for 0 <= k < n is nonnegative. The function preconditions only guarantee that t is a valid array of length n; they do not constrain the signed integer values stored in t. Therefore, at entry to the lo... direction=Remove or weaken i_24. The unsupported global assertion over all t[0..n-1] should not be required by this loop. If nonnegativity of t entries is actually needed for the modulo-hash reasoning, that fact must come from a boundary contract/...
+INFO | [REFINE] failed=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 scope=C@rabin_karp property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+INFO | [LLM 016] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=C@rabin_karp prompt=llm_calls/016_dependency_refinement_C@rabin_karp.prompt.txt response=llm_calls/016_dependency_refinement_C@rabin_karp.response.txt response_chars=113
+INFO | [LLM 016] response_preview=``` [Loop C@rabin_karp] loop invariant i_12: 0 <= j <= m; loop invariant i_14: ht == str_hash(t, 0, j, D, Q); ```
+INFO | [APPLY] loop=C@rabin_karp added=0
+INFO | [INVARIANTS] total=29 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:5, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/004.txt
+INFO | [ATTEMPT 4] phase=bounded candidate=test-03-01-31_verified_4.cbs invariants=29
+INFO | [FRAMAC] attempt=4 result=Fail_74_75 stdout=test-03-01-31_verified_4_Fail_74_75.txt stderr=
+INFO | [FAIL] attempt=4 failures=1 summary=i_24 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [REVISE] kind=invariant id=i_24 loop=C@rabin_karp status=establishment property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. invariant=\forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO | [DIAGNOSE] loop=C@rabin_karp dependency=B@rabin_karp target=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. wp=Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007). Assume { Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x)...
+INFO | [LLM 017] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=C@rabin_karp prompt=llm_calls/017_failure_diagnosis_C@rabin_karp.prompt.txt response=llm_calls/017_failure_diagnosis_C@rabin_karp.response.txt response_chars=1365
+INFO | [LLM 017] response_preview=[Failed Property] establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. [Failure Cause] The invariant i_24 asserts \forall integer k; 0 <= k < n ==> t[k] >= 0....
+INFO | [DIAGNOSIS] property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. scope=both cause=The invariant i_24 asserts \forall integer k; 0 <= k < n ==> t[k] >= 0. This is not implied by the function preconditions, which only require valid t and p and 0 < m <= n. Loop B@rabin_karp constrains only the pattern array p (invariant ... direction=The missing logical fact is that all relevant elements of t are nonnegative. If this fact is not guaranteed by the function contract, invariant i_24 must be removed or weakened so that the proof does not depend on it; otherwise the contr...
+INFO | [REFINE] failed=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 scope=C@rabin_karp, B@rabin_karp property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+INFO | [LLM 018] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=C@rabin_karp prompt=llm_calls/018_dependency_refinement_C@rabin_karp.prompt.txt response=llm_calls/018_dependency_refinement_C@rabin_karp.response.txt response_chars=49
+INFO | [LLM 018] response_preview=``` [Loop C@rabin_karp] [Loop B@rabin_karp] ```
+INFO | [APPLY] loop=C@rabin_karp added=0
+INFO | [APPLY] loop=B@rabin_karp added=0
+INFO | [INVARIANTS] total=29 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:5, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/005.txt
+INFO | [ATTEMPT 5] phase=bounded candidate=test-03-01-31_verified_5.cbs invariants=29
+INFO | [FRAMAC] attempt=5 result=Fail_74_75 stdout=test-03-01-31_verified_5_Fail_74_75.txt stderr=
+INFO | [FAIL] attempt=5 failures=1 summary=i_24 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [REVISE] kind=invariant id=i_24 loop=C@rabin_karp status=establishment property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. invariant=\forall integer k; 0 <= k < n ==> t[k] >= 0
+INFO | [DIAGNOSE] loop=C@rabin_karp dependency=B@rabin_karp target=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. wp=Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007). Assume { Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x)...
+INFO | [LLM 019] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=C@rabin_karp prompt=llm_calls/019_failure_diagnosis_C@rabin_karp.prompt.txt response=llm_calls/019_failure_diagnosis_C@rabin_karp.response.txt response_chars=1430
+INFO | [LLM 019] response_preview=[Failed Property] establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. [Failure Cause] i_24 asserts that every text element t[k] for 0 <= k < n is nonnegative...
+INFO | [DIAGNOSIS] property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state. scope=C@rabin_karp cause=i_24 asserts that every text element t[k] for 0 <= k < n is nonnegative. The incoming state only provides pointer validity for t, the bounds 0 < m <= n, and Loop B facts about p and hp; it gives no sign constraint on t. Thus the reduced ... direction=The missing logical fact is a nonnegativity assumption on t, at least \forall integer k; 0 <= k < n ==> t[k] >= 0, or a weaker condition sufficient for the hash/mod invariants. Without adding such a contract assumption, i_24 must be remo...
+INFO | [REFINE] failed=i_24: \forall integer k; 0 <= k < n ==> t[k] >= 0 scope=C@rabin_karp property=establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+INFO | [LLM 020] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=C@rabin_karp prompt=llm_calls/020_dependency_refinement_C@rabin_karp.prompt.txt response=llm_calls/020_dependency_refinement_C@rabin_karp.response.txt response_chars=81
+INFO | [LLM 020] response_preview=``` [Loop C@rabin_karp] loop invariant i_24: true; loop invariant i_28: true; ```
+INFO | [APPLY] loop=C@rabin_karp added=1
+INFO |   + i_29: true
+INFO | [INVARIANTS] total=30 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:6, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/006.txt
+INFO | [ATTEMPT 6] phase=final candidate=test-03-01-31_verified_final_attempt_6.cbs invariants=30
+INFO | [FRAMAC] attempt=6 result=Invalid stdout=test-03-01-31_verified_final_attempt_6_Invalid.txt stderr=
+INFO | [INVALID] attempt=6 remove=i_29
+INFO | [INVARIANTS] total=29 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:5, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/007.txt
+INFO | [ATTEMPT 7] phase=final candidate=test-03-01-31_verified_final_attempt_7.cbs invariants=29
+INFO | [FRAMAC] attempt=7 result=Fail_74_75 stdout=test-03-01-31_verified_final_attempt_7_Fail_74_75.txt stderr=
+INFO | [FAIL] attempt=7 failures=1 summary=i_24 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [INVARIANTS] total=28 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:4, D@rabin_karp:6, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/008.txt
+INFO | [ATTEMPT 8] phase=final candidate=test-03-01-31_verified_final_attempt_8.cbs invariants=28
+INFO | [FRAMAC] attempt=8 result=Fail_71_73 stdout=test-03-01-31_verified_final_attempt_8_Fail_71_73.txt stderr=
+INFO | [FAIL] attempt=8 failures=2 summary=i_26 [establishment] Prove: 0 <= Mint_0[shift_sint32(t, i)].; i_28 [preservation] Prove: 0 <= Mint_0[shift_sint32(t, i)].
+INFO | [INVARIANTS] total=26 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:3, D@rabin_karp:5, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/009.txt
+INFO | [ATTEMPT 9] phase=final candidate=test-03-01-31_verified_final_attempt_9.cbs invariants=26
+INFO | [FRAMAC] attempt=9 result=Fail_67_69 stdout=test-03-01-31_verified_final_attempt_9_Fail_67_69.txt stderr=
+INFO | [FAIL] attempt=9 failures=2 summary=i_13 [preservation] Prove: (0 <= x_3) /\ (x_3 <= 1000000006).; i_16 [preservation] Prove: (0 <= x_3) /\ (x_3 <= 1000000006).
+INFO | [INVARIANTS] total=24 loops=A@fast_pow_mod:4, B@rabin_karp:4, C@rabin_karp:2, D@rabin_karp:4, E@rabin_karp:5, F@rabin_karp:5 snapshot=invariants/010.txt
+INFO | [ATTEMPT 10] phase=final candidate=test-03-01-31_verified_final_attempt_10.cbs invariants=24
+INFO | [FRAMAC] attempt=10 result=Pass_65_65 stdout=test-03-01-31_verified_final_attempt_10_Pass_65_65.txt stderr=
+INFO | [PASS] attempt=10 candidate=test-03-01-31_verified_final_attempt_10.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 10
+INFO | Verified code: verified.cbs
+INFO | Running time: 964.7671866416931
+INFO | ------------------------

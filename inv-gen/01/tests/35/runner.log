@@ -1,0 +1,131 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-35.cbs
+INFO | [INPUT] artifact=input.cbs bytes=2734
+INFO | [INIT] functions=topo_sort loops=3 delayed_filter_threshold=4
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@topo_sort prompt=llm_calls/001_initial_reasoning_A@topo_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@topo_sort.response.txt response_chars=515
+INFO | [LLM 001] response_preview=``` loop invariant 0 <= pass <= n; loop invariant 0 <= count <= n; loop invariant valid_vertex_prefix(result, count, n); loop invariant output_edge_order(graph, result, count, n); loop invariant processed_vertices_are...
+INFO | [APPLY] loop=A@topo_sort added=8
+INFO |   + i_0: 0 <= pass <= n
+INFO |   + i_1: 0 <= count <= n
+INFO |   + i_2: valid_vertex_prefix(result, count, n)
+INFO |   + i_3: output_edge_order(graph, result, count, n)
+INFO |   + i_4: processed_vertices_are_output(result, in_degree, count, n)
+INFO |   + i_5: \forall integer v; 0 <= v < n ==> (in_degree[v] == -1 || in_degree[v] == 0)
+INFO |   + i_6: \forall integer i; 0 <= i < count ==> in_degree[result[i]] == -1
+INFO |   + i_7: \forall integer i, j; 0 <= i < j < count ==> result[i] != result[j]
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@topo_sort prompt=llm_calls/002_initial_reasoning_B@topo_sort.prompt.txt response=llm_calls/002_initial_reasoning_B@topo_sort.response.txt response_chars=535
+INFO | [LLM 002] response_preview=loop invariant 0 <= v <= n; loop invariant 0 <= pass <= n; loop invariant 0 <= count <= n; loop invariant valid_vertex_prefix(result, count, n); loop invariant output_edge_order(graph, result, count, n); loop invarian...
+INFO | [APPLY] loop=B@topo_sort added=9
+INFO |   + i_8: 0 <= v <= n
+INFO |   + i_9: 0 <= pass <= n
+INFO |   + i_10: 0 <= count <= n
+INFO |   + i_11: valid_vertex_prefix(result, count, n)
+INFO |   + i_12: output_edge_order(graph, result, count, n)
+INFO |   + i_13: processed_vertices_are_output(result, in_degree, count, n)
+INFO |   + i_14: \forall integer x; 0 <= x < n ==> (in_degree[x] == -1 || in_degree[x] == 0)
+INFO |   + i_15: \forall integer i; 0 <= i < count ==> in_degree[result[i]] == -1
+INFO |   + i_16: \forall integer i, j; 0 <= i < j < count ==> result[i] != result[j]
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@topo_sort prompt=llm_calls/003_initial_reasoning_C@topo_sort.prompt.txt response=llm_calls/003_initial_reasoning_C@topo_sort.response.txt response_chars=195
+INFO | [LLM 003] response_preview=``` loop invariant 0 <= u <= n; loop invariant can_output == 0 <==> \exists integer x; 0 <= x < u && graph[x][v] == 1 && in_degree[x] != -1; loop invariant can_output == 0 || can_output == 1; ```
+INFO | [APPLY] loop=C@topo_sort added=3
+INFO |   + i_17: 0 <= u <= n
+INFO |   + i_18: can_output == 0 <==> \exists integer x; 0 <= x < u && graph[x][v] == 1 && in_degree[x] != -1
+INFO |   + i_19: can_output == 0 || can_output == 1
+INFO | [INVARIANTS] total=20 loops=A@topo_sort:8, B@topo_sort:9, C@topo_sort:3 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-35_verified_1.cbs invariants=20
+INFO | [FRAMAC] attempt=1 result=Fail_59_60 stdout=test-03-01-35_verified_1_Fail_59_60.txt stderr=
+INFO | [FAIL] attempt=1 failures=1 summary=i_12 [preservation] Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+INFO | [REVISE] kind=invariant id=i_12 loop=B@topo_sort status=preservation property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=output_edge_order(graph, result, count, n)
+INFO | [DIAGNOSE] loop=B@topo_sort dependency=C@topo_sort target=i_12: output_edge_order(graph, result, count, n) property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a = shift_sint32(in_degree_0, 0). Let a_1 = shift_sint32(result_0, 0). Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1, a_1, n). Let a_3 = memcpy(m...
+INFO | [LLM 004] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@topo_sort prompt=llm_calls/004_failure_diagnosis_B@topo_sort.prompt.txt response=llm_calls/004_failure_diagnosis_B@topo_sort.response.txt response_chars=1612
+INFO | [LLM 004] response_preview=``` [Failed Property] preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The proof must show that after appending t...
+INFO | [DIAGNOSIS] property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=both cause=The proof must show that after appending the newly selected vertex v to result, every incoming edge to v comes from a vertex already present earlier in result. This requires deriving that for all from, graph[from][v] == 1 implies in_degr... direction=The proof needs the logical fact that the inner loop terminated with can_output true (equivalently can_output != 0), which together with i_18 implies that no unprocessed vertex u has graph[u][v] == 1. This fact is not present in the avai...
+INFO | [REFINE] failed=i_12: output_edge_order(graph, result, count, n) scope=B@topo_sort, C@topo_sort property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 005] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@topo_sort prompt=llm_calls/005_dependency_refinement_B@topo_sort.prompt.txt response=llm_calls/005_dependency_refinement_B@topo_sort.response.txt response_chars=295
+INFO | [LLM 005] response_preview=[Loop B@topo_sort] loop invariant \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> \forall integer u; 0 <= u < n && graph[u][w] == 1 ==> in_degree[u] == -1; [Loop C@topo_sort] loop invariant can_output == 1 ==>...
+INFO | [APPLY] loop=B@topo_sort added=1
+INFO |   + i_20: \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> \forall integer u; 0 <= u < n && graph[u][w] == 1 ==> in_degree[u] == -1
+INFO | [APPLY] loop=C@topo_sort added=1
+INFO |   + i_21: can_output == 1 ==> \forall integer x; 0 <= x < u ==> graph[x][v] == 1 ==> in_degree[x] == -1
+INFO | [INVARIANTS] total=22 loops=A@topo_sort:8, B@topo_sort:10, C@topo_sort:4 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-35_verified_2.cbs invariants=22
+INFO | [FRAMAC] attempt=2 result=Fail_63_64 stdout=test-03-01-35_verified_2_Fail_63_64.txt stderr=
+INFO | [FAIL] attempt=2 failures=1 summary=i_12 [preservation] Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+INFO | [REVISE] kind=invariant id=i_12 loop=B@topo_sort status=preservation property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=output_edge_order(graph, result, count, n)
+INFO | [DIAGNOSE] loop=B@topo_sort dependency=C@topo_sort target=i_12: output_edge_order(graph, result, count, n) property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a = shift_sint32(in_degree_0, 0). Let a_1 = shift_sint32(result_0, 0). Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1, a_1, n). Let a_3 = memcpy(m...
+INFO | [LLM 006] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@topo_sort prompt=llm_calls/006_failure_diagnosis_B@topo_sort.prompt.txt response=llm_calls/006_failure_diagnosis_B@topo_sort.response.txt response_chars=1436
+INFO | [LLM 006] response_preview=``` [Failed Property] preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The loop body appends vertex `v` to `resul...
+INFO | [DIAGNOSIS] property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=both B@topo_sort and C@topo_sort cause=The loop body appends vertex `v` to `result` at index `count`. To preserve `output_edge_order`, every predecessor `u` of `v` must already appear in the prefix `result[0..count-1]`. The inner loop C establishes that all predecessors of `v... direction=The missing logical fact is that the current vertex `v` is not a predecessor of itself, i.e., `graph[v][v] == 0`. This fact is needed to rule out the case `from = v` when proving `output_edge_order` for the newly appended vertex `v`. Wit...
+INFO | [REFINE] failed=i_12: output_edge_order(graph, result, count, n) scope=B@topo_sort, C@topo_sort property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 007] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@topo_sort prompt=llm_calls/007_dependency_refinement_B@topo_sort.prompt.txt response=llm_calls/007_dependency_refinement_B@topo_sort.response.txt response_chars=102
+INFO | [LLM 007] response_preview=[Loop B@topo_sort] [Loop C@topo_sort] loop invariant (can_output == 1 && v < u) ==> graph[v][v] == 0;
+INFO | [APPLY] loop=B@topo_sort added=0
+INFO | [APPLY] loop=C@topo_sort added=1
+INFO |   + i_22: (can_output == 1 && v < u) ==> graph[v][v] == 0
+INFO | [INVARIANTS] total=23 loops=A@topo_sort:8, B@topo_sort:10, C@topo_sort:5 snapshot=invariants/003.txt
+INFO | [ATTEMPT 3] phase=bounded candidate=test-03-01-35_verified_3.cbs invariants=23
+INFO | [FRAMAC] attempt=3 result=Fail_65_66 stdout=test-03-01-35_verified_3_Fail_65_66.txt stderr=
+INFO | [FAIL] attempt=3 failures=1 summary=i_12 [preservation] Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+INFO | [REVISE] kind=invariant id=i_12 loop=B@topo_sort status=preservation property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=output_edge_order(graph, result, count, n)
+INFO | [DIAGNOSE] loop=B@topo_sort dependency=C@topo_sort target=i_12: output_edge_order(graph, result, count, n) property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a = shift_sint32(in_degree_0, 0). Let a_1 = shift_sint32(result_0, 0). Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1, a_1, n). Let a_3 = memcpy(m...
+INFO | [LLM 008] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@topo_sort prompt=llm_calls/008_failure_diagnosis_B@topo_sort.prompt.txt response=llm_calls/008_failure_diagnosis_B@topo_sort.response.txt response_chars=2060
+INFO | [LLM 008] response_preview=[Failed Property] preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The failed obligation tries to prove that appe...
+INFO | [DIAGNOSIS] property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=both cause=The failed obligation tries to prove that appending the newly output vertex `v` preserves `output_edge_order` for the extended prefix of `result`. To do this, one must show that every predecessor `from` of `v` already occurs in `result` ... direction=The missing logical fact is that when `can_output == 1` at the end of `C@topo_sort`, every predecessor of `v` is already processed (`in_degree == -1`) and therefore already appears in the existing `result` prefix before `count_0`. In par...
+INFO | [REFINE] failed=i_12: output_edge_order(graph, result, count, n) scope=B@topo_sort, C@topo_sort property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 009] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@topo_sort prompt=llm_calls/009_dependency_refinement_B@topo_sort.prompt.txt response=llm_calls/009_dependency_refinement_B@topo_sort.response.txt response_chars=172
+INFO | [LLM 009] response_preview=[Loop B@topo_sort] [Loop C@topo_sort] loop invariant i_23: can_output == 1 ==> \forall integer x; (0 <= x < u && graph[x][v] == 1) ==> appears_in_prefix(result, count, x);
+INFO | [APPLY] loop=B@topo_sort added=0
+INFO | [APPLY] loop=C@topo_sort added=1
+INFO |   + i_23: can_output == 1 ==> \forall integer x; (0 <= x < u && graph[x][v] == 1) ==> appears_in_prefix(result, count, x)
+INFO | [INVARIANTS] total=24 loops=A@topo_sort:8, B@topo_sort:10, C@topo_sort:6 snapshot=invariants/004.txt
+INFO | [ATTEMPT 4] phase=bounded candidate=test-03-01-35_verified_4.cbs invariants=24
+INFO | [FRAMAC] attempt=4 result=Fail_66_68 stdout=test-03-01-35_verified_4_Fail_66_68.txt stderr=
+INFO | [FAIL] attempt=4 failures=2 summary=i_13 [preservation] Prove: P_processed_vertices_are_output(a_5, result_0, in_degree_0, x, n).; i_12 [preservation] Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+INFO | [REVISE] kind=invariant id=i_13 loop=B@topo_sort status=preservation property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=processed_vertices_are_output(result, in_degree, count, n)
+INFO | [DIAGNOSE] loop=B@topo_sort dependency=C@topo_sort target=i_13: processed_vertices_are_output(result, in_degree, count, n) property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a = shift_sint32(in_degree_0, 0). Let a_1 = shift_sint32(result_0, 0). Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1, a_1, n). Let a_3 = memcpy(m...
+INFO | [LLM 010] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@topo_sort prompt=llm_calls/010_failure_diagnosis_B@topo_sort.prompt.txt response=llm_calls/010_failure_diagnosis_B@topo_sort.response.txt response_chars=1668
+INFO | [LLM 010] response_preview=``` [Failed Property] preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The target is to prove `processed_vertices...
+INFO | [DIAGNOSIS] property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=B@topo_sort cause=The target is to prove `processed_vertices_are_output` after the if-body updates `result[count] = v`, increments `count`, and sets `in_degree[v] = -1`. The proof requires a case split on the marked vertex: - For the newly marked vertex `... direction=The invariant i_13 is not too strong; it is a valid property of the algorithm. The failure is due to the proof not exposing the necessary case split on the updated vertex `v`. The Loop C invariants are not too weak for this goal; they ar...
+INFO | [REFINE] failed=i_13: processed_vertices_are_output(result, in_degree, count, n) scope=B@topo_sort property=preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 011] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@topo_sort prompt=llm_calls/011_dependency_refinement_B@topo_sort.prompt.txt response=llm_calls/011_dependency_refinement_B@topo_sort.response.txt response_chars=136
+INFO | [LLM 011] response_preview=[Loop B@topo_sort] loop invariant i_13: \forall integer w; 0 <= w < n ==> (in_degree[w] == -1 <==> appears_in_prefix(result, count, w));
+INFO | [APPLY] loop=B@topo_sort added=1
+INFO |   + i_24: \forall integer w; 0 <= w < n ==> (in_degree[w] == -1 <==> appears_in_prefix(result, count, w))
+INFO | [REVISE] kind=invariant id=i_12 loop=B@topo_sort status=preservation property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=output_edge_order(graph, result, count, n)
+INFO | [DIAGNOSE] loop=B@topo_sort dependency=C@topo_sort target=i_12: output_edge_order(graph, result, count, n) property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a = shift_sint32(in_degree_0, 0). Let a_1 = shift_sint32(result_0, 0). Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1, a_1, n). Let a_3 = memcpy(m...
+INFO | [LLM 012] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@topo_sort prompt=llm_calls/012_failure_diagnosis_B@topo_sort.prompt.txt response=llm_calls/012_failure_diagnosis_B@topo_sort.response.txt response_chars=1869
+INFO | [LLM 012] response_preview=[Failed Property] preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The preservation of `output_edge_order` after ...
+INFO | [DIAGNOSIS] property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=C@topo_sort cause=The preservation of `output_edge_order` after appending `v` requires proving two cases: 1. For the new position `count`, every predecessor of `v` must already appear in `result[0..count-1]`. This is supplied by the inner-loop invariant `... direction=The inner loop `C@topo_sort` is too weak: its invariants must also capture the fact that the candidate vertex `v` has no outgoing edges to vertices that are already in the output prefix. In particular, the proof needs the fact that for a...
+INFO | [REFINE] failed=i_12: output_edge_order(graph, result, count, n) scope=C@topo_sort property=preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 013] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@topo_sort prompt=llm_calls/013_dependency_refinement_B@topo_sort.prompt.txt response=llm_calls/013_dependency_refinement_B@topo_sort.response.txt response_chars=107
+INFO | [LLM 013] response_preview=[Loop C@topo_sort] loop invariant \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> graph[v][w] == 0;
+INFO | [APPLY] loop=C@topo_sort added=1
+INFO |   + i_25: \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> graph[v][w] == 0
+INFO | [INVARIANTS] total=26 loops=A@topo_sort:8, B@topo_sort:11, C@topo_sort:7 snapshot=invariants/005.txt
+INFO | [ATTEMPT 5] phase=bounded candidate=test-03-01-35_verified_5.cbs invariants=26
+INFO | [FRAMAC] attempt=5 result=Fail_71_72 stdout=test-03-01-35_verified_5_Fail_71_72.txt stderr=
+INFO | [FAIL] attempt=5 failures=1 summary=i_12 [preservation] Prove: P_output_edge_order(Mptr_0, a_5, graph_0, result_0, x, n).
+INFO | [FILTER] invariant=i_12 failures=4 threshold=4 action=remove
+INFO | [INVARIANTS] total=25 loops=A@topo_sort:8, B@topo_sort:10, C@topo_sort:7 snapshot=invariants/006.txt
+INFO | [ATTEMPT 6] phase=final candidate=test-03-01-35_verified_final_attempt_6.cbs invariants=25
+INFO | [FRAMAC] attempt=6 result=Fail_69_70 stdout=test-03-01-35_verified_final_attempt_6_Fail_69_70.txt stderr=
+INFO | [FAIL] attempt=6 failures=1 summary=i_3 [preservation] Prove: P_output_edge_order(Mptr_0, a_3, graph_0, result_0, count_0, n).
+INFO | [INVARIANTS] total=24 loops=A@topo_sort:7, B@topo_sort:10, C@topo_sort:7 snapshot=invariants/007.txt
+INFO | [ATTEMPT 7] phase=final candidate=test-03-01-35_verified_final_attempt_7.cbs invariants=24
+INFO | [FRAMAC] attempt=7 result=Fail_66_68 stdout=test-03-01-35_verified_final_attempt_7_Fail_66_68.txt stderr=
+INFO | [FAIL] attempt=7 failures=1 summary=i_20 [establishment] Prove: a_2[shift_sint32(in_degree_0, i)] = (-1).
+INFO | [INVARIANTS] total=23 loops=A@topo_sort:7, B@topo_sort:9, C@topo_sort:7 snapshot=invariants/008.txt
+INFO | [ATTEMPT 8] phase=final candidate=test-03-01-35_verified_final_attempt_8.cbs invariants=23
+INFO | [FRAMAC] attempt=8 result=Fail_64_66 stdout=test-03-01-35_verified_final_attempt_8_Fail_64_66.txt stderr=
+INFO | [FAIL] attempt=8 failures=1 summary=i_25 [establishment] Prove: a_3[shift_sint32(a_6, i)] = 0.
+INFO | [INVARIANTS] total=22 loops=A@topo_sort:7, B@topo_sort:9, C@topo_sort:6 snapshot=invariants/009.txt
+INFO | [ATTEMPT 9] phase=final candidate=test-03-01-35_verified_final_attempt_9.cbs invariants=22
+INFO | [FRAMAC] attempt=9 result=Fail_63_64 stdout=test-03-01-35_verified_final_attempt_9_Fail_63_64.txt stderr=
+INFO | [FAIL] attempt=9 failures=0 summary=none
+INFO | ---------Result---------
+INFO | Fail
+INFO | Model: deepseek-flash
+INFO | Proposal number: 9
+INFO | Verified code: 
+INFO | Running time: 1105.8679859638214
+INFO | ------------------------

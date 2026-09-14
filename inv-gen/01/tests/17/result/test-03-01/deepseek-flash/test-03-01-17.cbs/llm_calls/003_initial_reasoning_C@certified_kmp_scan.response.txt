@@ -1,0 +1,4 @@
+```
+loop invariant 0 <= pos <= n - m + 1;
+loop invariant \forall integer q; 0 <= q < pos ==> !match_at(text, pat, q, m);
+```

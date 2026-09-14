@@ -1,0 +1,9 @@
+loop invariant 0 <= v <= n;
+loop invariant 0 <= pass <= n;
+loop invariant 0 <= count <= n;
+loop invariant valid_vertex_prefix(result, count, n);
+loop invariant output_edge_order(graph, result, count, n);
+loop invariant processed_vertices_are_output(result, in_degree, count, n);
+loop invariant \forall integer x; 0 <= x < n ==> (in_degree[x] == -1 || in_degree[x] == 0);
+loop invariant \forall integer i; 0 <= i < count ==> in_degree[result[i]] == -1;
+loop invariant \forall integer i, j; 0 <= i < j < count ==> result[i] != result[j];

@@ -1,0 +1,31 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-19.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1543
+INFO | [INIT] functions=max, _lcs loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_lcs prompt=llm_calls/001_initial_reasoning_A@_lcs.prompt.txt response=llm_calls/001_initial_reasoning_A@_lcs.response.txt response_chars=344
+INFO | [LLM 001] response_preview=``` loop invariant 1 <= i <= m + 1; loop invariant \forall integer k; 0 <= k <= n ==> dp[0][k] == 0; loop invariant \forall integer k; 0 <= k <= m ==> dp[k][0] == 0; loop invariant \forall integer p, q; 1 <= p < i && ...
+INFO | [APPLY] loop=A@_lcs added=4
+INFO |   + i_0: 1 <= i <= m + 1
+INFO |   + i_1: \forall integer k; 0 <= k <= n ==> dp[0][k] == 0
+INFO |   + i_2: \forall integer k; 0 <= k <= m ==> dp[k][0] == 0
+INFO |   + i_3: \forall integer p, q; 1 <= p < i && 1 <= q <= n ==> (s[p - 1] == t[q - 1] && dp[p][q] == dp[p - 1][q - 1] + 1) || is_max(dp[p - 1][q], dp[p][q - 1], dp[p][q])
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_lcs prompt=llm_calls/002_initial_reasoning_B@_lcs.prompt.txt response=llm_calls/002_initial_reasoning_B@_lcs.response.txt response_chars=521
+INFO | [LLM 002] response_preview=loop invariant 1 <= i <= m; loop invariant 1 <= j <= n + 1; loop invariant \forall integer k; 0 <= k <= n ==> dp[0][k] == 0; loop invariant \forall integer k; 0 <= k <= m ==> dp[k][0] == 0; loop invariant \forall inte...
+INFO | [APPLY] loop=B@_lcs added=6
+INFO |   + i_4: 1 <= i <= m
+INFO |   + i_5: 1 <= j <= n + 1
+INFO |   + i_6: \forall integer k; 0 <= k <= n ==> dp[0][k] == 0
+INFO |   + i_7: \forall integer k; 0 <= k <= m ==> dp[k][0] == 0
+INFO |   + i_8: \forall integer p, q; 1 <= p < i && 1 <= q <= n ==> (s[p - 1] == t[q - 1] && dp[p][q] == dp[p - 1][q - 1] + 1) || is_max(dp[p - 1][q], dp[p][q - 1], dp[p][q])
+INFO |   + i_9: \forall integer q; 1 <= q < j ==> (s[i - 1] == t[q - 1] && dp[i][q] == dp[i - 1][q - 1] + 1) || is_max(dp[i - 1][q], dp[i][q - 1], dp[i][q])
+INFO | [INVARIANTS] total=10 loops=A@_lcs:4, B@_lcs:6 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-19_verified_1.cbs invariants=10
+INFO | [FRAMAC] attempt=1 result=Pass_43_43 stdout=test-03-01-19_verified_1_Pass_43_43.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-19_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 70.50036239624023
+INFO | ------------------------

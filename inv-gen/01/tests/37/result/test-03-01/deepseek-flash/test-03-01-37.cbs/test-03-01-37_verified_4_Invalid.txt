@@ -1,0 +1,5 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-37.cbs/.col2inv-trustc-bp3541vg.c (with preprocessing)
+[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-37.cbs/.col2inv-trustc-bp3541vg.c:153: Warning: 
+  unexpected token ';'
+[kernel] User Error: warning annot-error treated as fatal error.
+[kernel] Frama-C aborted: invalid user input.

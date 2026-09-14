@@ -1,0 +1,111 @@
+
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+*/
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= m <= r;
+  requires sorted(a, l, m);
+  requires sorted(a, m, r);
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+  ensures \result >= 0;
+*/
+_Safe int merge_count(int a[_Nonnull ], int tmp[_Nonnull ], int l, int m, int r) {
+    int i = l, j = m, k = l, inv = 0;
+
+        // Loop A
+/*@
+        loop invariant i_0: l <= i <= m;
+
+        loop invariant i_1: m <= j <= r;
+
+        loop invariant i_2: l <= k <= r;
+
+        loop invariant i_3: k == i + j - m;
+
+        loop invariant i_4: inv >= 0;
+
+        loop invariant i_5: sorted(a, l, m);
+
+        loop invariant i_6: sorted(a, m, r);
+
+        loop invariant i_7: sorted(tmp, l, k);
+
+        loop invariant i_8: (k > l && i < m) ==> tmp[k-1] <= a[i];
+
+        loop invariant i_9: (k > l && j < r) ==> tmp[k-1] <= a[j];
+
+
+        loop assigns i, j, k, inv, tmp[l .. r-1];
+    */
+    while (i < m || j < r) {
+        if (j >= r || (i < m && a[i] <= a[j])) {
+            tmp[k] = a[i];
+            i = i + 1;
+        } else {
+            tmp[k] = a[j];
+            j = j + 1;
+            inv = inv + (m - i);
+        }
+        k = k + 1;
+    }
+
+        // Loop B
+/*@
+        [Hint] Please infer the loop invariant for the following loop.
+
+        loop assigns k, a[l .. r-1];
+    */
+    for (k = l; k < r; k++) {
+        a[k] = tmp[k];
+    }
+
+    return inv;
+}
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= r;
+  decreases r - l;
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+  ensures \result >= 0;
+*/
+_Safe int count_inversions(int a[_Nonnull ], int tmp[_Nonnull ], int l, int r) {
+    if (r - l <= 1) return 0;
+
+    int m = l + (r - l) / 2;
+    int inv;
+
+    inv  = count_inversions(a, tmp, l, m);
+    inv += count_inversions(a, tmp, m, r);
+    inv += merge_count(a, tmp, l, m, r);
+
+    return inv;
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop A@merge_count invariants: i_0: l <= i <= m; i_1: m <= j <= r; i_2: l <= k <= r; i_3: k == i + j - m; i_4: inv >= 0; i_5: sorted(a, l, m); i_6: sorted(a, m, r); i_7: sorted(tmp, l, k); i_8: (k > l && i < m) ==> tmp[k-1] <= a[i]; i_9: (k > l && j < r) ==> tmp[k-1] <= a[j] } k = l; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( k < r ) } return inv; { e_1: sorted(a, l, r); e_2: \result >= 0 }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

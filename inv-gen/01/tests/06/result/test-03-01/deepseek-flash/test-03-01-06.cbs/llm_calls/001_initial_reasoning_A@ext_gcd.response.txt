@@ -1,0 +1,6 @@
+```
+loop invariant r0 >= 0 && r1 >= 0;
+loop invariant a * s0 + b * t0 == r0;
+loop invariant a * s1 + b * t1 == r1;
+loop invariant gcd(r0, r1) == gcd(a, b);
+```

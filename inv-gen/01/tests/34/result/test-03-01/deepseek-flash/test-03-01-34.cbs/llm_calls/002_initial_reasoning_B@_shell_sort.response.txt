@@ -1,0 +1,5 @@
+```
+loop invariant gap > 0 && gap <= n;
+loop invariant i >= gap && i <= n;
+loop invariant \forall integer s; 0 <= s < gap ==> subseq_sorted{Here}(arr, i, gap, s);
+```

@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_11: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The proof cannot show that `sum_c(c,k) == n` remains true after one iteration of Loop C. The iteration executes Loop D, which writes to `b[pos]` and updates `j`/`pos`, but does not write to `c[0..k]`. The available invariants of D only describe `b`, `pos`, and `j`; they do not expose the non-modification of `c` or the invariant consequence that `sum_c(c,k)` is unchanged by D. Therefore WP cannot bridge the pre-D assumption `L_sum_c(a_5,c,k) = x_1` to the post-D target `L_sum_c(a_6,c,k) = x_1`. The failed invariant `i_11` itself is not too strong and is semantically inductive, since `c` is not assigned in C/D. The failure is due to the missing alias/non-interference fact, not to `i_11` being invalid. D’s invariants are too weak if used alone to carry `i_11` through the inner loop.
+
+[Responsible Scope]
+both C@counting_sort and D@counting_sort
+
+[Refinement Direction]
+The proof must use the fact that Loop D leaves `c[0..k]` unchanged, from D’s `assigns` clause and the `\separated(c, b)` precondition, so that `L_sum_c(a_6,c,k) = L_sum_c(a_5,c,k)`. Do not strengthen `i_11`; the gap is the missing non-interference of D’s writes to `b` with `c`/`sum_c(c,k)`.

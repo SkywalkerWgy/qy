@@ -1,0 +1,9 @@
+[Loop A@_bellmanford]
+loop invariant \forall integer from, to, len, cost;
+  len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==>
+  path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e);
+
+[Loop C@_bellmanford]
+loop invariant \forall integer from, to, len, cost;
+  len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==>
+  path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e);

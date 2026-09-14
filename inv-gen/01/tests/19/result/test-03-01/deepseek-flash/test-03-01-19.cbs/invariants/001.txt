@@ -1,0 +1,12 @@
+Loop A@_lcs:
+  i_0: 1 <= i <= m + 1
+  i_1: \forall integer k; 0 <= k <= n ==> dp[0][k] == 0
+  i_2: \forall integer k; 0 <= k <= m ==> dp[k][0] == 0
+  i_3: \forall integer p, q; 1 <= p < i && 1 <= q <= n ==> (s[p - 1] == t[q - 1] && dp[p][q] == dp[p - 1][q - 1] + 1) || is_max(dp[p - 1][q], dp[p][q - 1], dp[p][q])
+Loop B@_lcs:
+  i_4: 1 <= i <= m
+  i_5: 1 <= j <= n + 1
+  i_6: \forall integer k; 0 <= k <= n ==> dp[0][k] == 0
+  i_7: \forall integer k; 0 <= k <= m ==> dp[k][0] == 0
+  i_8: \forall integer p, q; 1 <= p < i && 1 <= q <= n ==> (s[p - 1] == t[q - 1] && dp[p][q] == dp[p - 1][q - 1] + 1) || is_max(dp[p - 1][q], dp[p][q - 1], dp[p][q])
+  i_9: \forall integer q; 1 <= q < j ==> (s[i - 1] == t[q - 1] && dp[i][q] == dp[i - 1][q - 1] + 1) || is_max(dp[i - 1][q], dp[i][q - 1], dp[i][q])

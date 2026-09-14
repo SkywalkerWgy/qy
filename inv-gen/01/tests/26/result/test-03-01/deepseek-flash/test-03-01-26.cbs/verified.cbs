@@ -1,0 +1,88 @@
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+*/
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= m <= r;
+  requires sorted(a, l, m);
+  requires sorted(a, m, r);
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+*/
+_Safe void merge(int a[_Nonnull ], int tmp[_Nonnull ], int l, int m, int r) {
+    int i = l, j = m, k = l;
+
+        // Loop A
+/*@
+        loop invariant i_0: l <= i && i <= m;
+
+        loop invariant i_1: m <= j && j <= r;
+
+        loop invariant i_2: k == i + j - m;
+
+        loop invariant i_3: l <= k && k <= r;
+
+        loop invariant i_4: sorted(tmp, l, k);
+
+        loop invariant i_5: \forall integer p, q; l <= p && p < k && i <= q && q < m ==> tmp[p] <= a[q];
+
+        loop invariant i_6: \forall integer p, q; l <= p && p < k && j <= q && q < r ==> tmp[p] <= a[q];
+
+        loop invariant i_7: sorted(a, l, m);
+
+        loop invariant i_8: sorted(a, m, r);
+
+
+        loop assigns i, j, k, tmp[l .. r-1];
+    */
+    while (i < m || j < r) {
+        if (j >= r || (i < m && a[i] <= a[j])) {
+            tmp[k] = a[i];
+            i = i + 1;
+        } else {
+            tmp[k] = a[j];
+            j = j + 1;
+        }
+        k = k + 1;
+    }
+
+        // Loop B
+/*@
+        loop invariant i_9: l <= k && k <= r;
+
+        loop invariant i_10: sorted(tmp, l, r);
+
+        loop invariant i_11: \forall integer p; l <= p && p < k ==> a[p] == tmp[p];
+
+        loop invariant i_12: sorted(a, l, k);
+
+
+        loop assigns k, a[l .. r-1];
+    */
+    for (k = l; k < r; k++) {
+        a[k] = tmp[k];
+    }
+}
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= r;
+  decreases r - l;
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+*/
+_Safe void merge_sort_rec(int a[_Nonnull ], int tmp[_Nonnull ], int l, int r) {
+    if (r - l <= 1) return;
+
+    int m = l + (r - l) / 2;
+
+    merge_sort_rec(a, tmp, l, m);
+    merge_sort_rec(a, tmp, m, r);
+    merge(a, tmp, l, m, r);
+}

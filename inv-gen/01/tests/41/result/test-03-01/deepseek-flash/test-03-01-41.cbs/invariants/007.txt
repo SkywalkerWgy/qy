@@ -1,0 +1,52 @@
+Loop A@relax:
+  i_0: 0 <= j <= n
+  i_1: \forall integer k; 0 <= k < n ==> 0 <= dist[k]
+  i_2: \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF
+  i_3: \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1)
+  i_10: parent_valid(n,start,parent)
+  i_11: \forall integer k; 0 <= k < j ==> ( (visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k])) ==> (dist[k] == \old(dist[u]) + graph[u][k] && parent[k] == u) )
+  i_12: \forall integer k; 0 <= k < j ==> ( !(visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k])) ==> (dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])) )
+  i_13: \forall integer k; j <= k < n ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])
+Loop B@dijkstra:
+  i_14: 1 <= round <= n
+  i_15: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+  i_16: dist[start] == 0
+  i_17: \forall integer k; 0 <= k < n ==> visited[k] == 0
+  i_18: \forall integer k; 0 <= k < n ==> parent[k] == -1
+  i_19: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, 0)
+Loop C@dijkstra:
+  i_28: 0 <= k <= n
+  i_29: \forall integer i; 0 <= i < k ==> prev[i] == dist[i]
+  i_30: \forall integer i; 0 <= i < n ==> dist[i] == \old(dist[i])
+Loop D@dijkstra:
+  i_31: 0 <= u <= n
+  i_32: 1 <= round <= n
+  i_33: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+  i_34: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF
+  i_35: dist[start] == 0
+  i_36: \forall integer k; 0 <= k < n ==> visited[k] == 0
+  i_37: \forall integer k; 0 <= k < n ==> parent[k] == -1
+  i_38: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+  i_39: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+  i_40: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n)
+Loop E@dijkstra:
+  i_41: 0 <= v <= n
+  i_42: 0 <= u < n
+  i_43: 1 <= round <= n
+  i_44: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+  i_45: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF
+  i_46: dist[start] == 0
+  i_47: \forall integer k; 0 <= k < n ==> visited[k] == 0
+  i_48: \forall integer k; 0 <= k < n ==> parent[k] == -1
+  i_49: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+  i_50: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+  i_51: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n + v)
+Loop F@dijkstra:
+  i_20: 0 <= k <= n
+  i_21: \forall integer i; 0 <= i < k ==> (visited[i] == 1 <==> dist[i] != INF)
+  i_22: \forall integer i; k <= i < n ==> visited[i] == 0
+  i_23: \forall integer i; 0 <= i < n ==> (visited[i] == 0 || visited[i] == 1)
+  i_24: \forall integer i; 0 <= i < n ==> 0 <= dist[i] <= INF
+  i_25: graph_valid(graph, n)
+  i_26: parent_valid(n, start, parent)
+  i_27: shortest_path_result{Pre,Here}(graph, n, start, dist)

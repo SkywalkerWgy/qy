@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_35: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation goal requires proving `idx(n, row, j+1) != idx(n, r, c)` for every `0 <= r < row` and `0 <= c < n`. The available `i_35` only gives `idx(n, row, j) != idx(n, r, c)`, i.e. it constrains the old value of `j`, not the incremented value `j+1`. The board updates in Loop D do not affect this index equality. Thus `i_35` is not inductive as written: it is not too strong semantically, but it is too weak as an induction hypothesis. The invariants of `D@place_queen` do not expose the needed `j`-independent separation between cells in previous rows and cells in the current row, so they cannot imply the WP target.
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The missing bridge is the pure arithmetic fact that for `0 <= r < row` and `0 <= c < n`, `idx(n, r, c) < row * n`, while `idx(n, row, j+1) >= row * n` because `j+1 >= 0`. Hence `idx(n, row, j+1) != idx(n, r, c)`. This row-index separation fact must be made available to the prover or derived from the definition of `idx` and the bounds on `c`; the loop body’s board writes are irrelevant to this failure.

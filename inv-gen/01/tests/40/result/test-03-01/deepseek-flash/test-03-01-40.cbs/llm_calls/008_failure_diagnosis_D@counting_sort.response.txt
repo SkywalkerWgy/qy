@@ -1,0 +1,11 @@
+[Failed Property]
+establishment of i_18: the invariant must hold before the first loop iteration from the incoming program state.
+
+[Failure Cause]
+At Loop D entry, the proof must establish `pos_start + c[v] <= n`. From Loop C invariants this reduces to `sum_c(c,v-1) + c[v] <= sum_c(c,k)`, since `pos_start = pos = sum_c(c,v-1)` and `n = sum_c(c,k)`. The available assumptions include `v <= k` and `c[t] >= 0`, but the WP context does not expose the required recursive-sum decomposition/monotonicity fact relating `sum_c(c,v-1)+c[v]` to `sum_c(c,k)`. The target `(x + x_1) <= x_2` cannot be derived from `x_1 <= x_2` and `x >= 0` alone. The failed invariant itself is not too strong and is not non-inductive for Loop D, because its terms are unchanged by the loop body; the failure is in establishment from the incoming C-state. The C invariants are semantically sufficient but too weak for WP to expose this bridge. The missing logical fact is: for nonnegative `c[0..k]` and `0 <= v <= k`, `sum_c(c,v-1) + c[v] <= sum_c(c,k)` (equivalently `sum_c(c,v) <= sum_c(c,k)`).
+
+[Responsible Scope]
+both D@counting_sort and C@counting_sort
+
+[Refinement Direction]
+Do not weaken i_18. The proof context needs the missing partial-sum monotonicity/decomposition for `sum_c` under nonnegative counts and `0 <= v <= k`; this fact must be made available to the WP proof without changing the inner-loop invariant.

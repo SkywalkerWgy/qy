@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_35: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation obligation must show that after `c[v] = 0` and the loop increment, `sum_c(c,w) == 0` holds for every `w` below the new `v`. The case `w = v` can be closed from `i_24` after the write, since `sum_c(c,v) = c[v] + sum_c(c,v-1) = 0 + 0`. For `w < v`, however, the available `i_35` only gives the property for the pre-state `a_2`; the target is about the post-state `a_3`, where `c[v]` was changed. WP lacks the fact that `sum_c(c,w)` for `w < v` is unaffected by writing `c[v]`. Thus `i_35` is not too strong; it is the natural true property. The Loop A invariant set is too weak/non-inductive as encoded because it does not expose the needed prefix/frame property of `sum_c`. There is no inner loop involved in this failing preservation; the weakness is in Loop A for its own body.
+
+[Responsible Scope]
+A@counting_sort
+
+[Refinement Direction]
+Make available or derive the general `sum_c` frame/prefix fact: for `0 <= w < v`, `sum_c(c,w)` depends only on `c[0..w]`, so writing `c[v]` leaves `sum_c(c,w)` unchanged. Equivalently, the proof needs `L_sum_c(a_3,c,w) == L_sum_c(a_2,c,w)` for `w < v`. Then old `i_35` gives the `w < v` case and `i_24` gives the `w = v` case. This should be supplied as a lemma about `sum_c`, not as a new loop invariant.

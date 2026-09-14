@@ -1,0 +1,2 @@
+loop invariant i <= proof_k_high <= n + 1;
+loop invariant \forall integer k; i <= k < proof_k_high ==> a[k-1] > b[n-k];

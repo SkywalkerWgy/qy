@@ -1,0 +1,153 @@
+
+/*@ axiomatic gcd {
+       logic integer gcd(integer a, integer b);
+       axiom nil:  \forall integer n; gcd(n,0) == n;
+       axiom next: \forall integer a,b; gcd(b, a % b) == gcd(a,b);
+    }
+ */
+
+/*@
+    logic integer product{L}(int *m, integer n) =
+        n <= 0 ? 1 : product(m, n - 1) * m[n - 1];
+
+    predicate crt_prefix{L}(int *a, int *m, integer limit, integer result) =
+        \forall integer j; 0 <= j < limit ==> result % m[j] == a[j] % m[j];
+
+    predicate crt_step{L}(int *a, int *m, integer n,
+                          integer i, integer result, integer inv) =
+        crt_prefix(a, m, i, result) ==>
+        crt_prefix(a, m, i + 1,
+                   (result + inv * (product(m, n) / m[i]) * a[i]) %
+                   product(m, n));
+*/
+
+/*@
+    requires a >= 0 && b >= 0;
+    requires a > 0 || b > 0;
+    requires \valid(x) && \valid(y);
+    requires \separated(x, y);
+    assigns *x, *y;
+    ensures \result >= 0;
+    ensures a * (*x) + b * (*y) == \result;
+    ensures \result == gcd(a, b);
+*/
+_Safe int ext_gcd(int a, int b, int *_Borrow _Nonnull x, int *_Borrow _Nonnull y) {
+    int s0 = 1, t0 = 0;
+    int s1 = 0, t1 = 1;
+    int r0 = a, r1 = b;
+
+        // Loop A
+/*@
+        loop invariant i_0: r0 >= 0 && r1 >= 0;
+
+        loop invariant i_1: a * s0 + b * t0 == r0;
+
+        loop invariant i_2: a * s1 + b * t1 == r1;
+
+        loop invariant i_3: gcd(r0, r1) == gcd(a, b);
+
+
+        loop assigns r0, r1, s0, s1, t0, t1;
+    */
+    while (r1 > 0) {
+        int q = r0 / r1;
+        int tmp;
+        tmp = r1; r1 = r0 - q * r1; r0 = tmp;
+        tmp = s1; s1 = s0 - q * s1; s0 = tmp;
+        tmp = t1; t1 = t0 - q * t1; t0 = tmp;
+    }
+
+    *x = s0;
+    *y = t0;
+    return r0;
+}
+
+/*@
+    lemma inverse_from_bezout: \forall integer a, x, y, m;
+        m > 1 && a * x + m * y == 1 && a > 0 ==>
+        (a * ((x % m + m) % m)) % m == 1;
+ */
+
+/*@
+    requires a > 0 && m > 1;
+    requires gcd(a, m) == 1;
+    assigns \nothing;
+    ensures 0 <= \result < m;
+    ensures (a * \result) % m == 1;
+*/
+_Safe int mod_inv(int a, int m) {
+    int x, y;
+    int g = ext_gcd(a, m, &_Mut x, &_Mut y);
+    int inv = (x % m + m) % m;
+    return inv;
+}
+
+/*@
+    requires 0 < n;
+    requires \valid_read(a + (0..n-1)) && \valid_read(m + (0..n-1));
+    requires \separated(a + (0..n-1), m + (0..n-1));
+    requires \forall integer i; 0 <= i < n ==> m[i] > 1;
+    requires \forall integer i; 0 <= i < n ==> a[i] >= 0;
+    requires \forall integer i, j; 0 <= i < j < n ==> gcd(m[i], m[j]) == 1;
+    requires \forall integer i; 0 <= i < n ==> product(m, n) / m[i] > 0;
+    requires \forall integer i; 0 <= i < n ==> gcd(product(m, n) / m[i], m[i]) == 1;
+    requires \forall integer i, j; 0 <= j < i < n ==> (product(m, n) / m[i]) % m[j] == 0;
+    requires \forall integer i, result, inv;
+        0 <= i < n &&
+        0 <= inv < m[i] &&
+        (inv * (product(m, n) / m[i])) % m[i] == 1 ==>
+        crt_step(a, m, n, i, result, inv);
+    assigns \nothing;
+    ensures \forall integer i; 0 <= i < n ==> \result % m[i] == a[i] % m[i];
+*/
+_Safe int crt(int a[_Nonnull ], int m[_Nonnull ], int n) {
+    int M = 1;
+    int result = 0;
+
+        // Loop B
+/*@
+        [Hint] Please infer the loop invariant for the following loop.
+
+        loop assigns i, M;
+    */
+    for (int i = 0; i < n; i++) {
+        M = M * m[i];
+    }
+
+        // Loop C
+/*@
+        loop assigns i, result;
+    */
+    for (int i = 0; i < n; i++) {
+        int Mi = M / m[i];
+        int inv = mod_inv(Mi, m[i]);
+        int term = inv * Mi * a[i];
+        //@ assert Mi == product(m, n) / m[i];
+        //@ assert (Mi * inv) % m[i] == 1;
+        //@ assert (inv * Mi) % m[i] == 1;
+        //@ assert crt_step(a, m, n, i, result, inv);
+        //@ assert crt_prefix(a, m, i + 1, (result + term) % M);
+        result = (result + term) % M;
+    }
+
+    return result;
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: 0 < n; r_2: \valid_read(a + (0..n-1)) && \valid_read(m + (0..n-1)); r_3: \separated(a + (0..n-1), m + (0..n-1)); r_4: \forall integer i; 0 <= i < n ==> m[i] > 1; r_5: \forall integer i; 0 <= i < n ==> a[i] >= 0; r_6: \forall integer i, j; 0 <= i < j < n ==> gcd(m[i], m[j]) == 1; r_7: \forall integer i; 0 <= i < n ==> product(m, n) / m[i] > 0; r_8: \forall integer i; 0 <= i < n ==> gcd(product(m, n) / m[i], m[i]) == 1; r_9: \forall integer i, j; 0 <= j < i < n ==> (product(m, n) / m[i]) % m[j] == 0; r_10: \forall integer i, result, inv; 0 <= i < n && 0 <= inv < m[i] && (inv * (product(m, n) / m[i])) % m[i] == 1 ==> crt_step(a, m, n, i, result, inv) } int M = 1; int result = 0; int i = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i < n ) } int i = 0; { true }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

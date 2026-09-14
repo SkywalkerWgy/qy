@@ -1,0 +1,4 @@
+```
+loop invariant 0 <= k <= m;
+loop invariant \forall integer j; 0 <= j < k ==> text[pos + j] == pat[j];
+```

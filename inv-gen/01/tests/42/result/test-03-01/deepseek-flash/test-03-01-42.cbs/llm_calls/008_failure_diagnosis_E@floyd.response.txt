@@ -1,0 +1,13 @@
+```
+[Failed Property]
+preservation of i_26: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation obligation must prove i_26 for all c with 0 <= c < j+1 after the body. For c < j, the old i_26 can be reused only if the prover knows that the body does not modify dist[i][c] and that graph is unchanged. For the newly covered case c = j, it must prove dist[i][j] <= graph[i][k] + graph[k][j] under graph[i][k] < INF and graph[k][j] < INF. The body updates dist[i][j] only when dist[i][k] < INF && dist[k][j] < INF && dist[i][k] + dist[k][j] < dist[i][j]. The required facts are dist[i][k] <= graph[i][k] and dist[k][j] <= graph[k][j], hence dist[i][k] + dist[k][j] <= graph[i][k] + graph[k][j]; if the update is skipped, the old dist[i][j] is already <= that sum. The invariant i_26 itself is not too strong and is inductive; the E@floyd invariants are not too weak, but the WP lacks the needed case split and the required instantiation of no_larger_than_graph for the pairs (i,k) and (k,j), together with the fact that graph is not modified.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+Expose the missing logical fact: graph is unchanged by the inner loop, so the current graph values used in the goal equal those used by no_larger_than_graph; instantiate no_larger_than_graph at (i,k) and (k,j) to obtain dist[i][k] <= graph[i][k] and dist[k][j] <= graph[k][j]; and split the post-state proof into c < j (old i_26 plus unchanged dist[i][c]) and c = j (if-statement reasoning). This is a proof-direction refinement, not a new loop invariant.
+```

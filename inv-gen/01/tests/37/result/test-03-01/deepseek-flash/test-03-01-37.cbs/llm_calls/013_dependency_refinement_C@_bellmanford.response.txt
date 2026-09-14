@@ -1,0 +1,2 @@
+[Loop C@_bellmanford]
+loop invariant i_29: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, prev, i-1);

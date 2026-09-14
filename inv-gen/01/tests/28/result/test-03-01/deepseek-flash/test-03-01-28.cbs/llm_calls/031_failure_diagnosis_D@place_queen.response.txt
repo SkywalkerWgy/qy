@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_39: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The failed obligation is the preservation of `i_39` in Loop D of `place_queen`. The loop body increments `j`, so the post-state target is about `row*n + (j+1)`, while the pre-state `i_39` only excludes equality with `row*n + j`. To prove the shifted index-separation property, one needs the arithmetic bound that for all `0 <= r < row` and `0 <= k < n`, `r*n + k < row*n`, hence `r*n + k < row*n + j + 1` because `j >= 0`. This nonlinear multiplication bound is not exposed by the available invariants. WP reduces the goal to an arithmetic contradiction like `row*n + j + 2 <= n + i*n` with `i < row`, but cannot derive `i*n + n <= row*n` from `i < row` and `n >= 0` automatically. Therefore `i_39` is not inductive as written under the existing proof context; it is too weak to imply its own shifted version after `j++`.
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The proof requires the missing arithmetic fact `0 <= r < row && 0 <= k < n ==> r*n + k < row*n`, or equivalently the monotonicity consequence `i < row && n >= 0 ==> (i+1)*n <= row*n`. This fact bridges the available assumptions to the WP target and yields the needed contradiction with `row*n + j + 2 <= n + i*n` and `j >= 0`. The current `D@place_queen` invariant set does not make this nonlinear index bound available to the solver; `i_39` alone cannot discharge the preservation obligation.

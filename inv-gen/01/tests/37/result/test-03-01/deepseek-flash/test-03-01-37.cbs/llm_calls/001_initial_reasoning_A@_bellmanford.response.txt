@@ -1,0 +1,9 @@
+```
+loop invariant 1 <= i <= n;
+loop invariant dist[start] == 0;
+loop invariant \forall integer v; 0 <= v < n ==> dist[v] >= 0;
+loop invariant \forall integer v; 0 <= v < n ==> finite_distance_bound(dist[v], i-1);
+loop invariant \forall integer v; 0 <= v < n ==> parent_edge(edges, e, parent, v);
+loop invariant has_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1);
+loop invariant upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1);
+```

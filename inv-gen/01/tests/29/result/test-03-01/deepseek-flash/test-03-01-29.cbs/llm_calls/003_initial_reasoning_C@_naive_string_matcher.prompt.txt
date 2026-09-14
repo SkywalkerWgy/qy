@@ -1,0 +1,95 @@
+
+/*@
+    predicate string_same(char* t, char* p, integer n, integer m, integer match) =
+        n < m || \forall integer k; 0 <= k < m ==> p[k] == t[match + k];
+*/
+
+/*@
+    requires \valid_read(t);
+    requires \valid_read(p);
+    requires \valid(t + (0..n - 1));
+    requires \valid(p + (0..m - 1));
+    requires \separated(&t[0..(n - 1)], &p[0..(m - 1)]);
+    requires n > 0;
+    requires m > 0;
+    assigns \nothing;
+    ensures \result == 1 ==> string_same(t, p, n, m, match);
+*/
+_Safe int string_same_judge(char *_Nonnull t, char *_Nonnull p, int n, int m, int match){
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= j <= m;
+
+        loop invariant i_1: \forall integer k; 0 <= k < j ==> p[k] == t[match + k];
+
+
+        loop assigns j;
+    */
+    for (int j = 0; j < m; j++){
+        if (p[j] == t[match + j]) {
+            continue;
+        }
+        else{
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/*@
+    requires \valid_read(t);
+    requires \valid_read(p);
+    requires \valid(t + (0..n - 1));
+    requires \valid(p + (0..m - 1));
+    requires \separated(&t[0..(n - 1)], &p[0..(m - 1)]);
+    requires n > 0;
+    requires m > 0;
+    assigns \nothing;
+    ensures \result == -1 || string_same(t, p, n, m, \result);
+*/
+_Safe int _naive_string_matcher(char *_Nonnull t, char *_Nonnull p, int m, int n) {
+    if(n < m){
+        return -1;
+    }
+        // Loop B
+/*@
+        loop invariant i_2: 0 <= i <= n - m;
+
+
+        loop assigns i;
+    */
+    for (int i = 0; i < n - m; i++){
+                // Loop C
+/*@
+            [Hint] Please infer the loop invariant for the following loop.
+
+            loop assigns j;
+        */
+        for (int j = 0; j < m; j++){
+            if(string_same_judge(t, p, n, m, j) == 1){
+                return j;
+            }
+        }
+    }
+    return -1;
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop B@_naive_string_matcher invariants: i_2: 0 <= i <= n - m } int j = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( j < m ) } i++; { Loop B@_naive_string_matcher invariants: i_2: 0 <= i <= n - m }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+    - { I && ( j < m ) } skip { r_1: \valid_read(t); r_2: \valid_read(p); r_3: \valid(t + (0..n - 1)); r_4: \valid(p + (0..m - 1)); r_5: \separated(&t[0..(n - 1)], &p[0..(m - 1)]); r_6: n > 0; r_7: m > 0 }: when execution reaches the call to string_same_judge at line 55 (if(string_same_judge(t, p, n, m, j) == 1){), the generated invariant together with the loop condition should entail the callee's requires clauses after the inner-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

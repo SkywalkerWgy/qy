@@ -1,0 +1,8 @@
+loop invariant 0 <= v <= BUCKET_COUNT;
+loop invariant 0 <= pos <= n;
+loop invariant in_bucket_range(a, n);
+loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0;
+loop invariant \sum(integer k; 0 <= k < BUCKET_COUNT; bucket[k]) == n;
+loop invariant pos == \sum(integer k; 0 <= k < v; bucket[k]);
+loop invariant sorted(a, 0, pos);
+loop invariant \forall integer i; 0 <= i < pos ==> 0 <= a[i] < v;

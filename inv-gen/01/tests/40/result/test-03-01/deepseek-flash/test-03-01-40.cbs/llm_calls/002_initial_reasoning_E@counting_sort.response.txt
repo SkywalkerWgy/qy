@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= pos <= n;
+loop invariant sorted(b, 0, pos);
+loop invariant \forall integer i; 0 <= i < pos ==> 0 <= b[i] <= k;
+```

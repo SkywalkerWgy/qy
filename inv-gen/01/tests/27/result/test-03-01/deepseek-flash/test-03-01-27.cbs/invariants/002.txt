@@ -1,0 +1,21 @@
+Loop A@fast_pow_mod:
+  i_0: 0 <= res < m
+  i_1: 0 <= base < m
+  i_2: exp >= 0
+  i_3: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m)
+Loop B@miller_rabin_witness:
+  i_4: 0 <= x < n
+  i_5: x != 1 && x != n - 1
+  i_6: i >= 0
+  i_7: x == pow_mod(a, d * (1 << i), n)
+  i_16: 0 <= x < n && x != 1 && x != n - 1
+Loop C@miller_rabin:
+  i_8: d > 0
+  i_9: s >= 0
+  i_10: d * (1 << s) == n - 1
+Loop D@miller_rabin:
+  i_11: 2 <= a
+  i_12: a <= 8
+  i_13: d > 0
+  i_14: s >= 0
+  i_15: d * (1 << s) == n - 1

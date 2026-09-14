@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_14 states that all cells in rows `row+1` through `n-1` are zero. The loop body of `D@place_queen` writes to `board[row*n+j]` (or `board[row*n+col]`), i.e., it modifies a cell in the current row `row`. To preserve i_14, the proof must show that this write does not affect any cell in rows `row+1..n-1`. This requires the index disequality `idx(n,row,j) != idx(n,r,c)` for every `r` with `row+1 <= r < n` and every `0 <= c < n`. The available assumptions in the WP target do not include this fact. Although the source code includes invariant `i_36` intended to provide a similar disequality, it is not present in the WP target’s assumption set (or is not strong enough to be used), so the prover cannot discharge the preservation goal. The invariant i_14 itself is not too strong; it is a valid property. The failure is due to insufficient supporting facts, making i_14 non-inductive with respect to the loop body as currently specified.
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The missing logical fact needed is: for all integers `r, c` with `row+1 <= r < n` and `0 <= c < n`, `idx(n, row, j) != idx(n, r, c)`. Equivalently, the cell written by the loop body in the current row is disjoint from the range covered by `rows_empty_from(n, board, row+1)`. This fact must be made available in the context of the preservation proof for i_14, leveraging existing invariants such as i_36 rather than introducing new invariants.

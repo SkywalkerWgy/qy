@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= j <= m;
+loop invariant 0 <= hp < Q;
+loop invariant hp == str_hash(p, 0, j, D, Q);
+```

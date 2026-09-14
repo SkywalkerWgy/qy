@@ -1,0 +1,110 @@
+
+/*@
+    requires n > 1;
+    requires \valid(arr + (0..(n - 1)));
+    requires \valid(dp + (0..(n - 1)));
+    requires \separated(&arr[0..(n - 1)], &dp[0..(n - 1)]);
+    requires \forall integer k; 0 <= k < n ==> dp[k] == 1;
+    ensures \forall integer p, q; (0 <= q < p < n && arr[q] < arr[p]) ==> dp[p] >= dp[q] + 1;
+    ensures \forall integer q; (0 <= q < n) ==> \result >= dp[q];
+    ensures \exists integer q; (0 <= q < n) && \result == dp[q];
+    assigns dp[0..(n - 1)];
+*/
+_Safe int _lis(int arr[_Nonnull ], int n, int dp[_Nonnull ]) {
+        // Loop A
+/*@
+        [Hint] Please refine the loop invariants in the repair scope.
+
+        loop invariant i_0: 0 <= i <= n;
+
+        loop invariant i_1: \forall integer k; i <= k < n ==> dp[k] == 1;
+
+        loop invariant i_2: \forall integer k; 0 <= k < n ==> dp[k] >= 1;
+
+        loop invariant i_3: \forall integer p; 0 <= p < i ==> (\forall integer q; (0 <= q < p && arr[q] < arr[p]) ==> dp[p] >= dp[q] + 1);
+
+
+        loop assigns dp[0..(n - 1)];
+        loop assigns i;
+    */
+    for (int i = 0; i < n; i++) {
+        /*@ ghost int cur = -1; */
+                // Loop B
+/*@
+            [Hint] Please refine the loop invariants in the repair scope.
+
+            loop invariant i_8: 0 <= j <= i;
+
+            loop invariant i_9: 0 <= i < n;
+
+            loop invariant i_10: \forall integer k; i < k < n ==> dp[k] == 1;
+
+            loop invariant i_11: \forall integer k; 0 <= k < n ==> dp[k] >= 1;
+
+            loop invariant i_12: \forall integer p; 0 <= p < i ==> (\forall integer q; (0 <= q < p && arr[q] < arr[p]) ==> dp[p] >= dp[q] + 1);
+
+            loop invariant i_13: \forall integer p; 0 <= p < i ==> (dp[p] == 1 || \exists integer q; 0 <= q < p && arr[q] < arr[p] && dp[p] == dp[q] + 1);
+
+            loop invariant i_14: \forall integer q; 0 <= q < j && arr[q] < arr[i] ==> dp[i] >= dp[q] + 1;
+
+            loop invariant i_15: (cur == -1 ==> dp[i] == 1) && (cur != -1 ==> 0 <= cur < j && arr[cur] < arr[i] && dp[i] == dp[cur] + 1);
+
+
+            loop assigns dp[i];
+            loop assigns j;
+            loop assigns cur;
+        */
+        for (int j = 0; j < i; j++) {
+            if (arr[j] < arr[i]){
+                if (dp[i] < dp[j] + 1){
+                    dp[i] = dp[j] + 1;
+                    //@ ghost cur = j;
+                }
+            }
+        }
+    }
+
+    /*@ ghost int res = 0; */
+    int ans = dp[0];
+        // Loop C
+/*@
+        loop invariant i_5: 0 <= i <= n;
+
+        loop invariant i_6: \forall integer k; 0 <= k < i ==> ans >= dp[k];
+
+        loop invariant i_7: 0 <= res < n && ans == dp[res];
+
+
+        loop assigns i;
+        loop assigns res;
+        loop assigns ans;
+    */
+    for (int i = 0; i < n; i++) {
+        if (dp[i] > ans) {
+            ans = dp[i];
+            //@ ghost res = i;
+        }
+    }
+
+    return ans;
+}
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_13: \forall integer p; 0 <= p < i ==> (dp[p] == 1 || \exists integer q; 0 <= q < p && arr[q] < arr[p] && dp[p] == dp[q] + 1)
+[Failed Property] establishment of i_13: the invariant must hold before the first loop iteration from the incoming program state.
+[Failure Cause] The WP goal instantiates i_13 for an arbitrary p with 0 <= p < outer_i. The available outer-loop invariant i_3 only states that for every q < p with arr[q] < arr[p], we have dp[p] >= dp[q] + 1. It does not provide the required converse/existential witness: if dp[p] > 1, there must be some q < p with arr[q] < arr[p] and dp[p] == dp[q] + 1. Therefore, from i_3, i_2, and the initialization facts, one can only derive lower bounds on dp[p], not the equality-or-existence disjunction needed by i_13. The inner loop B has not yet run for the current outer index, and it only modifies dp[i], so it cannot establish the property for p < i.
+[Repair Scope] B@_lis, A@_lis
+[Refinement Direction] The failed invariant i_13 is not non-inductive with respect to the inner loop body, because B does not modify dp[p] for p < i. The failure is establishment from the incoming outer-loop state. The A@_lis invariants are too weak: they do not expose the missing existential/equality fact that each already processed dp[p] is either 1 or is exactly obtained from some valid predecessor q via dp[p] == dp[q] + 1. The refinement must make that missing fact available from the outer-loop summary; it cannot be recovered from the current A@_lis invariants or from boundary contracts.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in B@_lis, A@_lis.
+2. Your answer should follow the following format:
+```
+[Loop B@_lis]
+
+[Loop A@_lis]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

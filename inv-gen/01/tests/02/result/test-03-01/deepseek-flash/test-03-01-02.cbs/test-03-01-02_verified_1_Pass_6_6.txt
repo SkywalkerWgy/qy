@@ -1,0 +1,70 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 5 goals scheduled
+[wp] Proved goals:    6 / 6
+  Unreachable:       1
+  Qed:               4 (0.85ms)
+  Alt-Ergo 2.6.3:    1 (19ms)
+------------------------------------------------------------
+  Function _bst_search
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c, line 24) in '_bst_search':
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c, line 31):
+Let x = Mint_0[shiftfield_F5_Node_key(cur_1)].
+Assume {
+  Type: is_sint32(key_0) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(cur_2.base) <= 0) /\ linked(Malloc_0) /\ framed(Mptr_0).
+  (* Pre-condition *)
+  Have: P_BST(Malloc_0, Mptr_0, Mint_0, cur_2).
+  (* Invariant 'i_0' *)
+  Have: P_BST(Malloc_0, Mptr_0, Mint_0, cur_1).
+  (* Then *)
+  Have: null != cur_1.
+  (* Then *)
+  Have: x != key_0.
+  If key_0 < x
+  Then {
+    Have: cur_1 = cur_3.
+    Have: Mptr_0[shiftfield_F5_Node_left(cur_3)] = cur_0.
+  }
+  Else {
+    Have: cur_1 = cur_4.
+    Have: Mptr_0[shiftfield_F5_Node_right(cur_4)] = cur_0.
+  }
+}
+Prove: P_BST(Malloc_0, Mptr_0, Mint_0, cur_0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (19ms) (79)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (29ms) (15802)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (14ms) (66739)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c, line 31):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c, line 34):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns nothing in '_bst_search':
+Effect at line 36
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+[wp:pedantic-assigns] /results/test-03-01/deepseek-flash/test-03-01-02.cbs/.col2inv-trustc-21_66xm7.c:26: Warning: 
+  No 'assigns \result \from ...' specification for function '_bst_search'returning pointer type.
+  Callers assumptions might be imprecise.

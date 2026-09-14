@@ -1,0 +1,18 @@
+```
+loop invariant 0 <= i && i <= n;
+loop invariant 0 <= front && front <= n;
+loop invariant 0 <= rear && rear < n;
+loop invariant front <= rear + 1;
+loop invariant 0 <= node && node < n;
+loop invariant visited[start] == 1;
+loop invariant dist[start] == 0;
+loop invariant queue[0] == start;
+loop invariant visited[node] == 1;
+loop invariant front <= rear ==> node == queue[front];
+loop invariant \forall integer k; 0 <= k && k <= rear ==> 0 <= queue[k] && queue[k] < n;
+loop invariant \forall integer k, j; 0 <= k && k < j && j <= rear ==> queue[k] != queue[j];
+loop invariant \forall integer k; 0 <= k && k < n ==> (visited[k] == 1 <==> (\exists integer j; 0 <= j && j <= rear && queue[j] == k));
+loop invariant \forall integer k; 0 <= k && k < n && visited[k] == 1 ==> dist[k] >= 0;
+loop invariant \forall integer k; 0 <= k && k < n && visited[k] == 0 ==> dist[k] == -1;
+loop invariant \forall integer k; 0 <= k && k < n && visited[k] == 1 ==> connect(graph, k, start, n);
+```

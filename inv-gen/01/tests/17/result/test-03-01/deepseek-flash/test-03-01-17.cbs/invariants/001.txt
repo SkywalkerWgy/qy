@@ -1,0 +1,11 @@
+Loop A@build_lps:
+  i_0: 1 <= i <= m
+  i_1: 0 <= len < i
+  i_2: (*lps)[0] == 0
+  i_3: \forall integer k; 0 <= k < i ==> 0 <= (*lps)[k] <= k
+Loop B@same_at:
+  i_4: 0 <= k <= m
+  i_5: \forall integer j; 0 <= j < k ==> text[pos + j] == pat[j]
+Loop C@certified_kmp_scan:
+  i_6: 0 <= pos <= n - m + 1
+  i_7: \forall integer q; 0 <= q < pos ==> !match_at(text, pat, q, m)

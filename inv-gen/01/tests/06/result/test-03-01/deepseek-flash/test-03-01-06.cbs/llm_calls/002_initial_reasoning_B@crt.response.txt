@@ -1,0 +1,3 @@
+loop invariant 0 <= i <= n;
+loop invariant M == product(m, i);
+loop invariant M > 0;

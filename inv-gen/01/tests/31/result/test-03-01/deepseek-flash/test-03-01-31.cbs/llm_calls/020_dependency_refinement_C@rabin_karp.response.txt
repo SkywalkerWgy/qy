@@ -1,0 +1,5 @@
+```
+[Loop C@rabin_karp]
+loop invariant i_24: true;
+loop invariant i_28: true;
+```

@@ -1,0 +1,5 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-44.cbs/.col2inv-trustc-isel5ntp.c (with preprocessing)
+[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-44.cbs/.col2inv-trustc-isel5ntp.c:42: Warning: 
+  unexpected token 'integer'
+[kernel] User Error: warning annot-error treated as fatal error.
+[kernel] Frama-C aborted: invalid user input.

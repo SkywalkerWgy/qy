@@ -1,0 +1,13 @@
+```
+[Failed Property]
+preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The body relaxes the current edge `j` and updates `dist[v]` using `prev[u]`, not the current `dist[u]`. For the newly introduced paths whose last edge is exactly `j`, i_16 requires showing that after the update `dist[v] <= c`, where `c = rest_cost + weight` and `rest_cost` is the cost of a length `i-1` path from `start` to `u`. The available Loop C invariants do not imply the needed bound `prev[u] <= rest_cost`: i_15 bounds the current `dist`, i_24 only gives existence for `prev`, and i_25 gives `dist <= prev`, which is the wrong direction. Thus i_16 is non-inductive w.r.t. the loop body under the given invariants; it is not intrinsically too strong. The Loop C invariant set is too weak to imply the post-body goal.
+
+[Responsible Scope]
+C@_bellmanford
+
+[Refinement Direction]
+The missing logical fact is an upper-bound property for the snapshot array `prev`: every path of length at most `i-1` from `start` to `u` with cost `rest_cost` must satisfy `prev[u] <= rest_cost` (equivalently, `upper_bounds_paths_up_to` for `prev` with bound `i-1`). With this fact, if the relaxation updates `dist[v]`, then `dist[v] = prev[u] + weight <= rest_cost + weight = c`; if it does not update, then `dist[v] <= prev[u] + weight <= c`, so i_16 is preserved.
+```

@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= i && i <= n;
+loop invariant \forall integer k; 0 <= k && k < i ==> parent[k] == k;
+loop invariant \forall integer k; 0 <= k && k < i ==> rank[k] == 0;
+```

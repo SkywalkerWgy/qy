@@ -1,0 +1,15 @@
+[Failed Property]
+preservation of i_6: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The proof fails when trying to re-establish outer-loop invariant i_6 after the inner edge-relaxation loop C. At that point the goal is essentially `upper_bounds_paths_up_to(..., i)`, but the available C invariants only provide:
+- `i_15`: upper bounds for paths of length at most `i-1`;
+- `i_16`: upper bounds for paths of exact length `i` expressed as `path_cost_len_last_before` up to edge limit `j`.
+
+When `j == e`, `i_16` covers all last-edge decompositions of length-`i` paths, but it is stated in terms of `path_cost_len_last_before`, while the target is in terms of `path_cost_len`. The existing lemma `last_before_is_path` goes in the opposite direction and cannot bridge this gap. Thus the invariant i_6 itself is not semantically too strong; it is a valid Bellman-Ford upper-bound invariant, but it is non-inductive with the current loop summary because the needed converse decomposition is missing. The C invariants are therefore too weak as written to imply the WP goal after the inner loop terminates without that additional logical fact.
+
+[Responsible Scope]
+both
+
+[Refinement Direction]
+Do not change boundary contracts. The missing bridge is the converse of `last_before_is_path`: for positive length, `path_cost_len{E}(edges,e,from,to,len,cost)` should imply `path_cost_len_last_before{E}(edges,e,from,to,len,cost,e)`, i.e. every positive-length path can be decomposed into a length-`len-1` prefix and a final edge with index `< e`. Then the target bound `0 <= len <= i` can be split into `len < i` using C invariant `i_15` and `len = i` using C invariant `i_16` at `j == e` together with that decomposition lemma.

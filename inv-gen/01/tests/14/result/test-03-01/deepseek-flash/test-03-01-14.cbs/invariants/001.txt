@@ -1,0 +1,4 @@
+Loop A@_horner:
+  i_0: i >= -1
+  i_1: i <= degree - 1
+  i_2: res == poly_val2(coeff, i + 1, degree, x)

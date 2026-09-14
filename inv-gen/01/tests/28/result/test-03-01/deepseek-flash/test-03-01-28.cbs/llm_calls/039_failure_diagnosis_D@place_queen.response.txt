@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_49: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The failed proof obligation is preservation of i_49. The invariant i_49 is a valid arithmetic fact for the given preconditions (`n >= 1`, `0 <= r < row`) and is inductive with respect to Loop D because the loop body only modifies `j` and the `board` array, while i_49 depends only on `n` and `row`. The WP goal is `(i + (i_1 * n)) < x_2`, which is an instance of i_49 with `r = i_1` and `k = i`. However, the available assumption i_49 provides the instance `(i + (n * i_1)) < x_2`. The SMT solver cannot instantiate the universal quantifier i_49 because the multiplication operands are in a different order than in the goal, and it does not automatically apply commutativity of multiplication to match the quantifier pattern. Thus the goal cannot be derived from the available assumptions. The invariants of D@place_queen are not too weak; the issue is purely a missing logical fact (commutativity) needed to connect the assumption to the goal.
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The existing invariant i_49 is sufficient. The proof failure is not due to a weak or non-inductive invariant but to a quantifier-instantiation mismatch. To discharge the obligation, align the arithmetic expression in i_49 with the WP goal (e.g., write the invariant as `r * n + k < row * n` instead of `k + n * r < row * n`) or provide the prover with the missing arithmetic fact `i_1 * n == n * i_1`. No new loop invariant is required.

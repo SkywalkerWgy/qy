@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_24: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_24 is not inductive with the provided loop invariants. The inner loop body only updates `dist[i][j]`. To prove preservation for an arbitrary cell `(a,b)`, the prover must show that if `(a,b) != (i,j)`, the cell is unchanged, and if `(a,b) == (i,j)`, the new value is `<=` the old value. The available invariants provide non-aliasing between different rows (i_35), but there is no invariant stating that different columns in the same row have distinct addresses. Thus, when `a = i` and `b != j`, the prover cannot establish `&dist[i][b] != &dist[i][j]`, so it cannot conclude that `dist[i][b]` is unchanged. Consequently, it cannot derive `Mint_0[dist[a][b]] <= a_2[dist[a][b]]` for that case, which is required to combine with the old i_24 and prove the goal.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The missing logical fact is the injectivity of the second index for a fixed row: for all `r`, `c1`, `c2`, if `0 <= c1 < n`, `0 <= c2 < n`, and `c1 != c2`, then `&dist[r][c1] != &dist[r][c2]`. This fact is needed to show that updating `dist[i][j]` does not affect `dist[i][b]` when `b != j`, allowing the prover to complete the frame reasoning for the inner loop body.

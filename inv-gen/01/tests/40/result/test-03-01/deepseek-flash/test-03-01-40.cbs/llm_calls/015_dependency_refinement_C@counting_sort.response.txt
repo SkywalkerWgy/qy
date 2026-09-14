@@ -1,0 +1,8 @@
+[Loop C@counting_sort]
+loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= sum_c(c, k);
+loop invariant \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);
+
+[Loop D@counting_sort]
+loop invariant \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);

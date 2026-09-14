@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_17: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation goal reduces to showing `L_sum_c(a_3, c, x_1) = x_2`, where `a_3` is the memory after `b[pos_0] = v` and `x_2` is `L_sum_c(c, v-1)` before that assignment. `i_17` itself is not syntactically affected by `pos` or `pos_start`, but its right-hand side involves `sum_c(c, v-1)`, so the proof must establish that the assignment to `b[pos_0]` does not change `c[0 .. v-1]`. The available `D@counting_sort` invariants do not themselves expose that framing fact. The missing bridge is the existing separation of `b` and `c` together with the bounds `0 <= pos_0 < n` and `0 <= v <= k`, which imply that `b[pos_0]` lies outside `c[0 .. v-1]`; hence `sum_c(c, v-1)` is unchanged by the update. Therefore `i_17` is not too strong and is semantically inductive, but the proof context lacks the needed frame/separation fact. The `D@counting_sort` invariants alone are too weak to imply the target without that fact.
+
+[Responsible Scope]
+D@counting_sort
+
+[Refinement Direction]
+Expose and use the existing frame/separation fact for `c` in Loop D: an update to `b[pos]` with `pos < n` cannot modify `c[0 .. v-1]` because `b` and `c` are separated. The issue is not the formula of `i_17`; it is the missing frame condition that the `b` update preserves the `c`-sum.

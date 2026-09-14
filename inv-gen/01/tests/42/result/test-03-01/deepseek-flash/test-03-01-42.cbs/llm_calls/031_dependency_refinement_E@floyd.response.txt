@@ -1,0 +1,2 @@
+[Loop E@floyd]
+loop invariant j < n ==> dist[k][j] <= graph[k][j];

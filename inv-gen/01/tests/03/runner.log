@@ -1,0 +1,31 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-03.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1237
+INFO | [INIT] functions=sort_swap3, _bubble_sort loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_bubble_sort prompt=llm_calls/001_initial_reasoning_A@_bubble_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@_bubble_sort.response.txt response_chars=74
+INFO | [LLM 001] response_preview=``` loop invariant 1 <= up <= length; loop invariant sorted(a, 0, up); ```
+INFO | [APPLY] loop=A@_bubble_sort added=2
+INFO |   + i_0: 1 <= up <= length
+INFO |   + i_1: sorted(a, 0, up)
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_bubble_sort prompt=llm_calls/002_initial_reasoning_B@_bubble_sort.prompt.txt response=llm_calls/002_initial_reasoning_B@_bubble_sort.response.txt response_chars=404
+INFO | [LLM 002] response_preview=``` loop invariant 0 <= down <= up; loop invariant up < length; loop invariant sorted(a, 0, down); loop invariant sorted(a, down, up + 1); loop invariant \forall integer k; 0 <= k < down ==> a[k] == \at(a[k], LoopEntr...
+INFO | [APPLY] loop=B@_bubble_sort added=8
+INFO |   + i_2: 0 <= down <= up
+INFO |   + i_3: up < length
+INFO |   + i_4: sorted(a, 0, down)
+INFO |   + i_5: sorted(a, down, up + 1)
+INFO |   + i_6: \forall integer k; 0 <= k < down ==> a[k] == \at(a[k], LoopEntry)
+INFO |   + i_7: a[down] == \at(a[up], LoopEntry)
+INFO |   + i_8: \forall integer k; down < k <= up ==> a[k] == \at(a[k - 1], LoopEntry)
+INFO |   + i_9: sorted{LoopEntry}(a, 0, up)
+INFO | [INVARIANTS] total=10 loops=A@_bubble_sort:2, B@_bubble_sort:8 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-03_verified_1.cbs invariants=10
+INFO | [FRAMAC] attempt=1 result=Pass_39_39 stdout=test-03-01-03_verified_1_Pass_39_39.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-03_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 136.8369734287262
+INFO | ------------------------

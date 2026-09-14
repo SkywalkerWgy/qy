@@ -1,0 +1,5 @@
+[Loop B@sieve_eratosthenes]
+loop invariant \forall integer k; 2 <= k <= n && k < (p + 1) * (p + 1) && !is_prime(k) ==> \exists integer d; 2 <= d <= p && d * d <= k && divides(d, k);
+
+[Loop C@sieve_eratosthenes]
+loop invariant \forall integer k; 2 <= k <= n && k < (p + 1) * (p + 1) && !is_prime(k) ==> \exists integer d; 2 <= d <= p && d * d <= k && divides(d, k);

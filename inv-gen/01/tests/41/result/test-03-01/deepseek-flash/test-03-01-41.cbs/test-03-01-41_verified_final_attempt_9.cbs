@@ -1,0 +1,581 @@
+
+#include <limits.h>
+#define MAX_VERTICES 100
+#define INF INT_MAX
+
+/* The Coq counterpart of this graph model is dijkstra_graph_lib.v. */
+/*@
+    predicate graph_valid{L}(int (*graph)[MAX_VERTICES], integer n) =
+      \forall integer i, j; 0 <= i < n && 0 <= j < n ==>
+        0 <= \at(graph[i][j],L) <= 10000;
+
+    inductive path_cost_len{L}(int (*graph)[MAX_VERTICES], integer n,
+                               integer from, integer to,
+                               integer len, integer cost) {
+      case path_cost_len_refl{L}:
+        \forall int (*graph)[MAX_VERTICES], integer n, v;
+          0 <= v < n ==> path_cost_len{L}(graph,n,v,v,0,0);
+
+      case path_cost_len_step{L}:
+        \forall int (*graph)[MAX_VERTICES], integer n,
+                integer from, mid, to, rest_len, rest_cost;
+          0 <= from < n &&
+          0 <= mid < n &&
+          0 <= to < n &&
+          0 < \at(graph[mid][to],L) &&
+          0 <= rest_len &&
+          0 <= rest_cost &&
+          path_cost_len{L}(graph,n,from,mid,rest_len,rest_cost)
+          ==> path_cost_len{L}(graph,n,from,to,rest_len + 1,
+                               rest_cost + \at(graph[mid][to],L));
+    }
+
+    predicate bounded_path_cost{L}(int (*graph)[MAX_VERTICES], integer n,
+                                   integer from, integer to,
+                                   integer cost) =
+      \exists integer len;
+        0 <= len <= n - 1 &&
+        path_cost_len{L}(graph,n,from,to,len,cost);
+
+    lemma path_cost_len_nonnegative{L}:
+      \forall int (*graph)[MAX_VERTICES], integer n,
+              integer from, to, len, cost;
+        path_cost_len{L}(graph,n,from,to,len,cost) ==> 0 <= cost;
+
+    predicate finite_distance_bound(integer d, integer bound) =
+      d == INF || 0 <= d <= bound * 10000;
+
+    predicate path_cost_len_last_before{L}(int (*graph)[MAX_VERTICES],
+                                           integer n,
+                                           integer from, integer to,
+                                           integer len, integer cost,
+                                           integer edge_limit) =
+      (len == 0 && from == to && cost == 0) ||
+      (\exists integer mid, rest_cost, k;
+        len > 0 &&
+        0 <= k < edge_limit &&
+        0 <= k < n * n &&
+        mid == k / n &&
+        to == k % n &&
+        0 <= mid < n &&
+        0 < \at(graph[mid][to],L) &&
+        path_cost_len{L}(graph,n,from,mid,len - 1,rest_cost) &&
+        cost == rest_cost + \at(graph[mid][to],L));
+
+    lemma last_before_is_path{L}:
+      \forall int (*graph)[MAX_VERTICES], integer n,
+              integer from, to, len, cost, edge_limit;
+        1 <= n <= MAX_VERTICES &&
+        0 <= from < n &&
+        0 <= to < n &&
+        graph_valid{L}(graph,n) &&
+        path_cost_len_last_before{L}(graph,n,from,to,len,cost,edge_limit)
+        ==> path_cost_len{L}(graph,n,from,to,len,cost);
+
+    lemma path_cost_len_has_last_before{L}:
+      \forall int (*graph)[MAX_VERTICES], integer n,
+              integer from, to, len, cost;
+        1 <= n <= MAX_VERTICES &&
+        0 <= from < n &&
+        0 <= to < n &&
+        graph_valid{L}(graph,n) &&
+        0 <= len &&
+        path_cost_len{L}(graph,n,from,to,len,cost)
+        ==> path_cost_len_last_before{L}(graph,n,from,to,len,cost,n*n);
+
+    predicate has_paths_up_to{G,D}(int (*graph)[MAX_VERTICES],
+                                   integer n, integer start,
+                                   int *dist, integer bound) =
+      \forall integer v;
+        0 <= v < n && \at(dist[v],D) != INF ==>
+        \exists integer len;
+          0 <= len <= bound &&
+          path_cost_len{G}(graph,n,start,v,len,\at(dist[v],D));
+
+    predicate upper_bounds_paths_up_to{G,D}(int (*graph)[MAX_VERTICES],
+                                            integer n, integer start,
+                                            int *dist, integer bound) =
+      \forall integer v, len, c;
+        0 <= v < n && 0 <= len <= bound &&
+        0 <= c < INF &&
+        path_cost_len{G}(graph,n,start,v,len,c)
+        ==> \at(dist[v],D) <= c;
+
+    predicate processed_prefix_upper_bound{G,D}(int (*graph)[MAX_VERTICES],
+                                                integer n, integer start,
+                                                int *dist, integer bound,
+                                                integer edge_limit) =
+      \forall integer vtx, len, c;
+        0 <= vtx < n && 0 <= len <= bound &&
+        0 <= c < INF &&
+        (path_cost_len_last_before{G}(graph,n,start,vtx,len,c,edge_limit) ||
+         (0 <= len <= bound - 1 &&
+          path_cost_len{G}(graph,n,start,vtx,len,c)))
+        ==> \at(dist[vtx],D) <= c;
+
+    predicate processed_prefix_certificate{G,D}(int (*graph)[MAX_VERTICES],
+                                                integer n, integer start,
+                                                int *dist, integer bound,
+                                                integer edge_limit) =
+      has_paths_up_to{G,D}(graph,n,start,dist,bound) &&
+      processed_prefix_upper_bound{G,D}(graph,n,start,dist,bound,edge_limit);
+
+    predicate edge_step_effect{G,P,Old,New}(int (*graph)[MAX_VERTICES],
+                                            integer n, integer u, integer v,
+                                            int *dist, int *prev) =
+      (\forall integer k; 0 <= k < n ==> \at(dist[k],New) <= \at(dist[k],Old)) &&
+      (((\at(prev[u],P) != INF &&
+         0 < \at(graph[u][v],G) &&
+         \at(prev[u],P) <= INF - 1 - \at(graph[u][v],G) &&
+         \at(dist[v],New) == \at(prev[u],P) + \at(graph[u][v],G) &&
+         (\forall integer k; 0 <= k < n && k != v ==>
+           \at(dist[k],New) == \at(dist[k],Old))) ||
+	        ((\forall integer k; 0 <= k < n ==>
+	           \at(dist[k],New) == \at(dist[k],Old)) &&
+	         (0 < \at(graph[u][v],G) && \at(prev[u],P) != INF ==>
+	           \at(dist[v],New) <= \at(prev[u],P) + \at(graph[u][v],G)))));
+
+    lemma matrix_edge_index_div_mod:
+      \forall integer n, u, v;
+        1 <= n <= MAX_VERTICES &&
+        0 <= u < n &&
+        0 <= v < n
+        ==> 0 <= u*n + v < n*n &&
+            (u*n + v) / n == u &&
+            (u*n + v) % n == v;
+
+    lemma path_last_before_extend_current_edge{L}:
+      \forall int (*graph)[MAX_VERTICES], integer n,
+              integer start, u, v, len, cost;
+        1 <= n <= MAX_VERTICES &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{L}(graph,n) &&
+        0 <= len &&
+        0 <= cost &&
+        path_cost_len{L}(graph,n,start,u,len,cost) &&
+        0 < \at(graph[u][v],L)
+        ==> path_cost_len_last_before{L}
+              (graph,n,start,v,len + 1,cost + \at(graph[u][v],L),u*n + v + 1);
+
+    lemma has_paths_up_to_after_relax_update{G,P,Old,New}:
+      \forall int (*graph)[MAX_VERTICES], integer n, start, bound,
+              integer u, v, int *dist, int *prev;
+        1 <= n <= MAX_VERTICES &&
+        1 <= bound <= n &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{G}(graph,n) &&
+        has_paths_up_to{G,Old}(graph,n,start,dist,bound) &&
+        has_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        \at(prev[u],P) != INF &&
+        0 < \at(graph[u][v],G) &&
+        \at(prev[u],P) <= INF - 1 - \at(graph[u][v],G) &&
+        \at(dist[v],New) == \at(prev[u],P) + \at(graph[u][v],G) &&
+        (\forall integer k; 0 <= k < n && k != v ==>
+          \at(dist[k],New) == \at(dist[k],Old))
+        ==> has_paths_up_to{G,New}(graph,n,start,dist,bound);
+
+    lemma upper_bounds_after_relax_update{G,P,Old,New}:
+      \forall int (*graph)[MAX_VERTICES], integer n, start, bound,
+              integer u, v, int *dist, int *prev;
+        1 <= n <= MAX_VERTICES &&
+        1 <= bound <= n &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{G}(graph,n) &&
+        upper_bounds_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        processed_prefix_upper_bound{G,Old}(graph,n,start,dist,bound,u*n + v) &&
+        (\forall integer k; 0 <= k < n ==>
+          \at(dist[k],New) <= \at(dist[k],Old)) &&
+        \at(dist[v],New) <= \at(prev[u],P) + \at(graph[u][v],G) &&
+        \at(prev[u],P) != INF &&
+        0 < \at(graph[u][v],G)
+        ==> processed_prefix_upper_bound{G,New}(graph,n,start,dist,bound,u*n + v + 1);
+
+    lemma processed_prefix_certificate_after_relax_update{G,P,Old,New}:
+      \forall int (*graph)[MAX_VERTICES], integer n, start, bound,
+              integer u, v, int *dist, int *prev;
+        1 <= n <= MAX_VERTICES &&
+        1 <= bound <= n &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{G}(graph,n) &&
+        processed_prefix_certificate{G,Old}(graph,n,start,dist,bound,u*n + v) &&
+        has_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        upper_bounds_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        \at(prev[u],P) != INF &&
+        0 < \at(graph[u][v],G) &&
+        \at(prev[u],P) <= INF - 1 - \at(graph[u][v],G) &&
+        \at(dist[v],New) == \at(prev[u],P) + \at(graph[u][v],G) &&
+        (\forall integer k; 0 <= k < n && k != v ==>
+          \at(dist[k],New) == \at(dist[k],Old)) &&
+        (\forall integer k; 0 <= k < n ==>
+          \at(dist[k],New) <= \at(dist[k],Old))
+        ==> processed_prefix_certificate{G,New}(graph,n,start,dist,bound,u*n + v + 1);
+
+    lemma processed_prefix_certificate_after_skip_edge{G,P,D}:
+      \forall int (*graph)[MAX_VERTICES], integer n, start, bound,
+              integer u, v, int *dist, int *prev;
+        1 <= n <= MAX_VERTICES &&
+        1 <= bound <= n &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{G}(graph,n) &&
+        processed_prefix_certificate{G,D}(graph,n,start,dist,bound,u*n + v) &&
+        upper_bounds_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        (0 < \at(graph[u][v],G) && \at(prev[u],P) != INF ==>
+          \at(dist[v],D) <= \at(prev[u],P) + \at(graph[u][v],G))
+        ==> processed_prefix_certificate{G,D}(graph,n,start,dist,bound,u*n + v + 1);
+
+    lemma processed_prefix_certificate_after_edge_step{G,P,Old,New}:
+      \forall int (*graph)[MAX_VERTICES], integer n, start, bound,
+              integer u, v, int *dist, int *prev;
+        1 <= n <= MAX_VERTICES &&
+        1 <= bound <= n &&
+        0 <= start < n &&
+        0 <= u < n &&
+        0 <= v < n &&
+        graph_valid{G}(graph,n) &&
+        processed_prefix_certificate{G,Old}(graph,n,start,dist,bound,u*n + v) &&
+        has_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        upper_bounds_paths_up_to{G,P}(graph,n,start,prev,bound - 1) &&
+        0 <= \at(dist[v],New) <= INF &&
+        0 <= \at(prev[u],P) <= INF &&
+        0 <= \at(graph[u][v],G) <= 10000 &&
+        edge_step_effect{G,P,Old,New}(graph,n,u,v,dist,prev)
+	        ==> processed_prefix_certificate{G,New}(graph,n,start,dist,bound,u*n + v + 1);
+
+    predicate reachable{L}(int (*graph)[MAX_VERTICES], integer n,
+                           integer from, integer to) =
+      \exists integer c; 0 <= c < INF &&
+        bounded_path_cost{L}(graph,n,from,to,c);
+
+    predicate parent_valid{L}(integer n, integer start, int *parent) =
+      \forall integer k; 0 <= k < n ==> parent[k] == -1 || 0 <= parent[k] < n;
+
+    predicate shortest_path_result{G,D}(int (*graph)[MAX_VERTICES],
+                                        integer n, integer start,
+                                        int *dist) =
+      \forall integer v;
+        0 <= v < n ==>
+        ((\at(dist[v],D) != INF ==>
+            bounded_path_cost{G}(graph,n,start,v,\at(dist[v],D))) &&
+         (\forall integer c;
+            0 <= c < INF &&
+            bounded_path_cost{G}(graph,n,start,v,c)
+            ==> \at(dist[v],D) <= c));
+
+    predicate settled_shortest{G,D,V}(int (*graph)[MAX_VERTICES],
+                                      integer n, integer start,
+                                      int *dist, int *visited) =
+      \forall integer v;
+        0 <= v < n && \at(visited[v],V) == 1 ==>
+        \at(dist[v],D) != INF &&
+        bounded_path_cost{G}(graph,n,start,v,\at(dist[v],D)) &&
+        (\forall integer c;
+          0 <= c < INF && bounded_path_cost{G}(graph,n,start,v,c)
+          ==> \at(dist[v],D) <= c);
+
+    predicate frontier_upper_bound{G,D,V}(int (*graph)[MAX_VERTICES],
+                                          integer n, integer start,
+                                          int *dist, int *visited) =
+      \forall integer v, u;
+        0 <= v < n && 0 <= u < n &&
+        \at(visited[u],V) == 1 &&
+        \at(visited[v],V) == 0 &&
+        \at(dist[u],D) != INF &&
+        0 < \at(graph[u][v],G) &&
+        \at(dist[u],D) <= INF - 1 - \at(graph[u][v],G)
+        ==> \at(dist[v],D) <= \at(dist[u],D) + \at(graph[u][v],G);
+
+    predicate no_unvisited_reachable{G,D,V}(int (*graph)[MAX_VERTICES],
+                                            integer n, integer start,
+                                            int *dist, int *visited) =
+      \forall integer v;
+        0 <= v < n && \at(visited[v],V) == 0 ==>
+        \at(dist[v],D) == INF &&
+        !reachable{G}(graph,n,start,v);
+
+    predicate dijkstra_done_certificate{G,D,V}(int (*graph)[MAX_VERTICES],
+                                               integer n, integer start,
+                                               int *dist, int *visited) =
+      (\forall integer v; 0 <= v < n ==>
+        \at(visited[v],V) == 0 || \at(visited[v],V) == 1) &&
+      settled_shortest{G,D,V}(graph,n,start,dist,visited) &&
+      no_unvisited_reachable{G,D,V}(graph,n,start,dist,visited);
+
+    lemma dijkstra_done_is_shortest{G,D,V}:
+      \forall int (*graph)[MAX_VERTICES], integer n, integer start,
+              int *dist, int *visited;
+        1 <= n <= MAX_VERTICES &&
+        0 <= start < n &&
+        graph_valid{G}(graph,n) &&
+        dijkstra_done_certificate{G,D,V}(graph,n,start,dist,visited)
+        ==> shortest_path_result{G,D}(graph,n,start,dist);
+*/
+
+/*@
+    requires 1 <= n <= MAX_VERTICES;
+    requires 0 <= start < n;
+    requires 0 <= u < n;
+    requires \valid(&graph[0..n-1][0..n-1]);
+    requires \valid(dist+(0..n-1));
+    requires \valid(parent+(0..n-1));
+    requires \valid(visited+(0..n-1));
+    requires \separated(&graph[0][0] + (0 .. n*MAX_VERTICES - 1), dist+(0..n-1), parent+(0..n-1), visited+(0..n-1));
+    requires \separated(dist+(0..n-1), parent+(0..n-1), visited+(0..n-1));
+    requires \forall integer i, j; 0 <= i < n && 0 <= j < n ==> 0 <= graph[i][j] <= 10000;
+    requires 0 <= dist[u] < INF;
+    requires \forall integer k; 0 <= k < n ==> 0 <= dist[k];
+    requires \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF;
+    requires \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1);
+    requires visited[u] == 0;
+    requires parent[start] == -1;
+    requires dist[start] == 0;
+    requires parent_valid(n,start,parent);
+    assigns dist[0..n-1], parent[0..n-1];
+    ensures \forall integer k; 0 <= k < n ==> 0 <= dist[k];
+    ensures \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF;
+    ensures \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1);
+    ensures \forall integer k; 0 <= k < n ==> visited[k] == \old(visited[k]);
+    ensures dist[u] == \old(dist[u]);
+    ensures dist[start] == \old(dist[start]);
+    ensures parent[start] == \old(parent[start]);
+    ensures \forall integer k; 0 <= k < n ==> dist[k] <= \old(dist[k]);
+    ensures \forall integer k; 0 <= k < n && \old(visited[k]) == 1 ==>
+      dist[k] == \old(dist[k]) && parent[k] == \old(parent[k]);
+    ensures \forall integer k; 0 <= k < n && dist[k] == \old(dist[k]) ==>
+      parent[k] == \old(parent[k]);
+    ensures \forall integer k; 0 <= k < n && dist[k] != \old(dist[k]) ==>
+      \old(visited[k]) == 0 &&
+      0 < graph[u][k] &&
+      dist[k] == \old(dist[u]) + graph[u][k] &&
+      parent[k] == u;
+    ensures \forall integer j;
+      0 <= j < n && visited[j] == 0 && graph[u][j] > 0 &&
+      \old(dist[u]) <= INF - 1 - graph[u][j] ==>
+        dist[j] <= \old(dist[u]) + graph[u][j];
+    ensures parent_valid(n,start,parent);
+*/
+_Safe void relax(int graph[_Nonnull][MAX_VERTICES], int n, int start, int u,
+                 int dist[_Nonnull], int parent[_Nonnull], int visited[_Nonnull]) {
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= j <= n;
+
+        loop invariant i_1: \forall integer k; 0 <= k < n ==> 0 <= dist[k];
+
+        loop invariant i_2: \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF;
+
+        loop invariant i_3: \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1);
+
+        loop invariant i_10: parent_valid(n,start,parent);
+
+        loop invariant i_13: \forall integer k; j <= k < n ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k]);
+
+
+        loop assigns j, parent[0..n-1], dist[0..n-1];
+        loop variant n - j;
+    */
+    for (int j = 0; j < n; j++) {
+        if (!visited[j] && graph[u][j] != 0) {
+            if (dist[u] <= INF - 1 - graph[u][j]) {
+                int newdist = dist[u] + graph[u][j];
+                if (newdist < dist[j]) {
+                    dist[j] = newdist;
+                    parent[j] = u;
+                }
+            }
+        }
+    }
+}
+
+/*@
+    requires 1 <= n <= MAX_VERTICES;
+    requires 0 <= u < n;
+    requires 0 <= v < n;
+    requires \valid(&graph[0..n-1][0..n-1]);
+    requires \valid(dist+(0..n-1));
+    requires \valid(prev+(0..n-1));
+    requires \separated(&graph[0][0] + (0 .. n*MAX_VERTICES - 1), dist+(0..n-1), prev+(0..n-1));
+    requires \separated(dist+(0..n-1), prev+(0..n-1));
+    requires graph_valid{Pre}(graph,n);
+    requires \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF;
+    requires \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF;
+    assigns dist[v];
+    ensures \forall integer k; 0 <= k < n && k != v ==> dist[k] == \old(dist[k]);
+    ensures \forall integer k; 0 <= k < n ==> dist[k] <= \old(dist[k]);
+    ensures edge_step_effect{Pre,Pre,Pre,Here}(graph,n,u,v,dist,prev);
+*/
+_Safe void relax_one_round_edge(int graph[_Nonnull][MAX_VERTICES], int n,
+                                int u, int v, int dist[_Nonnull],
+                                int prev[_Nonnull]) {
+    int weight = graph[u][v];
+    int old_dist_v = dist[v];
+    int old_prev_u = prev[u];
+    if (weight > 0 && old_prev_u != INF &&
+        old_prev_u <= INF - 1 - weight) {
+        int candidate = old_prev_u + weight;
+        if (candidate < old_dist_v) {
+            dist[v] = candidate;
+        }
+    }
+}
+
+/*@
+    requires 1 <= n <= MAX_VERTICES;
+    requires 0 <= start < n;
+    requires \valid(&graph[0..n-1][0..n-1]);
+    requires \valid(dist+(0..n-1));
+    requires \valid(parent+(0..n-1));
+    requires \valid(visited+(0..n-1));
+    requires \separated(&graph[0][0] + (0 .. n*MAX_VERTICES - 1), dist+(0..n-1), parent+(0..n-1), visited+(0..n-1));
+    requires \separated(dist+(0..n-1), parent+(0..n-1), visited+(0..n-1));
+    requires \forall integer i, j; 0 <= i < n && 0 <= j < n ==> 0 <= graph[i][j] <= 10000;
+    requires dist[start] == 0;
+    requires \forall integer k; 0 <= k < n && k != start ==> dist[k] == INF;
+    requires \forall integer k; 0 <= k < n ==> parent[k] == -1;
+    requires \forall integer k; 0 <= k < n ==> visited[k] == 0;
+    assigns dist[0..n-1], visited[0..n-1];
+    ensures \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF;
+    ensures parent_valid(n,start,parent);
+    ensures graph_valid(graph,n);
+    ensures shortest_path_result{Pre,Here}(graph,n,start,dist);
+*/
+_Safe void dijkstra(int graph[_Nonnull][MAX_VERTICES], int n, int start,
+                    int dist[_Nonnull], int parent[_Nonnull],
+                    int visited[_Nonnull]) {
+    int prev[MAX_VERTICES];
+
+        // Loop B
+/*@
+        loop invariant i_14: 1 <= round <= n;
+
+        loop invariant i_15: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF;
+
+        loop invariant i_16: dist[start] == 0;
+
+        loop invariant i_17: \forall integer k; 0 <= k < n ==> visited[k] == 0;
+
+        loop invariant i_18: \forall integer k; 0 <= k < n ==> parent[k] == -1;
+
+        loop invariant i_19: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, 0);
+
+
+        loop assigns round, prev[0..99], dist[0..n-1];
+        loop variant n - round;
+    */
+    for (int round = 1; round < n; round++) {
+                // Loop C
+/*@
+            loop invariant i_28: 0 <= k <= n;
+
+            loop invariant i_29: \forall integer i; 0 <= i < k ==> prev[i] == dist[i];
+
+            loop invariant i_30: \forall integer i; 0 <= i < n ==> dist[i] == \old(dist[i]);
+
+
+            loop assigns k, prev[0..n-1];
+            loop variant n - k;
+        */
+        for (int k = 0; k < n; k++) {
+            prev[k] = dist[k];
+        }
+
+                // Loop D
+/*@
+            loop invariant i_31: 0 <= u <= n;
+
+            loop invariant i_32: 1 <= round <= n;
+
+            loop invariant i_33: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF;
+
+            loop invariant i_34: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF;
+
+            loop invariant i_35: dist[start] == 0;
+
+            loop invariant i_36: \forall integer k; 0 <= k < n ==> visited[k] == 0;
+
+            loop invariant i_37: \forall integer k; 0 <= k < n ==> parent[k] == -1;
+
+            loop invariant i_38: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+
+            loop invariant i_39: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+
+            loop invariant i_40: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n);
+
+
+            loop assigns u, dist[0..n-1];
+            loop variant n - u;
+        */
+        for (int u = 0; u < n; u++) {
+                        // Loop E
+/*@
+                loop invariant i_41: 0 <= v <= n;
+
+                loop invariant i_42: 0 <= u < n;
+
+                loop invariant i_43: 1 <= round <= n;
+
+                loop invariant i_44: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF;
+
+                loop invariant i_45: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF;
+
+                loop invariant i_46: dist[start] == 0;
+
+                loop invariant i_47: \forall integer k; 0 <= k < n ==> visited[k] == 0;
+
+                loop invariant i_48: \forall integer k; 0 <= k < n ==> parent[k] == -1;
+
+                loop invariant i_49: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+
+                loop invariant i_50: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+
+                loop invariant i_51: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n + v);
+
+
+                loop assigns v, dist[0..n-1];
+                loop variant n - v;
+            */
+            for (int v = 0; v < n; v++) {
+                relax_one_round_edge(graph, n, u, v, dist, &prev[0]);
+            }
+        }
+    }
+
+        // Loop F
+/*@
+        loop invariant i_20: 0 <= k <= n;
+
+        loop invariant i_21: \forall integer i; 0 <= i < k ==> (visited[i] == 1 <==> dist[i] != INF);
+
+        loop invariant i_22: \forall integer i; k <= i < n ==> visited[i] == 0;
+
+        loop invariant i_23: \forall integer i; 0 <= i < n ==> (visited[i] == 0 || visited[i] == 1);
+
+        loop invariant i_24: \forall integer i; 0 <= i < n ==> 0 <= dist[i] <= INF;
+
+        loop invariant i_25: graph_valid(graph, n);
+
+        loop invariant i_26: parent_valid(n, start, parent);
+
+        loop invariant i_27: shortest_path_result{Pre,Here}(graph, n, start, dist);
+
+
+        loop assigns k, visited[0..n-1];
+        loop variant n - k;
+    */
+    for (int k = 0; k < n; k++) {
+        if (dist[k] == INF) {
+            visited[k] = 0;
+        } else {
+            visited[k] = 1;
+        }
+    }
+}

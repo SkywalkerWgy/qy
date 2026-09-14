@@ -1,0 +1,40 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-43.cbs
+INFO | [INPUT] artifact=input.cbs bytes=2305
+INFO | [INIT] functions=max3, _heapify loops=1 delayed_filter_threshold=2
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_heapify prompt=llm_calls/001_initial_reasoning_A@_heapify.prompt.txt response=llm_calls/001_initial_reasoning_A@_heapify.response.txt response_chars=440
+INFO | [LLM 001] response_preview=``` loop invariant n >= 0; loop invariant \valid(a + (0..(n - 1))); loop invariant 0 <= dad < n; loop invariant leftson == 2 * dad + 1; loop invariant rightson == 2 * dad + 2; loop invariant is_max3(a, dad, leftson, r...
+INFO | [APPLY] loop=A@_heapify added=8
+INFO |   + i_0: n >= 0
+INFO |   + i_1: \valid(a + (0..(n - 1)))
+INFO |   + i_2: 0 <= dad < n
+INFO |   + i_3: leftson == 2 * dad + 1
+INFO |   + i_4: rightson == 2 * dad + 2
+INFO |   + i_5: is_max3(a, dad, leftson, rightson, n, swapindex)
+INFO |   + i_6: 0 <= swapindex < n
+INFO |   + i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) )
+INFO | [INVARIANTS] total=8 loops=A@_heapify:8 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-43_verified_1.cbs invariants=8
+INFO | [FRAMAC] attempt=1 result=Fail_48_49 stdout=test-03-01-43_verified_1_Fail_48_49.txt stderr=
+INFO | [FAIL] attempt=1 failures=1 summary=i_7 [preservation] Prove: (((x_7 <= n) -> (a_6[shift_sint32(a, 1 + x_6)] <= a_7))) /\
+INFO | [REVISE] kind=invariant id=i_7 loop=A@_heapify status=preservation property=preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=\forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) )
+INFO | [DIAGNOSE] loop=A@_heapify dependency=A@_heapify target=i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) ) property=preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let a_1 = shift_sint32(a, 0). Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n). Let a_3 = shift_sint32(a, dad_0). Let a_4 = shift_sint32(a, dad_1). Let a_5 = a_2[a_3]. Let a_...
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=A@_heapify prompt=llm_calls/002_failure_diagnosis_A@_heapify.prompt.txt response=llm_calls/002_failure_diagnosis_A@_heapify.response.txt response_chars=1145
+INFO | [LLM 002] response_preview=[Failed Property] preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The failed invariant i_7 is too weak / non-indu...
+INFO | [DIAGNOSIS] property=preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=A@_heapify cause=The failed invariant i_7 is too weak / non-inductive for the loop body. After swapping a[dad_0] with a[dad_1], the old dad cell dad_0 receives a[dad_1]. For the parent of dad_0, the pre-state i_7 only gives that the parent is >= the old ... direction=The missing logical fact is the ancestor/path domination fact needed to discharge the i = parent(dad_0) case: for every ancestor of the current dad, in particular parent(dad_0), its value must be at least the value of the child selected ...
+INFO | [REFINE] failed=i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) ) scope=A@_heapify property=preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=A@_heapify prompt=llm_calls/003_dependency_refinement_A@_heapify.prompt.txt response=llm_calls/003_dependency_refinement_A@_heapify.response.txt response_chars=86
+INFO | [LLM 003] response_preview=``` [Loop A@_heapify] loop invariant dad > 0 ==> a[(dad - 1) / 2] >= a[swapindex]; ```
+INFO | [APPLY] loop=A@_heapify added=1
+INFO |   + i_8: dad > 0 ==> a[(dad - 1) / 2] >= a[swapindex]
+INFO | [INVARIANTS] total=9 loops=A@_heapify:9 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-43_verified_2.cbs invariants=9
+INFO | [FRAMAC] attempt=2 result=Pass_51_51 stdout=test-03-01-43_verified_2_Pass_51_51.txt stderr=
+INFO | [PASS] attempt=2 candidate=test-03-01-43_verified_2.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 2
+INFO | Verified code: verified.cbs
+INFO | Running time: 240.37405967712402
+INFO | ------------------------

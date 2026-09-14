@@ -1,0 +1,7 @@
+```
+loop invariant 0 <= i <= n;
+loop invariant in_bucket_range(a, n);
+loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] == \sum(integer j; 0 <= j < i; (a[j] == k ? 1 : 0));
+loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0;
+loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] <= i;
+```

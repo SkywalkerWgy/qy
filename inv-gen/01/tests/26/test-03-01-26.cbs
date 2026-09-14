@@ -1,0 +1,58 @@
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+*/
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= m <= r;
+  requires sorted(a, l, m);
+  requires sorted(a, m, r);
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+*/
+_Safe void merge(int a[_Nonnull ], int tmp[_Nonnull ], int l, int m, int r) {
+    int i = l, j = m, k = l;
+
+    /*@
+        loop assigns i, j, k, tmp[l .. r-1];
+    */
+    while (i < m || j < r) {
+        if (j >= r || (i < m && a[i] <= a[j])) {
+            tmp[k] = a[i];
+            i = i + 1;
+        } else {
+            tmp[k] = a[j];
+            j = j + 1;
+        }
+        k = k + 1;
+    }
+
+    /*@
+        loop assigns k, a[l .. r-1];
+    */
+    for (k = l; k < r; k++) {
+        a[k] = tmp[k];
+    }
+}
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= r;
+  decreases r - l;
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+*/
+_Safe void merge_sort_rec(int a[_Nonnull ], int tmp[_Nonnull ], int l, int r) {
+    if (r - l <= 1) return;
+
+    int m = l + (r - l) / 2;
+
+    merge_sort_rec(a, tmp, l, m);
+    merge_sort_rec(a, tmp, m, r);
+    merge(a, tmp, l, m, r);
+}

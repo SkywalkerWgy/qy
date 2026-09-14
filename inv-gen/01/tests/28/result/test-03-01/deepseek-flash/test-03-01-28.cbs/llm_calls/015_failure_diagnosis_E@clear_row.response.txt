@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_23: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation obligation for `rows_solved(n, board, row)` requires that after `board[idx(n,row,j)] = 0`, all rows `r < row` still satisfy `one_queen_in_row`. The write is to row `row`, while `rows_solved(..., row)` constrains only rows `r < row`, so the property is semantically valid and the invariant itself is not too strong. The failure is that the current invariant set does not expose the required frame/disjointness fact: the prover cannot bridge `a_1` to `a_2` for rows `< row`. The E@clear_row invariants are too weak for this proof step because they do not directly provide that the write at `idx(n,row,j)` is outside every index `idx(n,r,c)` with `r < row`. The missing logical fact is, for all `r,c` with `0 <= r < row` and `0 <= c < n`, `idx(n,r,c) != idx(n,row,j)`, equivalently `a_2[idx(n,r,c)] == a_1[idx(n,r,c)]`; this follows from `j < n` and `r < row`. With that fact, `rows_solved` at `a_1` transfers to `a_2`.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+Expose/derive the arithmetic disjointness between the write index `idx(n,row,j)` and all indices in rows `< row`, and use it with the existing frame invariant/lemma (`rows_solved_frame`) to transfer `rows_solved` across the assignment. No new invariant is needed; the existing E@clear_row frame information is sufficient once this missing logical fact is available.

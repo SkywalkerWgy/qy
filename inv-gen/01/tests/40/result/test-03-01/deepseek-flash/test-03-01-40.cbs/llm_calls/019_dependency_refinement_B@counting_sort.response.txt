@@ -1,0 +1,3 @@
+[Loop B@counting_sort]
+loop invariant i < n ==> 0 <= a[i] <= k;
+loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, k) == sum_c(c, w - 1) + c[w] + (sum_c(c, k) - sum_c(c, w));

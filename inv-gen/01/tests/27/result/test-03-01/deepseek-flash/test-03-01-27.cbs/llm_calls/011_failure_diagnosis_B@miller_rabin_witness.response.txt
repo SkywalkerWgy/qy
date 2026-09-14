@@ -1,0 +1,11 @@
+[Failed Property]
+establishment and preservation of i_17: the invariant must hold both at loop entry and after each loop-body iteration.
+
+[Failure Cause]
+The failed obligation requires proving the square/doubling relation for modular exponentiation. At establishment, from `x == pow_mod(a,d,n)` it must prove `(x*x)%n == pow_mod(a,2*d,n)`. At preservation, after `x_1 = (x*x)%n`, the context already gives `x_1 == pow_mod(a,d*(1<<(i+1)),n)`, so the next goal reduces to proving `(pow_mod(a,d*(1<<(i+1)),n) * pow_mod(a,d*(1<<(i+1)),n)) % n == pow_mod(a,d*(1<<(i+2)),n)`. The available PowMod axioms do not provide the needed fact that squaring a modular power doubles the exponent. Thus `i_17` is semantically true but non-inductive relative to the given axiomatic theory. The Loop B invariants are too weak to imply this WP target because none of them supplies the missing square/doubling property.
+
+[Responsible Scope]
+B@miller_rabin_witness
+
+[Refinement Direction]
+Refine the PowMod axiomatic theory by adding/proving a lemma such as `pow_mod(a, 2*e, m) == ((pow_mod(a,e,m) * pow_mod(a,e,m)) % m)` for `m > 0` and `e >= 0`, or a more general exponent-addition lemma. Also discharge the arithmetic that `d * (1 << (i+2)) == 2 * (d * (1 << (i+1)))`. Do not strengthen the loop invariant; the missing bridge is the modular-power multiplication/doubling lemma.

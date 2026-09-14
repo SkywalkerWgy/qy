@@ -1,0 +1,32 @@
+Loop A@fast_pow_mod:
+  i_0: exp >= 0
+  i_1: 0 <= res < m
+  i_2: 0 <= base < m
+  i_3: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m)
+Loop B@rabin_karp:
+  i_4: 0 <= j <= m
+  i_5: 0 <= hp < Q
+  i_6: hp == str_hash(p, 0, j, D, Q)
+  i_25: \forall integer k; 0 <= k < m ==> p[k] >= 0
+Loop C@rabin_karp:
+  i_12: 0 <= j <= m
+  i_13: 0 <= ht < Q
+  i_14: ht == str_hash(t, 0, j, D, Q)
+Loop D@rabin_karp:
+  i_15: 0 <= i <= n - m
+  i_16: 0 <= ht < Q
+  i_17: ht == str_hash(t, i, m, D, Q)
+  i_18: 0 <= j <= m
+  i_27: \forall integer k; 0 <= k < m ==> p[k] >= 0
+Loop E@rabin_karp:
+  i_19: 0 <= j <= m
+  i_20: \forall integer k; 0 <= k < j ==> t[i + k] == p[k]
+  i_21: 0 <= i && i < n - m
+  i_22: ht == str_hash(t, i, m, D, Q)
+  i_23: dp == pow_mod(D, m - 1, Q)
+Loop F@rabin_karp:
+  i_7: 0 <= j <= m
+  i_8: \forall integer k; 0 <= k < j ==> t[i + k] == p[k]
+  i_9: i == n - m
+  i_10: ht == str_hash(t, i, m, D, Q)
+  i_11: dp == pow_mod(D, m - 1, Q)

@@ -1,0 +1,5 @@
+loop invariant 2 <= a;
+loop invariant a <= 8;
+loop invariant d > 0;
+loop invariant s >= 0;
+loop invariant d * (1 << s) == n - 1;

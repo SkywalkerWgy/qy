@@ -1,0 +1,66 @@
+
+/*@
+  predicate sorted(int *t, integer lo, integer hi) =
+    \forall integer i, j; lo <= i <= j < hi ==> t[i] <= t[j];
+*/
+
+/*@
+    requires \valid(x) && \valid(y);
+    assigns *x, *y;
+    ensures *x == \old(*y) && *y == \old(*x);
+*/
+_Safe void swap(int *_Borrow _Nonnull x, int *_Borrow _Nonnull y) {
+    int tmp = *x;
+    *x = *y;
+    *y = tmp;
+}
+
+/*@ requires \valid(arr+(0..(n - 1)));
+    requires n > 0;
+    ensures sorted(arr, 0, n);
+    assigns arr[0..(n - 1)];
+*/
+_Safe void _select_sort(int*_Nonnull arr, int n)
+{
+        // Loop A
+/*@
+        [Hint] Please infer the loop invariant for the following loop.
+
+        loop assigns i, arr[0..(n - 1)];
+    */
+    for (int i = 0; i < n - 1; i++)
+    {
+        int min = i;
+                // Loop B
+/*@
+            loop assigns j, min;
+        */
+        for (int j = i; j < n; j++){
+            if (arr[j] < arr[min]){
+                min = j;
+            }
+        }
+        int tmp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = tmp;
+    }
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: \valid(arr+(0..(n - 1))); r_2: n > 0 } int i = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i < n - 1 ) } skip { e_1: sorted(arr, 0, n) }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

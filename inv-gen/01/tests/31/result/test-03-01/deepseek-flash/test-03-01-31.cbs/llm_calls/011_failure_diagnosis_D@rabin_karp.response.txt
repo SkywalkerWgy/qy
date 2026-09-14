@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_16: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The proof obligation requires showing that after the Loop D body, the updated `ht` still satisfies `0 <= ht < Q`. The update is a modulo operation, and in C the result of `A % Q` is non-negative only if the dividend `A` is non-negative (assuming `Q > 0`). The dividend can be negative because the array element `t[i+m]` (or `t[i+j]` in the WP encoding) is not constrained to be non-negative. The available Loop E invariants only describe matching characters up to the mismatch point; they do not establish any bound on `t[i+m]` or on the sign of `t[i]`. Consequently, WP cannot derive `0 <= x_3`, so the invariant is not preserved.
+
+[Responsible Scope]
+D@rabin_karp
+
+[Refinement Direction]
+The failed invariant `i_16` is not too strong; it is a valid range invariant for the algorithm. It is non-inductive under the current preconditions because the loop body can produce a negative `ht` if array elements are negative. The invariants of `E@rabin_karp` are too weak to imply the WP goal after the inner loop terminates, since they only constrain the matched prefix and do not bound the values of `t[i+m]` or `t[i]`. The missing logical fact is that the array elements used in the hash update (e.g., `t[i]` and `t[i+m]`) are non-negative, or more generally that all elements of `t` and `p` are non-negative. This fact is needed to show that the dividend of the outer modulo is non-negative, and hence the new `ht` lies in `[0, Q)`.

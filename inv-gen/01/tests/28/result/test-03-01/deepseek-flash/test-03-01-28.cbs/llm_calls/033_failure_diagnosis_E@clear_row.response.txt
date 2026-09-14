@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_46: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_46 is a purely arithmetic property of `n`, `row`, `r`, and `c`. The loop body of `E@clear_row` only updates `j` and `board[row*n+j]`; it does not modify `n`, `row`, or the index arithmetic. Hence i_46 is trivially preserved and is not non-inductive. The WP goal `(i + (i_1 * n)) < x` is exactly an instance of the assumed invariant i_46 with `r = i_1` and `c = i`, except that the assumed invariant contains `n * i_3` while the goal contains `i_1 * n`. The failure is therefore a quantifier-instantiation mismatch caused by the syntactic difference in multiplication order. The missing logical fact is commutativity of integer multiplication, i.e. `i_1 * n = n * i_1`, so that the assumed quantified invariant can match the goal.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+The goal does not require a new invariant. The invariant i_46 is redundant for the `clear_row` postcondition and can be removed from the invariant set. If kept, its arithmetic expression should be normalized to the same multiplication order as the target, or the prover must be given the commutativity fact so the quantified invariant can be instantiated.

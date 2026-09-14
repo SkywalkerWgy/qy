@@ -1,0 +1,7 @@
+Loop A@_matrix_chain:
+  i_0: 2 <= l && l <= n + 1
+Loop B@_matrix_chain:
+  i_2: 1 <= i && i <= n - l + 2
+  i_3: \forall integer j; 1 <= j < i && j <= n - l + 1 ==> (\forall integer k; j <= k < j + l - 1 ==> m[j][j + l - 1] <= m[j][k] + m[k + 1][j + l - 1] + p[j - 1] * p[k] * p[j + l - 1]);
+Loop C@_matrix_chain:
+  i_4: \forall integer t; i <= t < k ==> m[i][end] <= m[i][t] + m[t+1][end] + p[i-1] * p[t] * p[end]

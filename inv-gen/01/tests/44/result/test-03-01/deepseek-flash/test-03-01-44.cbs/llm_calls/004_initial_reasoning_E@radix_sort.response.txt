@@ -1,0 +1,5 @@
+```acsl
+loop invariant 0 <= pos <= n;
+loop invariant sorted(tmp, 0, pos);
+loop invariant \forall integer k; 0 <= k < pos ==> 0 <= tmp[k] < BASE;
+```

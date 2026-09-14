@@ -1,0 +1,188 @@
+
+/*@ axiomatic PowMod {
+    logic integer pow_mod(integer x, integer n, integer m);
+
+    axiom pow_0: \forall integer x, m; m > 0 ==> pow_mod(x, 0, m) == 1 ;
+
+    axiom pow_range: \forall integer x, n, m;
+        m > 0 && x >= 0 && n >= 0 ==> 0 <= pow_mod(x, n, m) < m;
+
+    axiom pow_base_mod: \forall integer x, n, m;
+        m > 0 ==> pow_mod(x, n, m) == pow_mod(x % m, n, m);
+
+    axiom pow_succ: \forall integer x, n, m;
+        m > 0 && n > 0 ==>
+        pow_mod(x, n, m) == ((x % m) * pow_mod(x, n - 1, m)) % m;
+    }
+ */
+
+/*@
+    lemma pow_loop_even: \forall integer r, b, e, m;
+        m > 0 && e > 0 && e % 2 == 0 ==>
+        (r * pow_mod(b, e, m)) % m ==
+        (r * pow_mod((b * b) % m, e / 2, m)) % m;
+
+    lemma pow_loop_odd: \forall integer r, b, e, m;
+        m > 0 && e % 2 == 1 ==>
+        (r * pow_mod(b, e, m)) % m ==
+        ((r * b % m) * pow_mod((b * b) % m, e / 2, m)) % m;
+ */
+
+/*@
+    requires m > 0;
+    requires x >= 0;
+    requires n >= 0;
+    assigns \nothing;
+    ensures 0 <= \result < m;
+    ensures \result == pow_mod(x, n, m);
+*/
+_Safe int fast_pow_mod(int x, int n, int m) {
+    int res = 1 % m;
+    int base = x % m;
+    int exp = n;
+
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= res < m;
+
+        loop invariant i_1: 0 <= base < m;
+
+        loop invariant i_2: exp >= 0;
+
+        loop invariant i_3: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m);
+
+
+        loop assigns res, base, exp;
+    */
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            res = (res * base) % m;
+            base = (base * base) % m;
+            exp = exp / 2;
+        }
+        else {
+            base = (base * base) % m;
+            exp = exp / 2;
+        }
+    }
+    return res;
+}
+
+/*@
+    lemma non_trivial_root: \forall integer x, n;
+        n > 2 && 1 < x < n - 1 && (x * x) % n == 1 ==>
+        \exists integer d; 1 < d < n && n % d == 0;
+ */
+
+/*@
+    requires n > 2 && n % 2 == 1;
+    requires 2 <= a < n;
+    requires d > 0 && s >= 0;
+    assigns \nothing;
+    ensures \result == 0 || \result == 1;
+    ensures \result == 0 ==> \exists integer d; 1 < d < n && n % d == 0;
+*/
+_Safe int miller_rabin_witness(int n, int a, int d, int s) {
+    int x = fast_pow_mod(a, d, n);
+
+    if (x == 1 || x == n - 1) return 1;
+
+        // Loop B
+/*@
+        [Hint] Please refine the loop invariants in the repair scope.
+
+        loop invariant i_4: 0 <= x < n;
+
+        loop invariant i_5: x != 1 && x != n - 1;
+
+        loop invariant i_6: i >= 0;
+
+        loop invariant i_7: x == pow_mod(a, d * (1 << i), n);
+
+        loop invariant i_16: 0 <= x < n && x != 1 && x != n - 1;
+
+        loop invariant i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n);
+
+
+        loop assigns i, x;
+    */
+    for (int i = 0; i < s - 1; i++) {
+        int prev = x;
+        x = (x * x) % n;
+        if (x == n - 1) return 1;
+        if (x == 1) {
+            //@ assert prev * prev % n == 1;
+            //@ assert 1 < prev < n - 1;
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+/*@
+    requires n > 2 && n % 2 == 1;
+    assigns \nothing;
+    ensures \result == 0 || \result == 1;
+*/
+_Safe int miller_rabin(int n) {
+    int d = n - 1;
+    int s = 0;
+
+        // Loop C
+/*@
+        loop invariant i_8: d > 0;
+
+        loop invariant i_9: s >= 0;
+
+        loop invariant i_10: d * (1 << s) == n - 1;
+
+
+        loop assigns d, s;
+    */
+    while (d % 2 == 0) {
+        d = d / 2;
+        s = s + 1;
+    }
+
+    int a;
+        // Loop D
+/*@
+        loop invariant i_11: 2 <= a;
+
+        loop invariant i_12: a <= 8;
+
+        loop invariant i_13: d > 0;
+
+        loop invariant i_14: s >= 0;
+
+        loop invariant i_15: d * (1 << s) == n - 1;
+
+
+        loop assigns a;
+    */
+    for (a = 2; a < n && a < 8; a++) {
+        if (miller_rabin_witness(n, a, d, s) == 0) return 0;
+    }
+
+    return 1;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n)
+[Failed Property] establishment and preservation of i_17: the invariant must hold both at loop entry and after each loop-body iteration.
+[Failure Cause] The failed property requires proving i_17 at loop entry and after every loop-body iteration. Initially, with `x = pow_mod(a, d, n)`, i_17 needs `(pow_mod(a, d, n) * pow_mod(a, d, n)) % n == pow_mod(a, 2*d, n)`. In preservation, after the body updates `x` to `(x * x) % n`, the next i_17 needs `((x * x) % n * (x * x) % n) % n == pow_mod(a, d * (1 << (i + 2)), n)`. Using the current i_17, this reduces to the same missing fact: `(pow_mod(a, E, n) * pow_mod(a, E, n)) % n == pow_mod(a, 2*E, n)` with `E = d * (1 << (i + 1))`. The available PowMod axioms and lemmas do not provide this square/doubling identity. Thus i_17 is semantically valid but non-inductive under the given specification. The loop-B invariants are not too weak for the normal post-loop exit goal, which is trivial, but they cannot supply the missing arithmetic lemma needed for establishment/preservation of i_17.
+[Repair Scope] B@miller_rabin_witness
+[Refinement Direction] Do not add new loop invariants. Instead, add or prove the missing PowMod lemma: for `m > 0` and `E >= 0`, `(pow_mod(a, E, m) * pow_mod(a, E, m)) % m == pow_mod(a, 2*E, m)`, or more generally the exponent-addition rule `pow_mod(a, E1 + E2, m) == (pow_mod(a, E1, m) * pow_mod(a, E2, m)) % m`. With that fact, the existing i_17 should become dischargeable.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in B@miller_rabin_witness.
+2. Your answer should follow the following format:
+```
+[Loop B@miller_rabin_witness]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

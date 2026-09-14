@@ -1,0 +1,91 @@
+
+/*@
+    requires \valid(x) && \valid(y);
+    assigns *x, *y;
+    ensures *x == \old(*y) && *y == \old(*x);
+*/
+_Safe void swap(int *_Borrow _Nonnull x, int *_Borrow _Nonnull y) {
+    int tmp = *x;
+    *x = *y;
+    *y = tmp;
+}
+
+/*@
+requires lo <= hi;
+requires \valid(a + (lo .. hi));
+assigns a[lo..hi];
+ensures lo <= \result <= hi;
+ensures \forall integer i; lo <= i <= \result ==> a[i] <= a[\result];
+ensures \forall integer i; \result <= i <= hi ==> a[i] >= a[\result];
+ensures lo <= \result <= hi;
+*/
+_Safe int partition(int*_Nonnull a, int lo, int hi) {
+    int pivot = a[hi];
+    int i = lo - 1;
+    int j;
+
+      // Loop A
+/*@
+      [Hint] Please infer the loop invariant for the following loop.
+
+      loop assigns a[lo..hi], i, j;
+    */
+    for (j = lo; j < hi; j++) {
+        if (a[j] <= pivot) {
+            i++;
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
+    }
+    int tmp = a[i + 1];
+    a[i + 1] = a[hi];
+    a[hi] = tmp;
+    return i + 1;
+}
+
+/*@
+    requires \valid(a + (l..r));
+    requires l <= k <= r;
+    decreases r - l;
+    assigns a[l..r];
+*/
+_Safe void randomized_select_rec(int*_Nonnull a, int l, int r, int k) {
+    if (l == r) return;
+
+    int p = partition(a, l, r);
+
+    if (k < p) {
+        randomized_select_rec(a, l, p - 1, k);
+    } else if (k > p) {
+        randomized_select_rec(a, p + 1, r, k);
+    }
+}
+
+/*@
+    requires 0 <= k < length;
+    requires \valid(a + (0..length-1));
+    assigns a[0..length-1];
+*/
+_Safe void randomized_select(int*_Nonnull a, int length, int k) {
+    randomized_select_rec(a, 0, length - 1, k);
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: lo <= hi; r_2: \valid(a + (lo .. hi)) } int pivot = a[hi]; int i = lo - 1; int j; j = lo; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( j < hi ) } int tmp = a[i + 1]; a[i + 1] = a[hi]; a[hi] = tmp; return i + 1; { e_1: lo <= \result <= hi; e_2: \forall integer i; lo <= i <= \result ==> a[i] <= a[\result]; e_3: \forall integer i; \result <= i <= hi ==> a[i] >= a[\result]; e_4: lo <= \result <= hi }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

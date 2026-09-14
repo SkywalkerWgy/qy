@@ -1,0 +1,68 @@
+
+/*@
+    predicate pre_post(char* s, integer i, integer j) =
+        j == 0 || \forall integer k; 0 <= k < j ==> s[k] == s[i - j + 1 + k];
+*/
+
+/*@
+    predicate pre_post_not(char* s, integer i, integer j) =
+        \exists integer k; 0 <= k < j && s[k] != s[i - j + 1 + k];
+*/
+
+/*@
+    requires \valid_read(s);
+    requires \valid_read(pi);
+    requires \valid(s + (0..n - 1));
+    requires \valid(pi + (0..n - 1));
+    requires \separated(&pi[0..(n - 1)], &s[0..(n - 1)]);
+    requires \forall integer k; 0 <= k < n ==> pi[k] == 0;
+    requires n > 0;
+    assigns pi[0..(n - 1)];
+    ensures \forall integer k; 0 <= k < n ==> pre_post(s, k, pi[k]);
+*/
+_Safe void _compute_prefix_function(char*_Nonnull s, int*_Nonnull pi, int n) {
+        // Loop A
+/*@
+        loop invariant i_0: 1 <= i <= n;
+
+        loop invariant i_1: \forall integer k; 0 <= k < i ==> pre_post(s, k, pi[k]);
+
+        loop invariant i_2: \forall integer k; 0 <= k < i ==> 0 <= pi[k] <= k;
+
+        loop invariant i_3: \forall integer k; i <= k < n ==> pi[k] == 0;
+
+
+        loop assigns i, pi[1..(n - 1)];
+    */
+    for (int i = 1; i < n; i++) {
+        int j = pi[i - 1];
+                // Loop B
+/*@
+            [Hint] Please infer the loop invariant for the following loop.
+
+            loop assigns j;
+        */
+        while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+        if (s[i] == s[j]) j++;
+        pi[i] = j;
+    }
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop A@_compute_prefix_function invariants: i_0: 1 <= i <= n; i_1: \forall integer k; 0 <= k < i ==> pre_post(s, k, pi[k]); i_2: \forall integer k; 0 <= k < i ==> 0 <= pi[k] <= k; i_3: \forall integer k; i <= k < n ==> pi[k] == 0 } int j = pi[i - 1]; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( j > 0 && s[i] != s[j] ) } if (s[i] == s[j]) j++; pi[i] = j; i++; { Loop A@_compute_prefix_function invariants: i_0: 1 <= i <= n; i_1: \forall integer k; 0 <= k < i ==> pre_post(s, k, pi[k]); i_2: \forall integer k; 0 <= k < i ==> 0 <= pi[k] <= k; i_3: \forall integer k; i <= k < n ==> pi[k] == 0 }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The failed proof obligation is the inductive preservation of `sum_c(c, k) == i` across one iteration of Loop B. After the body, `i` becomes `i + 1` and `c[a[i]]` is incremented. To re-establish `i_7`, WP must prove that `sum_c(c, k)` also increases by exactly `1`, i.e. `L_sum_c(a_7, c, k) == L_sum_c(a_3, c, k) + 1`. This requires the fact that when `0 <= a[i] <= k`, incrementing `c[a[i]]` adds exactly `1` to the recursive sum `sum_c(c, k)`. The available assumptions include the precondition bounding `a[i]`, but the prover lacks the `sum_c` point-update lemma needed to connect the modified array `a_7` to the old sum. The invariant `i_7` itself is not too strong; it is the intended inductive property. It is non-inductive only relative to the missing arithmetic/logical fact about `sum_c`.
+
+[Responsible Scope]
+B@counting_sort
+
+[Refinement Direction]
+The missing logical fact is the `sum_c` update lemma: for any state `c`, if `0 <= w <= k`, then updating `c[w]` to `c[w] + 1` makes `sum_c(c, k)` increase by `1`. Also ensure the precondition `0 <= a[i] <= k` is instantiated for the current index `i` when proving the body. No new loop invariant is needed; the failure is in the reasoning about the recursive `sum_c` function under a point update.

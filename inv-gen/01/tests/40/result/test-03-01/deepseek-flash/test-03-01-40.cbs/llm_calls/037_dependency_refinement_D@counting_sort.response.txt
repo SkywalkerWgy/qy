@@ -1,0 +1,4 @@
+[Loop D@counting_sort]
+loop invariant \forall integer w; 0 <= w <= k ==>
+  (\forall integer i; 0 <= i <= w ==> c[i] == \at(c[i], LoopEntry)) ==>
+  sum_c(c, w) == \at(sum_c(c, w), LoopEntry);

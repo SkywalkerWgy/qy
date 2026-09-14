@@ -1,0 +1,2 @@
+loop invariant 0 <= x && x < n;
+loop invariant \forall integer i; 0 <= i < n ==> 0 <= parent[i] < n;

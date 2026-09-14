@@ -1,0 +1,25 @@
+# Python runtime validated by the bundled Ubuntu 24.04 image: Python 3.12
+openai==2.42.0
+requests==2.27.1
+
+# Pinned transitive dependencies from the validated environment.
+annotated-types==0.7.0
+anyio==3.5.0
+certifi==2021.10.8
+charset-normalizer==2.0.4
+distro==1.9.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.3
+jiter==0.15.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+sniffio==1.2.0
+tqdm==4.64.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+urllib3==1.26.9
+
+# Optional local-model dependencies are intentionally not part of the default
+# reproducible API-backed image: transformers, torch, accelerate, sentencepiece.

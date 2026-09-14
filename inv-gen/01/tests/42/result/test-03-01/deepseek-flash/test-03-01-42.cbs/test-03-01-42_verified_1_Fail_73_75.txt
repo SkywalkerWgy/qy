@@ -1,0 +1,3802 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 74 goals scheduled
+[wp] [Timeout] typed_floyd_loop_invariant_i_24_preserved (Qed 245ms) (Alt-Ergo)
+[wp] [Timeout] typed_floyd_loop_invariant_i_26_preserved (Qed 345ms) (Alt-Ergo)
+[wp] Proved goals:   73 / 75
+  Unreachable:       1
+  Qed:              44 (8ms-29ms-345ms)
+  Alt-Ergo 2.6.3:   28 (20ms-202ms-2.5s)
+  Timeout:           2
+------------------------------------------------------------
+  Function floyd
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 48) in 'floyd':
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(k) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) ->
+        ((i_1 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_2)))))) ->
+      (Mint_2[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+        ((i_1 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_2)))))) ->
+      (Mint_2[a_2] = Mint_0[a_2])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i).
+  (* Invariant 'i_6' *)
+  Have: forall i_3,i_2,i_1 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), i_1)] in
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_1), i_2)] in
+      ((0 <= i_3) -> ((i_3 < i) -> ((0 <= i_2) -> ((i_2 < i) ->
+      ((0 <= i_1) -> ((i_1 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (x_2 + x_1)))))))))).
+  (* Else *)
+  Have: i <= k.
+}
+Prove: P_shortest_path_matrix(Mint_0, Mint_0, graph_0, dist_0, i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:14ms) (994ms) (15198)
+Prover CVC5 1.1.2 returns Unknown (Qed:14ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 59):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 59):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 61):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_3 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_4 = shift_A100_sint32(dist_0, 0).
+Let a_5 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, j).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (0 <= i_2) /\ (i_2 < n) /\ (i_1 <= i).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_3, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_3, x, a_4, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_6 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < n) -> ((0 <= i_3) ->
+        ((i_3 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_6)))))) ->
+      (Mint_1[a_6] = Mint_0[a_6])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= n).
+  (* Invariant 'i_9' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < j) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i), i_3)] =
+       a_2[shift_sint32(a, i_3)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Else *)
+  Have: n <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+}
+Prove: a_5[shift_sint32(shift_A100_sint32(graph_0, i_1), i_2)] =
+    a_5[shift_sint32(shift_A100_sint32(dist_0, i_1), i_2)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (24ms) (319)
+Prover CVC5 1.1.2 returns Valid (Qed:16ms) (98ms) (42469)
+Prover Z3 4.13.3 returns Valid (Qed:16ms) (27ms) (254809)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 61):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 75):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_3 = shift_A100_sint32(graph_0, i).
+Let a_4 = a_2[shift_sint32(a, j) <- a_2[shift_sint32(a_3, j)]].
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(1 + j).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i) /\ (0 <= i_2) /\ (i_2 < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < n) -> ((0 <= i_3) ->
+        ((i_3 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_0[a_7])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= n).
+  (* Invariant 'i_9' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < j) ->
+      (a_2[shift_sint32(a_3, i_3)] = a_2[shift_sint32(a, i_3)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Then *)
+  Have: j < n.
+  (* Invariant 'i_7' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_9' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= j) ->
+      (a_4[shift_sint32(a_3, i_3)] = a_4[shift_sint32(a, i_3)]))).
+}
+Prove: a_4[shift_sint32(shift_A100_sint32(graph_0, i_1), i_2)] =
+    a_4[shift_sint32(shift_A100_sint32(dist_0, i_1), i_2)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:18ms) (79ms) (1120)
+Prover Z3 4.13.3 returns Valid (Qed:18ms) (211ms) (1591899)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 75):
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_2) /\ (0 <= i_1) /\ (i_1 < n).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < n) -> ((0 <= i_3) ->
+        ((i_3 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_0[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_2) /\ (i_2 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_2) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Then *)
+  Have: i_2 < n.
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), i_1)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:8ms) (20ms) (64)
+Prover CVC5 1.1.2 returns Unknown (Qed:8ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 69):
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 69):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 71):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 71):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 73):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_3 = shift_A100_sint32(graph_0, i).
+Let a_4 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_5 = shift_A100_sint32(dist_0, 0).
+Let a_6 = a_2[shift_sint32(a, j) <- a_2[shift_sint32(a_3, j)]].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(1 + j).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= j).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_4, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_4, x, a_5, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_0[a_7])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= n).
+  (* Invariant 'i_9' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      (a_2[shift_sint32(a_3, i_2)] = a_2[shift_sint32(a, i_2)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Then *)
+  Have: j < n.
+  (* Invariant 'i_7' *)
+  Have: (-1) <= j.
+}
+Prove: a_6[shift_sint32(a_3, i_1)] = a_6[shift_sint32(a, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:17ms) (91ms) (1242)
+Prover Z3 4.13.3 returns Valid (Qed:17ms) (50ms) (471413)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 73):
+Prove: true.
+Prover Qed returns Valid (0.97ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 87):
+Prove: true.
+Prover Qed returns Valid (29ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 87):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 89):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 89):
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) ->
+        ((i_1 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_2)))))) ->
+      (Mint_0[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Else *)
+  Have: n <= i.
+}
+Prove: P_matrix_bounded(Mint_0, dist_0, i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:8ms) (221ms) (3350)
+Prover CVC5 1.1.2 returns Unknown (Qed:8ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 91):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 91):
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) ->
+        ((i_1 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_2)))))) ->
+      (Mint_0[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)]
+         = Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i).
+}
+Prove: P_diagonal_zero(Mint_0, dist_0, i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:9ms) (284ms) (4451)
+Prover CVC5 1.1.2 returns Unknown (Qed:9ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 93):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 93):
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) ->
+        ((i_1 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_0[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i).
+}
+Prove: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:10ms) (194ms) (2801)
+Prover CVC5 1.1.2 returns Unknown (Qed:10ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 95):
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_2 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), i_2)].
+Let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)].
+Assume {
+  Type: is_sint32(i_3) /\ is_sint32(i_4) /\ is_sint32(k) /\ is_sint32(n) /\
+      is_sint32(1 + k).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n) /\ (0 <= i_1) /\ (i_1 < n) /\ (0 <= i_2) /\
+      (i_2 <= k) /\ (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_1, x, a_2, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < n) -> ((0 <= i_5) ->
+        ((i_5 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_1[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_4) /\ (i_4 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+      ((i_5 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_5)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]))))).
+  (* Else *)
+  Have: n <= i_4.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_4).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_3[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_4) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_4).
+  (* Invariant 'i_6' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_4.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_3[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_3) /\ (i_3 <= i_4).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_4).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_4).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_4).
+  (* Invariant 'i_16' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_6,i_5 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let x_4 = Mint_0[shift_sint32(a, i_5)] in ((0 <= i_6) ->
+      ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_4) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))).
+  (* Else *)
+  Have: i_4 <= i_3.
+  (* Invariant 'i_2' *)
+  Have: (-1) <= k.
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:35ms) (24ms) (276)
+Prover CVC5 1.1.2 returns Unknown (Qed:35ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 95):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 103):
+Prove: true.
+Prover Qed returns Valid (34ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 103):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 105):
+Prove: true.
+Prover Qed returns Valid (14ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 105):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 107):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 107):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 109):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 109):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 111):
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 111):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 113):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, i_1).
+Let a_3 = a_2[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let a_4 = shift_A100_sint32(graph_0, k).
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Let a_7 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_8 = shift_sint32(shift_A100_sint32(graph_0, i_2), i_4).
+Let a_9 = shift_sint32(shift_A100_sint32(graph_0, i_4), i_3).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_2) /\ (i_2 < n) /\ (0 <= i_3) /\ (i_3 < n) /\ (0 <= i_4) /\
+      (i_4 < k) /\ (a_7[a_8] <= 999999999) /\ (a_7[a_9] <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < n) -> ((0 <= i_5) ->
+        ((i_5 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_10)))))) ->
+      (Mint_2[a_10] = Mint_1[a_10])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) ->
+      ((i_5 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_5)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) ->
+        ((i_5 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_10)))))) ->
+      (Mint_2[a_10] = Mint_3[a_10])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_1 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_1) -> ((0 <= i_6) -> ((i_6 < i_1) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_2 + x_1)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) ->
+        ((i_5 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_10)))))) ->
+      (Mint_3[a_10] = Mint_0[a_10])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_1) -> ((0 <= i_6) -> ((i_6 < i_1) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_2 + x_1)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_6,i_5 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let x_2 = Mint_0[shift_sint32(a_4, i_5)] in ((0 <= i_6) ->
+      ((i_6 < i) -> ((0 <= i_5) -> ((i_5 < i_1) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_2 + x_1)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let a_11 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_1) -> ((0 <= i_6) -> ((i_6 < i_1) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (a_11 + a_10)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_6,i_5 : Z.
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let a_11 = a_2[shift_sint32(a_4, i_5)] in ((0 <= i_6) -> ((i_6 < i) ->
+      ((0 <= i_5) -> ((i_5 < i_1) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (a_11 + a_10)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_5 : Z. let a_10 = a_2[shift_sint32(a_4, i_5)] in
+      ((0 <= i_5) -> ((i_5 < j) -> ((a_3 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(a, i_5)] <= (a_3 + a_10)))))).
+  (* Else *)
+  Have: i_1 <= j.
+  (* Invariant 'i_11' *)
+  Have: (-1) <= i.
+}
+Prove: a_2[shift_sint32(shift_A100_sint32(dist_0, i_2), i_3)]
+         <= (a_2[a_8] + a_2[a_9]).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:45ms) (32ms) (373)
+Prover CVC5 1.1.2 returns Valid (Qed:45ms) (90ms) (44031)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 113):
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), i_2)].
+Let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)].
+Assume {
+  Type: is_sint32(i_3) /\ is_sint32(k) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n) /\ (0 <= i_1) /\ (i_1 < n) /\ (0 <= i_2) /\
+      (i_2 < k) /\ (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_2)))))) ->
+      (Mint_2[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+      ((i_4 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_4)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_2)))))) ->
+      (Mint_2[a_2] = Mint_0[a_2])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_3.
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:17ms) (23ms) (166)
+Prover CVC5 1.1.2 returns Unknown (Qed:17ms)
+Prover Z3 4.13.3 returns Valid (Qed:17ms) (9ms) (49440)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 115):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, i_1).
+Let a_3 = a_2[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let a_4 = shift_A100_sint32(graph_0, k).
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Let a_7 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_8 = shift_sint32(shift_A100_sint32(graph_0, i_2), k).
+Let a_9 = shift_sint32(a_4, i_3).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_2) /\ (0 <= i_3) /\ (i_3 < n) /\ (i_2 <= i) /\
+      (a_7[a_8] <= 999999999) /\ (a_7[a_9] <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_10)))))) ->
+      (Mint_2[a_10] = Mint_1[a_10])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_1) -> ((0 <= i_4) ->
+      ((i_4 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_4)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_1) -> ((0 <= i_4) ->
+        ((i_4 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_10)))))) ->
+      (Mint_2[a_10] = Mint_3[a_10])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_1 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) -> ((i_5 < i_1) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_2 + x_1)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_1) -> ((0 <= i_4) ->
+        ((i_4 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_10)))))) ->
+      (Mint_3[a_10] = Mint_0[a_10])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) -> ((i_5 < i_1) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_2 + x_1)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_5,i_4 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let x_2 = Mint_0[shift_sint32(a_4, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i) -> ((0 <= i_4) -> ((i_4 < i_1) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_2 + x_1)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let a_11 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_1) -> ((0 <= i_5) -> ((i_5 < i_1) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (a_11 + a_10)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_5,i_4 : Z.
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let a_11 = a_2[shift_sint32(a_4, i_4)] in ((0 <= i_5) -> ((i_5 < i) ->
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (a_11 + a_10)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_4 : Z. let a_10 = a_2[shift_sint32(a_4, i_4)] in
+      ((0 <= i_4) -> ((i_4 < j) -> ((a_3 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(a, i_4)] <= (a_3 + a_10)))))).
+  (* Else *)
+  Have: i_1 <= j.
+  (* Invariant 'i_11' *)
+  Have: (-1) <= i.
+}
+Prove: a_2[shift_sint32(shift_A100_sint32(dist_0, i_2), i_3)]
+         <= (a_2[a_8] + a_2[a_9]).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:45ms) (45ms) (519)
+Prover CVC5 1.1.2 returns Valid (Qed:45ms) (319ms) (130549)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 115):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 123):
+Prove: true.
+Prover Qed returns Valid (46ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 123):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 125):
+Prove: true.
+Prover Qed returns Valid (14ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 125):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 127):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 127):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 129):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, i_1).
+Let a_3 = a_2[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let a_4 = shift_A100_sint32(graph_0, k).
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Let a_7 = shift_sint32(a, k).
+Let a_8 = a_2[a_7].
+Let a_9 = a_2[shift_sint32(shift_A100_sint32(dist_0, k), j)].
+Let a_10 = a_8 + a_9.
+Let a_11 = shift_sint32(a, j).
+Let a_12 = a_2[a_11].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\ is_sint32(a_12) /\
+      is_sint32(a_8) /\ is_sint32(a_9) /\
+      is_sint32(memcpy(Mint_0, a_1, Mint_undef_0, a_1, n)[a_7]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Residual *)
+  When: a_8 <= 999999999.
+  (* Residual *)
+  When: a_9 <= 999999999.
+  (* Residual *)
+  When: a_10 < a_12.
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_13 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_13)))))) ->
+      (Mint_2[a_13] = Mint_1[a_13])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_13 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_13)))))) ->
+      (Mint_2[a_13] = Mint_3[a_13])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_13 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_13)))))) ->
+      (Mint_3[a_13] = Mint_0[a_13])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_3,i_2 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let x_2 = Mint_0[shift_sint32(a_4, i_2)] in ((0 <= i_3) ->
+      ((i_3 < i) -> ((0 <= i_2) -> ((i_2 < i_1) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (x_2 + x_1)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let a_13 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((a_13 <= 999999999) ->
+      ((a_14 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_14 + a_13)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_3,i_2 : Z.
+      let a_13 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let a_14 = a_2[shift_sint32(a_4, i_2)] in ((0 <= i_3) -> ((i_3 < i) ->
+      ((0 <= i_2) -> ((i_2 < i_1) -> ((a_13 <= 999999999) ->
+      ((a_14 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (a_14 + a_13)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_2 : Z. let a_13 = a_2[shift_sint32(a_4, i_2)] in
+      ((0 <= i_2) -> ((i_2 < j) -> ((a_3 <= 999999999) ->
+      ((a_13 <= 999999999) ->
+      (a_2[shift_sint32(a, i_2)] <= (a_3 + a_13)))))).
+  (* Then *)
+  Have: j < i_1.
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+}
+Prove: P_matrix_bounded(a_2[a_11 <- a_10], dist_0, i_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:135ms) (334ms) (5966)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 129):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 131):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, i_1).
+Let a_3 = shift_sint32(a, j).
+Let a_4 = shift_sint32(a, k).
+Let a_5 = a_2[a_4].
+Let a_6 = a_2[shift_sint32(shift_A100_sint32(dist_0, k), j)].
+Let a_7 = a_5 + a_6.
+Let a_8 = a_2[a_3 <- a_7].
+Let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let a_10 = shift_A100_sint32(graph_0, k).
+Let a_11 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_12 = shift_A100_sint32(dist_0, 0).
+Let a_13 = a_2[a_3].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\ is_sint32(a_13) /\
+      is_sint32(a_5) /\ is_sint32(a_6) /\
+      is_sint32(memcpy(Mint_0, a_1, Mint_undef_0, a_1, n)[a_4]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Residual *)
+  When: a_5 <= 999999999.
+  (* Residual *)
+  When: a_6 <= 999999999.
+  (* Residual *)
+  When: a_7 < a_13.
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_11, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_12, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_11, x, a_12, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_2[a_14] = Mint_1[a_14])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_2[a_14] = Mint_3[a_14])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_3[a_14] = Mint_0[a_14])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_3,i_2 : Z.
+      let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let x_2 = Mint_0[shift_sint32(a_10, i_2)] in ((0 <= i_3) ->
+      ((i_3 < i) -> ((0 <= i_2) -> ((i_2 < i_1) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (x_2 + x_1)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let a_15 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_15 + a_14)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_3,i_2 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let a_15 = a_2[shift_sint32(a_10, i_2)] in ((0 <= i_3) -> ((i_3 < i) ->
+      ((0 <= i_2) -> ((i_2 < i_1) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (a_15 + a_14)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_2 : Z. let a_14 = a_2[shift_sint32(a_10, i_2)] in
+      ((0 <= i_2) -> ((i_2 < j) -> ((a_9 <= 999999999) ->
+      ((a_14 <= 999999999) ->
+      (a_2[shift_sint32(a, i_2)] <= (a_9 + a_14)))))).
+  (* Then *)
+  Have: j < i_1.
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_8, dist_0, i_1).
+}
+Prove: P_diagonal_zero(a_8, dist_0, i_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:141ms) (171ms) (2776)
+Prover CVC5 1.1.2 returns Valid (Qed:141ms) (133ms) (56596)
+Prover Z3 4.13.3 returns Valid (Qed:141ms) (69ms) (617433)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 131):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 133):
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, i_1).
+Let a_3 = shift_sint32(a, j).
+Let a_4 = shift_sint32(a, k).
+Let a_5 = a_2[a_4].
+Let a_6 = a_2[shift_sint32(shift_A100_sint32(dist_0, k), j)].
+Let a_7 = a_5 + a_6.
+Let a_8 = a_2[a_3 <- a_7].
+Let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let a_10 = shift_A100_sint32(graph_0, k).
+Let a_11 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_12 = shift_A100_sint32(dist_0, 0).
+Let a_13 = a_2[a_3].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\ is_sint32(a_13) /\
+      is_sint32(a_5) /\ is_sint32(a_6) /\
+      is_sint32(memcpy(Mint_1, a_1, Mint_undef_0, a_1, n)[a_4]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Residual *)
+  When: a_5 <= 999999999.
+  (* Residual *)
+  When: a_6 <= 999999999.
+  (* Residual *)
+  When: a_7 < a_13.
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_11, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_12, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_11, x, a_12, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_2[a_14] = Mint_0[a_14])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_2[a_14] = Mint_3[a_14])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_14)))))) ->
+      (Mint_3[a_14] = Mint_1[a_14])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_1 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_2 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_2 + x_1)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_3,i_2 : Z.
+      let x_1 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let x_2 = Mint_1[shift_sint32(a_10, i_2)] in ((0 <= i_3) ->
+      ((i_3 < i) -> ((0 <= i_2) -> ((i_2 < i_1) -> ((x_1 <= 999999999) ->
+      ((x_2 <= 999999999) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (x_2 + x_1)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_0, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let a_15 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_15 + a_14)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_3,i_2 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let a_15 = a_2[shift_sint32(a_10, i_2)] in ((0 <= i_3) -> ((i_3 < i) ->
+      ((0 <= i_2) -> ((i_2 < i_1) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (a_15 + a_14)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_2 : Z. let a_14 = a_2[shift_sint32(a_10, i_2)] in
+      ((0 <= i_2) -> ((i_2 < j) -> ((a_9 <= 999999999) ->
+      ((a_14 <= 999999999) ->
+      (a_2[shift_sint32(a, i_2)] <= (a_9 + a_14)))))).
+  (* Then *)
+  Have: j < i_1.
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_8, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_8, dist_0, i_1).
+}
+Prove: P_no_larger_than_graph(Mint_0, a_8, graph_0, dist_0, i_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:148ms) (266ms) (3304)
+Prover CVC5 1.1.2 returns Valid (Qed:148ms) (237ms) (77455)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 133):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 135):
+Let a = shift_A100_sint32(dist_0, i_3).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_3, a_1, Mint_undef_0, a_1, i_4).
+Let a_3 = shift_sint32(a, k).
+Let a_4 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)].
+Let a_5 = shift_A100_sint32(graph_0, k).
+Let a_6 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_7 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), i_2)].
+Let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)].
+Let a_8 = shift_sint32(shift_A100_sint32(dist_0, k), j).
+Assume {
+  Type: is_sint32(i_3) /\ is_sint32(i_4) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\
+      is_sint32(Mint_1[shift_sint32(a, j)]) /\ is_sint32(Mint_1[a_3]) /\
+      is_sint32(Mint_1[a_8]) /\ is_sint32(Mint_2[a_8]) /\
+      is_sint32(memcpy(Mint_3, a_1, Mint_undef_0, a_1, n)[a_3]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n) /\ (0 <= i_1) /\ (i_1 < n) /\ (0 <= i_2) /\
+      (i_2 < k) /\ (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_7, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_6, x, a_7, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_4, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_4, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < n) -> ((0 <= i_5) ->
+        ((i_5 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_9)))))) ->
+      (Mint_5[a_9] = Mint_4[a_9])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_4) /\ (i_4 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+      ((i_5 < n) ->
+      (Mint_5[shift_sint32(shift_A100_sint32(graph_0, i_6), i_5)]
+         = Mint_5[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]))))).
+  (* Else *)
+  Have: n <= i_4.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_5, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_5, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_5, graph_0, dist_0, i_4).
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_9)))))) ->
+      (Mint_5[a_9] = Mint_6[a_9])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_4) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_6, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_6, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_6, graph_0, dist_0, i_4).
+  (* Invariant 'i_6' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_6[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_4.
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_9)))))) ->
+      (Mint_6[a_9] = Mint_3[a_9])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_3) /\ (i_3 <= i_4).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_4).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_4).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_3, graph_0, dist_0, i_4).
+  (* Invariant 'i_16' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_6,i_5 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let x_4 = Mint_3[shift_sint32(a_5, i_5)] in ((0 <= i_6) ->
+      ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_4) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))).
+  (* Then *)
+  Have: i_3 < i_4.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_4) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_4).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_4).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, a_2, graph_0, dist_0, i_4).
+  (* Invariant 'i_24' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((a_9 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)] <= (a_10 + a_9)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_6,i_5 : Z.
+      let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let a_10 = a_2[shift_sint32(a_5, i_5)] in ((0 <= i_6) ->
+      ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_4) -> ((a_9 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)] <= (a_10 + a_9)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_5 : Z. let a_9 = a_2[shift_sint32(a_5, i_5)] in
+      ((0 <= i_5) -> ((i_5 < j) -> ((a_4 <= 999999999) ->
+      ((a_9 <= 999999999) -> (a_2[shift_sint32(a, i_5)] <= (a_4 + a_9)))))).
+  (* Then *)
+  Have: j < i_4.
+  If a_2[a_3] <= 999999999
+  Then {
+    Have: a_2 = Mint_2.
+    If Mint_2[a_8] <= 999999999
+    Then {
+      Have: Mint_2 = Mint_1.
+      If (Mint_2[a_3] + Mint_2[a_8]) < Mint_2[shift_sint32(a, j)]
+      Then {
+        Have: Mint_2[shift_sint32(a, j) <- Mint_2[a_3] + Mint_2[a_8]] =
+            Mint_0.
+      }
+      Else { Have: Mint_2 = Mint_0. }
+    }
+    Else { Have: Mint_2 = Mint_0. }
+  }
+  Else { Have: a_2 = Mint_0. }
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_4).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_4).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_0, graph_0, dist_0, i_4).
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Timeout (Qed:245ms) (10s)
+Prover CVC5 1.1.2 returns Timeout (Qed:245ms) (10s)
+Prover Z3 4.13.3 returns Timeout (Qed:245ms) (10s)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 135):
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_2 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), i_2)].
+Let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)].
+Assume {
+  Type: is_sint32(i_3) /\ is_sint32(i_4) /\ is_sint32(k) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n) /\ (0 <= i_1) /\ (i_1 < n) /\ (0 <= i_2) /\
+      (i_2 < k) /\ (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_1, x, a_2, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < n) -> ((0 <= i_5) ->
+        ((i_5 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_1[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_4) /\ (i_4 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+      ((i_5 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_5)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]))))).
+  (* Else *)
+  Have: n <= i_4.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_4).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_3[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_4) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_4).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_4).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_4).
+  (* Invariant 'i_6' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_4.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i_4) -> ((0 <= i_5) ->
+        ((i_5 < i_4) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_3)))))) ->
+      (Mint_3[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_3) /\ (i_3 <= i_4).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_4).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_4).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_4).
+  (* Invariant 'i_16' *)
+  Have: forall i_7,i_6,i_5 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_7), i_5)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), i_6)] in
+      ((0 <= i_7) -> ((i_7 < i_4) -> ((0 <= i_6) -> ((i_6 < i_4) ->
+      ((0 <= i_5) -> ((i_5 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_7), i_6)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_6,i_5 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), k)] in
+      let x_4 = Mint_0[shift_sint32(a, i_5)] in ((0 <= i_6) ->
+      ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_4) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))).
+  (* Then *)
+  Have: i_3 < i_4.
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:22ms) (26ms) (196)
+Prover CVC5 1.1.2 returns Unknown (Qed:22ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 137):
+Let a = shift_A100_sint32(dist_0, i_2).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_3, a_1, Mint_undef_0, a_1, i_3).
+Let a_3 = shift_sint32(a, k).
+Let a_4 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), k)].
+Let a_5 = shift_A100_sint32(graph_0, k).
+Let a_6 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_7 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let x_2 = Mint_0[shift_sint32(a_5, i_1)].
+Let a_8 = shift_sint32(shift_A100_sint32(dist_0, k), j).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(i_3) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\
+      is_sint32(Mint_1[shift_sint32(a, j)]) /\ is_sint32(Mint_1[a_3]) /\
+      is_sint32(Mint_1[a_8]) /\ is_sint32(Mint_2[a_8]) /\
+      is_sint32(memcpy(Mint_3, a_1, Mint_undef_0, a_1, n)[a_3]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_2) /\ (0 <= i_1) /\ (i_1 < n) /\
+      (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_7, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_6, x, a_7, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_4, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_4, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_9)))))) ->
+      (Mint_5[a_9] = Mint_4[a_9])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+      ((i_4 < n) ->
+      (Mint_5[shift_sint32(shift_A100_sint32(graph_0, i_5), i_4)]
+         = Mint_5[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_5, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_5, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_5, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_9)))))) ->
+      (Mint_5[a_9] = Mint_6[a_9])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_6, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_6, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_6, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_6[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_3.
+  (* Loop assigns ... *)
+  Have: forall a_9 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_9)))))) ->
+      (Mint_6[a_9] = Mint_3[a_9])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_2) /\ (i_2 <= i_3).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_3).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_3).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_3, graph_0, dist_0, i_3).
+  (* Invariant 'i_16' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_5,i_4 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let x_4 = Mint_3[shift_sint32(a_5, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_3) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_4 + x_3)))))))).
+  (* Then *)
+  Have: i_2 < i_3.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_3) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_3).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_3).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, a_2, graph_0, dist_0, i_3).
+  (* Invariant 'i_24' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let a_10 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((a_9 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)] <= (a_10 + a_9)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_5,i_4 : Z.
+      let a_9 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let a_10 = a_2[shift_sint32(a_5, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_3) -> ((a_9 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)] <= (a_10 + a_9)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_4 : Z. let a_9 = a_2[shift_sint32(a_5, i_4)] in
+      ((0 <= i_4) -> ((i_4 < j) -> ((a_4 <= 999999999) ->
+      ((a_9 <= 999999999) -> (a_2[shift_sint32(a, i_4)] <= (a_4 + a_9)))))).
+  (* Then *)
+  Have: j < i_3.
+  If a_2[a_3] <= 999999999
+  Then {
+    Have: a_2 = Mint_2.
+    If Mint_2[a_8] <= 999999999
+    Then {
+      Have: Mint_2 = Mint_1.
+      If (Mint_2[a_3] + Mint_2[a_8]) < Mint_2[shift_sint32(a, j)]
+      Then {
+        Have: Mint_2[shift_sint32(a, j) <- Mint_2[a_3] + Mint_2[a_8]] =
+            Mint_0.
+      }
+      Else { Have: Mint_2 = Mint_0. }
+    }
+    Else { Have: Mint_2 = Mint_0. }
+  }
+  Else { Have: a_2 = Mint_0. }
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_3).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_3).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_0, graph_0, dist_0, i_3).
+  (* Invariant 'i_24' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:238ms) (2.5s) (29991)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 137):
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_2 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let x_2 = Mint_0[shift_sint32(a, i_1)].
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(i_3) /\ is_sint32(k) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_2) /\ (0 <= i_1) /\ (i_1 < n) /\
+      (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_1, x, a_2, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_1[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+      ((i_4 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_4)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_3[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_3.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_3)))))) ->
+      (Mint_3[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_2) /\ (i_2 <= i_3).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_3).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_3).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_3).
+  (* Invariant 'i_16' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_5,i_4 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let x_4 = Mint_0[shift_sint32(a, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_3) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_4 + x_3)))))))).
+  (* Then *)
+  Have: i_2 < i_3.
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:40ms) (28ms) (193)
+Prover CVC5 1.1.2 returns Unknown (Qed:40ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_26' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 139):
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(dist_0, i).
+Let a_2 = shift_sint32(a_1, 0).
+Let a_3 = memcpy(Mint_3, a_2, Mint_undef_0, a_2, i_2).
+Let a_4 = shift_sint32(a_1, k).
+Let a_5 = shift_sint32(shift_A100_sint32(graph_0, i), k).
+Let a_6 = a_3[a_5].
+Let a_7 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_8 = shift_A100_sint32(dist_0, 0).
+Let x_1 = Mint_0[a_5].
+Let x_2 = Mint_0[shift_sint32(a, i_1)].
+Let a_9 = shift_sint32(shift_A100_sint32(dist_0, k), j).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + j) /\
+      is_sint32(Mint_1[shift_sint32(a_1, j)]) /\ is_sint32(Mint_1[a_4]) /\
+      is_sint32(Mint_1[a_9]) /\ is_sint32(Mint_2[a_9]) /\
+      is_sint32(memcpy(Mint_3, a_2, Mint_undef_0, a_2, n)[a_4]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= j) /\ (x_1 <= 999999999) /\ (x_2 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_7, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_7, x, a_8, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_4, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_4, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < n) -> ((0 <= i_3) ->
+        ((i_3 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_10)))))) ->
+      (Mint_5[a_10] = Mint_4[a_10])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_2) /\ (i_2 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_2) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (Mint_5[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)]
+         = Mint_5[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Else *)
+  Have: n <= i_2.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_5, dist_0, i_2).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_5, dist_0, i_2).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_5, graph_0, dist_0, i_2).
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_2) -> ((0 <= i_3) ->
+        ((i_3 < i_2) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_10)))))) ->
+      (Mint_5[a_10] = Mint_6[a_10])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_2) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_6, dist_0, i_2).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_6, dist_0, i_2).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_6, graph_0, dist_0, i_2).
+  (* Invariant 'i_6' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let x_3 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let x_4 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_2) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_6[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_4 + x_3)))))))))).
+  (* Then *)
+  Have: k < i_2.
+  (* Loop assigns ... *)
+  Have: forall a_10 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_2) -> ((0 <= i_3) ->
+        ((i_3 < i_2) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_10)))))) ->
+      (Mint_6[a_10] = Mint_3[a_10])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_2).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_2).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_2).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_3, graph_0, dist_0, i_2).
+  (* Invariant 'i_16' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let x_4 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_2) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_4,i_3 : Z.
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let x_4 = Mint_3[shift_sint32(a, i_3)] in ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < i_2) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_4 + x_3)))))))).
+  (* Then *)
+  Have: i < i_2.
+  (* Invariant 'i_18' *)
+  Have: (j <= i_2) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_3, dist_0, i_2).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_3, dist_0, i_2).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, a_3, graph_0, dist_0, i_2).
+  (* Invariant 'i_24' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let a_10 = a_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let a_11 = a_3[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_2) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_3[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (a_11 + a_10)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_4,i_3 : Z.
+      let a_10 = a_3[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let a_11 = a_3[shift_sint32(a, i_3)] in ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < i_2) -> ((a_10 <= 999999999) ->
+      ((a_11 <= 999999999) ->
+      (a_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_11 + a_10)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_3 : Z. let a_10 = a_3[shift_sint32(a, i_3)] in
+      ((0 <= i_3) -> ((i_3 < j) -> ((a_6 <= 999999999) ->
+      ((a_10 <= 999999999) ->
+      (a_3[shift_sint32(a_1, i_3)] <= (a_6 + a_10)))))).
+  (* Then *)
+  Have: j < i_2.
+  If a_3[a_4] <= 999999999
+  Then {
+    Have: a_3 = Mint_2.
+    If Mint_2[a_9] <= 999999999
+    Then {
+      Have: Mint_2 = Mint_1.
+      If (Mint_2[a_4] + Mint_2[a_9]) < Mint_2[shift_sint32(a_1, j)]
+      Then {
+        Have: Mint_2[shift_sint32(a_1, j) <- Mint_2[a_4] + Mint_2[a_9]] =
+            Mint_0.
+      }
+      Else { Have: Mint_2 = Mint_0. }
+    }
+    Else { Have: Mint_2 = Mint_0. }
+  }
+  Else { Have: a_3 = Mint_0. }
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_2).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_2).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_0, graph_0, dist_0, i_2).
+  (* Invariant 'i_24' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let x_4 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_2) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_4 + x_3)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_4,i_3 : Z.
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let x_4 = Mint_0[shift_sint32(a, i_3)] in ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < i_2) -> ((x_3 <= 999999999) ->
+      ((x_4 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_4 + x_3)))))))).
+}
+Prove: Mint_0[shift_sint32(a_1, i_1)] <= (x_1 + x_2).
+Prover Alt-Ergo 2.6.3 returns Timeout (Qed:345ms) (10s)
+Prover CVC5 1.1.2 returns Timeout (Qed:345ms) (10s)
+Prover Z3 4.13.3 returns Failed
+out of memory
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_26' (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 139):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 64) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 64) (2/3):
+Effect at line 66
+Let a = shift_A100_sint32(dist_0, i_2).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, j).
+Let a_3 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, n).
+Let a_4 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_5 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i + (100 * i_1).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(1 + i_2).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_3) /\ (i_3 < n) /\ (0 <= i_4) /\ (i_4 < n) /\ (0 <= i_5) /\
+      (i_5 < n) /\ (0 <= i_6) /\ (i_6 < n) /\ (0 <= i_1) /\ (i_1 < n) /\
+      (0 <= i) /\ (i < n) /\
+      (!invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), i_4),
+          1)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_4, x).
+  (* Pre-condition *)
+  Have: forall i_7 : Z. ((0 <= i_7) -> ((i_7 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_7), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_7 : Z. ((0 <= i_7) -> ((i_7 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_7), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_4, x, a_5, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_6 : addr.
+      ((forall i_8,i_7 : Z. ((0 <= i_8) -> ((i_8 < n) -> ((0 <= i_7) ->
+        ((i_7 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_8), i_7) != a_6)))))) ->
+      (Mint_0[a_6] = Mint_1[a_6])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_2) /\ (i_2 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_8,i_7 : Z. ((0 <= i_8) -> ((i_8 < i_2) -> ((0 <= i_7) ->
+      ((i_7 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_8), i_7)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_8), i_7)]))))).
+  (* Then *)
+  Have: i_2 < n.
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= n).
+  (* Invariant 'i_9' *)
+  Have: forall i_7 : Z. ((0 <= i_7) -> ((i_7 < j) ->
+      (a_3[shift_sint32(shift_A100_sint32(graph_0, i_2), i_7)] =
+       a_3[shift_sint32(a, i_7)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_8,i_7 : Z. ((0 <= i_8) -> ((i_8 < i_2) -> ((0 <= i_7) ->
+      ((i_7 < n) ->
+      (a_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_7)] =
+       a_3[shift_sint32(shift_A100_sint32(dist_0, i_8), i_7)]))))).
+  (* Else *)
+  Have: n <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i_2.
+  (* Invariant 'i_1' *)
+  Have: forall i_8,i_7 : Z. ((i_8 <= i_2) -> ((0 <= i_8) -> ((0 <= i_7) ->
+      ((i_7 < j) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_8), i_7)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_8), i_7)]))))).
+}
+Prove: exists i_7 : Z. let x_2 = 100 * i_7 in (0 <= i_7) /\ (i_7 < j) /\
+    (x_2 <= x_1) /\ (x_1 < (j + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:44ms) (36ms) (176)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 64) (3/3):
+Effect at line 80
+Let a = shift_A100_sint32(dist_0, i_1).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, j).
+Let a_3 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, n).
+Let a_4 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_5 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i + (100 * i_1).
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(1 + i_1).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n) /\ (!invalid(Malloc_0, a_1, n)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_4, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_4, x, a_5, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_6 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_6)))))) ->
+      (Mint_0[a_6] = Mint_1[a_6])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= n).
+  (* Invariant 'i_9' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      (a_3[shift_sint32(shift_A100_sint32(graph_0, i_1), i_2)] =
+       a_3[shift_sint32(a, i_2)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (a_3[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)] =
+       a_3[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Else *)
+  Have: n <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i_1.
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((i_3 <= i_1) -> ((0 <= i_3) -> ((0 <= i_2) ->
+      ((i_2 < j) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+}
+Prove: exists i_2 : Z. let x_2 = 100 * i_2 in (0 <= i_2) /\ (i_2 < j) /\
+    (x_2 <= x_1) /\ (x_1 < (j + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:30ms) (24ms) (143)
+Prover Z3 4.13.3 returns Valid (Qed:30ms) (186ms) (1523899)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 78) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 78) (2/3):
+Effect at line 80
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 78) (3/3):
+Effect at line 81
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, n).
+Let x = j - 1.
+Let a_3 = shift_sint32(a, x).
+Let a_4 = shift_A100_sint32(graph_0, i).
+Let a_5 = a_2[a_3 <- a_2[shift_sint32(a_4, x)]].
+Let a_6 = shift_A100_sint32(graph_0, 0).
+Let x_1 = 100 * n.
+Let a_7 = shift_A100_sint32(dist_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_3, 1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_6, x_1).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_7, x_1).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_1), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_6, x_1, a_7, x_1).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_8 : addr.
+      ((forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < n) -> ((0 <= i_1) ->
+        ((i_1 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_2), i_1) != a_8)))))) ->
+      (Mint_0[a_8] = Mint_1[a_8])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_7' *)
+  Have: (0 < j) /\ (j <= (1 + n)).
+  (* Invariant 'i_9' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> (((2 + i_1) <= j) ->
+      (a_2[shift_sint32(a_4, i_1)] = a_2[shift_sint32(a, i_1)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)] =
+       a_2[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+  (* Then *)
+  Have: j <= n.
+  (* Invariant 'i_9' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (a_5[shift_sint32(a_4, i_1)] = a_5[shift_sint32(a, i_1)]))).
+  (* Invariant 'i_10' *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i) -> ((0 <= i_1) ->
+      ((i_1 < n) ->
+      (a_5[shift_sint32(shift_A100_sint32(graph_0, i_2), i_1)] =
+       a_5[shift_sint32(shift_A100_sint32(dist_0, i_2), i_1)]))))).
+}
+Prove: included(a_3, 1, a_1, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:37ms) (28ms) (162)
+Prover CVC5 1.1.2 returns Valid (Qed:37ms) (55ms) (22736)
+Prover Z3 4.13.3 returns Valid (Qed:37ms) (39ms) (188973)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 98) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 98) (2/3):
+Effect at line 100
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_2 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i_1 + (100 * i_2).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_3) /\ is_sint32(k) /\ is_sint32(n) /\
+      is_sint32(1 + k).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_4) /\ (i_4 < n) /\ (0 <= i_5) /\ (i_5 < n) /\ (0 <= i_6) /\
+      (i_6 < n) /\ (0 <= i_7) /\ (i_7 < n) /\ (0 <= i_2) /\ (i_2 < n) /\
+      (0 <= i_1) /\ (i_1 < n) /\
+      (!invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), i_5),
+          1)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_1, x, a_2, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < n) -> ((0 <= i_8) ->
+        ((i_8 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+      ((i_8 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_9), i_8)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+        ((i_8 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_2[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_2, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i_3) -> ((0 <= i_9) -> ((i_9 < i_3) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Then *)
+  Have: k < i_3.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+        ((i_8 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_3[a_3])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_3).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_3).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_3).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_3, graph_0, dist_0, i_3).
+  (* Invariant 'i_16' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i_3) -> ((0 <= i_9) -> ((i_9 < i_3) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_9), k)] in
+      let x_3 = Mint_3[shift_sint32(a, i_8)] in ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 < i_3) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]
+         <= (x_3 + x_2)))))))).
+  (* Else *)
+  Have: i_3 <= i.
+  (* Invariant 'i_2' *)
+  Have: (-1) <= k.
+  (* Invariant 'i_6' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i) -> ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 <= k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+}
+Prove: exists i_8 : Z. let x_2 = 100 * i_8 in (0 <= i_8) /\ (i_8 < i) /\
+    (x_2 <= x_1) /\ (x_1 < (i + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:50ms) (30ms) (219)
+Prover CVC5 1.1.2 returns Valid (Qed:50ms) (61ms) (27791)
+Prover Z3 4.13.3 returns Valid (Qed:50ms) (41ms) (212505)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 98) (3/3):
+Effect at line 120
+Let a = shift_A100_sint32(graph_0, k).
+Let a_1 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_2 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i_1 + (100 * i_2).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_3) /\ is_sint32(k) /\ is_sint32(n) /\
+      is_sint32(1 + k).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_4) /\ (i_4 < n) /\ (0 <= i_5) /\ (i_5 < n) /\ (0 <= i_6) /\
+      (i_6 < n) /\ (0 <= i_7) /\ (i_7 < n) /\ (0 <= i_2) /\ (i_2 < n) /\
+      (0 <= i_1) /\ (i_1 < n) /\
+      (!invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), i_5),
+          1)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_1, x, a_2, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < n) -> ((0 <= i_8) ->
+        ((i_8 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+      ((i_8 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_9), i_8)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+        ((i_8 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_2[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_2, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i_3) -> ((0 <= i_9) -> ((i_9 < i_3) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Then *)
+  Have: k < i_3.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i_3) -> ((0 <= i_8) ->
+        ((i_8 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_3[a_3])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_3).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_3).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_3).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_3, graph_0, dist_0, i_3).
+  (* Invariant 'i_16' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i_3) -> ((0 <= i_9) -> ((i_9 < i_3) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_9), k)] in
+      let x_3 = Mint_3[shift_sint32(a, i_8)] in ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 < i_3) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]
+         <= (x_3 + x_2)))))))).
+  (* Else *)
+  Have: i_3 <= i.
+  (* Invariant 'i_2' *)
+  Have: (-1) <= k.
+  (* Invariant 'i_6' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i) -> ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 <= k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+}
+Prove: exists i_8 : Z. let x_2 = 100 * i_8 in (0 <= i_8) /\ (i_8 < i) /\
+    (x_2 <= x_1) /\ (x_1 < (i + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:60ms) (22ms) (219)
+Prover CVC5 1.1.2 returns Valid (Qed:60ms) (67ms) (27791)
+Prover Z3 4.13.3 returns Valid (Qed:60ms) (31ms) (88547)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 118) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 118) (2/3):
+Effect at line 120
+Let a = shift_A100_sint32(dist_0, i_3).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_3, a_1, Mint_undef_0, a_1, i).
+Let a_3 = shift_A100_sint32(graph_0, k).
+Let a_4 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)].
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i_1 + (100 * i_2).
+Assume {
+  Type: is_sint32(i_3) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + i_3).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_4) /\ (i_4 < n) /\ (0 <= i_5) /\ (i_5 < n) /\ (0 <= i_6) /\
+      (i_6 < n) /\ (0 <= i_7) /\ (i_7 < n) /\ (0 <= i_2) /\ (i_2 < n) /\
+      (0 <= i_1) /\ (i_1 < n) /\
+      (!invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), i_5),
+          1)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_8 : Z. ((0 <= i_8) -> ((i_8 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_8), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < n) -> ((0 <= i_8) ->
+        ((i_8 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_0[a_7])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i) -> ((0 <= i_8) ->
+      ((i_8 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_9), i_8)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i) -> ((0 <= i_8) ->
+        ((i_8 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_2[a_7])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_2, graph_0, dist_0, i).
+  (* Invariant 'i_6' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i) -> ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Then *)
+  Have: k < i.
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_9,i_8 : Z. ((0 <= i_9) -> ((i_9 < i) -> ((0 <= i_8) ->
+        ((i_8 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_9), i_8) != a_7)))))) ->
+      (Mint_2[a_7] = Mint_3[a_7])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_3) /\ (i_3 <= i).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_3, graph_0, dist_0, i).
+  (* Invariant 'i_16' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i) -> ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)]
+         <= (x_3 + x_2)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_9,i_8 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_9), k)] in
+      let x_3 = Mint_3[shift_sint32(a_3, i_8)] in ((0 <= i_9) ->
+      ((i_9 < i_3) -> ((0 <= i_8) -> ((i_8 < i) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)]
+         <= (x_3 + x_2)))))))).
+  (* Then *)
+  Have: i_3 < i.
+  (* Invariant 'i_18' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_0, a_2, graph_0, dist_0, i).
+  (* Invariant 'i_24' *)
+  Have: forall i_10,i_9,i_8 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_10), i_8)] in
+      let a_8 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_8), i_9)] in
+      ((0 <= i_10) -> ((i_10 < i) -> ((0 <= i_9) -> ((i_9 < i) ->
+      ((0 <= i_8) -> ((i_8 < k) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_10), i_9)] <= (a_8 + a_7)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_9,i_8 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_9), k)] in
+      let a_8 = a_2[shift_sint32(a_3, i_8)] in ((0 <= i_9) -> ((i_9 < i_3) ->
+      ((0 <= i_8) -> ((i_8 < i) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)] <= (a_8 + a_7)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_8 : Z. let a_7 = a_2[shift_sint32(a_3, i_8)] in
+      ((0 <= i_8) -> ((i_8 < j) -> ((a_4 <= 999999999) ->
+      ((a_7 <= 999999999) -> (a_2[shift_sint32(a, i_8)] <= (a_4 + a_7)))))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_11' *)
+  Have: (-1) <= i_3.
+  (* Invariant 'i_17' *)
+  Have: forall i_9,i_8 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_9), k)] in
+      let a_8 = a_2[shift_sint32(a_3, i_8)] in ((i_9 <= i_3) ->
+      ((0 <= i_9) -> ((0 <= i_8) -> ((i_8 < i) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_9), i_8)] <= (a_8 + a_7)))))))).
+}
+Prove: exists i_8 : Z. let x_2 = 100 * i_8 in (0 <= i_8) /\ (i_8 < i) /\
+    (x_2 <= x_1) /\ (x_1 < (i + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:126ms) (43ms) (438)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 118) (3/3):
+Effect at line 144
+Let a = shift_A100_sint32(dist_0, i_2).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_3, a_1, Mint_undef_0, a_1, i).
+Let a_3 = shift_A100_sint32(graph_0, k).
+Let a_4 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), k)].
+Let a_5 = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_6 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i_1 + (100 * i_2).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(1 + i_2).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < n) /\ (!invalid(Malloc_0, a_1, n)).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_5, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, x).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_5, x, a_6, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < n) -> ((0 <= i_3) ->
+        ((i_3 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_0[a_7])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+      ((i_3 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_4), i_3)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i).
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+        ((i_3 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_7)))))) ->
+      (Mint_1[a_7] = Mint_2[a_7])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_2, graph_0, dist_0, i).
+  (* Invariant 'i_6' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let x_2 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let x_3 = Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i) -> ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_3 + x_2)))))))))).
+  (* Then *)
+  Have: k < i.
+  (* Loop assigns ... *)
+  Have: forall a_7 : addr.
+      ((forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i) -> ((0 <= i_3) ->
+        ((i_3 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_4), i_3) != a_7)))))) ->
+      (Mint_2[a_7] = Mint_3[a_7])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_2) /\ (i_2 <= i).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_3, graph_0, dist_0, i).
+  (* Invariant 'i_16' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i) -> ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_3 + x_2)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_4,i_3 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let x_3 = Mint_3[shift_sint32(a_3, i_3)] in ((0 <= i_4) ->
+      ((i_4 < i_2) -> ((0 <= i_3) -> ((i_3 < i) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_3 + x_2)))))))).
+  (* Then *)
+  Have: i_2 < i.
+  (* Invariant 'i_18' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_0, a_2, graph_0, dist_0, i).
+  (* Invariant 'i_24' *)
+  Have: forall i_5,i_4,i_3 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), i_3)] in
+      let a_8 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_4)] in
+      ((0 <= i_5) -> ((i_5 < i) -> ((0 <= i_4) -> ((i_4 < i) ->
+      ((0 <= i_3) -> ((i_3 < k) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)] <= (a_8 + a_7)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_4,i_3 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let a_8 = a_2[shift_sint32(a_3, i_3)] in ((0 <= i_4) -> ((i_4 < i_2) ->
+      ((0 <= i_3) -> ((i_3 < i) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)] <= (a_8 + a_7)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_3 : Z. let a_7 = a_2[shift_sint32(a_3, i_3)] in
+      ((0 <= i_3) -> ((i_3 < j) -> ((a_4 <= 999999999) ->
+      ((a_7 <= 999999999) -> (a_2[shift_sint32(a, i_3)] <= (a_4 + a_7)))))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_11' *)
+  Have: (-1) <= i_2.
+  (* Invariant 'i_17' *)
+  Have: forall i_4,i_3 : Z.
+      let a_7 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), k)] in
+      let a_8 = a_2[shift_sint32(a_3, i_3)] in ((i_4 <= i_2) ->
+      ((0 <= i_4) -> ((0 <= i_3) -> ((i_3 < i) -> ((a_7 <= 999999999) ->
+      ((a_8 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)] <= (a_8 + a_7)))))))).
+}
+Prove: exists i_3 : Z. let x_2 = 100 * i_3 in (0 <= i_3) /\ (i_3 < i) /\
+    (x_2 <= x_1) /\ (x_1 < (i + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:93ms) (45ms) (252)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 142) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 142) (2/3):
+Effect at line 144
+Prove: true.
+Prover Qed returns Valid (27ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 142) (3/3):
+Effect at line 148
+Let a = shift_A100_sint32(dist_0, i).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, i_1).
+Let x = j - 1.
+Let a_3 = shift_sint32(a, x).
+Let a_4 = shift_sint32(a, k).
+Let a_5 = a_2[a_4].
+Let a_6 = shift_sint32(shift_A100_sint32(dist_0, k), x).
+Let a_7 = a_2[a_6].
+Let a_8 = a_5 + a_7.
+Let a_9 = a_2[a_3 <- a_8].
+Let a_10 = shift_sint32(shift_A100_sint32(graph_0, i), k).
+Let a_11 = a_9[a_10].
+Let a_12 = shift_A100_sint32(graph_0, k).
+Let a_13 = a_2[a_10].
+Let a_14 = shift_A100_sint32(graph_0, 0).
+Let x_1 = 100 * n.
+Let a_15 = shift_A100_sint32(dist_0, 0).
+Let a_16 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(x) /\ is_sint32(a_16[a_4]) /\
+      is_sint32(a_16[a_3]) /\ is_sint32(a_16[a_6]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_3, 1).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_14, x_1).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_15, x_1).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_14, x_1, a_15, x_1).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_1, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_1, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_17 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < n) -> ((0 <= i_2) ->
+        ((i_2 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_17)))))) ->
+      (Mint_2[a_17] = Mint_1[a_17])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+      ((i_2 < n) ->
+      (Mint_2[shift_sint32(shift_A100_sint32(graph_0, i_3), i_2)]
+         = Mint_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]))))).
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_2, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_2, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_2, graph_0, dist_0, i_1).
+  (* Loop assigns ... *)
+  Have: forall a_17 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_17)))))) ->
+      (Mint_2[a_17] = Mint_3[a_17])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_1) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_3, dist_0, i_1).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_3, dist_0, i_1).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_3, graph_0, dist_0, i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_2 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_3 = Mint_3[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_3[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_3 + x_2)))))))))).
+  (* Then *)
+  Have: k < i_1.
+  (* Loop assigns ... *)
+  Have: forall a_17 : addr.
+      ((forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_1) -> ((0 <= i_2) ->
+        ((i_2 < i_1) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_3), i_2) != a_17)))))) ->
+      (Mint_3[a_17] = Mint_0[a_17])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i) /\ (i <= i_1).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_1).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_1).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_1, Mint_0, graph_0, dist_0, i_1).
+  (* Invariant 'i_16' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let x_3 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (x_3 + x_2)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_3,i_2 : Z.
+      let x_2 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let x_3 = Mint_0[shift_sint32(a_12, i_2)] in ((0 <= i_3) ->
+      ((i_3 < i) -> ((0 <= i_2) -> ((i_2 < i_1) -> ((x_2 <= 999999999) ->
+      ((x_3 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (x_3 + x_2)))))))).
+  (* Then *)
+  Have: i < i_1.
+  (* Invariant 'i_18' *)
+  Have: (0 < j) /\ (j <= (1 + i_1)).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_2, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let a_17 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let a_18 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((a_17 <= 999999999) ->
+      ((a_18 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_18 + a_17)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_3,i_2 : Z.
+      let a_17 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let a_18 = a_2[shift_sint32(a_12, i_2)] in ((0 <= i_3) -> ((i_3 < i) ->
+      ((0 <= i_2) -> ((i_2 < i_1) -> ((a_17 <= 999999999) ->
+      ((a_18 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (a_18 + a_17)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_2 : Z. let a_17 = a_2[shift_sint32(a_12, i_2)] in
+      ((0 <= i_2) -> (((2 + i_2) <= j) -> ((a_13 <= 999999999) ->
+      ((a_17 <= 999999999) ->
+      (a_2[shift_sint32(a, i_2)] <= (a_13 + a_17)))))).
+  (* Then *)
+  Have: j <= i_1.
+  (* Then *)
+  Have: a_5 <= 999999999.
+  (* Then *)
+  Have: a_7 <= 999999999.
+  (* Then *)
+  Have: a_8 < a_2[a_3].
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_9, dist_0, i_1).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_9, dist_0, i_1).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_1, a_9, graph_0, dist_0, i_1).
+  (* Invariant 'i_24' *)
+  Have: forall i_4,i_3,i_2 : Z.
+      let a_17 = a_9[shift_sint32(shift_A100_sint32(graph_0, i_4), i_2)] in
+      let a_18 = a_9[shift_sint32(shift_A100_sint32(graph_0, i_2), i_3)] in
+      ((0 <= i_4) -> ((i_4 < i_1) -> ((0 <= i_3) -> ((i_3 < i_1) ->
+      ((0 <= i_2) -> ((i_2 < k) -> ((a_17 <= 999999999) ->
+      ((a_18 <= 999999999) ->
+      (a_9[shift_sint32(shift_A100_sint32(dist_0, i_4), i_3)]
+         <= (a_18 + a_17)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_3,i_2 : Z.
+      let a_17 = a_9[shift_sint32(shift_A100_sint32(graph_0, i_3), k)] in
+      let a_18 = a_9[shift_sint32(a_12, i_2)] in ((0 <= i_3) -> ((i_3 < i) ->
+      ((0 <= i_2) -> ((i_2 < i_1) -> ((a_17 <= 999999999) ->
+      ((a_18 <= 999999999) ->
+      (a_9[shift_sint32(shift_A100_sint32(dist_0, i_3), i_2)]
+         <= (a_18 + a_17)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_2 : Z. let a_17 = a_9[shift_sint32(a_12, i_2)] in
+      ((0 <= i_2) -> ((i_2 < j) -> ((a_11 <= 999999999) ->
+      ((a_17 <= 999999999) ->
+      (a_9[shift_sint32(a, i_2)] <= (a_11 + a_17)))))).
+}
+Prove: included(a_3, 1, a_1, i_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:100ms) (47ms) (468)
+Prover CVC5 1.1.2 returns Valid (Qed:100ms) (163ms) (65657)
+Prover Z3 4.13.3 returns Valid (Qed:100ms) (111ms) (757970)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 46) in 'floyd' (1/4):
+Effect at line 66
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 46) in 'floyd' (2/4):
+Effect at line 66
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i + (100 * i_1).
+Assume {
+  Have: 0 <= i_2.
+  Have: i_2 < n.
+  Have: 0 <= i_3.
+  Have: i_3 < n.
+  Have: !invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_2), i_3),
+           1).
+  Have: 0 <= i_1.
+  Have: i_1 < n.
+  Have: 0 <= i.
+  Have: i < n.
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_0[a_2])).
+}
+Prove: exists i_4 : Z. let x_2 = 100 * i_4 in (0 <= i_4) /\ (i_4 < n) /\
+    (x_2 <= x_1) /\ (x_1 < (n + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:23ms) (27ms) (113)
+Prover CVC5 1.1.2 returns Valid (Qed:23ms) (39ms) (19192)
+Prover Z3 4.13.3 returns Valid (Qed:23ms) (11ms) (39758)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 46) in 'floyd' (3/4):
+Effect at line 100
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-42.cbs/.col2inv-trustc-4th6g0oo.c, line 46) in 'floyd' (4/4):
+Effect at line 100
+Let a = shift_A100_sint32(graph_0, 0).
+Let x = 100 * n.
+Let a_1 = shift_A100_sint32(dist_0, 0).
+Let x_1 = i_1 + (100 * i_2).
+Assume {
+  Have: 0 <= i_3.
+  Have: i_3 < i.
+  Have: 0 <= i_4.
+  Have: i_4 < i.
+  Have: !invalid(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_3), i_4),
+           1).
+  Have: 0 <= i_2.
+  Have: i_2 < i.
+  Have: 0 <= i_1.
+  Have: i_1 < i.
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, x).
+  (* Pre-condition *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_5), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a, x, a_1, x).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_0, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_0, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < n) -> ((0 <= i_5) ->
+        ((i_5 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_0[a_2])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i) -> ((0 <= i_5) ->
+      ((i_5 < n) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_6), i_5)]
+         = Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_0, Mint_1, graph_0, dist_0, i).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_6,i_5 : Z. ((0 <= i_6) -> ((i_6 < i) -> ((0 <= i_5) ->
+        ((i_5 < i) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_6), i_5) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_2[a_2])).
+}
+Prove: exists i_5 : Z. let x_2 = 100 * i_5 in (0 <= i_5) /\ (i_5 < i) /\
+    (x_2 <= x_1) /\ (x_1 < (i + x_2)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:43ms) (24ms) (139)
+Prover CVC5 1.1.2 returns Valid (Qed:43ms) (53ms) (23365)
+Prover Z3 4.13.3 returns Valid (Qed:43ms) (22ms) (119355)
+
+------------------------------------------------------------

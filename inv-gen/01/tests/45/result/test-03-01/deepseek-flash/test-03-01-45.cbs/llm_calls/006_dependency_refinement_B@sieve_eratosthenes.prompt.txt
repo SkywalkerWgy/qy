@@ -1,0 +1,165 @@
+
+#define MAX 100
+
+/*@
+  axiomatic PrimeMath {
+    predicate divides(integer d, integer x) =
+      d != 0 && x % d == 0;
+
+    predicate is_prime(integer x) =
+      2 <= x &&
+      (\forall integer d; 2 <= d && d * d <= x ==> !divides(d,x));
+
+    axiom divides_square:
+      \forall integer d; d != 0 ==> divides(d,d*d);
+
+    axiom divides_plus:
+      \forall integer d, x; 0 < d && divides(d,x) ==> divides(d,x+d);
+
+    axiom close_multiples_equal:
+      \forall integer d, a, b;
+        0 < d && divides(d,a) && divides(d,b) && a <= b < a + d ==> a == b;
+  }
+*/
+
+/* Sieve of Eratosthenes: returns all primes <= n.
+   primes[] must have space for at least n entries. */
+/*@
+  requires 2 <= n <= 100;
+  requires \valid(primes + (0..n-1));
+  assigns primes[0..n-1];
+  ensures 0 <= \result <= n - 1;
+  ensures 1 <= \result;
+  ensures primes[0] == 2;
+  ensures \forall integer k; 0 <= k < \result ==> 2 <= primes[k] <= n;
+  ensures \forall integer k; 0 <= k < \result ==> is_prime(primes[k]);
+  ensures \forall integer a, b; 0 <= a < b < \result ==> primes[a] < primes[b];
+*/
+_Safe int sieve_eratosthenes(int n, int primes[_Nonnull]) {
+    int is_p[MAX + 1];
+    int i, p, cnt;
+
+    /* initialize: all numbers >= 2 are candidates */
+      // Loop A
+/*@
+      loop invariant i_0: 2 <= i && i <= n + 1;
+
+      loop invariant i_1: \forall integer k; 2 <= k < i ==> is_p[k] == 1;
+
+
+      loop assigns i, is_p[2..n];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) is_p[i] = 1;
+
+    cnt = 0;
+
+    /* mark composites: for each prime p, mark p*p, p*(p+1), ... */
+      // Loop B
+/*@
+      [Hint] Please refine the loop invariants in the repair scope.
+
+      loop invariant i_11: 2 <= p && p <= n + 1;
+
+      loop invariant i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
+
+      loop invariant i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
+
+      loop invariant i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
+
+      loop invariant i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
+
+
+      loop assigns p, i, is_p[2..n];
+      loop variant n - p;
+    */
+    for (p = 2; p * p <= n; p++) {
+              // Loop C
+/*@
+          [Hint] Please refine the loop invariants in the repair scope.
+
+          loop invariant i_16: 2 <= p && p <= n;
+
+          loop invariant i_17: p * p <= i && i <= n + p;
+
+          loop invariant i_18: divides(p, i);
+
+          loop invariant i_19: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
+
+          loop invariant i_20: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
+
+          loop invariant i_21: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
+
+          loop invariant i_22: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
+
+          loop invariant i_23: \forall integer k; p * p <= k && k < i && divides(p,k) ==> is_p[k] == 0;
+
+
+          loop assigns i, is_p[p * p..n];
+          loop variant n - i + 1;
+        */
+        for (i = p * p; i <= n; i += p) {
+            is_p[i] = 0;
+        }
+    }
+    /*@ assert is_p[2] == 1; */
+    /*@ assert \forall integer k; 2 <= k <= n && is_p[k] == 1 ==> is_prime(k); */
+
+    /* collect surviving primes */
+      // Loop D
+/*@
+      loop invariant i_2: 2 <= i <= n + 1;
+
+      loop invariant i_3: 0 <= cnt <= i - 2;
+
+      loop invariant i_4: \forall integer k; 0 <= k < cnt ==> 2 <= primes[k] < i;
+
+      loop invariant i_5: \forall integer k; 0 <= k < cnt ==> primes[k] <= n;
+
+      loop invariant i_6: \forall integer k; 0 <= k < cnt ==> is_p[primes[k]] == 1;
+
+      loop invariant i_7: \forall integer k; 0 <= k < cnt ==> is_prime(primes[k]);
+
+      loop invariant i_8: \forall integer k; 2 <= k < i && is_p[k] == 1 ==> \exists integer j; 0 <= j < cnt && primes[j] == k;
+
+      loop invariant i_9: \forall integer a, b; 0 <= a < b < cnt ==> primes[a] < primes[b];
+
+      loop invariant i_10: i > 2 ==> 1 <= cnt && primes[0] == 2;
+
+
+      loop assigns i, cnt, primes[0..n-1];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) {
+        if (is_p[i]) {
+            /*@ assert is_prime(i); */
+            /*@ assert \forall integer k; 0 <= k < cnt ==> primes[k] < i; */
+            primes[cnt] = i;
+            cnt = cnt + 1;
+        }
+        /*@ assert i != 2 || (1 <= cnt && primes[0] == 2); */
+    }
+
+    return cnt;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k)
+[Failed Property] preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[Failure Cause] The proof is trying to show that after the inner loop C (which clears multiples of p from p*p to n), any surviving k with 2 <= k <= n, k < (p+1)^2, and is_p[k] == 1 is prime. The available invariants only state that multiples of p in [p*p, n] are cleared (i_23) and that numbers with a divisor d < p and d*d <= k are cleared (i_22). They do not provide the number-theoretic fact that every composite k < (p+1)^2 has a divisor d <= p with d*d <= k. Without that fact, is_p[k] == 1 cannot rule out k being composite, so P_is_prime(k) cannot be concluded. Thus i_14 is not too strong, but it is not inductive from the provided inner-loop invariants alone; the inner loop only removes multiples of p, not all composites in the newly covered interval. The C invariants are too weak to imply the goal after the inner loop terminates.
+[Repair Scope] B@sieve_eratosthenes, C@sieve_eratosthenes
+[Refinement Direction] The missing bridge is the arithmetic fact that if 2 <= k < (p+1)^2 and k is composite, then k has a divisor d with 2 <= d <= p and d*d <= k. If d = p, i_23 marks k as not surviving; if d < p, i_22 marks k as not surviving. Hence is_p[k] == 1 contradicts compositeness, so k must be prime. The refinement should expose or prove this number-theoretic fact (or an equivalent prime-divisor existence lemma), not weaken i_14.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in B@sieve_eratosthenes, C@sieve_eratosthenes.
+2. Your answer should follow the following format:
+```
+[Loop B@sieve_eratosthenes]
+
+[Loop C@sieve_eratosthenes]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

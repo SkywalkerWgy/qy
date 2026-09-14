@@ -1,0 +1,1607 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 39 goals scheduled
+[wp] Proved goals:   40 / 40
+  Unreachable:       1
+  Qed:              20 (3ms-32ms-193ms)
+  Alt-Ergo 2.6.3:   17 (20ms-58ms-170ms)
+  CVC5 1.1.2:        2 (65ms-146ms)
+------------------------------------------------------------
+  Function _lis
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 7) in '_lis':
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, i).
+Let a_2 = shift_sint32(dp_0, res_0).
+Let a_3 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_4 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_3) /\ is_sint32(n) /\ is_sint32(res_0) /\
+      is_sint32(a_3[a]) /\ is_sint32(a_3[a_2]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (i_2 < n) /\ (0 <= i_1) /\ (i_1 < i_2) /\
+      (a_3[shift_sint32(arr_0, i_1)] < a_3[shift_sint32(arr_0, i_2)]).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_4, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_4)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_4)]))).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((i <= i_4) -> ((i_4 < n) ->
+      (a_3[shift_sint32(dp_0, i_4)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_4)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i) ->
+      (forall i_5 : Z. ((0 <= i_5) -> ((i_5 < i_4) ->
+       ((a_3[shift_sint32(arr_0, i_5)] < a_3[shift_sint32(arr_0, i_4)]) ->
+       (a_3[shift_sint32(dp_0, i_5)] < a_3[shift_sint32(dp_0, i_4)]))))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_7' *)
+  Have: 0 < i.
+  (* Invariant 'i_5' *)
+  Have: (i_3 <= i) /\ (0 <= i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+      (a_1[shift_sint32(dp_0, i_4)] <= a_1[a_2]))).
+  (* Invariant 'i_7' *)
+  Have: (0 <= res_0) /\ (res_0 < i).
+  (* Else *)
+  Have: i <= i_3.
+}
+Prove: a_1[shift_sint32(dp_0, i_1)] < a_1[shift_sint32(dp_0, i_2)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:34ms) (69ms) (561)
+Prover CVC5 1.1.2 returns Valid (Qed:34ms) (45ms) (18394)
+Prover Z3 4.13.3 returns Valid (Qed:34ms) (40ms) (190812)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 8) in '_lis':
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, i).
+Let a_2 = shift_sint32(dp_0, res_0).
+Let a_3 = a_1[a_2].
+Let a_4 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_5 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(res_0) /\
+      is_sint32(a_4[a]) /\ is_sint32(a_4[a_2]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_5, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i <= i_3) -> ((i_3 < n) ->
+      (a_4[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_4[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_4[shift_sint32(arr_0, i_4)] < a_4[shift_sint32(arr_0, i_3)]) ->
+       (a_4[shift_sint32(dp_0, i_4)] < a_4[shift_sint32(dp_0, i_3)]))))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_7' *)
+  Have: 0 < i.
+  (* Invariant 'i_5' *)
+  Have: (i_2 <= i) /\ (0 <= i_2).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (a_1[shift_sint32(dp_0, i_3)] <= a_3))).
+  (* Invariant 'i_7' *)
+  Have: (0 <= res_0) /\ (res_0 < i).
+  (* Else *)
+  Have: i <= i_2.
+}
+Prove: a_1[shift_sint32(dp_0, i_1)] <= a_3.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:34ms) (29ms) (123)
+Prover CVC5 1.1.2 returns Valid (Qed:34ms) (69ms) (18554)
+Prover Z3 4.13.3 returns Valid (Qed:34ms) (17ms) (66494)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 9) in '_lis':
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, i).
+Let a_2 = shift_sint32(dp_0, res_0).
+Let a_3 = a_1[a_2].
+Let a_4 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_5 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(res_0) /\
+      is_sint32(a_4[a]) /\ is_sint32(a_4[a_2]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_5, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i <= i_2) -> ((i_2 < n) ->
+      (a_4[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_4[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_4[shift_sint32(arr_0, i_3)] < a_4[shift_sint32(arr_0, i_2)]) ->
+       (a_4[shift_sint32(dp_0, i_3)] < a_4[shift_sint32(dp_0, i_2)]))))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_7' *)
+  Have: 0 < i.
+  (* Invariant 'i_5' *)
+  Have: (i_1 <= i) /\ (0 <= i_1).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (a_1[shift_sint32(dp_0, i_2)] <= a_3))).
+  (* Invariant 'i_7' *)
+  Have: (0 <= res_0) /\ (res_0 < i).
+  (* Else *)
+  Have: i <= i_1.
+}
+Prove: exists i_2 : Z. (a_1[shift_sint32(dp_0, i_2)] = a_3) /\ (0 <= i_2) /\
+    (i_2 < i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:28ms) (35ms) (105)
+Prover CVC5 1.1.2 returns Valid (Qed:28ms) (64ms) (18254)
+Prover Z3 4.13.3 returns Valid (Qed:28ms) (13ms) (62096)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 15):
+Prove: true.
+Prover Qed returns Valid (34ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 15):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 17):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_5 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_6 = shift_sint32(arr_0, i).
+Let a_7 = a_3[a_6].
+Let a_8 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + i) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\ is_sint32(a_1[a_6]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_5) /\
+      is_sint32(a_7) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 < n) /\ (i < i_1).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_8, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i < i_2) -> ((i_2 < n) ->
+      (a_3[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_3[shift_sint32(arr_0, i_3)] < a_3[shift_sint32(arr_0, i_2)]) ->
+       (a_3[shift_sint32(dp_0, i_3)] < a_3[shift_sint32(dp_0, i_2)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      ((a_3[shift_sint32(arr_0, i_2)] < a_7) ->
+      (a_3[shift_sint32(dp_0, i_2)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_4) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_5 < a_7)))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+}
+Prove: a_3[shift_sint32(dp_0, i_1)] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:46ms) (42ms) (198)
+Prover CVC5 1.1.2 returns Valid (Qed:46ms) (55ms) (20694)
+Prover Z3 4.13.3 returns Valid (Qed:46ms) (23ms) (100911)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 17):
+Let a = shift_sint32(arr_0, 0).
+Let a_1 = shift_sint32(dp_0, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+}
+Prove: Mint_0[shift_sint32(dp_0, i)] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (20ms) (40)
+Prover CVC5 1.1.2 returns Unknown (Qed:4ms)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (10ms) (33738)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 19):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_5 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_6 = shift_sint32(arr_0, i).
+Let a_7 = a_3[a_6].
+Let a_8 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + i) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\ is_sint32(a_1[a_6]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_5) /\
+      is_sint32(a_7) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_8, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i < i_2) -> ((i_2 < n) ->
+      (a_3[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_3[shift_sint32(arr_0, i_3)] < a_3[shift_sint32(arr_0, i_2)]) ->
+       (a_3[shift_sint32(dp_0, i_3)] < a_3[shift_sint32(dp_0, i_2)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      ((a_3[shift_sint32(arr_0, i_2)] < a_7) ->
+      (a_3[shift_sint32(dp_0, i_2)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_4) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_5 < a_7)))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+}
+Prove: 0 < a_3[shift_sint32(dp_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:43ms) (30ms) (197)
+Prover CVC5 1.1.2 returns Valid (Qed:43ms) (114ms) (32713)
+Prover Z3 4.13.3 returns Valid (Qed:43ms) (27ms) (100866)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 19):
+Let a = shift_sint32(arr_0, 0).
+Let a_1 = shift_sint32(dp_0, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] = 1))).
+}
+Prove: 0 < Mint_0[shift_sint32(dp_0, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:3ms) (30ms) (42)
+Prover CVC5 1.1.2 returns Unknown (Qed:3ms)
+Prover Z3 4.13.3 returns Valid (Qed:3ms) (10ms) (33736)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 21):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_5 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_6 = shift_sint32(arr_0, i).
+Let a_7 = a_3[a_6].
+Let a_8 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + i) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\ is_sint32(a_1[a_6]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_5) /\
+      is_sint32(a_7) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_2) /\ (0 <= i_1) /\ (i_1 < i_2) /\ (i_2 <= i) /\
+      (a_3[shift_sint32(arr_0, i_1)] < a_3[shift_sint32(arr_0, i_2)]).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_8, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i <= i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_1[shift_sint32(arr_0, i_4)] < a_1[shift_sint32(arr_0, i_3)]) ->
+       (a_1[shift_sint32(dp_0, i_4)] < a_1[shift_sint32(dp_0, i_3)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i < i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i < i_3) -> ((i_3 < n) ->
+      (a_3[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_3[shift_sint32(arr_0, i_4)] < a_3[shift_sint32(arr_0, i_3)]) ->
+       (a_3[shift_sint32(dp_0, i_4)] < a_3[shift_sint32(dp_0, i_3)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < j) ->
+      ((a_3[shift_sint32(arr_0, i_3)] < a_7) ->
+      (a_3[shift_sint32(dp_0, i_3)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_4) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_5 < a_7)))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+}
+Prove: a_3[shift_sint32(dp_0, i_1)] < a_3[shift_sint32(dp_0, i_2)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:35ms) (145ms) (1343)
+Prover CVC5 1.1.2 returns Valid (Qed:35ms) (407ms) (85646)
+Prover Z3 4.13.3 returns Valid (Qed:35ms) (166ms) (839012)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 21):
+Prove: true.
+Prover Qed returns Valid (0.79ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 35):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i_1).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(arr_0, j)].
+Let a_5 = shift_sint32(arr_0, i_1).
+Let a_6 = a_3[a_5].
+Let a_7 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_8 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_9 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + j) /\ is_sint32(Mint_0[a_5]) /\
+      is_sint32(Mint_0[a_2]) /\ is_sint32(a_1[shift_sint32(arr_0, -1)]) /\
+      is_sint32(a_1[a_5]) /\ is_sint32(a_1[shift_sint32(dp_0, -1)]) /\
+      is_sint32(a_8) /\ is_sint32(a_6) /\ is_sint32(a_4) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 < i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_9, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i_1 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_1 <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_1.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_3[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_3[shift_sint32(arr_0, i_3)] < a_3[shift_sint32(arr_0, i_2)]) ->
+       (a_3[shift_sint32(dp_0, i_3)] < a_3[shift_sint32(dp_0, i_2)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      ((a_3[shift_sint32(arr_0, i_2)] < a_6) ->
+      (a_3[shift_sint32(dp_0, i_2)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_7) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_8 < a_6)))).
+  (* Then *)
+  Have: j < i_1.
+  If a_4 < a_6
+  Then {
+    If v <= a_3[shift_sint32(dp_0, j)]
+    Then { Have: a_1[a_2 <- 1 + a_3[shift_sint32(dp_0, j)]] = Mint_0. }
+    Else { Have: a_3 = Mint_0. }
+  }
+  Else { Have: a_3 = Mint_0. }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= j.
+}
+Prove: Mint_0[shift_sint32(dp_0, i)] = 1.
+Prover CVC5 1.1.2 returns Valid (Qed:156ms) (65ms) (22352)
+Prover Z3 4.13.3 returns Valid (Qed:156ms) (35ms) (222157)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 35):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(a_1[shift_sint32(arr_0, i_1)]) /\
+      is_sint32(a_1[shift_sint32(dp_0, i_1)]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 < i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_2, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i_1 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_1 <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_1.
+}
+Prove: a_1[shift_sint32(dp_0, i)] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:17ms) (24ms) (82)
+Prover CVC5 1.1.2 returns Valid (Qed:17ms) (47ms) (15882)
+Prover Z3 4.13.3 returns Valid (Qed:17ms) (20ms) (68953)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 37):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i_1).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(arr_0, j)].
+Let a_5 = shift_sint32(arr_0, i_1).
+Let a_6 = a_3[a_5].
+Let a_7 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_8 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_9 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + j) /\ is_sint32(Mint_0[a_5]) /\
+      is_sint32(Mint_0[a_2]) /\ is_sint32(a_1[shift_sint32(arr_0, -1)]) /\
+      is_sint32(a_1[a_5]) /\ is_sint32(a_1[shift_sint32(dp_0, -1)]) /\
+      is_sint32(a_8) /\ is_sint32(a_6) /\ is_sint32(a_4) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_9, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i_1 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_1 <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_1.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_3[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_3[shift_sint32(arr_0, i_3)] < a_3[shift_sint32(arr_0, i_2)]) ->
+       (a_3[shift_sint32(dp_0, i_3)] < a_3[shift_sint32(dp_0, i_2)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      ((a_3[shift_sint32(arr_0, i_2)] < a_6) ->
+      (a_3[shift_sint32(dp_0, i_2)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_7) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_8 < a_6)))).
+  (* Then *)
+  Have: j < i_1.
+  If a_4 < a_6
+  Then {
+    If v <= a_3[shift_sint32(dp_0, j)]
+    Then { Have: a_1[a_2 <- 1 + a_3[shift_sint32(dp_0, j)]] = Mint_0. }
+    Else { Have: a_3 = Mint_0. }
+  }
+  Else { Have: a_3 = Mint_0. }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+}
+Prove: 0 < Mint_0[shift_sint32(dp_0, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:171ms) (54ms) (574)
+Prover Z3 4.13.3 returns Valid (Qed:171ms) (60ms) (250884)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 37):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(a_1[shift_sint32(arr_0, i_1)]) /\
+      is_sint32(a_1[shift_sint32(dp_0, i_1)]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_2, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i_1 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_1 <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_1.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+}
+Prove: 0 < a_1[shift_sint32(dp_0, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (32ms) (82)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (47ms) (18162)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (9ms) (69489)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 39):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i_2).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(arr_0, j)].
+Let a_5 = shift_sint32(arr_0, i_2).
+Let a_6 = a_3[a_5].
+Let a_7 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_8 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_9 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i_2) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + j) /\ is_sint32(Mint_0[a_5]) /\
+      is_sint32(Mint_0[a_2]) /\ is_sint32(a_1[shift_sint32(arr_0, -1)]) /\
+      is_sint32(a_1[a_5]) /\ is_sint32(a_1[shift_sint32(dp_0, -1)]) /\
+      is_sint32(a_8) /\ is_sint32(a_6) /\ is_sint32(a_4) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i_2) /\ (0 <= i) /\ (i < i_1) /\
+      (Mint_0[shift_sint32(arr_0, i)] < Mint_0[shift_sint32(arr_0, i_1)]).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_9, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (Mint_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_1[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_0' *)
+  Have: i_2 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_2 <= i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_1[shift_sint32(arr_0, i_4)] < a_1[shift_sint32(arr_0, i_3)]) ->
+       (a_1[shift_sint32(dp_0, i_4)] < a_1[shift_sint32(dp_0, i_3)]))))))).
+  (* Then *)
+  Have: i_2 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_2.
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i_2 < i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i_2) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i_2 < i_3) -> ((i_3 < n) ->
+      (a_3[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_3[shift_sint32(arr_0, i_4)] < a_3[shift_sint32(arr_0, i_3)]) ->
+       (a_3[shift_sint32(dp_0, i_4)] < a_3[shift_sint32(dp_0, i_3)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < j) ->
+      ((a_3[shift_sint32(arr_0, i_3)] < a_6) ->
+      (a_3[shift_sint32(dp_0, i_3)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_7) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_8 < a_6)))).
+  (* Then *)
+  Have: j < i_2.
+  If a_4 < a_6
+  Then {
+    If v <= a_3[shift_sint32(dp_0, j)]
+    Then { Have: a_1[a_2 <- 1 + a_3[shift_sint32(dp_0, j)]] = Mint_0. }
+    Else { Have: a_3 = Mint_0. }
+  }
+  Else { Have: a_3 = Mint_0. }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i_2 < i_3) -> ((i_3 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_3)]))).
+}
+Prove: Mint_0[shift_sint32(dp_0, i)] < Mint_0[shift_sint32(dp_0, i_1)].
+Prover CVC5 1.1.2 returns Valid (Qed:156ms) (146ms) (45353)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 39):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(n) /\
+      is_sint32(a_1[shift_sint32(arr_0, i_2)]) /\
+      is_sint32(a_1[shift_sint32(dp_0, i_2)]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < i_2) /\ (0 <= i) /\ (i < i_1) /\
+      (a_1[shift_sint32(arr_0, i)] < a_1[shift_sint32(arr_0, i_1)]).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_2, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_0' *)
+  Have: i_2 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_2 <= i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_1[shift_sint32(arr_0, i_4)] < a_1[shift_sint32(arr_0, i_3)]) ->
+       (a_1[shift_sint32(dp_0, i_4)] < a_1[shift_sint32(dp_0, i_3)]))))))).
+  (* Then *)
+  Have: i_2 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_2.
+  (* Invariant 'i_10' *)
+  Have: forall i_3 : Z. ((i_2 < i_3) -> ((i_3 < n) ->
+      (a_1[shift_sint32(dp_0, i_3)] = 1))).
+}
+Prove: a_1[shift_sint32(dp_0, i)] < a_1[shift_sint32(dp_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:22ms) (56ms) (447)
+Prover CVC5 1.1.2 returns Valid (Qed:22ms) (51ms) (17465)
+Prover Z3 4.13.3 returns Valid (Qed:22ms) (19ms) (142079)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 41):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i_1).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(arr_0, j)].
+Let a_5 = shift_sint32(arr_0, i_1).
+Let a_6 = a_3[a_5].
+Let a_7 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_8 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_9 = shift_sint32(arr_0, 0).
+Let x = Mint_0[a_5].
+Let x_1 = Mint_0[a_2].
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + j) /\ is_sint32(x) /\ is_sint32(x_1) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\ is_sint32(a_1[a_5]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_8) /\
+      is_sint32(a_6) /\ is_sint32(a_4) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i <= j) /\ (Mint_0[shift_sint32(arr_0, i)] < x).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_9, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (Mint_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_0' *)
+  Have: i_1 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_1 <= i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_1[shift_sint32(arr_0, i_3)] < a_1[shift_sint32(arr_0, i_2)]) ->
+       (a_1[shift_sint32(dp_0, i_3)] < a_1[shift_sint32(dp_0, i_2)]))))))).
+  (* Then *)
+  Have: i_1 < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i_1.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_1[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i_1) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (a_3[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((a_3[shift_sint32(arr_0, i_3)] < a_3[shift_sint32(arr_0, i_2)]) ->
+       (a_3[shift_sint32(dp_0, i_3)] < a_3[shift_sint32(dp_0, i_2)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      ((a_3[shift_sint32(arr_0, i_2)] < a_6) ->
+      (a_3[shift_sint32(dp_0, i_2)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_7) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_8 < a_6)))).
+  (* Then *)
+  Have: j < i_1.
+  If a_4 < a_6
+  Then {
+    If v <= a_3[shift_sint32(dp_0, j)]
+    Then { Have: a_1[a_2 <- 1 + a_3[shift_sint32(dp_0, j)]] = Mint_0. }
+    Else { Have: a_3 = Mint_0. }
+  }
+  Else { Have: a_3 = Mint_0. }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_10' *)
+  Have: forall i_2 : Z. ((i_1 < i_2) -> ((i_2 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_2)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+       ((Mint_0[shift_sint32(arr_0, i_3)] < Mint_0[shift_sint32(arr_0, i_2)]) ->
+       (Mint_0[shift_sint32(dp_0, i_3)] < Mint_0[shift_sint32(dp_0, i_2)]))))))).
+}
+Prove: Mint_0[shift_sint32(dp_0, i)] < x_1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:162ms) (157ms) (1601)
+Prover CVC5 1.1.2 returns Valid (Qed:162ms) (192ms) (51189)
+Prover Z3 4.13.3 returns Valid (Qed:162ms) (132ms) (674169)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 41):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 43):
+Let a = shift_sint32(arr_0, i).
+Let x = Mint_0[a].
+Let a_1 = shift_sint32(dp_0, i).
+Let x_1 = Mint_0[a_1].
+Let a_2 = shift_sint32(dp_0, 0).
+Let a_3 = memcpy(Mint_1, a_2, Mint_undef_0, a_2, n).
+Let a_4 = a_3[a_1 <- v].
+Let a_5 = a_4[shift_sint32(arr_0, j)].
+Let a_6 = a_4[a].
+Let a_7 = a_4[shift_sint32(dp_0, cur_1)].
+Let a_8 = a_4[shift_sint32(arr_0, cur_1)].
+Let a_9 = shift_sint32(arr_0, 0).
+Let x_2 = Mint_0[shift_sint32(arr_0, cur_0)].
+Let x_3 = Mint_0[shift_sint32(dp_0, cur_0)].
+Assume {
+  Type: is_sint32(cur_0) /\ is_sint32(cur_1) /\ is_sint32(i) /\
+      is_sint32(j) /\ is_sint32(n) /\ is_sint32(v) /\ is_sint32(1 + j) /\
+      is_sint32(x_2) /\ is_sint32(x) /\ is_sint32(x_3) /\ is_sint32(x_1) /\
+      is_sint32(a_3[shift_sint32(arr_0, -1)]) /\ is_sint32(a_3[a]) /\
+      is_sint32(a_3[shift_sint32(dp_0, -1)]) /\ is_sint32(a_8) /\
+      is_sint32(a_6) /\ is_sint32(a_5) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_9, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_9, n, a_2, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_1[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < Mint_1[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i <= i_1) -> ((i_1 < n) ->
+      (a_3[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_3[shift_sint32(arr_0, i_2)] < a_3[shift_sint32(arr_0, i_1)]) ->
+       (a_3[shift_sint32(dp_0, i_2)] < a_3[shift_sint32(dp_0, i_1)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (a_3[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_3[a_1] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (a_4[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < a_4[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_4[shift_sint32(arr_0, i_2)] < a_4[shift_sint32(arr_0, i_1)]) ->
+       (a_4[shift_sint32(dp_0, i_2)] < a_4[shift_sint32(dp_0, i_1)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      ((a_4[shift_sint32(arr_0, i_1)] < a_6) ->
+      (a_4[shift_sint32(dp_0, i_1)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_1 = (-1)) -> (v = 1))) /\
+      (((cur_1 != (-1)) ->
+       (((1 + a_7) = v) /\ (0 <= cur_1) /\ (cur_1 < j) /\ (a_8 < a_6)))).
+  (* Then *)
+  Have: j < i.
+  If a_5 < a_6
+  Then {
+    Have: cur_1 = cur_2.
+    If v <= a_4[shift_sint32(dp_0, j)]
+    Then {
+      Have: a_3[a_1 <- 1 + a_4[shift_sint32(dp_0, cur_0)]] = Mint_0.
+      Have: j = cur_0.
+    }
+    Else { Have: (cur_2 = cur_0) /\ (a_4 = Mint_0). }
+  }
+  Else { Have: (cur_1 = cur_0) /\ (a_4 = Mint_0). }
+  (* Invariant 'i_8' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((Mint_0[shift_sint32(arr_0, i_2)] < Mint_0[shift_sint32(arr_0, i_1)]) ->
+       (Mint_0[shift_sint32(dp_0, i_2)] < Mint_0[shift_sint32(dp_0, i_1)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= j) ->
+      ((Mint_0[shift_sint32(arr_0, i_1)] < x) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] < x_1)))).
+}
+Prove: (((cur_0 = (-1)) -> (x_1 = 1))) /\
+    (((cur_0 != (-1)) ->
+     ((x_1 = (1 + x_3)) /\ (0 <= cur_0) /\ (cur_0 <= j) /\ (x_2 < x)))).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:193ms) (170ms) (2139)
+Prover CVC5 1.1.2 returns Valid (Qed:193ms) (175ms) (45702)
+Prover Z3 4.13.3 returns Valid (Qed:193ms) (130ms) (659407)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 43):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(arr_0, 0).
+Let a_3 = a_1[shift_sint32(dp_0, i)].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\
+      is_sint32(a_1[shift_sint32(arr_0, i)]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_3).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_2, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i <= i_1) -> ((i_1 < n) ->
+      (a_1[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_1[shift_sint32(arr_0, i_2)] < a_1[shift_sint32(arr_0, i_1)]) ->
+       (a_1[shift_sint32(dp_0, i_2)] < a_1[shift_sint32(dp_0, i_1)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (a_1[shift_sint32(dp_0, i_1)] = 1))).
+}
+Prove: a_3 = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (21ms) (96)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (50ms) (20315)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (21ms) (74690)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 31):
+Prove: true.
+Prover Qed returns Valid (30ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 31):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 33):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 33):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 64):
+Prove: true.
+Prover Qed returns Valid (19ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 64):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 66):
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, i).
+Let a_2 = shift_sint32(dp_0, res_0).
+Let a_3 = a_1[a_2].
+Let a_4 = shift_sint32(dp_0, i_2).
+Let a_5 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_6 = shift_sint32(arr_0, 0).
+Assume {
+  Type: is_sint32(ans_0) /\ is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\
+      is_sint32(res_0) /\ is_sint32(1 + i_2) /\ is_sint32(a_5[a]) /\
+      is_sint32(a_5[a_4]) /\ is_sint32(a_5[a_2]).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= i_2).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_6, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i <= i_3) -> ((i_3 < n) ->
+      (a_5[shift_sint32(dp_0, i_3)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < a_5[shift_sint32(dp_0, i_3)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i) ->
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 < i_3) ->
+       ((a_5[shift_sint32(arr_0, i_4)] < a_5[shift_sint32(arr_0, i_3)]) ->
+       (a_5[shift_sint32(dp_0, i_4)] < a_5[shift_sint32(dp_0, i_3)]))))))).
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_7' *)
+  Have: 0 < i.
+  (* Invariant 'i_5' *)
+  Have: (i_2 <= i) /\ (0 <= i_2).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (a_1[shift_sint32(dp_0, i_3)] <= a_3))).
+  (* Invariant 'i_7' *)
+  Have: (0 <= res_0) /\ (res_0 < i).
+  (* Then *)
+  Have: i_2 < i.
+  If a_3 < a_1[a_4]
+  Then { Have: a_1[a_4] = ans_0. }
+  Else { Have: a_3 = ans_0. }
+  (* Invariant 'i_5' *)
+  Have: (-1) <= i_2.
+}
+Prove: a_1[shift_sint32(dp_0, i_1)] <= ans_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:59ms) (35ms) (336)
+Prover CVC5 1.1.2 returns Valid (Qed:59ms) (48ms) (20036)
+Prover Z3 4.13.3 returns Valid (Qed:59ms) (19ms) (89575)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 66):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 68):
+Prove: true.
+Prover Qed returns Valid (49ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 68):
+Prove: true.
+Prover Qed returns Valid (12ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 24) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 24) (2/3):
+Effect at line 27
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 24) (3/3):
+Effect at line 50
+Let a = shift_sint32(dp_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(dp_0, i).
+Let a_3 = a_1[a_2 <- v].
+Let a_4 = a_3[shift_sint32(dp_0, cur_0)].
+Let a_5 = a_3[shift_sint32(arr_0, cur_0)].
+Let a_6 = shift_sint32(arr_0, i).
+Let a_7 = a_3[a_6].
+Let a_8 = shift_sint32(arr_0, 0).
+Assume {
+  Have: !invalid(Malloc_0, a_2, 1).
+  Type: is_sint32(cur_0) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(n) /\
+      is_sint32(v) /\ is_sint32(1 + i) /\
+      is_sint32(a_1[shift_sint32(arr_0, -1)]) /\ is_sint32(a_1[a_6]) /\
+      is_sint32(a_1[shift_sint32(dp_0, -1)]) /\ is_sint32(a_5) /\
+      is_sint32(a_7) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(arr_0.base) <= 0) /\ (region(dp_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 2 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_8, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < Mint_0[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_0' *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i <= i_1) -> ((i_1 < n) ->
+      (a_1[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < a_1[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_3' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_1[shift_sint32(arr_0, i_2)] < a_1[shift_sint32(arr_0, i_1)]) ->
+       (a_1[shift_sint32(dp_0, i_2)] < a_1[shift_sint32(dp_0, i_1)]))))))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_8' *)
+  Have: 0 <= i.
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (a_1[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_15' *)
+  Have: a_1[a_2] = 1.
+  (* Invariant 'i_8' *)
+  Have: (j <= i) /\ (0 <= j).
+  (* Invariant 'i_10' *)
+  Have: forall i_1 : Z. ((i < i_1) -> ((i_1 < n) ->
+      (a_3[shift_sint32(dp_0, i_1)] = 1))).
+  (* Invariant 'i_11' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < a_3[shift_sint32(dp_0, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_3[shift_sint32(arr_0, i_2)] < a_3[shift_sint32(arr_0, i_1)]) ->
+       (a_3[shift_sint32(dp_0, i_2)] < a_3[shift_sint32(dp_0, i_1)]))))))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      ((a_3[shift_sint32(arr_0, i_1)] < a_7) ->
+      (a_3[shift_sint32(dp_0, i_1)] < v)))).
+  (* Invariant 'i_15' *)
+  Have: (((cur_0 = (-1)) -> (v = 1))) /\
+      (((cur_0 != (-1)) ->
+       (((1 + a_4) = v) /\ (0 <= cur_0) /\ (cur_0 < j) /\ (a_5 < a_7)))).
+  (* Else *)
+  Have: i <= j.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+  (* Invariant 'i_3' *)
+  Have: forall i_1 : Z. ((i_1 <= i) -> ((0 <= i_1) ->
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i_1) ->
+       ((a_3[shift_sint32(arr_0, i_2)] < a_3[shift_sint32(arr_0, i_1)]) ->
+       (a_3[shift_sint32(dp_0, i_2)] < a_3[shift_sint32(dp_0, i_1)]))))))).
+}
+Prove: included(a_2, 1, a, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:30ms) (34ms) (381)
+Prover CVC5 1.1.2 returns Valid (Qed:30ms) (63ms) (29083)
+Prover Z3 4.13.3 returns Valid (Qed:30ms) (23ms) (163905)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 46) (1/2):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 46) (2/2):
+Effect at line 50
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 71):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 10) in '_lis' (1/2):
+Effect at line 27
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-21.cbs/.col2inv-trustc-16gpnhyv.c, line 10) in '_lis' (2/2):
+Effect at line 75
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------

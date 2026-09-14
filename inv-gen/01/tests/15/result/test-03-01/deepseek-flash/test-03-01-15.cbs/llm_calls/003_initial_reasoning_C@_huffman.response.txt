@@ -1,0 +1,8 @@
+```
+loop invariant length > 0;
+loop invariant length <= n;
+loop invariant Sorted(arr, 0, length);
+loop invariant \valid(arr+(0..length-1));
+loop invariant \forall integer i; 0 <= i < length ==> arr[i]->freq > 0;
+loop invariant \forall integer i, j; 0 <= i < length && 0 <= j < length && i != j ==> \separated(arr[i], arr[j]);
+```

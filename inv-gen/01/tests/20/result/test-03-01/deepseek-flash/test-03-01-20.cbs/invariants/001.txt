@@ -1,0 +1,4 @@
+Loop A@_linear_search:
+  i_0: 0 <= i && i <= n
+  i_1: ret == -1 || (0 <= ret && ret < n && a[ret] == key)
+  i_2: ret == -1 ==> \forall integer j; (0 <= j && j < i) ==> a[j] != key

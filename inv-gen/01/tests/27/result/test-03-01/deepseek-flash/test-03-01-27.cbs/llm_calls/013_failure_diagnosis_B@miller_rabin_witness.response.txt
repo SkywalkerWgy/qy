@@ -1,0 +1,11 @@
+[Failed Property]
+establishment and preservation of i_17: the invariant must hold both at loop entry and after each loop-body iteration.
+
+[Failure Cause]
+The base case must prove `(pow_mod(a,d,n)^2) mod n == pow_mod(a,2*d,n)`. The step case must prove, after the body sets `x := (x*x)%n`, that `(pow_mod(a,d*2^(i+1),n)^2) mod n == pow_mod(a,d*2^(i+2),n)`. Both goals are instances of the same exponent-doubling/square identity for `pow_mod`. Thus `i_17` is not semantically false, but it is non-inductive under the available `pow_mod` axioms: `pow_succ`/`pow_0` only unfold a single exponent step, and the `pow_loop_even/odd` lemmas do not provide this general square/doubling fact. The other B invariants, especially `i_7`, are therefore too weak to imply the next `i_17`; they do not bridge `x = pow_mod(a, k, n)` to `(x*x)%n == pow_mod(a, 2*k, n)`. The missing logical fact is `pow_mod(x,2*k,m) == (pow_mod(x,k,m)*pow_mod(x,k,m)) % m` for `m > 0`, or its specialized form with `k = d*(1<<(i+1))`.
+
+[Responsible Scope]
+B@miller_rabin_witness
+
+[Refinement Direction]
+Supply or prove the missing `pow_mod` exponent-doubling/square lemma in the axiomatic block and use it to discharge both establishment and preservation of `i_17`. The failure is an arithmetic lemma gap in the use of `pow_mod`, not a missing loop invariant; adding further loop invariants is not the appropriate repair.

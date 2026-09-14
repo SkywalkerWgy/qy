@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_17: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The loop body updates `b[pos]` and increments `pos`; it does not assign `pos_start`, `v`, or `c`. Therefore the only nontrivial part of preserving `i_17` is showing that `sum_c(c, v - 1)` is unchanged by the heap write to `b[pos]`. The WP target reduces to proving `L_sum_c(m, c, x) = x_1` for `m = Mint_0[b[pos_0] <- v]`. This requires the frame/aliasing fact that the write to `b` cannot modify the array `c`. The failed invariant is not too strong and is inductive if that frame fact is available. The D-loop invariants are not too weak to imply the post-loop goal, but they do not themselves provide the needed non-aliasing/frame condition. The missing logical fact is that `b` and `c` are disjoint (hence `b[pos] = v` leaves `c` unchanged), which is entailed by the separation precondition.
+
+[Responsible Scope]
+D@counting_sort
+
+[Refinement Direction]
+Make the existing separation/frame fact between `b` and `c` usable for the inner loop body, so the proof can establish that `b[pos] = v` does not change `c` (and thus does not change `sum_c(c, v - 1)`). No new invariant is needed; the failure is a missing frame condition, not a missing loop invariant.

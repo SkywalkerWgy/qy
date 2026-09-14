@@ -1,0 +1,465 @@
+
+#define MAX_VERTICES 100
+#define INF 1000000000
+
+/*@
+  predicate matrix_bounded{L}(int (*m)[MAX_VERTICES], integer n) =
+    \forall integer i, j;
+      0 <= i < n && 0 <= j < n ==> 0 <= \at(m[i][j], L) <= INF;
+
+  predicate diagonal_zero{L}(int (*m)[MAX_VERTICES], integer n) =
+    \forall integer i; 0 <= i < n ==> \at(m[i][i], L) == 0;
+
+  predicate no_larger_than_graph{G,D}(int (*graph)[MAX_VERTICES],
+                                      int (*dist)[MAX_VERTICES],
+                                      integer n) =
+    \forall integer i, j;
+      0 <= i < n && 0 <= j < n ==> \at(dist[i][j], D) <= \at(graph[i][j], G);
+
+  predicate direct_two_hop_closed{G,D}(int (*graph)[MAX_VERTICES],
+                                       int (*dist)[MAX_VERTICES],
+                                       integer n) =
+    \forall integer i, j, k;
+      0 <= i < n && 0 <= j < n && 0 <= k < n &&
+      \at(graph[i][k], G) < INF &&
+      \at(graph[k][j], G) < INF
+      ==> \at(dist[i][j], D) <= \at(graph[i][k], G) + \at(graph[k][j], G);
+
+  predicate shortest_path_matrix{G,D}(int (*graph)[MAX_VERTICES],
+                                      int (*dist)[MAX_VERTICES],
+                                      integer n) =
+    matrix_bounded{D}(dist, n) &&
+    diagonal_zero{D}(dist, n) &&
+    no_larger_than_graph{G,D}(graph, dist, n) &&
+    direct_two_hop_closed{G,D}(graph, dist, n);
+*/
+
+/*@
+  requires 1 <= n <= MAX_VERTICES;
+  requires \valid_read(graph + (0 .. n - 1));
+  requires \forall integer i; 0 <= i < n ==> \valid_read(graph[i] + (0 .. n - 1));
+  requires \valid(dist + (0 .. n - 1));
+  requires \forall integer i; 0 <= i < n ==> \valid(dist[i] + (0 .. n - 1));
+  requires \separated(graph + (0 .. n - 1), dist + (0 .. n - 1));
+  requires matrix_bounded{Pre}(graph, n);
+  requires diagonal_zero{Pre}(graph, n);
+
+  assigns dist[0 .. n - 1][0 .. n - 1];
+
+  ensures shortest_path_matrix{Here,Here}(graph, dist, n);
+*/
+_Safe void floyd(int n, int graph[_Nonnull][MAX_VERTICES],
+                 int dist[_Nonnull][MAX_VERTICES])
+{
+    int i;
+    int j;
+    int k;
+
+      // Loop A
+/*@
+      loop invariant i_0: 0 <= i && i <= n;
+
+      loop invariant i_1: \forall integer r, c; 0 <= r && r < i && 0 <= c && c < n ==> dist[r][c] == graph[r][c];
+
+
+      loop assigns i, j, dist[0 .. n - 1][0 .. n - 1];
+    */
+    for (i = 0; i < n; i++) {
+              // Loop B
+/*@
+          loop invariant i_7: 0 <= j && j <= n;
+
+          loop invariant i_8: 0 <= i && i < n;
+
+          loop invariant i_9: \forall integer c; 0 <= c < j ==> dist[i][c] == graph[i][c];
+
+          loop invariant i_10: \forall integer r, c; 0 <= r < i && 0 <= c < n ==> dist[r][c] == graph[r][c];
+
+
+          loop assigns j, dist[i][0 .. n - 1];
+        */
+        for (j = 0; j < n; j++) {
+            dist[i][j] = graph[i][j];
+        }
+    }
+
+      // Loop C
+/*@
+      loop invariant i_2: 0 <= k && k <= n;
+
+      loop invariant i_3: matrix_bounded{Here}(dist, n);
+
+      loop invariant i_4: diagonal_zero{Here}(dist, n);
+
+      loop invariant i_5: no_larger_than_graph{Pre,Here}(graph, dist, n);
+
+      loop invariant i_6: \forall integer i, j, m; 0 <= i < n && 0 <= j < n && 0 <= m < k && graph[i][m] < INF && graph[m][j] < INF ==> dist[i][j] <= graph[i][m] + graph[m][j];
+
+
+      loop assigns k, i, j, dist[0 .. n - 1][0 .. n - 1];
+    */
+    for (k = 0; k < n; k++) {
+              // Loop D
+/*@
+          loop invariant i_11: 0 <= i && i <= n;
+
+          loop invariant i_12: 0 <= k && k < n;
+
+          loop invariant i_13: matrix_bounded{Here}(dist, n);
+
+          loop invariant i_14: diagonal_zero{Here}(dist, n);
+
+          loop invariant i_15: no_larger_than_graph{Pre,Here}(graph, dist, n);
+
+          loop invariant i_16: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> dist[a][b] <= graph[a][m] + graph[m][b];
+
+          loop invariant i_17: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b];
+
+
+          loop assigns i, j, dist[0 .. n - 1][0 .. n - 1];
+        */
+        for (i = 0; i < n; i++) {
+                      // Loop E
+/*@
+              loop invariant i_18: 0 <= j && j <= n;
+
+              loop invariant i_19: 0 <= i && i < n;
+
+              loop invariant i_20: 0 <= k && k < n;
+
+              loop invariant i_21: matrix_bounded{Here}(dist, n);
+
+              loop invariant i_22: diagonal_zero{Here}(dist, n);
+
+              loop invariant i_23: no_larger_than_graph{Pre,Here}(graph, dist, n);
+
+              loop invariant i_24: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> dist[a][b] <= graph[a][m] + graph[m][b];
+
+              loop invariant i_25: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b];
+
+              loop invariant i_26: \forall integer c; 0 <= c < j && graph[i][k] < INF && graph[k][c] < INF ==> dist[i][c] <= graph[i][k] + graph[k][c];
+
+              loop invariant i_27: \forall integer c; 0 <= c < n && c >= j ==> dist[i][c] == \at(dist[i][c], LoopEntry);
+
+              loop invariant i_28: \forall integer r, c; 0 <= r < n && 0 <= c < n && r != i ==> dist[r][c] == \at(dist[r][c], LoopEntry);
+
+              loop invariant i_29: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> \at(dist[a][b], LoopEntry) <= graph[a][m] + graph[m][b];
+
+              loop invariant i_30: \forall integer a, b; 0 <= a < n && 0 <= b < n ==> graph[a][b] == \at(graph[a][b], Pre);
+
+              loop invariant i_31: dist[i][k] <= graph[i][k];
+
+              loop invariant i_32: dist[k][j] <= graph[k][j];
+
+              loop invariant i_33: \forall integer a,b; 0 <= a < n && 0 <= b < n ==> dist[a][b] <= \at(dist[a][b], LoopEntry);
+
+              loop invariant i_34: \forall integer c; 0 <= c < n && graph[i][k] < INF && graph[k][c] < INF && (c < j || dist[i][k] + dist[k][c] >= dist[i][c]) ==> dist[i][c] <= graph[i][k] + graph[k][c];
+
+              loop invariant i_35: \forall integer r, b, d; 0 <= r < n && r != i && 0 <= b < n && 0 <= d < n ==> &dist[r][b] != &dist[i][d];
+
+              loop invariant i_36: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && \at(graph[a][m], LoopEntry) < INF && \at(graph[m][b], LoopEntry) < INF ==> \at(dist[a][b], LoopEntry) <= \at(graph[a][m], LoopEntry) + \at(graph[m][b], LoopEntry);
+
+              loop invariant i_37: j < n ==> dist[k][j] <= graph[k][j];
+
+              loop invariant i_38: \forall integer r, c1, c2; 0 <= r < n && 0 <= c1 < n && 0 <= c2 < n && c1 != c2 ==> &dist[r][c1] != &dist[r][c2];
+
+              loop invariant i_39: \forall integer c; 0 <= c <= j && graph[i][k] < INF && graph[k][c] < INF ==> (c < j ==> dist[i][c] <= graph[i][k] + graph[k][c]) && (c == j ==> (dist[i][k] + dist[k][c] < dist[i][c] || dist[i][c] <= graph[i][k] + graph[k][c]));
+
+
+              loop assigns j, dist[i][0 .. n - 1];
+            */
+            for (j = 0; j < n; j++) {
+                if (dist[i][k] < INF &&
+                    dist[k][j] < INF &&
+                    dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+}
+
+You are an expert in program verification using ACSL and Frama-C. Diagnose why the following verification obligation cannot be discharged. Do not propose new invariants.
+[Failed Invariant] i_25: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b]
+[Failed Property] preservation of i_25: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[WP Target] Let a = shift_A100_sint32(dist_0, i_2).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, i_3).
+Let a_3 = shift_sint32(a, k).
+Let a_4 = a_2[a_3].
+Let x = 100 * i_2.
+Let a_5 = shift_sint32(shift_A100_sint32(graph_0, i_2), k).
+Let a_6 = a_2[a_5].
+Let a_7 = shift_A100_sint32(graph_0, k).
+Let a_8 = shift_A100_sint32(dist_0, k).
+Let a_9 = shift_sint32(a_8, j).
+Let a_10 = shift_sint32(a_7, j).
+Let x_1 = Mint_1[a_5].
+Let x_2 = Mint_1[a_3].
+Let x_3 = Mint_1[shift_sint32(a_8, 0)].
+Let x_4 = Mint_1[shift_sint32(a_7, 0)].
+Let a_11 = shift_A100_sint32(graph_0, 0).
+Let x_5 = 100 * n.
+Let a_12 = shift_A100_sint32(dist_0, 0).
+Let x_6 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i), k)].
+Let x_7 = Mint_0[shift_sint32(a_7, i_1)].
+Let x_8 = 1 + j.
+Let a_13 = memcpy(Mint_1, a_1, Mint_undef_0, a_1, n).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(i_3) /\ is_sint32(j) /\ is_sint32(k) /\
+      is_sint32(n) /\ is_sint32(x_8) /\ is_sint32(Mint_0[a_3]) /\
+      is_sint32(Mint_0[shift_sint32(a_8, x_8)]) /\ is_sint32(Mint_0[a_5]) /\
+      is_sint32(Mint_0[shift_sint32(a_7, x_8)]) /\ is_sint32(x_2) /\
+      is_sint32(x_3) /\ is_sint32(x_1) /\ is_sint32(x_4) /\
+      is_sint32(Mint_2[shift_sint32(a, j)]) /\ is_sint32(Mint_2[a_3]) /\
+      is_sint32(Mint_2[a_9]) /\ is_sint32(Mint_3[a_9]) /\
+      is_sint32(a_13[a_3]) /\ is_sint32(a_13[a_9]) /\ is_sint32(a_13[a_5]) /\
+      is_sint32(a_13[a_10]).
+  (* Heap *)
+  Type: (region(dist_0.base) <= 0) /\ (region(graph_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_2) /\ (0 <= i_1) /\ (i_1 < n) /\
+      (x_6 <= 999999999) /\ (x_7 <= 999999999).
+  (* Pre-condition *)
+  Have: (0 < n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_11, x_5).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rd(Malloc_0, shift_sint32(shift_A100_sint32(graph_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_12, x_5).
+  (* Pre-condition *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      valid_rw(Malloc_0, shift_sint32(shift_A100_sint32(dist_0, i_4), 0), n))).
+  (* Pre-condition *)
+  Have: separated(a_11, x_5, a_12, x_5).
+  (* Pre-condition *)
+  Have: P_matrix_bounded(Mint_4, graph_0, n).
+  (* Pre-condition *)
+  Have: P_diagonal_zero(Mint_4, graph_0, n).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < n) -> ((0 <= i_4) ->
+        ((i_4 < n) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_14)))))) ->
+      (Mint_5[a_14] = Mint_4[a_14])).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i_3) /\ (i_3 <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+      ((i_4 < n) ->
+      (Mint_5[shift_sint32(shift_A100_sint32(graph_0, i_5), i_4)]
+         = Mint_5[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]))))).
+  (* Else *)
+  Have: n <= i_3.
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_5, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_5, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_5, graph_0, dist_0, i_3).
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_14)))))) ->
+      (Mint_5[a_14] = Mint_6[a_14])).
+  (* Invariant 'i_2' *)
+  Have: (k <= i_3) /\ (0 <= k).
+  (* Invariant 'i_3' *)
+  Have: P_matrix_bounded(Mint_6, dist_0, i_3).
+  (* Invariant 'i_4' *)
+  Have: P_diagonal_zero(Mint_6, dist_0, i_3).
+  (* Invariant 'i_5' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_6, graph_0, dist_0, i_3).
+  (* Invariant 'i_6' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_9 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_10 = Mint_6[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_9 <= 999999999) ->
+      ((x_10 <= 999999999) ->
+      (Mint_6[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_10 + x_9)))))))))).
+  (* Then *)
+  Have: k < i_3.
+  (* Loop assigns ... *)
+  Have: forall a_14 : addr.
+      ((forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+        ((i_4 < i_3) ->
+        (shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) != a_14)))))) ->
+      (Mint_6[a_14] = Mint_1[a_14])).
+  (* Invariant 'i_11' *)
+  Have: (0 <= i_2) /\ (i_2 <= i_3).
+  (* Invariant 'i_13' *)
+  Have: P_matrix_bounded(Mint_1, dist_0, i_3).
+  (* Invariant 'i_14' *)
+  Have: P_diagonal_zero(Mint_1, dist_0, i_3).
+  (* Invariant 'i_15' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_1, graph_0, dist_0, i_3).
+  (* Invariant 'i_16' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_9 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_10 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_9 <= 999999999) ->
+      ((x_10 <= 999999999) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_10 + x_9)))))))))).
+  (* Invariant 'i_17' *)
+  Have: forall i_5,i_4 : Z.
+      let x_9 = Mint_1[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let x_10 = Mint_1[shift_sint32(a_7, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_3) -> ((x_9 <= 999999999) ->
+      ((x_10 <= 999999999) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (x_10 + x_9)))))))).
+  (* Then *)
+  Have: i_2 < i_3.
+  (* Invariant 'i_30' *)
+  Have: forall i_5,i_4 : Z.
+      let a_14 = shift_sint32(shift_A100_sint32(graph_0, i_5), i_4) in
+      ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) -> ((i_4 < i_3) ->
+      (Mint_1[a_14] = Mint_4[a_14]))))).
+  (* Invariant 'i_31' *)
+  Have: x_2 <= x_1.
+  (* Invariant 'i_32' *)
+  Have: x_3 <= x_4.
+  (* Invariant 'i_34' *)
+  Have: forall i_4 : Z. let x_9 = Mint_1[shift_sint32(a_7, i_4)] in
+      let x_10 = Mint_1[shift_sint32(a, i_4)] in ((0 <= i_4) ->
+      ((i_4 < i_3) -> ((x_1 <= 999999999) -> ((x_9 <= 999999999) ->
+      (((i_4 < 0) \/ (x_10 <= (x_2 + Mint_1[shift_sint32(a_8, i_4)]))) ->
+      (x_10 <= (x_1 + x_9))))))).
+  (* Invariant 'i_18' *)
+  Have: (j <= i_3) /\ (0 <= j).
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(a_2, dist_0, i_3).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(a_2, dist_0, i_3).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, a_2, graph_0, dist_0, i_3).
+  (* Invariant 'i_24' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let a_15 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (a_15 + a_14)))))))))).
+  (* Invariant 'i_25' *)
+  Have: forall i_5,i_4 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_5), k)] in
+      let a_15 = a_2[shift_sint32(a_7, i_4)] in ((0 <= i_5) ->
+      ((i_5 < i_2) -> ((0 <= i_4) -> ((i_4 < i_3) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (a_2[shift_sint32(shift_A100_sint32(dist_0, i_5), i_4)]
+         <= (a_15 + a_14)))))))).
+  (* Invariant 'i_26' *)
+  Have: forall i_4 : Z. let a_14 = a_2[shift_sint32(a_7, i_4)] in
+      ((0 <= i_4) -> ((i_4 < j) -> ((a_6 <= 999999999) ->
+      ((a_14 <= 999999999) ->
+      (a_2[shift_sint32(a, i_4)] <= (a_6 + a_14)))))).
+  (* Invariant 'i_27' *)
+  Have: forall i_4 : Z. let a_14 = shift_sint32(a, i_4) in ((0 <= i_4) ->
+      ((i_4 < i_3) -> ((j <= i_4) -> (a_2[a_14] = Mint_1[a_14])))).
+  (* Invariant 'i_28' *)
+  Have: forall i_5,i_4 : Z.
+      let a_14 = shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) in
+      ((i_5 != i_2) -> ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) ->
+      ((i_4 < i_3) -> (a_2[a_14] = Mint_1[a_14])))))).
+  (* Invariant 'i_29' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let a_14 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let a_15 = a_2[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((a_14 <= 999999999) ->
+      ((a_15 <= 999999999) ->
+      (Mint_1[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (a_15 + a_14)))))))))).
+  (* Invariant 'i_30' *)
+  Have: forall i_5,i_4 : Z.
+      let a_14 = shift_sint32(shift_A100_sint32(graph_0, i_5), i_4) in
+      ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) -> ((i_4 < i_3) ->
+      (a_2[a_14] = Mint_4[a_14]))))).
+  (* Invariant 'i_31' *)
+  Have: a_4 <= a_6.
+  (* Invariant 'i_32' *)
+  Have: a_2[a_9] <= a_2[a_10].
+  (* Invariant 'i_33' *)
+  Have: forall i_5,i_4 : Z.
+      let a_14 = shift_sint32(shift_A100_sint32(dist_0, i_5), i_4) in
+      ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) -> ((i_4 < i_3) ->
+      (a_2[a_14] <= Mint_1[a_14]))))).
+  (* Invariant 'i_34' *)
+  Have: forall i_4 : Z. let a_14 = a_2[shift_sint32(a_7, i_4)] in
+      let a_15 = a_2[shift_sint32(a, i_4)] in ((0 <= i_4) -> ((i_4 < i_3) ->
+      ((a_6 <= 999999999) -> ((a_14 <= 999999999) ->
+      (((i_4 < j) \/ (a_15 <= (a_4 + a_2[shift_sint32(a_8, i_4)]))) ->
+      (a_15 <= (a_6 + a_14))))))).
+  (* Invariant 'i_35' *)
+  Have: forall i_5,i_4 : Z. let x_9 = i_4 + (100 * i_5) in ((i_5 != i_2) ->
+      ((0 <= i_5) -> ((i_5 < i_3) -> ((0 <= i_4) -> ((i_4 < i_3) ->
+      ((x <= x_9) -> ((x_9 < (i_3 + x)) -> false))))))).
+  (* Then *)
+  Have: j < i_3.
+  If a_4 <= 999999999
+  Then {
+    Have: a_2 = Mint_3.
+    If Mint_3[a_9] <= 999999999
+    Then {
+      Have: Mint_3 = Mint_2.
+      If (Mint_3[a_3] + Mint_3[a_9]) < Mint_3[shift_sint32(a, j)]
+      Then {
+        Have: Mint_3[shift_sint32(a, j) <- Mint_3[a_3] + Mint_3[a_9]] =
+            Mint_0.
+      }
+      Else { Have: Mint_3 = Mint_0. }
+    }
+    Else { Have: Mint_3 = Mint_0. }
+  }
+  Else { Have: a_2 = Mint_0. }
+  (* Invariant 'i_18' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_21' *)
+  Have: P_matrix_bounded(Mint_0, dist_0, i_3).
+  (* Invariant 'i_22' *)
+  Have: P_diagonal_zero(Mint_0, dist_0, i_3).
+  (* Invariant 'i_23' *)
+  Have: P_no_larger_than_graph(Mint_4, Mint_0, graph_0, dist_0, i_3).
+  (* Invariant 'i_24' *)
+  Have: forall i_6,i_5,i_4 : Z.
+      let x_9 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_6), i_4)] in
+      let x_10 = Mint_0[shift_sint32(shift_A100_sint32(graph_0, i_4), i_5)] in
+      ((0 <= i_6) -> ((i_6 < i_3) -> ((0 <= i_5) -> ((i_5 < i_3) ->
+      ((0 <= i_4) -> ((i_4 < k) -> ((x_9 <= 999999999) ->
+      ((x_10 <= 999999999) ->
+      (Mint_0[shift_sint32(shift_A100_sint32(dist_0, i_6), i_5)]
+         <= (x_10 + x_9)))))))))).
+}
+Prove: Mint_0[shift_sint32(shift_A100_sint32(dist_0, i), i_1)] <= (x_6 + x_7).
+[Available Assumptions] Loop E@floyd invariants: i_18: 0 <= j && j <= n; i_19: 0 <= i && i < n; i_20: 0 <= k && k < n; i_21: matrix_bounded{Here}(dist, n); i_22: diagonal_zero{Here}(dist, n); i_23: no_larger_than_graph{Pre,Here}(graph, dist, n); i_24: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> dist[a][b] <= graph[a][m] + graph[m][b]; i_25: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b]; i_26: \forall integer c; 0 <= c < j && graph[i][k] < INF && graph[k][c] < INF ==> dist[i][c] <= graph[i][k] + graph[k][c]; i_27: \forall integer c; 0 <= c < n && c >= j ==> dist[i][c] == \at(dist[i][c], LoopEntry); i_28: \forall integer r, c; 0 <= r < n && 0 <= c < n && r != i ==> dist[r][c] == \at(dist[r][c], LoopEntry); i_29: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> \at(dist[a][b], LoopEntry) <= graph[a][m] + graph[m][b]; i_30: \forall integer a, b; 0 <= a < n && 0 <= b < n ==> graph[a][b] == \at(graph[a][b], Pre); i_31: dist[i][k] <= graph[i][k]; i_32: dist[k][j] <= graph[k][j]; i_33: \forall integer a,b; 0 <= a < n && 0 <= b < n ==> dist[a][b] <= \at(dist[a][b], LoopEntry); i_34: \forall integer c; 0 <= c < n && graph[i][k] < INF && graph[k][c] < INF && (c < j || dist[i][k] + dist[k][c] >= dist[i][c]) ==> dist[i][c] <= graph[i][k] + graph[k][c]; i_35: \forall integer r, b, d; 0 <= r < n && r != i && 0 <= b < n && 0 <= d < n ==> &dist[r][b] != &dist[i][d]; i_36: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && \at(graph[a][m], LoopEntry) < INF && \at(graph[m][b], LoopEntry) < INF ==> \at(dist[a][b], LoopEntry) <= \at(graph[a][m], LoopEntry) + \at(graph[m][b], LoopEntry); i_37: j < n ==> dist[k][j] <= graph[k][j]; i_38: \forall integer r, c1, c2; 0 <= r < n && 0 <= c1 < n && 0 <= c2 < n && c1 != c2 ==> &dist[r][c1] != &dist[r][c2]; i_39: \forall integer c; 0 <= c <= j && graph[i][k] < INF && graph[k][c] < INF ==> (c < j ==> dist[i][c] <= graph[i][k] + graph[k][c]) && (c == j ==> (dist[i][k] + dist[k][c] < dist[i][c] || dist[i][c] <= graph[i][k] + graph[k][c])) and ! (!(j < n))
+Analyze the proof failure by answering the following items:
+    - Which proof property failed and what that property requires.
+    - Whether failed invariant itself is too strong or non-inductive with respect to the loop body.
+    - Whether the invariant(s) of E@floyd are too weak to imply the WP goal after the inner loop terminates.
+    - Which missing logical fact is needed to bridge the available assumptions and WP target.
+
+IMPORTANT RULES:
+1. Output only a diagnosis object using the following fields:
+```
+[Failed Property]
+...
+[Failure Cause]
+...
+[Responsible Scope]
+...
+[Refinement Direction]
+...
+```
+2. The [Failed Property] field must copy the input [Failed Property] exactly; it must name the proof property that failed, not restate the invariant formula.
+3. The responsible scope must be selected from E@floyd, E@floyd, or both.
+4. Boundary contracts may be cited as assumptions or targets, but must not be selected as repair targets.

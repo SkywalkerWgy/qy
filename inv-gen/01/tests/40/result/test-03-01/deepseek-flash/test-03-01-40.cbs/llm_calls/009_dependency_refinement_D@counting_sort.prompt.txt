@@ -1,0 +1,148 @@
+
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+
+  logic integer sum_c(int* c, integer v) =
+    v < 0 ? 0 : c[v] + sum_c(c, v - 1);
+*/
+
+/*@
+  requires 0 <= n;
+  requires 0 <= k;
+  requires \valid(a + (0 .. n-1));
+  requires \valid(b + (0 .. n-1));
+  requires \valid(c + (0 .. k));
+  requires \separated(a + (0 .. n-1), b + (0 .. n-1), c + (0 .. k));
+  requires \forall integer i; 0 <= i < n ==> 0 <= a[i] <= k;
+  assigns c[0 .. k], b[0 .. n-1];
+  ensures sorted(b, 0, n);
+  ensures \forall integer i; 0 <= i < n ==> 0 <= b[i] <= k;
+*/
+_Safe void counting_sort(int *_Nonnull a, int *_Nonnull b, int n,
+                         int *_Nonnull c, int k) {
+    int i, v, pos, j, pos_start;
+
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= v <= k + 1;
+
+        loop invariant i_1: \forall integer i; 0 <= i < v ==> c[i] == 0;
+
+        loop invariant i_24: sum_c(c, v - 1) == 0;
+
+
+        loop assigns v, c[0 .. k];
+    */
+    for (v = 0; v <= k; v++) {
+        c[v] = 0;
+    }
+
+        // Loop B
+/*@
+        loop invariant i_5: 0 <= i <= n;
+
+        loop invariant i_6: \forall integer v; 0 <= v <= k ==> c[v] >= 0;
+
+        loop invariant i_7: sum_c(c, k) == i;
+
+
+        loop assigns i, c[0 .. k];
+    */
+    for (i = 0; i < n; i++) {
+        c[a[i]] = c[a[i]] + 1;
+    }
+
+    pos = 0;
+
+        // Loop C
+/*@
+        [Hint] Please refine the loop invariants in the repair scope.
+
+        loop invariant i_8: 0 <= v <= k + 1;
+
+        loop invariant i_9: 0 <= pos <= n;
+
+        loop invariant i_10: pos == sum_c(c, v - 1);
+
+        loop invariant i_11: sum_c(c, k) == n;
+
+        loop invariant i_12: \forall integer t; 0 <= t <= k ==> c[t] >= 0;
+
+        loop invariant i_13: sorted(b, 0, pos);
+
+        loop invariant i_14: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] < v;
+
+
+        loop assigns v, j, pos, pos_start, b[0 .. n-1];
+    */
+    for (v = 0; v <= k; v++) {
+        pos_start = pos;
+
+                // Loop D
+/*@
+            [Hint] Please refine the loop invariants in the repair scope.
+
+            loop invariant i_15: 0 <= j <= c[v];
+
+            loop invariant i_16: pos == pos_start + j;
+
+            loop invariant i_17: pos_start == sum_c(c, v - 1);
+
+            loop invariant i_18: pos_start + c[v] <= n;
+
+            loop invariant i_19: 0 <= pos_start && pos_start <= pos && pos <= n;
+
+            loop invariant i_20: sorted(b, 0, pos);
+
+            loop invariant i_21: \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v;
+
+            loop invariant i_22: \forall integer i; pos_start <= i < pos ==> b[i] == v;
+
+            loop invariant i_23: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v;
+
+
+            loop assigns j, pos, b[0 .. n-1];
+        */
+        for (j = 0; j < c[v] && pos < n; j++) {
+            b[pos] = v;
+            pos = pos + 1;
+        }
+    }
+
+        // Loop E
+/*@
+        loop invariant i_2: 0 <= pos <= n;
+
+        loop invariant i_3: sorted(b, 0, pos);
+
+        loop invariant i_4: \forall integer i; 0 <= i < pos ==> 0 <= b[i] <= k;
+
+
+        loop assigns pos, b[0 .. n-1];
+    */
+    for (; pos < n; pos++) {
+        b[pos] = k;
+    }
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_18: pos_start + c[v] <= n
+[Failed Property] establishment of i_18: the invariant must hold before the first loop iteration from the incoming program state.
+[Failure Cause] At Loop D entry, the proof must establish `pos_start + c[v] <= n`. From Loop C invariants this reduces to `sum_c(c,v-1) + c[v] <= sum_c(c,k)`, since `pos_start = pos = sum_c(c,v-1)` and `n = sum_c(c,k)`. The available assumptions include `v <= k` and `c[t] >= 0`, but the WP context does not expose the required recursive-sum decomposition/monotonicity fact relating `sum_c(c,v-1)+c[v]` to `sum_c(c,k)`. The target `(x + x_1) <= x_2` cannot be derived from `x_1 <= x_2` and `x >= 0` alone. The failed invariant itself is not too strong and is not non-inductive for Loop D, because its terms are unchanged by the loop body; the failure is in establishment from the incoming C-state. The C invariants are semantically sufficient but too weak for WP to expose this bridge. The missing logical fact is: for nonnegative `c[0..k]` and `0 <= v <= k`, `sum_c(c,v-1) + c[v] <= sum_c(c,k)` (equivalently `sum_c(c,v) <= sum_c(c,k)`).
+[Repair Scope] D@counting_sort, C@counting_sort
+[Refinement Direction] Do not weaken i_18. The proof context needs the missing partial-sum monotonicity/decomposition for `sum_c` under nonnegative counts and `0 <= v <= k`; this fact must be made available to the WP proof without changing the inner-loop invariant.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in D@counting_sort, C@counting_sort.
+2. Your answer should follow the following format:
+```
+[Loop D@counting_sort]
+
+[Loop C@counting_sort]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

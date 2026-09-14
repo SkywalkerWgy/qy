@@ -1,0 +1,13 @@
+[Failed Property]
+preservation of i_39: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The obligation must show that after `j` is incremented, for all `r < row` and `k < n`, `r*n + k != row*n + (j+1)`. The WP context contains the old instance of `i_39` for `j` and, in the post-state, `i_35`, which is semantically the same as the desired statement for `j+1`. The prover fails to connect these because the counterexample constraints imply the existence of a `k` such that `0 <= k < n` and `r*n + k = row*n + j+1`. To refute this using `i_35` or `i_44`, WP must instantiate the index-disjointness invariant with this `k`, which requires the nonlinear arithmetic fact that `r < row` and `n > 0` imply `r*n + n <= row*n`. This fact is not derived automatically.
+
+The invariant `i_39` itself is not too strong; it is mathematically true for any `j` because previous rows end before `row*n`. However, as an inductive invariant it is non-inductive: the instance for `j` does not imply the instance for `j+1` without the row-segment disjointness/monotonicity fact. The set of `D@place_queen` invariants is not inherently too weak because `i_44` already encodes the needed stronger fact, but the failed obligation does not use it (or WP does not unfold/instantiate `idx` to make it effective).
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The missing bridge is the row-segment arithmetic fact: for `0 <= r < row` and `0 <= k < n`, `r*n + k < row*n`, equivalently `(r+1)*n <= row*n` under `n > 0`. This is already captured by the existing `i_44` (or by unfolding `idx` in `i_35`/`i_44`). No new invariant is needed; the proof should use that existing fact to instantiate the index-disjointness invariant and contradict the assumed equality for `j+1`.

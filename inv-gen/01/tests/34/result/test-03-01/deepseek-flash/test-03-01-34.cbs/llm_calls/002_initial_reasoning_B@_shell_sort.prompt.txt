@@ -1,0 +1,94 @@
+
+/*@
+    predicate increasing{L}(int * a, integer n) =\forall integer k; 0 <= k < n-1 ==> a[k] <= a[k+1];
+*/
+
+/*@
+    predicate gapsort{L}(int* a, integer n, integer gap) =
+        gap > 0 && gap <= n && \forall integer k; 0 <= k < n - gap ==> a[k] <= a[k + gap];
+*/
+
+/*@
+    predicate subseq_sorted{L}(int * a, integer n, integer gap, integer start) =
+        gap > 0 && 0 <= start < gap && start < n &&
+        \forall integer k; 0 <= k && start + k*gap < n-gap ==> a[start+k*gap] <= a[start+k*gap+gap];
+*/
+
+/*@
+    lemma subseq_sorted_gapsort{L}:
+        \forall int *a, integer n, gap; n >= 0 && gap > 0 && \forall integer s; 0 <= s < gap ==> subseq_sorted{L}(a, n, gap,s) ==> gapsort{L}(a,n,gap);
+*/
+
+/*@
+    lemma gapsort_increasing{L}:\forall int * a, integer n; gapsort{L}(a, n, 1) ==> increasing{L}(a, n);
+*/
+
+/*@
+    requires \valid(x) && \valid(y);
+    assigns *x, *y;
+    ensures *x == \old(*y) && *y == \old(*x);
+*/
+_Safe void swap(int *_Borrow _Nonnull x, int *_Borrow _Nonnull y) {
+    int tmp = *x;
+    *x = *y;
+    *y = tmp;
+}
+
+/*@
+    requires \valid(arr+(0..(n - 1)));
+    requires n > 0;
+    assigns arr[0..(n - 1)];
+    ensures e_1: increasing{Post}(arr, n);
+*/
+_Safe void _shell_sort(int arr[_Nonnull ], int n) {
+        // Loop A
+/*@
+        loop invariant i_0: gap >= 0 && gap <= n;
+
+        loop invariant i_1: gap == 0 ==> increasing(arr, n);
+
+
+        loop assigns gap;
+        loop assigns arr[0..(n - 1)];
+    */
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+                // Loop B
+/*@
+            [Hint] Please infer the loop invariant for the following loop.
+
+            loop assigns i;
+            loop assigns arr[0..(n - 1)];
+        */
+        for (int i = gap; i < n; i++) {
+                        // Loop C
+/*@
+                loop assigns j;
+                loop assigns arr[0..(n - 1)];
+            */
+            for (int j = i - gap; j >= 0 && arr[j] > arr[j+gap]; j -= gap) {
+                int tmp = arr[j];
+                arr[j] = arr[j + gap];
+                arr[j + gap] = tmp;
+            }
+        }
+    }
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop A@_shell_sort invariants: i_0: gap >= 0 && gap <= n; i_1: gap == 0 ==> increasing(arr, n) } int i = gap; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i < n ) } gap /= 2; { Loop A@_shell_sort invariants: i_0: gap >= 0 && gap <= n; i_1: gap == 0 ==> increasing(arr, n) }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

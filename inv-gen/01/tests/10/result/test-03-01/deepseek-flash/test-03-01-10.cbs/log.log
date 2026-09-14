@@ -1,0 +1,24 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-10.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1477
+INFO | [INIT] functions=fast_pow_mod loops=1 delayed_filter_threshold=2
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@fast_pow_mod prompt=llm_calls/001_initial_reasoning_A@fast_pow_mod.prompt.txt response=llm_calls/001_initial_reasoning_A@fast_pow_mod.response.txt response_chars=247
+INFO | [LLM 001] response_preview=``` loop invariant m > 0; loop invariant x >= 0 && n >= 0; loop invariant 0 <= res && res < m; loop invariant 0 <= base && base < m; loop invariant 0 <= exp && exp <= n; loop invariant (res * pow_mod(base, exp, m)) % ...
+INFO | [APPLY] loop=A@fast_pow_mod added=6
+INFO |   + i_0: m > 0
+INFO |   + i_1: x >= 0 && n >= 0
+INFO |   + i_2: 0 <= res && res < m
+INFO |   + i_3: 0 <= base && base < m
+INFO |   + i_4: 0 <= exp && exp <= n
+INFO |   + i_5: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m) % m
+INFO | [INVARIANTS] total=6 loops=A@fast_pow_mod:6 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-10_verified_1.cbs invariants=6
+INFO | [FRAMAC] attempt=1 result=Pass_16_16 stdout=test-03-01-10_verified_1_Pass_16_16.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-10_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 55.20659899711609
+INFO | ------------------------

@@ -1,0 +1,15 @@
+```
+loop invariant 0 <= i && i <= n;
+loop invariant 0 <= k && k < n;
+loop invariant matrix_bounded{Here}(dist, n);
+loop invariant diagonal_zero{Here}(dist, n);
+loop invariant no_larger_than_graph{Pre,Here}(graph, dist, n);
+loop invariant \forall integer a, b, m;
+  0 <= a < n && 0 <= b < n && 0 <= m < k &&
+  graph[a][m] < INF && graph[m][b] < INF
+  ==> dist[a][b] <= graph[a][m] + graph[m][b];
+loop invariant \forall integer a, b;
+  0 <= a < i && 0 <= b < n &&
+  graph[a][k] < INF && graph[k][b] < INF
+  ==> dist[a][b] <= graph[a][k] + graph[k][b];
+```

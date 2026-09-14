@@ -1,0 +1,8 @@
+Loop A@_compute_prefix_function:
+  i_0: 1 <= i <= n
+  i_1: \forall integer k; 0 <= k < i ==> pre_post(s, k, pi[k])
+  i_2: \forall integer k; 0 <= k < i ==> 0 <= pi[k] <= k
+  i_3: \forall integer k; i <= k < n ==> pi[k] == 0
+Loop B@_compute_prefix_function:
+  i_4: 0 <= j < i
+  i_5: pre_post(s, i - 1, j)

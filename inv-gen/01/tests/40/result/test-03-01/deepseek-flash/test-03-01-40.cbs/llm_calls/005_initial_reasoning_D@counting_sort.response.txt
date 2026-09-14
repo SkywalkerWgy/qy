@@ -1,0 +1,11 @@
+```
+loop invariant 0 <= j <= c[v];
+loop invariant pos == pos_start + j;
+loop invariant pos_start == sum_c(c, v - 1);
+loop invariant pos_start + c[v] <= n;
+loop invariant 0 <= pos_start && pos_start <= pos && pos <= n;
+loop invariant sorted(b, 0, pos);
+loop invariant \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v;
+loop invariant \forall integer i; pos_start <= i < pos ==> b[i] == v;
+loop invariant \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v;
+```

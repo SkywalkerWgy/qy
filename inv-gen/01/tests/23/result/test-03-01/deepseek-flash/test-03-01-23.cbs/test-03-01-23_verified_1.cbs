@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+
+/*@
+    requires n == 10;
+    requires \valid(p + (0..(n)));
+    requires \valid(m + (0..(n)));
+    requires \valid(m[0..(n)] + (0..(n)));
+    requires \forall integer i, j; 0 <= i < n && 0 <= j < n && i != j ==> \separated(&m[i] + (0..(n)), &m[j] + (0..(n)), &p[0..(n)]);
+    requires \separated(&m[0..(n)] + (0..(n)), &p[0..(n)]);
+    requires \forall integer k; 0 <= k <= n ==> 0 < p[k] < 5;
+    requires \forall integer r; 0 <= r <= n ==> m[r][r] == 0;
+    requires \forall integer i, j; 0 <= i <= n  && 0 <= j <= n && i != j ==> m[i][j] == 2147483647;
+    ensures \forall integer j; 2 <= j <= n ==>
+                (\forall integer g; 1 <= g <= n - j + 1 ==>
+                    (\forall integer h; g <= h < g + j - 1 ==>
+                        m[g][g + j - 1] <= m[g][h] + m[h + 1][g + j - 1] + p[g - 1] * p[h] * p[g + j - 1]));
+    assigns m[1..(n)][1..(n)];
+*/
+_Safe int _matrix_chain(int p[_Nonnull ], int*_Nonnull*_Nonnull m, int n) {
+
+        // Loop A
+/*@
+        loop invariant i_0: 2 <= l && l <= n + 1;
+
+        loop invariant i_1: \forall integer len; (2 <= len && len < l) ==> (\forall integer i; (1 <= i && i <= n - len + 1) ==> (\forall integer k; (i <= k && k < i + len - 1) ==> m[i][i + len - 1] <= m[i][k] + m[k + 1][i + len - 1] + p[i - 1] * p[k] * p[i + len - 1]));;
+
+
+        loop assigns l;
+        loop assigns m[1..(n)][1..(n)];
+    */
+    for (int l = 2; l <= n; l++) {
+                // Loop B
+/*@
+            loop invariant i_2: 1 <= i && i <= n - l + 2;
+
+            loop invariant i_3: \forall integer j; 1 <= j < i && j <= n - l + 1 ==> (\forall integer k; j <= k < j + l - 1 ==> m[j][j + l - 1] <= m[j][k] + m[k + 1][j + l - 1] + p[j - 1] * p[k] * p[j + l - 1]);;
+
+
+            loop assigns m[1..(n)][1..(n)];
+            loop assigns i;
+        */
+        for (int i = 1; i <= n - l + 1; i++) {
+            int end = i + l - 1;
+            m[i][end] = 2147483647;
+                        // Loop C
+/*@
+                loop invariant i_4: \forall integer t; i <= t < k ==> m[i][end] <= m[i][t] + m[t+1][end] + p[i-1] * p[t] * p[end];
+
+
+                loop assigns m[i][end];
+                loop assigns k;
+            */
+            for (int k = i; k < end; k++) {
+                int q = m[i][k] + m[k + 1][end] + p[i - 1] * p[k] * p[end];
+                if (q < m[i][end]) {
+                    m[i][end] = m[i][k] + m[k + 1][end] + p[i - 1] * p[k] * p[end];
+                }
+            }
+
+        }
+    }
+    return m[1][n];
+}
+
+
+

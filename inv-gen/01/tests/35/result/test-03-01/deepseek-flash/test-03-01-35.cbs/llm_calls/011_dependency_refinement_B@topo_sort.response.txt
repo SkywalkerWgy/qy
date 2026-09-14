@@ -1,0 +1,2 @@
+[Loop B@topo_sort]
+loop invariant i_13: \forall integer w; 0 <= w < n ==> (in_degree[w] == -1 <==> appears_in_prefix(result, count, w));

@@ -1,0 +1,135 @@
+#define BUCKET_COUNT 16
+
+/*@
+  predicate sorted{L}(int *a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i <= j < hi ==> \at(a[i], L) <= \at(a[j], L);
+
+  predicate in_bucket_range{L}(int *a, integer n) =
+    \forall integer i; 0 <= i < n ==> 0 <= \at(a[i], L) < BUCKET_COUNT;
+*/
+
+/*@
+  requires 0 <= n;
+  requires \valid(a + (0 .. n - 1));
+  requires in_bucket_range(a, n);
+  assigns a[0 .. n - 1];
+  ensures sorted(a, 0, n);
+  ensures in_bucket_range(a, n);
+*/
+_Safe void _bucket_sort(int *_Nonnull a, int n)
+{
+    int bucket[BUCKET_COUNT];
+    int i;
+    int v;
+    int j;
+    int pos;
+    int start;
+
+      // Loop A
+/*@
+      loop invariant i_0: 0 <= i <= BUCKET_COUNT;
+
+      loop invariant i_1: \forall integer k; 0 <= k < i ==> bucket[k] == 0;
+
+
+      loop assigns i, bucket[0 .. BUCKET_COUNT - 1];
+    */
+    for (i = 0; i < BUCKET_COUNT; i++) {
+        bucket[i] = 0;
+    }
+
+      // Loop B
+/*@
+      loop invariant i_5: 0 <= i <= n;
+
+      loop invariant i_6: in_bucket_range(a, n);
+
+      loop invariant i_8: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0;
+
+      loop invariant i_9: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] <= i;
+
+
+      loop assigns i, bucket[0 .. BUCKET_COUNT - 1];
+    */
+    for (i = 0; i < n; i++) {
+        bucket[a[i]] = bucket[a[i]] + 1;
+    }
+
+    pos = 0;
+
+      // Loop C
+/*@
+      loop invariant i_10: 0 <= v <= BUCKET_COUNT;
+
+      loop invariant i_11: 0 <= pos <= n;
+
+      loop invariant i_12: in_bucket_range(a, n);
+
+      loop invariant i_13: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0;
+
+      loop invariant i_14: \sum(integer k; 0 <= k < BUCKET_COUNT; bucket[k]) == n;
+
+      loop invariant i_15: pos == \sum(integer k; 0 <= k < v; bucket[k]);
+
+      loop invariant i_16: sorted(a, 0, pos);
+
+      loop invariant i_17: \forall integer i; 0 <= i < pos ==> 0 <= a[i] < v;
+
+
+      loop assigns v, j, start, pos, a[0 .. n - 1];
+    */
+    for (v = 0; v < BUCKET_COUNT; v++) {
+        start = pos;
+
+              // Loop D
+/*@
+          loop invariant i_18: 0 <= j <= bucket[v];
+
+          loop invariant i_19: 0 <= v < BUCKET_COUNT;
+
+          loop invariant i_20: start == \sum(integer k; 0 <= k < v; bucket[k]);
+
+          loop invariant i_21: pos == start + j;
+
+          loop invariant i_22: start + bucket[v] <= n;
+
+          loop invariant i_23: 0 <= pos <= n;
+
+          loop invariant i_24: sorted(a, 0, pos);
+
+          loop invariant i_25: in_bucket_range(a, n);
+
+          loop invariant i_26: \forall integer i; start <= i < pos ==> a[i] == v;
+
+          loop invariant i_27: \forall integer i; 0 <= i < start ==> a[i] < v;
+
+          loop invariant i_28: \forall integer i; 0 <= i < pos ==> 0 <= a[i] <= v;
+
+          loop invariant i_29: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0;
+
+          loop invariant i_30: \sum(integer k; 0 <= k < BUCKET_COUNT; bucket[k]) == n;
+
+
+          loop assigns j, pos, a[0 .. n - 1];
+        */
+        for (j = 0; j < bucket[v] && pos < n; j++) {
+            a[pos] = v;
+            pos = pos + 1;
+        }
+    }
+
+      // Loop E
+/*@
+      loop invariant i_2: 0 <= pos <= n;
+
+      loop invariant i_3: sorted(a, 0, pos);
+
+      loop invariant i_4: in_bucket_range(a, n);
+
+
+      loop assigns pos, a[0 .. n - 1];
+    */
+    for (; pos < n; pos++) {
+        a[pos] = BUCKET_COUNT - 1;
+    }
+}

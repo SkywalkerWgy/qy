@@ -1,0 +1,4 @@
+```
+loop invariant 0 <= i && i <= n;
+loop invariant \forall integer r, c; 0 <= r && r < i && 0 <= c && c < n ==> dist[r][c] == graph[r][c];
+```

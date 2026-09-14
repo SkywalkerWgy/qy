@@ -1,0 +1,11 @@
+```
+loop invariant -1 <= top < n;
+loop invariant top >= 0 ==> node == stack[top];
+loop invariant stack[0] == start;
+loop invariant visited[start] == 1;
+loop invariant dist[start] == 0;
+loop invariant \forall integer i; 0 <= i < n && visited[i] == 1 ==> connect(graph, i, start, n);
+loop invariant \forall integer i; 0 <= i < n && visited[i] == 1 ==> dist[i] >= 0;
+loop invariant \forall integer i; 0 <= i < n && visited[i] == 0 ==> dist[i] == -1;
+loop invariant \forall integer k; 0 <= k <= top ==> visited[stack[k]] == 1;
+```

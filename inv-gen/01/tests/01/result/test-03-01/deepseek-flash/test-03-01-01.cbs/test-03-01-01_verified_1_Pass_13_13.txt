@@ -1,0 +1,278 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 12 goals scheduled
+[wp] Proved goals:   13 / 13
+  Unreachable:       1
+  Qed:               7 (12ms-8ms-24ms)
+  Alt-Ergo 2.6.3:    5 (12ms-21ms-26ms)
+------------------------------------------------------------
+  Function _binary_search
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 11) in '_binary_search':
+Assume {
+  Type: is_sint32(h) /\ is_sint32(key_0) /\ is_sint32(l) /\ is_sint32(n) /\
+      is_sint32(n - 1).
+  (* Heap *)
+  Type: (region(base_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 0 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(base_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(base_0, i_2)] < Mint_0[shift_sint32(base_0, i_1)])))).
+  (* Invariant 'i_0' *)
+  Have: (h < n) /\ (0 <= l) /\ (l <= (1 + h)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < l) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < key_0))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((h < i_1) -> ((i_1 < n) ->
+      (key_0 < Mint_0[shift_sint32(base_0, i_1)]))).
+  If l <= h
+  Then {
+    Let a = shift_sint32(base_0, l + ((h - l) / 2)).
+    Let x = Mint_0[a].
+    (* Else *)
+    Have: key_0 <= x.
+    (* Else *)
+    Have: x <= key_0.
+    Have: a = null.
+  }
+}
+Prove: Mint_0[shift_sint32(base_0, i)] != key_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (14ms) (85)
+Prover CVC5 1.1.2 returns Unknown (Qed:16ms)
+Prover Z3 4.13.3 returns Valid (Qed:16ms) (9ms) (37162)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 13) in '_binary_search':
+Let x = l + ((h - l) / 2).
+Let a = shift_sint32(base_0, x).
+Let x_1 = Mint_0[a].
+Assume {
+  Type: is_sint32(h) /\ is_sint32(key_0) /\ is_sint32(l) /\ is_sint32(n) /\
+      is_sint32(n - 1) /\ is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(base_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: a != null.
+  (* Pre-condition *)
+  Have: 0 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(base_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < n) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < Mint_0[shift_sint32(base_0, i)])))).
+  (* Invariant 'i_0' *)
+  Have: (h < n) /\ (0 <= l) /\ (l <= (1 + h)).
+  (* Invariant 'i_1' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < l) ->
+      (Mint_0[shift_sint32(base_0, i)] < key_0))).
+  (* Invariant 'i_2' *)
+  Have: forall i : Z. ((h < i) -> ((i < n) ->
+      (key_0 < Mint_0[shift_sint32(base_0, i)]))).
+  Have: l <= h.
+  (* Else *)
+  Have: key_0 <= x_1.
+  (* Else *)
+  Have: x_1 <= key_0.
+}
+Prove: (0 <= x) /\ (x < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (12ms) (79)
+Prover CVC5 1.1.2 returns Valid (Qed:12ms) (22ms) (15067)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (9ms) (36642)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 22):
+Let x = l_1 + ((h_2 - l_1) / 2).
+Let x_1 = Mint_0[shift_sint32(base_0, x)].
+Let x_2 = 1 + h_1.
+Assume {
+  Type: is_sint32(h) /\ is_sint32(h_2) /\ is_sint32(h_1) /\
+      is_sint32(key_0) /\ is_sint32(l) /\ is_sint32(l_1) /\ is_sint32(x_2) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(base_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (-1) <= h_1.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(base_0, 0), x_2).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i <= h_1) -> ((0 <= i_1) -> ((i_1 < i) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < Mint_0[shift_sint32(base_0, i)])))).
+  (* Invariant 'i_0' *)
+  Have: (h_2 <= h_1) /\ (0 <= l_1) /\ (l_1 <= (1 + h_2)).
+  (* Invariant 'i_1' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < l_1) ->
+      (Mint_0[shift_sint32(base_0, i)] < key_0))).
+  (* Invariant 'i_2' *)
+  Have: forall i : Z. ((h_2 < i) -> ((i <= h_1) ->
+      (key_0 < Mint_0[shift_sint32(base_0, i)]))).
+  (* Then *)
+  Have: l_1 <= h_2.
+  If x_1 < key_0
+  Then { Have: h_2 = h. Have: (1 + l_1 + ((h - l_1) / 2)) = l. }
+  Else {
+    Let x_3 = l + ((h_2 - l) / 2).
+    Have: l_1 = l.
+    (* Then *)
+    Have: key_0 < Mint_0[shift_sint32(base_0, x_3)].
+    Have: x_3 = (1 + h).
+  }
+}
+Prove: (h <= h_1) /\ (0 <= l) /\ (l <= (1 + h)).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (26ms) (218)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (31ms) (19255)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (4ms) (42709)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 22):
+Prove: true.
+Prover Qed returns Valid (0.82ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 24):
+Let x = l_1 + ((h_1 - l_1) / 2).
+Let x_1 = Mint_0[shift_sint32(base_0, x)].
+Assume {
+  Type: is_sint32(h) /\ is_sint32(h_1) /\ is_sint32(key_0) /\ is_sint32(l) /\
+      is_sint32(l_1) /\ is_sint32(n) /\ is_sint32(n - 1) /\ is_sint32(x) /\
+      is_sint32(x_1).
+  (* Heap *)
+  Type: (region(base_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < l).
+  (* Pre-condition *)
+  Have: 0 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(base_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(base_0, i_2)] < Mint_0[shift_sint32(base_0, i_1)])))).
+  (* Invariant 'i_0' *)
+  Have: (h_1 < n) /\ (0 <= l_1) /\ (l_1 <= (1 + h_1)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < l_1) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < key_0))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((h_1 < i_1) -> ((i_1 < n) ->
+      (key_0 < Mint_0[shift_sint32(base_0, i_1)]))).
+  (* Then *)
+  Have: l_1 <= h_1.
+  If x_1 < key_0
+  Then { Have: h_1 = h. Have: (1 + l_1 + ((h - l_1) / 2)) = l. }
+  Else {
+    Let x_2 = l + ((h_1 - l) / 2).
+    Have: l_1 = l.
+    (* Then *)
+    Have: key_0 < Mint_0[shift_sint32(base_0, x_2)].
+    Have: x_2 = (1 + h).
+  }
+  (* Invariant 'i_0' *)
+  Have: (h < n) /\ (0 <= l) /\ (l <= (1 + h)).
+}
+Prove: Mint_0[shift_sint32(base_0, i)] < key_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:20ms) (26ms) (174)
+Prover CVC5 1.1.2 returns Unknown (Qed:20ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 24):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 26):
+Let x = l_1 + ((h_1 - l_1) / 2).
+Let x_1 = Mint_0[shift_sint32(base_0, x)].
+Assume {
+  Type: is_sint32(h) /\ is_sint32(h_1) /\ is_sint32(key_0) /\ is_sint32(l) /\
+      is_sint32(l_1) /\ is_sint32(n) /\ is_sint32(n - 1) /\ is_sint32(x) /\
+      is_sint32(x_1).
+  (* Heap *)
+  Type: (region(base_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (h < i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 0 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(base_0, 0), n).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (Mint_0[shift_sint32(base_0, i_2)] < Mint_0[shift_sint32(base_0, i_1)])))).
+  (* Invariant 'i_0' *)
+  Have: (h_1 < n) /\ (0 <= l_1) /\ (l_1 <= (1 + h_1)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < l_1) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < key_0))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((h_1 < i_1) -> ((i_1 < n) ->
+      (key_0 < Mint_0[shift_sint32(base_0, i_1)]))).
+  (* Then *)
+  Have: l_1 <= h_1.
+  If x_1 < key_0
+  Then { Have: h_1 = h. Have: (1 + l_1 + ((h - l_1) / 2)) = l. }
+  Else {
+    Let x_2 = l + ((h_1 - l) / 2).
+    Have: l_1 = l.
+    (* Then *)
+    Have: key_0 < Mint_0[shift_sint32(base_0, x_2)].
+    Have: x_2 = (1 + h).
+  }
+  (* Invariant 'i_0' *)
+  Have: (h < n) /\ (0 <= l) /\ (l <= (1 + h)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < l) ->
+      (Mint_0[shift_sint32(base_0, i_1)] < key_0))).
+}
+Prove: key_0 < Mint_0[shift_sint32(base_0, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:24ms) (26ms) (248)
+Prover CVC5 1.1.2 returns Unknown (Qed:24ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 26):
+Prove: true.
+Prover Qed returns Valid (0.74ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c, line 29):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns nothing in '_binary_search' (1/3):
+Effect at line 31
+Prove: true.
+Prover Qed returns Valid (0.82ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in '_binary_search' (2/3):
+Effect at line 40
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in '_binary_search' (3/3):
+Effect at line 44
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+[wp:pedantic-assigns] /results/test-03-01/deepseek-flash/test-03-01-01.cbs/.col2inv-trustc-5p8wqowq.c:16: Warning: 
+  No 'assigns \result \from ...' specification for function '_binary_search'returning pointer type.
+  Callers assumptions might be imprecise.

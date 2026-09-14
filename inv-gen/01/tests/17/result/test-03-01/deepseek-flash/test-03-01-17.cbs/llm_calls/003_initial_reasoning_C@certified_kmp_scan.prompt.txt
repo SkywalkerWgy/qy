@@ -1,0 +1,148 @@
+
+#define MAX_PATTERN 100
+
+/*@
+  predicate match_at{L}(char *text, char *pat, integer pos, integer m) =
+    \forall integer k; 0 <= k < m ==> \at(text[pos + k], L) == \at(pat[k], L);
+
+  predicate no_match_before{L}(char *text, char *pat, integer m, integer upto) =
+    \forall integer pos; 0 <= pos < upto ==> !match_at{L}(text, pat, pos, m);
+
+  predicate no_match{L}(char *text, char *pat, integer n, integer m) =
+    n < m || \forall integer pos; 0 <= pos <= n - m ==> !match_at{L}(text, pat, pos, m);
+*/
+
+/*@
+  requires 0 < m <= MAX_PATTERN;
+  requires \valid_read(pat + (0 .. m - 1));
+  requires \valid((*lps) + (0 .. m - 1));
+  requires \separated(pat + (0 .. m - 1), (*lps) + (0 .. m - 1));
+  assigns (*lps)[0 .. m - 1];
+  ensures (*lps)[0] == 0;
+  ensures \forall integer k; 0 <= k < m ==> 0 <= (*lps)[k] <= k;
+*/
+_Safe void build_lps(char *_Nonnull pat, int m,
+                     int (*_Borrow _Nonnull lps)[MAX_PATTERN])
+{
+    (*lps)[0] = 0;
+
+      // Loop A
+/*@
+      loop invariant i_0: 1 <= i <= m;
+
+      loop invariant i_1: 0 <= len < i;
+
+      loop invariant i_2: (*lps)[0] == 0;
+
+      loop invariant i_3: \forall integer k; 0 <= k < i ==> 0 <= (*lps)[k] <= k;
+
+
+      loop assigns i, len, (*lps)[1 .. m - 1];
+    */
+    for (int i = 1, len = 0; i < m; ) {
+        if (pat[i] == pat[len]) {
+            len++;
+            (*lps)[i] = len;
+            i++;
+        } else if (len != 0) {
+            len = (*lps)[len - 1];
+        } else {
+            (*lps)[i] = 0;
+            i++;
+        }
+    }
+}
+
+/*@
+  requires 0 <= pos;
+  requires 0 < m;
+  requires pos + m <= n;
+  requires \valid_read(text + (0 .. n - 1));
+  requires \valid_read(pat + (0 .. m - 1));
+  assigns \nothing;
+  ensures \result == 0 || \result == 1;
+  ensures \result == 1 ==> match_at(text, pat, pos, m);
+  ensures \result == 0 ==> !match_at(text, pat, pos, m);
+*/
+_Safe int same_at(char *_Nonnull text, int n, char *_Nonnull pat, int m, int pos)
+{
+      // Loop B
+/*@
+      loop invariant i_4: 0 <= k <= m;
+
+      loop invariant i_5: \forall integer j; 0 <= j < k ==> text[pos + j] == pat[j];
+
+
+      loop assigns k;
+    */
+    for (int k = 0; k < m; k++) {
+        if (text[pos + k] != pat[k]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/*@
+  requires 0 < m <= MAX_PATTERN;
+  requires m <= n;
+  requires \valid_read(text + (0 .. n - 1));
+  requires \valid_read(pat + (0 .. m - 1));
+  assigns \nothing;
+  ensures -1 <= \result <= n - m;
+  ensures \result >= 0 ==> match_at(text, pat, \result, m);
+  ensures \result == -1 ==> no_match(text, pat, n, m);
+*/
+_Safe int certified_kmp_scan(char *_Nonnull text, int n, char *_Nonnull pat, int m)
+{
+      // Loop C
+/*@
+      [Hint] Please infer the loop invariant for the following loop.
+
+      loop assigns pos;
+    */
+    for (int pos = 0; pos <= n - m; pos++) {
+        if (same_at(text, n, pat, m, pos) == 1) {
+            return pos;
+        }
+    }
+    return -1;
+}
+
+/*@
+  requires 0 < m <= MAX_PATTERN;
+  requires m <= n;
+  requires \valid_read(text + (0 .. n - 1));
+  requires \valid_read(pat + (0 .. m - 1));
+  assigns \nothing;
+  ensures -1 <= \result <= n - m;
+  ensures \result >= 0 ==> match_at(text, pat, \result, m);
+  ensures \result == -1 ==> no_match(text, pat, n, m);
+*/
+_Safe int _knuth_morris_pratt(char *_Nonnull text, int n, char *_Nonnull pat, int m)
+{
+    int lps[MAX_PATTERN];
+
+    build_lps(pat, m, &_Mut lps);
+    return certified_kmp_scan(text, n, pat, m);
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: 0 < m <= MAX_PATTERN; r_2: m <= n; r_3: \valid_read(text + (0 .. n - 1)); r_4: \valid_read(pat + (0 .. m - 1)) } int pos = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( pos <= n - m ) } return -1; { e_1: -1 <= \result <= n - m; e_2: \result >= 0 ==> match_at(text, pat, \result, m); e_3: \result == -1 ==> no_match(text, pat, n, m) }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+    - { I && ( pos <= n - m ) } skip { r_1: 0 <= pos; r_2: 0 < m; r_3: pos + m <= n; r_4: \valid_read(text + (0 .. n - 1)); r_5: \valid_read(pat + (0 .. m - 1)) }: when execution reaches the call to same_at at line 85 (if (same_at(text, n, pat, m, pos) == 1) {), the generated invariant together with the loop condition should entail the callee's requires clauses after the inner-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

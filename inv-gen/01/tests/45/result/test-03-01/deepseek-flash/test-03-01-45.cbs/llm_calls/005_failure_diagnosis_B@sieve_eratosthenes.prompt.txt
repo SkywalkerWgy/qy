@@ -1,0 +1,256 @@
+
+#define MAX 100
+
+/*@
+  axiomatic PrimeMath {
+    predicate divides(integer d, integer x) =
+      d != 0 && x % d == 0;
+
+    predicate is_prime(integer x) =
+      2 <= x &&
+      (\forall integer d; 2 <= d && d * d <= x ==> !divides(d,x));
+
+    axiom divides_square:
+      \forall integer d; d != 0 ==> divides(d,d*d);
+
+    axiom divides_plus:
+      \forall integer d, x; 0 < d && divides(d,x) ==> divides(d,x+d);
+
+    axiom close_multiples_equal:
+      \forall integer d, a, b;
+        0 < d && divides(d,a) && divides(d,b) && a <= b < a + d ==> a == b;
+  }
+*/
+
+/* Sieve of Eratosthenes: returns all primes <= n.
+   primes[] must have space for at least n entries. */
+/*@
+  requires 2 <= n <= 100;
+  requires \valid(primes + (0..n-1));
+  assigns primes[0..n-1];
+  ensures 0 <= \result <= n - 1;
+  ensures 1 <= \result;
+  ensures primes[0] == 2;
+  ensures \forall integer k; 0 <= k < \result ==> 2 <= primes[k] <= n;
+  ensures \forall integer k; 0 <= k < \result ==> is_prime(primes[k]);
+  ensures \forall integer a, b; 0 <= a < b < \result ==> primes[a] < primes[b];
+*/
+_Safe int sieve_eratosthenes(int n, int primes[_Nonnull]) {
+    int is_p[MAX + 1];
+    int i, p, cnt;
+
+    /* initialize: all numbers >= 2 are candidates */
+      // Loop A
+/*@
+      loop invariant i_0: 2 <= i && i <= n + 1;
+
+      loop invariant i_1: \forall integer k; 2 <= k < i ==> is_p[k] == 1;
+
+
+      loop assigns i, is_p[2..n];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) is_p[i] = 1;
+
+    cnt = 0;
+
+    /* mark composites: for each prime p, mark p*p, p*(p+1), ... */
+      // Loop B
+/*@
+      loop invariant i_11: 2 <= p && p <= n + 1;
+
+      loop invariant i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
+
+      loop invariant i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
+
+      loop invariant i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
+
+      loop invariant i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
+
+
+      loop assigns p, i, is_p[2..n];
+      loop variant n - p;
+    */
+    for (p = 2; p * p <= n; p++) {
+              // Loop C
+/*@
+          loop invariant i_16: 2 <= p && p <= n;
+
+          loop invariant i_17: p * p <= i && i <= n + p;
+
+          loop invariant i_18: divides(p, i);
+
+          loop invariant i_19: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
+
+          loop invariant i_20: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
+
+          loop invariant i_21: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
+
+          loop invariant i_22: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
+
+          loop invariant i_23: \forall integer k; p * p <= k && k < i && divides(p,k) ==> is_p[k] == 0;
+
+
+          loop assigns i, is_p[p * p..n];
+          loop variant n - i + 1;
+        */
+        for (i = p * p; i <= n; i += p) {
+            is_p[i] = 0;
+        }
+    }
+    /*@ assert is_p[2] == 1; */
+    /*@ assert \forall integer k; 2 <= k <= n && is_p[k] == 1 ==> is_prime(k); */
+
+    /* collect surviving primes */
+      // Loop D
+/*@
+      loop invariant i_2: 2 <= i <= n + 1;
+
+      loop invariant i_3: 0 <= cnt <= i - 2;
+
+      loop invariant i_4: \forall integer k; 0 <= k < cnt ==> 2 <= primes[k] < i;
+
+      loop invariant i_5: \forall integer k; 0 <= k < cnt ==> primes[k] <= n;
+
+      loop invariant i_6: \forall integer k; 0 <= k < cnt ==> is_p[primes[k]] == 1;
+
+      loop invariant i_7: \forall integer k; 0 <= k < cnt ==> is_prime(primes[k]);
+
+      loop invariant i_8: \forall integer k; 2 <= k < i && is_p[k] == 1 ==> \exists integer j; 0 <= j < cnt && primes[j] == k;
+
+      loop invariant i_9: \forall integer a, b; 0 <= a < b < cnt ==> primes[a] < primes[b];
+
+      loop invariant i_10: i > 2 ==> 1 <= cnt && primes[0] == 2;
+
+
+      loop assigns i, cnt, primes[0..n-1];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) {
+        if (is_p[i]) {
+            /*@ assert is_prime(i); */
+            /*@ assert \forall integer k; 0 <= k < cnt ==> primes[k] < i; */
+            primes[cnt] = i;
+            cnt = cnt + 1;
+        }
+        /*@ assert i != 2 || (1 <= cnt && primes[0] == 2); */
+    }
+
+    return cnt;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Diagnose why the following verification obligation cannot be discharged. Do not propose new invariants.
+[Failed Invariant] i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k)
+[Failed Property] preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[WP Target] Let x = p * p.
+Let x_1 = n + p.
+Let x_2 = 1 + n.
+Let x_3 = 1 + p.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_3) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= n) /\ (i < (x_3 * x_3)) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((x <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+}
+Prove: P_is_prime(i).
+[Available Assumptions] Loop C@sieve_eratosthenes invariants: i_16: 2 <= p && p <= n; i_17: p * p <= i && i <= n + p; i_18: divides(p, i); i_19: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1; i_20: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1; i_21: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k); i_22: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0; i_23: \forall integer k; p * p <= k && k < i && divides(p,k) ==> is_p[k] == 0 and ! (i <= n)
+Analyze the proof failure by answering the following items:
+    - Which proof property failed and what that property requires.
+    - Whether failed invariant itself is too strong or non-inductive with respect to the loop body.
+    - Whether the invariant(s) of C@sieve_eratosthenes are too weak to imply the WP goal after the inner loop terminates.
+    - Which missing logical fact is needed to bridge the available assumptions and WP target.
+
+IMPORTANT RULES:
+1. Output only a diagnosis object using the following fields:
+```
+[Failed Property]
+...
+[Failure Cause]
+...
+[Responsible Scope]
+...
+[Refinement Direction]
+...
+```
+2. The [Failed Property] field must copy the input [Failed Property] exactly; it must name the proof property that failed, not restate the invariant formula.
+3. The responsible scope must be selected from B@sieve_eratosthenes, C@sieve_eratosthenes, or both.
+4. Boundary contracts may be cited as assumptions or targets, but must not be selected as repair targets.

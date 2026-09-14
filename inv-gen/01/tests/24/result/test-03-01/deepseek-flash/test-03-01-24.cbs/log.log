@@ -1,0 +1,26 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-24.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1120
+INFO | [INIT] functions=_maximun_subarray loops=1 delayed_filter_threshold=2
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_maximun_subarray prompt=llm_calls/001_initial_reasoning_A@_maximun_subarray.prompt.txt response=llm_calls/001_initial_reasoning_A@_maximun_subarray.response.txt response_chars=499
+INFO | [LLM 001] response_preview=``` loop invariant 1 <= i && i <= n; loop invariant 0 <= curr_p && curr_p < i; loop invariant current_sum == subarray_sum(a, curr_p, i, n); loop invariant \forall integer k; 0 <= k && k < i ==> subarray_sum(a, k, i, n...
+INFO | [APPLY] loop=A@_maximun_subarray added=8
+INFO |   + i_0: 1 <= i && i <= n
+INFO |   + i_1: 0 <= curr_p && curr_p < i
+INFO |   + i_2: current_sum == subarray_sum(a, curr_p, i, n)
+INFO |   + i_3: \forall integer k; 0 <= k && k < i ==> subarray_sum(a, k, i, n) <= current_sum
+INFO |   + i_4: 0 <= max_p && max_p < max_q && max_q <= i
+INFO |   + i_5: max_sum == subarray_sum(a, max_p, max_q, n)
+INFO |   + i_6: \forall integer p, q; 0 <= p && p < q && q <= i ==> subarray_sum(a, p, q, n) <= max_sum
+INFO |   + i_7: max_sum >= current_sum
+INFO | [INVARIANTS] total=8 loops=A@_maximun_subarray:8 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-24_verified_1.cbs invariants=8
+INFO | [FRAMAC] attempt=1 result=Pass_22_22 stdout=test-03-01-24_verified_1_Pass_22_22.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-24_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 38.5922954082489
+INFO | ------------------------

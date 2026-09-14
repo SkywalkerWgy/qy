@@ -1,0 +1,84 @@
+/*@
+  predicate valid_vertex_prefix(int* a, integer len, integer n) =
+    \forall integer i; 0 <= i < len ==> 0 <= a[i] < n;
+
+  predicate appears_in_prefix(int* a, integer len, integer v) =
+    \exists integer i; 0 <= i < len && a[i] == v;
+
+  predicate processed_vertices_are_output(int* result, int* mark,
+                                          integer len, integer n) =
+    \forall integer v;
+      0 <= v < n && mark[v] == -1 ==> appears_in_prefix(result,len,v);
+
+  predicate output_edge_order{L}(int** graph, int* result,
+                                 integer len, integer n) =
+    \forall integer pos_to, from;
+      0 <= pos_to < len &&
+      0 <= from < n &&
+      \at(graph[from][\at(result[pos_to],L)],L) == 1
+      ==> \exists integer pos_from;
+            0 <= pos_from < pos_to &&
+            \at(result[pos_from],L) == from;
+*/
+
+/*@
+  requires 1 <= n <= 1000000;
+  requires \valid(graph + (0..n-1));
+  requires \forall integer i; 0 <= i < n ==> \valid(graph[i] + (0..n-1));
+  requires \valid(result + (0..n-1));
+  requires \valid(in_degree + (0..n-1));
+  requires \valid(queue + (0..n-1));
+  requires \separated(result + (0..n-1), in_degree + (0..n-1),
+                      queue + (0..n-1));
+  requires \forall integer i; 0 <= i < n ==>
+    \separated(graph[i] + (0..n-1), result + (0..n-1),
+               in_degree + (0..n-1), queue + (0..n-1));
+  requires \forall integer i, j; 0 <= i < n && 0 <= j < n && i != j ==>
+    \separated(graph[i] + (0..n-1), graph[j] + (0..n-1));
+  requires \forall integer i, j; 0 <= i < n && 0 <= j < n ==>
+    (graph[i][j] == 0 || graph[i][j] == 1);
+  requires \forall integer i; 0 <= i < n ==> in_degree[i] == 0;
+
+  assigns result[0..n-1], in_degree[0..n-1];
+
+  ensures 0 <= \result <= n;
+  ensures valid_vertex_prefix(result,\result,n);
+  ensures output_edge_order(graph,result,\result,n);
+*/
+_Safe int topo_sort(int*_Nonnull*_Nonnull graph, int*_Nonnull result, int*_Nonnull in_degree, int*_Nonnull queue, int n) {
+  int count = 0;
+
+  /*@
+    loop assigns pass, count, result[0..n-1], in_degree[0..n-1];
+    loop variant n - pass;
+  */
+  for (int pass = 0; pass < n; pass++) {
+    /*@
+      loop assigns v, count, result[0..n-1], in_degree[0..n-1];
+      loop variant n - v;
+    */
+    for (int v = 0; v < n; v++) {
+      if (in_degree[v] != -1) {
+        int can_output = 1;
+
+        /*@
+          loop assigns u, can_output;
+          loop variant n - u;
+        */
+        for (int u = 0; u < n; u++) {
+          if (graph[u][v] == 1 && in_degree[u] != -1) {
+            can_output = 0;
+          }
+        }
+
+        if (can_output && count < n) {
+          result[count] = v;
+          count++;
+          in_degree[v] = -1;
+        }
+      }
+    }
+  }
+
+  return count;
+}

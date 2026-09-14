@@ -1,0 +1,56 @@
+
+#define MAX 100
+
+/*@
+    requires 0 < n <= MAX;
+    requires \valid_read(w + (0 .. n - 1));
+    requires \valid_read(v + (0 .. n - 1));
+    requires \valid(taken + (0 .. n - 1));
+    requires \forall integer i; 0 <= i < n ==> w[i] > 0 && v[i] >= 0;
+    requires \forall integer i; 0 <= i < n - 1 ==> v[i] * w[i + 1] >= v[i + 1] * w[i];
+    requires \separated(taken + (0 .. n - 1), w + (0 .. n - 1), v + (0 .. n - 1));
+    requires 0 <= W;
+    assigns taken[0 .. n - 1];
+    ensures \forall integer i; 0 <= i < n ==> 0 <= taken[i] <= w[i];
+*/
+_Safe void fractional_knapsack(int w[_Nonnull ], int v[_Nonnull ], int n, int W, int taken[_Nonnull ]) {
+    int i;
+    int rem = W;
+
+        // Loop A
+/*@
+        [Hint] Please infer the loop invariant for the following loop.
+
+        loop assigns i, rem, taken[0 .. n - 1];
+    */
+    for (i = 0; i < n; i++) {
+        if (rem == 0) {
+            taken[i] = 0;
+        } else if (rem >= w[i]) {
+            taken[i] = w[i];
+            rem = rem - w[i];
+        } else {
+            taken[i] = rem;
+            rem = 0;
+        }
+    }
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: 0 < n <= MAX; r_2: \valid_read(w + (0 .. n - 1)); r_3: \valid_read(v + (0 .. n - 1)); r_4: \valid(taken + (0 .. n - 1)); r_5: \forall integer i; 0 <= i < n ==> w[i] > 0 && v[i] >= 0; r_6: \forall integer i; 0 <= i < n - 1 ==> v[i] * w[i + 1] >= v[i + 1] * w[i]; r_7: \separated(taken + (0 .. n - 1), w + (0 .. n - 1), v + (0 .. n - 1)); r_8: 0 <= W } int i; int rem = W; i = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i < n ) } skip { e_1: \forall integer i; 0 <= i < n ==> 0 <= taken[i] <= w[i] }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

@@ -1,0 +1,144 @@
+
+#define MAX 100
+
+/*@
+  axiomatic PrimeMath {
+    predicate divides(integer d, integer x) =
+      d != 0 && x % d == 0;
+
+    predicate is_prime(integer x) =
+      2 <= x &&
+      (\forall integer d; 2 <= d && d * d <= x ==> !divides(d,x));
+
+    axiom divides_square:
+      \forall integer d; d != 0 ==> divides(d,d*d);
+
+    axiom divides_plus:
+      \forall integer d, x; 0 < d && divides(d,x) ==> divides(d,x+d);
+
+    axiom close_multiples_equal:
+      \forall integer d, a, b;
+        0 < d && divides(d,a) && divides(d,b) && a <= b < a + d ==> a == b;
+  }
+*/
+
+/* Sieve of Eratosthenes: returns all primes <= n.
+   primes[] must have space for at least n entries. */
+/*@
+  requires 2 <= n <= 100;
+  requires \valid(primes + (0..n-1));
+  assigns primes[0..n-1];
+  ensures 0 <= \result <= n - 1;
+  ensures 1 <= \result;
+  ensures primes[0] == 2;
+  ensures \forall integer k; 0 <= k < \result ==> 2 <= primes[k] <= n;
+  ensures \forall integer k; 0 <= k < \result ==> is_prime(primes[k]);
+  ensures \forall integer a, b; 0 <= a < b < \result ==> primes[a] < primes[b];
+*/
+_Safe int sieve_eratosthenes(int n, int primes[_Nonnull]) {
+    int is_p[MAX + 1];
+    int i, p, cnt;
+
+    /* initialize: all numbers >= 2 are candidates */
+      // Loop A
+/*@
+      loop invariant i_0: 2 <= i && i <= n + 1;
+
+      loop invariant i_1: \forall integer k; 2 <= k < i ==> is_p[k] == 1;
+
+
+      loop assigns i, is_p[2..n];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) is_p[i] = 1;
+
+    cnt = 0;
+
+    /* mark composites: for each prime p, mark p*p, p*(p+1), ... */
+      // Loop B
+/*@
+      loop invariant i_11: 2 <= p && p <= n + 1;
+
+      loop invariant i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
+
+      loop invariant i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
+
+      loop invariant i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
+
+      loop invariant i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
+
+
+      loop assigns p, i, is_p[2..n];
+      loop variant n - p;
+    */
+    for (p = 2; p * p <= n; p++) {
+              // Loop C
+/*@
+          [Hint] Please infer the loop invariant for the following loop.
+
+          loop assigns i, is_p[p * p..n];
+          loop variant n - i + 1;
+        */
+        for (i = p * p; i <= n; i += p) {
+            is_p[i] = 0;
+        }
+    }
+    /*@ assert is_p[2] == 1; */
+    /*@ assert \forall integer k; 2 <= k <= n && is_p[k] == 1 ==> is_prime(k); */
+
+    /* collect surviving primes */
+      // Loop D
+/*@
+      loop invariant i_2: 2 <= i <= n + 1;
+
+      loop invariant i_3: 0 <= cnt <= i - 2;
+
+      loop invariant i_4: \forall integer k; 0 <= k < cnt ==> 2 <= primes[k] < i;
+
+      loop invariant i_5: \forall integer k; 0 <= k < cnt ==> primes[k] <= n;
+
+      loop invariant i_6: \forall integer k; 0 <= k < cnt ==> is_p[primes[k]] == 1;
+
+      loop invariant i_7: \forall integer k; 0 <= k < cnt ==> is_prime(primes[k]);
+
+      loop invariant i_8: \forall integer k; 2 <= k < i && is_p[k] == 1 ==> \exists integer j; 0 <= j < cnt && primes[j] == k;
+
+      loop invariant i_9: \forall integer a, b; 0 <= a < b < cnt ==> primes[a] < primes[b];
+
+      loop invariant i_10: i > 2 ==> 1 <= cnt && primes[0] == 2;
+
+
+      loop assigns i, cnt, primes[0..n-1];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) {
+        if (is_p[i]) {
+            /*@ assert is_prime(i); */
+            /*@ assert \forall integer k; 0 <= k < cnt ==> primes[k] < i; */
+            primes[cnt] = i;
+            cnt = cnt + 1;
+        }
+        /*@ assert i != 2 || (1 <= cnt && primes[0] == 2); */
+    }
+
+    return cnt;
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop B@sieve_eratosthenes invariants: i_11: 2 <= p && p <= n + 1; i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1; i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1; i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k); i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0 } i = p * p; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i <= n ) } p++; { Loop B@sieve_eratosthenes invariants: i_11: 2 <= p && p <= n + 1; i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1; i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1; i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k); i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0 }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

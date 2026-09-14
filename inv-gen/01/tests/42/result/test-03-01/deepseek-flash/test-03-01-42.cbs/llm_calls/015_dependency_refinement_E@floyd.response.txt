@@ -1,0 +1,6 @@
+```
+[Loop E@floyd]
+loop invariant i_25_aux: \forall integer r, b, d;
+  0 <= r < n && r != i && 0 <= b < n && 0 <= d < n ==>
+  &dist[r][b] != &dist[i][d];
+```

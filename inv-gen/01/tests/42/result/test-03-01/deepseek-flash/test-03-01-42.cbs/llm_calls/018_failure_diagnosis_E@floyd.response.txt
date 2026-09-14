@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_32: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant `i_32: dist[k][j] <= graph[k][j]` is not guarded by the valid column bound `j < n`. Preservation of this invariant across the inner `j` loop must prove the property for the next index `j+1`. The loop condition only gives `j < n`, so `j+1` can be `n`. At `j+1 == n`, the goal becomes `dist[k][n] <= graph[k][n]`, which is outside the valid column range. The available invariant `i_23` / `no_larger_than_graph` only supplies the inequality for columns `0 <= c < n`, so it cannot justify the boundary case. For `j+1 < n`, `i_23` would suffice, but the unguarded `i_32` forces the out-of-bounds case. Thus `i_32` is too strong / non-inductive as written.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The missing logical fact is the valid-column bound `j < n` (or `j+1 < n`) restricting the inequality to in-bounds columns. The proof needs to use `no_larger_than_graph` only under this bound and treat the `j == n` case as vacuous. Without this guard, the WP target at the next `j` cannot be derived from the assumptions.

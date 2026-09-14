@@ -1,0 +1,22 @@
+```c
+loop invariant 0 <= j <= n;
+loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k];
+loop invariant \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF;
+loop invariant \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1);
+loop invariant \forall integer k; 0 <= k < n ==> visited[k] == \old(visited[k]);
+loop invariant dist[u] == \old(dist[u]);
+loop invariant dist[start] == \old(dist[start]);
+loop invariant parent[start] == \old(parent[start]);
+loop invariant \forall integer k; 0 <= k < n ==> dist[k] <= \old(dist[k]);
+loop invariant \forall integer k; 0 <= k < n && \old(visited[k]) == 1 ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k]);
+loop invariant parent_valid(n,start,parent);
+loop invariant \forall integer k; 0 <= k < j ==>
+  ( (visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k]))
+    ==>
+    (dist[k] == \old(dist[u]) + graph[u][k] && parent[k] == u) );
+loop invariant \forall integer k; 0 <= k < j ==>
+  ( !(visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k]))
+    ==>
+    (dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])) );
+loop invariant \forall integer k; j <= k < n ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k]);
+```

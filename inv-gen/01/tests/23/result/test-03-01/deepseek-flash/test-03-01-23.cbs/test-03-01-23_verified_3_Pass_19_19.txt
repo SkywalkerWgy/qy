@@ -1,0 +1,645 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 18 goals scheduled
+[wp] Proved goals:   19 / 19
+  Unreachable:       1
+  Qed:              10 (12ms-14ms-92ms)
+  Alt-Ergo 2.6.3:    6 (17ms-24ms-34ms)
+  CVC5 1.1.2:        2 (30ms-42ms)
+------------------------------------------------------------
+  Function _matrix_chain
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 16) in '_matrix_chain':
+Let a = shift_PTR(m, 0).
+Let a_1 = shift_sint32(p, 0).
+Let x = i_1 + i.
+Let a_2 = Mptr_0[shift_PTR(m, i)].
+Let x_1 = i_1 + i - 1.
+Assume {
+  Type: is_sint32(l) /\
+      is_sint32(Mint_0[shift_sint32(Mptr_0[shift_PTR(m, 1)], 10)]).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Goal *)
+  When: (0 < i) /\ (i <= i_2) /\ (2 <= i_1) /\ (i_1 <= 10) /\ (x <= 11) /\
+      ((2 + i_2) <= x).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, 11) /\ valid_rw(Malloc_0, a_1, 11) /\
+      separated(a, 21, a_1, 11) /\
+      (forall i_3 : Z. let x_2 = Mint_1[shift_sint32(p, i_3)] in
+       ((0 <= i_3) -> ((i_3 <= 10) -> ((0 < x_2) /\ (x_2 <= 4))))) /\
+      (forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_3)] = 0)))) /\
+      (forall i_4,i_3 : Z. ((i_4 != i_3) -> ((0 <= i_4) -> ((0 <= i_3) ->
+       ((i_4 <= 10) -> ((i_3 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_4)], i_3)] = 2147483647))))))) /\
+      (forall i_4,i_3 : Z. ((0 <= i_4) -> ((0 <= i_3) -> ((i_4 <= 10) ->
+       ((i_3 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_4)], i_3), 1)))))) /\
+      (forall i_4,i_3 : Z. ((i_4 != i_3) -> ((0 <= i_4) -> ((0 <= i_3) ->
+       ((i_4 <= 9) -> ((i_3 <= 9) ->
+       (separated(shift_PTR(m, i_4), 11, a_1, 11) /\
+        separated(shift_PTR(m, i_3), 11, a_1, 11) /\
+        (((11 + i_3) <= i_4) \/ ((11 + i_4) <= i_3))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_4,i_3 : Z. ((0 < i_4) -> ((0 < i_3) -> ((i_4 <= 10) ->
+        ((i_3 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_4)], i_3) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_0' *)
+  Have: (2 <= l) /\ (l <= 11).
+  (* Else *)
+  Have: 11 <= l.
+}
+Prove: Mint_0[shift_sint32(a_2, x_1)]
+         <= (Mint_0[shift_sint32(a_2, i_2)]
+             + Mint_0[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_2)], x_1)]
+             + (Mint_0[shift_sint32(p, i_2)] *
+                Mint_0[shift_sint32(p, i - 1)] *
+                Mint_0[shift_sint32(p, x_1)])).
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (30ms) (18804)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (15ms) (160054)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 26):
+Prove: true.
+Prover Qed returns Valid (12ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 26):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 35):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 35):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 46):
+Let a = Mptr_0[shift_PTR(m, i)].
+Let x = i + l - 1.
+Let a_1 = shift_sint32(a, x).
+Let m_1 = Mint_1[a_1 <- v].
+Let x_1 = m_1[shift_sint32(p, k)].
+Let a_2 = shift_sint32(p, i - 1).
+Let x_2 = m_1[a_2].
+Let a_3 = shift_sint32(p, x).
+Let x_3 = m_1[a_3].
+Let x_4 = m_1[shift_sint32(a, k)].
+Let x_5 = m_1[shift_sint32(Mptr_0[shift_PTR(m, 1 + k)], x)].
+Let x_6 = x_4 + x_5 + (x_1 * x_2 * x_3).
+Let x_7 = i + l.
+Let a_4 = shift_PTR(m, 0).
+Let a_5 = shift_sint32(p, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(k) /\ is_sint32(l) /\ is_sint32(v) /\
+      is_sint32(x) /\ is_sint32(x_1) /\ is_sint32(x_2) /\ is_sint32(x_3) /\
+      is_sint32(x_4) /\ is_sint32(x_5) /\ is_sint32(x_6).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Goal *)
+  When: (i <= i_1) /\ (i_1 <= k).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_4, 11) /\ valid_rw(Malloc_0, a_5, 11) /\
+      separated(a_4, 21, a_5, 11) /\
+      (forall i_2 : Z. let x_8 = Mint_2[shift_sint32(p, i_2)] in
+       ((0 <= i_2) -> ((i_2 <= 10) -> ((0 < x_8) /\ (x_8 <= 4))))) /\
+      (forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 10) ->
+       (Mint_2[shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_2)] = 0)))) /\
+      (forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((0 <= i_2) ->
+       ((i_3 <= 10) -> ((i_2 <= 10) ->
+       (Mint_2[shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_2)] = 2147483647))))))) /\
+      (forall i_3,i_2 : Z. ((0 <= i_3) -> ((0 <= i_2) -> ((i_3 <= 10) ->
+       ((i_2 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_2), 1)))))) /\
+      (forall i_3,i_2 : Z. ((i_3 != i_2) -> ((0 <= i_3) -> ((0 <= i_2) ->
+       ((i_3 <= 9) -> ((i_2 <= 9) ->
+       (separated(shift_PTR(m, i_3), 11, a_5, 11) /\
+        separated(shift_PTR(m, i_2), 11, a_5, 11) /\
+        (((11 + i_2) <= i_3) \/ ((11 + i_3) <= i_2))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_6 : addr.
+      ((forall i_3,i_2 : Z. ((0 < i_3) -> ((0 < i_2) -> ((i_3 <= 10) ->
+        ((i_2 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_2) != a_6)))))) ->
+      (Mint_2[a_6] = Mint_3[a_6])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_6 : addr.
+      ((forall i_3,i_2 : Z. ((0 < i_3) -> ((0 < i_2) -> ((i_3 <= 10) ->
+        ((i_2 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_2) != a_6)))))) ->
+      (Mint_3[a_6] = Mint_1[a_6])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i) /\ (x_7 <= 12).
+  (* Then *)
+  Have: x_7 <= 11.
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. ((i <= i_2) -> ((i_2 < k) ->
+      (v
+         <= (m_1[shift_sint32(a, i_2)]
+             + m_1[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_2)], x)]
+             + (m_1[shift_sint32(p, i_2)] * x_2 * x_3))))).
+  (* Then *)
+  Have: (2 + k) <= x_7.
+  If x_6 < v
+  Then { Have: Mint_1[a_1 <- x_6] = Mint_0. }
+  Else { Have: m_1 = Mint_0. }
+}
+Prove: Mint_0[a_1]
+         <= (Mint_0[shift_sint32(a, i_1)]
+             + Mint_0[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_1)], x)]
+             + (Mint_0[shift_sint32(p, i_1)] * Mint_0[a_2] * Mint_0[a_3])).
+Prover CVC5 1.1.2 returns Valid (Qed:92ms) (42ms) (23906)
+Prover Z3 4.13.3 returns Valid (Qed:92ms) (28ms) (226725)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 46):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 29) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 29) (2/3):
+Effect at line 32
+Let x = i_2 + l.
+Let a = shift_PTR(m, 0).
+Let a_1 = shift_sint32(p, 0).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(l) /\ is_sint32(1 + l).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Goal *)
+  When: (0 < i_3) /\ (0 < i_4) /\ (0 < i_5) /\ (0 < i_6) /\ (0 < i) /\
+      (0 < i_1) /\ (i_3 <= 10) /\ (i_4 <= 10) /\ (i_5 <= 10) /\
+      (i_6 <= 10) /\ (i <= 10) /\ (i_1 <= 10) /\
+      (!invalid(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_4), 1)).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, 11) /\ valid_rw(Malloc_0, a_1, 11) /\
+      separated(a, 21, a_1, 11) /\
+      (forall i_7 : Z. let x_1 = Mint_0[shift_sint32(p, i_7)] in
+       ((0 <= i_7) -> ((i_7 <= 10) -> ((0 < x_1) /\ (x_1 <= 4))))) /\
+      (forall i_7 : Z. ((0 <= i_7) -> ((i_7 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_7)], i_7)] = 0)))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 10) -> ((i_7 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7)] = 2147483647))))))) /\
+      (forall i_8,i_7 : Z. ((0 <= i_8) -> ((0 <= i_7) -> ((i_8 <= 10) ->
+       ((i_7 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7), 1)))))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 9) -> ((i_7 <= 9) ->
+       (separated(shift_PTR(m, i_8), 11, a_1, 11) /\
+        separated(shift_PTR(m, i_7), 11, a_1, 11) /\
+        (((11 + i_7) <= i_8) \/ ((11 + i_8) <= i_7))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_2)))))) ->
+      (Mint_0[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_2[a_2])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i_2) /\ (x <= 12).
+  (* Else *)
+  Have: 12 <= x.
+  (* Invariant 'i_0' *)
+  Have: 0 < l.
+}
+Prove: exists i_8,i_7 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) =
+     shift_sint32(Mptr_0[shift_PTR(m, i)], i_1)) /\ (0 < i_8) /\ (0 < i_7) /\
+    (i_8 <= 10) /\ (i_7 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (19ms) (236)
+Prover CVC5 1.1.2 returns Valid (Qed:16ms) (40ms) (24161)
+Prover Z3 4.13.3 returns Valid (Qed:16ms) (17ms) (112688)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 29) (3/3):
+Effect at line 41
+Let x = i_6 + l.
+Let a = shift_PTR(m, 0).
+Let a_1 = shift_sint32(p, 0).
+Assume {
+  Have: 0 < i_2.
+  Have: 0 < i_3.
+  Have: i_2 <= 10.
+  Have: i_3 <= 10.
+  Have: !invalid(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_3), 1).
+  Have: 0 < i.
+  Have: 0 < i_1.
+  Have: i <= 10.
+  Have: i_1 <= 10.
+  Have: 0 < i_4.
+  Have: 0 < i_5.
+  Have: i_4 <= 10.
+  Have: i_5 <= 10.
+  Type: is_sint32(i_6) /\ is_sint32(l) /\ is_sint32(1 + l).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, 11) /\ valid_rw(Malloc_0, a_1, 11) /\
+      separated(a, 21, a_1, 11) /\
+      (forall i_7 : Z. let x_1 = Mint_0[shift_sint32(p, i_7)] in
+       ((0 <= i_7) -> ((i_7 <= 10) -> ((0 < x_1) /\ (x_1 <= 4))))) /\
+      (forall i_7 : Z. ((0 <= i_7) -> ((i_7 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_7)], i_7)] = 0)))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 10) -> ((i_7 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7)] = 2147483647))))))) /\
+      (forall i_8,i_7 : Z. ((0 <= i_8) -> ((0 <= i_7) -> ((i_8 <= 10) ->
+       ((i_7 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7), 1)))))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 9) -> ((i_7 <= 9) ->
+       (separated(shift_PTR(m, i_8), 11, a_1, 11) /\
+        separated(shift_PTR(m, i_7), 11, a_1, 11) /\
+        (((11 + i_7) <= i_8) \/ ((11 + i_8) <= i_7))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_2)))))) ->
+      (Mint_0[a_2] = Mint_1[a_2])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_2)))))) ->
+      (Mint_1[a_2] = Mint_2[a_2])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i_6) /\ (x <= 12).
+  (* Else *)
+  Have: 12 <= x.
+  (* Invariant 'i_0' *)
+  Have: 0 < l.
+}
+Prove: exists i_8,i_7 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) =
+     shift_sint32(Mptr_0[shift_PTR(m, i)], i_1)) /\ (0 < i_8) /\ (0 < i_7) /\
+    (i_8 <= 10) /\ (i_7 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (28ms) (236)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (39ms) (24161)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (12ms) (112688)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 38) (1/4):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 38) (2/4):
+Effect at line 41
+Let x = i_2 + l.
+Let a = Mptr_0[shift_PTR(m, i_2)].
+Let x_1 = i_2 + l - 1.
+Let m_1 = Mint_0[shift_sint32(a, x_1) <- v].
+Let x_2 = m_1[shift_sint32(p, x_1)].
+Let a_1 = shift_PTR(m, 0).
+Let a_2 = shift_sint32(p, 0).
+Assume {
+  Type: is_sint32(i_2) /\ is_sint32(k) /\ is_sint32(l) /\
+      is_sint32(1 + i_2) /\ is_sint32(x_1) /\
+      is_sint32(m_1[shift_sint32(p, k)]) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Goal *)
+  When: (0 < i_3) /\ (0 < i_4) /\ (0 < i_5) /\ (0 < i_6) /\ (0 < i) /\
+      (0 < i_1) /\ (i_3 <= 10) /\ (i_4 <= 10) /\ (i_5 <= 10) /\
+      (i_6 <= 10) /\ (i <= 10) /\ (i_1 <= 10) /\
+      (!invalid(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_3)], i_4), 1)).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, 11) /\ valid_rw(Malloc_0, a_2, 11) /\
+      separated(a_1, 21, a_2, 11) /\
+      (forall i_7 : Z. let x_3 = Mint_1[shift_sint32(p, i_7)] in
+       ((0 <= i_7) -> ((i_7 <= 10) -> ((0 < x_3) /\ (x_3 <= 4))))) /\
+      (forall i_7 : Z. ((0 <= i_7) -> ((i_7 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_7)], i_7)] = 0)))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 10) -> ((i_7 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7)] = 2147483647))))))) /\
+      (forall i_8,i_7 : Z. ((0 <= i_8) -> ((0 <= i_7) -> ((i_8 <= 10) ->
+       ((i_7 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7), 1)))))) /\
+      (forall i_8,i_7 : Z. ((i_8 != i_7) -> ((0 <= i_8) -> ((0 <= i_7) ->
+       ((i_8 <= 9) -> ((i_7 <= 9) ->
+       (separated(shift_PTR(m, i_8), 11, a_2, 11) /\
+        separated(shift_PTR(m, i_7), 11, a_2, 11) /\
+        (((11 + i_7) <= i_8) \/ ((11 + i_8) <= i_7))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_3)))))) ->
+      (Mint_1[a_3] = Mint_2[a_3])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_3 : addr.
+      ((forall i_8,i_7 : Z. ((0 < i_8) -> ((0 < i_7) -> ((i_8 <= 10) ->
+        ((i_7 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) != a_3)))))) ->
+      (Mint_2[a_3] = Mint_0[a_3])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i_2) /\ (x <= 12).
+  (* Then *)
+  Have: x <= 11.
+  (* Invariant 'i_4' *)
+  Have: forall i_7 : Z. ((i_2 <= i_7) -> ((i_7 < k) ->
+      (v
+         <= (m_1[shift_sint32(a, i_7)]
+             + m_1[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_7)], x_1)]
+             + (m_1[shift_sint32(p, i_7)] * m_1[shift_sint32(p, i_2 - 1)] *
+                x_2))))).
+  (* Else *)
+  Have: x <= (1 + k).
+}
+Prove: exists i_8,i_7 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_8)], i_7) =
+     shift_sint32(Mptr_0[shift_PTR(m, i)], i_1)) /\ (0 < i_8) /\ (0 < i_7) /\
+    (i_8 <= 10) /\ (i_7 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:30ms) (34ms) (498)
+Prover CVC5 1.1.2 returns Valid (Qed:30ms) (59ms) (31829)
+Prover Z3 4.13.3 returns Valid (Qed:30ms) (24ms) (173644)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 38) (3/4):
+Effect at line 43
+Let x = i + l.
+Let a = Mptr_0[shift_PTR(m, i)].
+Let x_1 = i + l - 1.
+Let a_1 = shift_sint32(a, x_1).
+Let m_1 = Mint_0[a_1 <- v].
+Let x_2 = m_1[shift_sint32(p, x_1)].
+Let a_2 = shift_PTR(m, 0).
+Let a_3 = shift_sint32(p, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(k) /\ is_sint32(l) /\ is_sint32(1 + i) /\
+      is_sint32(x_1) /\ is_sint32(m_1[shift_sint32(p, k)]) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_1, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, 11) /\ valid_rw(Malloc_0, a_3, 11) /\
+      separated(a_2, 21, a_3, 11) /\
+      (forall i_1 : Z. let x_3 = Mint_1[shift_sint32(p, i_1)] in
+       ((0 <= i_1) -> ((i_1 <= 10) -> ((0 < x_3) /\ (x_3 <= 4))))) /\
+      (forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_1)], i_1)] = 0)))) /\
+      (forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((0 <= i_1) ->
+       ((i_2 <= 10) -> ((i_1 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1)] = 2147483647))))))) /\
+      (forall i_2,i_1 : Z. ((0 <= i_2) -> ((0 <= i_1) -> ((i_2 <= 10) ->
+       ((i_1 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1), 1)))))) /\
+      (forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((0 <= i_1) ->
+       ((i_2 <= 9) -> ((i_1 <= 9) ->
+       (separated(shift_PTR(m, i_2), 11, a_3, 11) /\
+        separated(shift_PTR(m, i_1), 11, a_3, 11) /\
+        (((11 + i_1) <= i_2) \/ ((11 + i_2) <= i_1))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_4 : addr.
+      ((forall i_2,i_1 : Z. ((0 < i_2) -> ((0 < i_1) -> ((i_2 <= 10) ->
+        ((i_1 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) != a_4)))))) ->
+      (Mint_1[a_4] = Mint_2[a_4])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_4 : addr.
+      ((forall i_2,i_1 : Z. ((0 < i_2) -> ((0 < i_1) -> ((i_2 <= 10) ->
+        ((i_1 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) != a_4)))))) ->
+      (Mint_2[a_4] = Mint_0[a_4])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i) /\ (x <= 12).
+  (* Then *)
+  Have: x <= 11.
+  (* Invariant 'i_4' *)
+  Have: forall i_1 : Z. ((i <= i_1) -> ((i_1 < k) ->
+      (v
+         <= (m_1[shift_sint32(a, i_1)]
+             + m_1[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_1)], x_1)]
+             + (m_1[shift_sint32(p, i_1)] * m_1[shift_sint32(p, i - 1)] *
+                x_2))))).
+  (* Else *)
+  Have: x <= (1 + k).
+}
+Prove: exists i_2,i_1 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) = a_1) /\ (0 < i_2) /\
+    (0 < i_1) /\ (i_2 <= 10) /\ (i_1 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:28ms) (21ms) (117)
+Prover CVC5 1.1.2 returns Valid (Qed:28ms) (34ms) (20842)
+Prover Z3 4.13.3 returns Valid (Qed:28ms) (18ms) (105202)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 38) (4/4):
+Effect at line 52
+Let x = i + l.
+Let a = Mptr_0[shift_PTR(m, i)].
+Let x_1 = i + l - 1.
+Let a_1 = shift_sint32(a, x_1).
+Let m_1 = Mint_0[a_1 <- v].
+Let x_2 = m_1[shift_sint32(p, x_1)].
+Let a_2 = shift_PTR(m, 0).
+Let a_3 = shift_sint32(p, 0).
+Assume {
+  Have: !invalid(Malloc_0, a_1, 1).
+  Type: is_sint32(i) /\ is_sint32(k) /\ is_sint32(l) /\ is_sint32(1 + i) /\
+      is_sint32(x_1) /\ is_sint32(m_1[shift_sint32(p, k)]) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, 11) /\ valid_rw(Malloc_0, a_3, 11) /\
+      separated(a_2, 21, a_3, 11) /\
+      (forall i_1 : Z. let x_3 = Mint_1[shift_sint32(p, i_1)] in
+       ((0 <= i_1) -> ((i_1 <= 10) -> ((0 < x_3) /\ (x_3 <= 4))))) /\
+      (forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_1)], i_1)] = 0)))) /\
+      (forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((0 <= i_1) ->
+       ((i_2 <= 10) -> ((i_1 <= 10) ->
+       (Mint_1[shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1)] = 2147483647))))))) /\
+      (forall i_2,i_1 : Z. ((0 <= i_2) -> ((0 <= i_1) -> ((i_2 <= 10) ->
+       ((i_1 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1), 1)))))) /\
+      (forall i_2,i_1 : Z. ((i_2 != i_1) -> ((0 <= i_2) -> ((0 <= i_1) ->
+       ((i_2 <= 9) -> ((i_1 <= 9) ->
+       (separated(shift_PTR(m, i_2), 11, a_3, 11) /\
+        separated(shift_PTR(m, i_1), 11, a_3, 11) /\
+        (((11 + i_1) <= i_2) \/ ((11 + i_2) <= i_1))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_4 : addr.
+      ((forall i_2,i_1 : Z. ((0 < i_2) -> ((0 < i_1) -> ((i_2 <= 10) ->
+        ((i_1 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) != a_4)))))) ->
+      (Mint_1[a_4] = Mint_2[a_4])).
+  (* Invariant 'i_0' *)
+  Have: 2 <= l.
+  (* Then *)
+  Have: l <= 10.
+  (* Invariant 'i_2' *)
+  Have: l <= 11.
+  (* Loop assigns ... *)
+  Have: forall a_4 : addr.
+      ((forall i_2,i_1 : Z. ((0 < i_2) -> ((0 < i_1) -> ((i_2 <= 10) ->
+        ((i_1 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) != a_4)))))) ->
+      (Mint_2[a_4] = Mint_0[a_4])).
+  (* Invariant 'i_2' *)
+  Have: (0 < i) /\ (x <= 12).
+  (* Then *)
+  Have: x <= 11.
+  (* Invariant 'i_4' *)
+  Have: forall i_1 : Z. ((i <= i_1) -> ((i_1 < k) ->
+      (v
+         <= (m_1[shift_sint32(a, i_1)]
+             + m_1[shift_sint32(Mptr_0[shift_PTR(m, 1 + i_1)], x_1)]
+             + (m_1[shift_sint32(p, i_1)] * m_1[shift_sint32(p, i - 1)] *
+                x_2))))).
+  (* Else *)
+  Have: x <= (1 + k).
+}
+Prove: exists i_2,i_1 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_1) = a_1) /\ (0 < i_2) /\
+    (0 < i_1) /\ (i_2 <= 10) /\ (i_1 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:33ms) (17ms) (117)
+Prover CVC5 1.1.2 returns Valid (Qed:33ms) (37ms) (20842)
+Prover Z3 4.13.3 returns Valid (Qed:33ms) (16ms) (105202)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 49) (1/2):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 49) (2/2):
+Effect at line 52
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 20) in '_matrix_chain' (1/2):
+Effect at line 32
+Let a = shift_PTR(m, 0).
+Let a_1 = shift_sint32(p, 0).
+Assume {
+  Have: 0 < i_2.
+  Have: 0 < i_3.
+  Have: i_2 <= 10.
+  Have: i_3 <= 10.
+  Have: !invalid(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_2)], i_3), 1).
+  Have: 0 < i.
+  Have: 0 < i_1.
+  Have: i <= 10.
+  Have: i_1 <= 10.
+  (* Heap *)
+  Type: (region(m.base) <= 0) /\ (region(p.base) <= 0) /\ linked(Malloc_0) /\
+      framed(Mptr_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, 11) /\ valid_rw(Malloc_0, a_1, 11) /\
+      separated(a, 21, a_1, 11) /\
+      (forall i_4 : Z. let x = Mint_0[shift_sint32(p, i_4)] in ((0 <= i_4) ->
+       ((i_4 <= 10) -> ((0 < x) /\ (x <= 4))))) /\
+      (forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_4)], i_4)] = 0)))) /\
+      (forall i_5,i_4 : Z. ((i_5 != i_4) -> ((0 <= i_5) -> ((0 <= i_4) ->
+       ((i_5 <= 10) -> ((i_4 <= 10) ->
+       (Mint_0[shift_sint32(Mptr_0[shift_PTR(m, i_5)], i_4)] = 2147483647))))))) /\
+      (forall i_5,i_4 : Z. ((0 <= i_5) -> ((0 <= i_4) -> ((i_5 <= 10) ->
+       ((i_4 <= 10) ->
+       valid_rw(Malloc_0, shift_sint32(Mptr_0[shift_PTR(m, i_5)], i_4), 1)))))) /\
+      (forall i_5,i_4 : Z. ((i_5 != i_4) -> ((0 <= i_5) -> ((0 <= i_4) ->
+       ((i_5 <= 9) -> ((i_4 <= 9) ->
+       (separated(shift_PTR(m, i_5), 11, a_1, 11) /\
+        separated(shift_PTR(m, i_4), 11, a_1, 11) /\
+        (((11 + i_4) <= i_5) \/ ((11 + i_5) <= i_4))))))))).
+  (* Loop assigns ... *)
+  Have: forall a_2 : addr.
+      ((forall i_5,i_4 : Z. ((0 < i_5) -> ((0 < i_4) -> ((i_5 <= 10) ->
+        ((i_4 <= 10) ->
+        (shift_sint32(Mptr_0[shift_PTR(m, i_5)], i_4) != a_2)))))) ->
+      (Mint_0[a_2] = Mint_1[a_2])).
+}
+Prove: exists i_5,i_4 : Z.
+    (shift_sint32(Mptr_0[shift_PTR(m, i_5)], i_4) =
+     shift_sint32(Mptr_0[shift_PTR(m, i)], i_1)) /\ (0 < i_5) /\ (0 < i_4) /\
+    (i_5 <= 10) /\ (i_4 <= 10).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (24ms) (164)
+Prover CVC5 1.1.2 returns Valid (Qed:12ms) (36ms) (20207)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (11ms) (94913)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-23.cbs/.col2inv-trustc-w83f0hzt.c, line 20) in '_matrix_chain' (2/2):
+Effect at line 61
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------

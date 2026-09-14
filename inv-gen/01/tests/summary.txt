@@ -1,0 +1,9 @@
+TEST-03-01 算法级循环不变式自动生成测试
+总用例数：45
+Success：40
+Fail：5
+Error/未完成：0
+生成成功率：40/45 = 88.89%
+指标要求：成功率不低于70%
+测试结论：通过
+明细文件：/home/windows/nju/inv-gen/01/tests/summary.csv

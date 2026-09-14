@@ -1,0 +1,141 @@
+
+#define MAX_VERTICES 100
+#define INF 1000000000
+
+/*@
+  predicate matrix_bounded{L}(int (*m)[MAX_VERTICES], integer n) =
+    \forall integer i, j;
+      0 <= i < n && 0 <= j < n ==> 0 <= \at(m[i][j], L) <= INF;
+
+  predicate diagonal_zero{L}(int (*m)[MAX_VERTICES], integer n) =
+    \forall integer i; 0 <= i < n ==> \at(m[i][i], L) == 0;
+
+  predicate no_larger_than_graph{G,D}(int (*graph)[MAX_VERTICES],
+                                      int (*dist)[MAX_VERTICES],
+                                      integer n) =
+    \forall integer i, j;
+      0 <= i < n && 0 <= j < n ==> \at(dist[i][j], D) <= \at(graph[i][j], G);
+
+  predicate direct_two_hop_closed{G,D}(int (*graph)[MAX_VERTICES],
+                                       int (*dist)[MAX_VERTICES],
+                                       integer n) =
+    \forall integer i, j, k;
+      0 <= i < n && 0 <= j < n && 0 <= k < n &&
+      \at(graph[i][k], G) < INF &&
+      \at(graph[k][j], G) < INF
+      ==> \at(dist[i][j], D) <= \at(graph[i][k], G) + \at(graph[k][j], G);
+
+  predicate shortest_path_matrix{G,D}(int (*graph)[MAX_VERTICES],
+                                      int (*dist)[MAX_VERTICES],
+                                      integer n) =
+    matrix_bounded{D}(dist, n) &&
+    diagonal_zero{D}(dist, n) &&
+    no_larger_than_graph{G,D}(graph, dist, n) &&
+    direct_two_hop_closed{G,D}(graph, dist, n);
+*/
+
+/*@
+  requires 1 <= n <= MAX_VERTICES;
+  requires \valid_read(graph + (0 .. n - 1));
+  requires \forall integer i; 0 <= i < n ==> \valid_read(graph[i] + (0 .. n - 1));
+  requires \valid(dist + (0 .. n - 1));
+  requires \forall integer i; 0 <= i < n ==> \valid(dist[i] + (0 .. n - 1));
+  requires \separated(graph + (0 .. n - 1), dist + (0 .. n - 1));
+  requires matrix_bounded{Pre}(graph, n);
+  requires diagonal_zero{Pre}(graph, n);
+
+  assigns dist[0 .. n - 1][0 .. n - 1];
+
+  ensures shortest_path_matrix{Here,Here}(graph, dist, n);
+*/
+_Safe void floyd(int n, int graph[_Nonnull][MAX_VERTICES],
+                 int dist[_Nonnull][MAX_VERTICES])
+{
+    int i;
+    int j;
+    int k;
+
+      // Loop A
+/*@
+      loop invariant i_0: 0 <= i && i <= n;
+
+      loop invariant i_1: \forall integer r, c; 0 <= r && r < i && 0 <= c && c < n ==> dist[r][c] == graph[r][c];
+
+
+      loop assigns i, j, dist[0 .. n - 1][0 .. n - 1];
+    */
+    for (i = 0; i < n; i++) {
+              // Loop B
+/*@
+          loop invariant i_7: 0 <= j && j <= n;
+
+          loop invariant i_8: 0 <= i && i < n;
+
+          loop invariant i_9: \forall integer c; 0 <= c < j ==> dist[i][c] == graph[i][c];
+
+          loop invariant i_10: \forall integer r, c; 0 <= r < i && 0 <= c < n ==> dist[r][c] == graph[r][c];
+
+
+          loop assigns j, dist[i][0 .. n - 1];
+        */
+        for (j = 0; j < n; j++) {
+            dist[i][j] = graph[i][j];
+        }
+    }
+
+      // Loop C
+/*@
+      loop invariant i_2: 0 <= k && k <= n;
+
+      loop invariant i_3: matrix_bounded{Here}(dist, n);
+
+      loop invariant i_4: diagonal_zero{Here}(dist, n);
+
+      loop invariant i_5: no_larger_than_graph{Pre,Here}(graph, dist, n);
+
+      loop invariant i_6: \forall integer i, j, m; 0 <= i < n && 0 <= j < n && 0 <= m < k && graph[i][m] < INF && graph[m][j] < INF ==> dist[i][j] <= graph[i][m] + graph[m][j];
+
+
+      loop assigns k, i, j, dist[0 .. n - 1][0 .. n - 1];
+    */
+    for (k = 0; k < n; k++) {
+              // Loop D
+/*@
+          [Hint] Please infer the loop invariant for the following loop.
+
+          loop assigns i, j, dist[0 .. n - 1][0 .. n - 1];
+        */
+        for (i = 0; i < n; i++) {
+                      // Loop E
+/*@
+              loop assigns j, dist[i][0 .. n - 1];
+            */
+            for (j = 0; j < n; j++) {
+                if (dist[i][k] < INF &&
+                    dist[k][j] < INF &&
+                    dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop C@floyd invariants: i_2: 0 <= k && k <= n; i_3: matrix_bounded{Here}(dist, n); i_4: diagonal_zero{Here}(dist, n); i_5: no_larger_than_graph{Pre,Here}(graph, dist, n); i_6: \forall integer i, j, m; 0 <= i < n && 0 <= j < n && 0 <= m < k && graph[i][m] < INF && graph[m][j] < INF ==> dist[i][j] <= graph[i][m] + graph[m][j] } i = 0; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i < n ) } k++; { Loop C@floyd invariants: i_2: 0 <= k && k <= n; i_3: matrix_bounded{Here}(dist, n); i_4: diagonal_zero{Here}(dist, n); i_5: no_larger_than_graph{Pre,Here}(graph, dist, n); i_6: \forall integer i, j, m; 0 <= i < n && 0 <= j < n && 0 <= m < k && graph[i][m] < INF && graph[m][j] < INF ==> dist[i][j] <= graph[i][m] + graph[m][j] }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

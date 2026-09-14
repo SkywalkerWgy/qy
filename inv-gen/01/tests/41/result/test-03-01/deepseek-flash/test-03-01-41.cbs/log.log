@@ -1,0 +1,149 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-41.cbs
+INFO | [INPUT] artifact=input.cbs bytes=20248
+INFO | [INIT] functions=relax, relax_one_round_edge, dijkstra loops=6 delayed_filter_threshold=7
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@relax prompt=llm_calls/001_initial_reasoning_A@relax.prompt.txt response=llm_calls/001_initial_reasoning_A@relax.response.txt response_chars=1364
+INFO | [LLM 001] response_preview=```c loop invariant 0 <= j <= n; loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k]; loop invariant \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF; loop invariant \forall integer k;...
+INFO | [APPLY] loop=A@relax added=14
+INFO |   + i_0: 0 <= j <= n
+INFO |   + i_1: \forall integer k; 0 <= k < n ==> 0 <= dist[k]
+INFO |   + i_2: \forall integer k; 0 <= k < n && visited[k] == 1 ==> 0 <= dist[k] < INF
+INFO |   + i_3: \forall integer k; 0 <= k < n ==> (visited[k] == 0 || visited[k] == 1)
+INFO |   + i_4: \forall integer k; 0 <= k < n ==> visited[k] == \old(visited[k])
+INFO |   + i_5: dist[u] == \old(dist[u])
+INFO |   + i_6: dist[start] == \old(dist[start])
+INFO |   + i_7: parent[start] == \old(parent[start])
+INFO |   + i_8: \forall integer k; 0 <= k < n ==> dist[k] <= \old(dist[k])
+INFO |   + i_9: \forall integer k; 0 <= k < n && \old(visited[k]) == 1 ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])
+INFO |   + i_10: parent_valid(n,start,parent)
+INFO |   + i_11: \forall integer k; 0 <= k < j ==> ( (visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k])) ==> (dist[k] == \old(dist[u]) + graph[u][k] && parent[k] == u) )
+INFO |   + i_12: \forall integer k; 0 <= k < j ==> ( !(visited[k] == 0 && graph[u][k] > 0 && \old(dist[u]) <= INF - 1 - graph[u][k] && \old(dist[u]) + graph[u][k] < \old(dist[k])) ==> (dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])) )
+INFO |   + i_13: \forall integer k; j <= k < n ==> dist[k] == \old(dist[k]) && parent[k] == \old(parent[k])
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@dijkstra prompt=llm_calls/002_initial_reasoning_B@dijkstra.prompt.txt response=llm_calls/002_initial_reasoning_B@dijkstra.response.txt response_chars=354
+INFO | [LLM 002] response_preview=loop invariant 1 <= round <= n; loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF; loop invariant dist[start] == 0; loop invariant \forall integer k; 0 <= k < n ==> visited[k] == 0; loop invariant \...
+INFO | [APPLY] loop=B@dijkstra added=6
+INFO |   + i_14: 1 <= round <= n
+INFO |   + i_15: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+INFO |   + i_16: dist[start] == 0
+INFO |   + i_17: \forall integer k; 0 <= k < n ==> visited[k] == 0
+INFO |   + i_18: \forall integer k; 0 <= k < n ==> parent[k] == -1
+INFO |   + i_19: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, 0)
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=F@dijkstra prompt=llm_calls/003_initial_reasoning_F@dijkstra.prompt.txt response=llm_calls/003_initial_reasoning_F@dijkstra.response.txt response_chars=493
+INFO | [LLM 003] response_preview=loop invariant 0 <= k <= n; loop invariant \forall integer i; 0 <= i < k ==> (visited[i] == 1 <==> dist[i] != INF); loop invariant \forall integer i; k <= i < n ==> visited[i] == 0; loop invariant \forall integer i; 0...
+INFO | [APPLY] loop=F@dijkstra added=8
+INFO |   + i_20: 0 <= k <= n
+INFO |   + i_21: \forall integer i; 0 <= i < k ==> (visited[i] == 1 <==> dist[i] != INF)
+INFO |   + i_22: \forall integer i; k <= i < n ==> visited[i] == 0
+INFO |   + i_23: \forall integer i; 0 <= i < n ==> (visited[i] == 0 || visited[i] == 1)
+INFO |   + i_24: \forall integer i; 0 <= i < n ==> 0 <= dist[i] <= INF
+INFO |   + i_25: graph_valid(graph, n)
+INFO |   + i_26: parent_valid(n, start, parent)
+INFO |   + i_27: shortest_path_result{Pre,Here}(graph, n, start, dist)
+INFO | [LLM 004] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@dijkstra prompt=llm_calls/004_initial_reasoning_C@dijkstra.prompt.txt response=llm_calls/004_initial_reasoning_C@dijkstra.response.txt response_chars=179
+INFO | [LLM 004] response_preview=``` loop invariant 0 <= k <= n; loop invariant \forall integer i; 0 <= i < k ==> prev[i] == dist[i]; loop invariant \forall integer i; 0 <= i < n ==> dist[i] == \old(dist[i]); ```
+INFO | [APPLY] loop=C@dijkstra added=3
+INFO |   + i_28: 0 <= k <= n
+INFO |   + i_29: \forall integer i; 0 <= i < k ==> prev[i] == dist[i]
+INFO |   + i_30: \forall integer i; 0 <= i < n ==> dist[i] == \old(dist[i])
+INFO | [LLM 005] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=D@dijkstra prompt=llm_calls/005_initial_reasoning_D@dijkstra.prompt.txt response=llm_calls/005_initial_reasoning_D@dijkstra.response.txt response_chars=625
+INFO | [LLM 005] response_preview=``` loop invariant 0 <= u <= n; loop invariant 1 <= round <= n; loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF; loop invariant \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF; loop invarian...
+INFO | [APPLY] loop=D@dijkstra added=10
+INFO |   + i_31: 0 <= u <= n
+INFO |   + i_32: 1 <= round <= n
+INFO |   + i_33: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+INFO |   + i_34: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF
+INFO |   + i_35: dist[start] == 0
+INFO |   + i_36: \forall integer k; 0 <= k < n ==> visited[k] == 0
+INFO |   + i_37: \forall integer k; 0 <= k < n ==> parent[k] == -1
+INFO |   + i_38: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+INFO |   + i_39: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+INFO |   + i_40: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n)
+INFO | [LLM 006] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=E@dijkstra prompt=llm_calls/006_initial_reasoning_E@dijkstra.prompt.txt response=llm_calls/006_initial_reasoning_E@dijkstra.response.txt response_chars=656
+INFO | [LLM 006] response_preview=``` loop invariant 0 <= v <= n; loop invariant 0 <= u < n; loop invariant 1 <= round <= n; loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF; loop invariant \forall integer k; 0 <= k < n ==> 0 <= pr...
+INFO | [APPLY] loop=E@dijkstra added=11
+INFO |   + i_41: 0 <= v <= n
+INFO |   + i_42: 0 <= u < n
+INFO |   + i_43: 1 <= round <= n
+INFO |   + i_44: \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF
+INFO |   + i_45: \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF
+INFO |   + i_46: dist[start] == 0
+INFO |   + i_47: \forall integer k; 0 <= k < n ==> visited[k] == 0
+INFO |   + i_48: \forall integer k; 0 <= k < n ==> parent[k] == -1
+INFO |   + i_49: has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+INFO |   + i_50: upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1)
+INFO |   + i_51: processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n + v)
+INFO | [INVARIANTS] total=52 loops=A@relax:14, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-41_verified_1.cbs invariants=52
+INFO | [FRAMAC] attempt=1 result=Invalid stdout=test-03-01-41_verified_1_Invalid.txt stderr=
+INFO | [INVALID] attempt=1 remove=i_4
+INFO | [INVARIANTS] total=51 loops=A@relax:13, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-41_verified_2.cbs invariants=51
+INFO | [FRAMAC] attempt=2 result=Invalid stdout=test-03-01-41_verified_2_Invalid.txt stderr=
+INFO | [INVALID] attempt=2 remove=i_5
+INFO | [INVARIANTS] total=50 loops=A@relax:12, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/003.txt
+INFO | [ATTEMPT 3] phase=bounded candidate=test-03-01-41_verified_3.cbs invariants=50
+INFO | [FRAMAC] attempt=3 result=Invalid stdout=test-03-01-41_verified_3_Invalid.txt stderr=
+INFO | [INVALID] attempt=3 remove=i_6
+INFO | [INVARIANTS] total=49 loops=A@relax:11, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/004.txt
+INFO | [ATTEMPT 4] phase=bounded candidate=test-03-01-41_verified_4.cbs invariants=49
+INFO | [FRAMAC] attempt=4 result=Invalid stdout=test-03-01-41_verified_4_Invalid.txt stderr=
+INFO | [INVALID] attempt=4 remove=i_7
+INFO | [INVARIANTS] total=48 loops=A@relax:10, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/005.txt
+INFO | [ATTEMPT 5] phase=bounded candidate=test-03-01-41_verified_5.cbs invariants=48
+INFO | [FRAMAC] attempt=5 result=Invalid stdout=test-03-01-41_verified_5_Invalid.txt stderr=
+INFO | [INVALID] attempt=5 remove=i_8
+INFO | [INVARIANTS] total=47 loops=A@relax:9, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/006.txt
+INFO | [ATTEMPT 6] phase=final candidate=test-03-01-41_verified_final_attempt_6.cbs invariants=47
+INFO | [FRAMAC] attempt=6 result=Invalid stdout=test-03-01-41_verified_final_attempt_6_Invalid.txt stderr=
+INFO | [INVALID] attempt=6 remove=i_9
+INFO | [INVARIANTS] total=46 loops=A@relax:8, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/007.txt
+INFO | [ATTEMPT 7] phase=final candidate=test-03-01-41_verified_final_attempt_7.cbs invariants=46
+INFO | [FRAMAC] attempt=7 result=Invalid stdout=test-03-01-41_verified_final_attempt_7_Invalid.txt stderr=
+INFO | [INVALID] attempt=7 remove=i_11
+INFO | [INVARIANTS] total=45 loops=A@relax:7, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/008.txt
+INFO | [ATTEMPT 8] phase=final candidate=test-03-01-41_verified_final_attempt_8.cbs invariants=45
+INFO | [FRAMAC] attempt=8 result=Invalid stdout=test-03-01-41_verified_final_attempt_8_Invalid.txt stderr=
+INFO | [INVALID] attempt=8 remove=i_12
+INFO | [INVARIANTS] total=44 loops=A@relax:6, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/009.txt
+INFO | [ATTEMPT 9] phase=final candidate=test-03-01-41_verified_final_attempt_9.cbs invariants=44
+INFO | [FRAMAC] attempt=9 result=Invalid stdout=test-03-01-41_verified_final_attempt_9_Invalid.txt stderr=
+INFO | [INVALID] attempt=9 remove=i_13
+INFO | [INVARIANTS] total=43 loops=A@relax:5, B@dijkstra:6, C@dijkstra:3, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/010.txt
+INFO | [ATTEMPT 10] phase=final candidate=test-03-01-41_verified_final_attempt_10.cbs invariants=43
+INFO | [FRAMAC] attempt=10 result=Invalid stdout=test-03-01-41_verified_final_attempt_10_Invalid.txt stderr=
+INFO | [INVALID] attempt=10 remove=i_30
+INFO | [INVARIANTS] total=42 loops=A@relax:5, B@dijkstra:6, C@dijkstra:2, D@dijkstra:10, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/011.txt
+INFO | [ATTEMPT 11] phase=final candidate=test-03-01-41_verified_final_attempt_11.cbs invariants=42
+INFO | [FRAMAC] attempt=11 result=Invalid stdout=test-03-01-41_verified_final_attempt_11_Invalid.txt stderr=
+INFO | [INVALID] attempt=11 remove=i_38
+INFO | [INVARIANTS] total=41 loops=A@relax:5, B@dijkstra:6, C@dijkstra:2, D@dijkstra:9, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/012.txt
+INFO | [ATTEMPT 12] phase=final candidate=test-03-01-41_verified_final_attempt_12.cbs invariants=41
+INFO | [FRAMAC] attempt=12 result=Invalid stdout=test-03-01-41_verified_final_attempt_12_Invalid.txt stderr=
+INFO | [INVALID] attempt=12 remove=i_39
+INFO | [INVARIANTS] total=40 loops=A@relax:5, B@dijkstra:6, C@dijkstra:2, D@dijkstra:8, E@dijkstra:11, F@dijkstra:8 snapshot=invariants/013.txt
+INFO | [ATTEMPT 13] phase=final candidate=test-03-01-41_verified_final_attempt_13.cbs invariants=40
+INFO | [FRAMAC] attempt=13 result=Invalid stdout=test-03-01-41_verified_final_attempt_13_Invalid.txt stderr=
+INFO | [INVALID] attempt=13 remove=i_49
+INFO | [INVARIANTS] total=39 loops=A@relax:5, B@dijkstra:6, C@dijkstra:2, D@dijkstra:8, E@dijkstra:10, F@dijkstra:8 snapshot=invariants/014.txt
+INFO | [ATTEMPT 14] phase=final candidate=test-03-01-41_verified_final_attempt_14.cbs invariants=39
+INFO | [FRAMAC] attempt=14 result=Invalid stdout=test-03-01-41_verified_final_attempt_14_Invalid.txt stderr=
+INFO | [INVALID] attempt=14 remove=i_50
+INFO | [INVARIANTS] total=38 loops=A@relax:5, B@dijkstra:6, C@dijkstra:2, D@dijkstra:8, E@dijkstra:9, F@dijkstra:8 snapshot=invariants/015.txt
+INFO | [ATTEMPT 15] phase=final candidate=test-03-01-41_verified_final_attempt_15.cbs invariants=38
+INFO | [FRAMAC] attempt=15 result=Fail_141_152 stdout=test-03-01-41_verified_final_attempt_15_Fail_141_152.txt stderr=
+INFO | [FAIL] attempt=15 failures=3 summary=i_19 [establishment] Prove: P_processed_prefix_certificate(Mint_0, Mint_0, graph_0, n, start_0,; i_27 [establishment] Prove: P_shortest_path_result(Mint_0, a_2, graph_0, n, start_0, dist_0).; i_51 [preservation] Prove: P_processed_prefix_certificate(Mint_0, a_6, graph_0, k, start_0,
+INFO | [INVARIANTS] total=35 loops=A@relax:5, B@dijkstra:5, C@dijkstra:2, D@dijkstra:8, E@dijkstra:8, F@dijkstra:7 snapshot=invariants/016.txt
+INFO | [ATTEMPT 16] phase=final candidate=test-03-01-41_verified_final_attempt_16.cbs invariants=35
+INFO | [FRAMAC] attempt=16 result=Fail_135_146 stdout=test-03-01-41_verified_final_attempt_16_Fail_135_146.txt stderr=
+INFO | [FAIL] attempt=16 failures=1 summary=i_40 [establishment, preservation] Prove: P_processed_prefix_certificate(Mint_0, a_5, graph_0, k, start_0,
+INFO | [INVARIANTS] total=34 loops=A@relax:5, B@dijkstra:5, C@dijkstra:2, D@dijkstra:7, E@dijkstra:8, F@dijkstra:7 snapshot=invariants/017.txt
+INFO | [ATTEMPT 17] phase=final candidate=test-03-01-41_verified_final_attempt_17.cbs invariants=34
+INFO | [FRAMAC] attempt=17 result=Fail_135_144 stdout=test-03-01-41_verified_final_attempt_17_Fail_135_144.txt stderr=
+INFO | [FAIL] attempt=17 failures=0 summary=none
+INFO | ---------Result---------
+INFO | Fail
+INFO | Model: deepseek-flash
+INFO | Proposal number: 17
+INFO | Verified code: 
+INFO | Running time: 411.73249673843384
+INFO | ------------------------

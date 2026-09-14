@@ -1,0 +1,3 @@
+```
+loop invariant 0 <= j <= m;
+```

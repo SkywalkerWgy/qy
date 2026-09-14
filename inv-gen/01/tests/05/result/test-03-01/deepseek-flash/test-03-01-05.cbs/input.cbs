@@ -1,0 +1,66 @@
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+*/
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= m <= r;
+  requires sorted(a, l, m);
+  requires sorted(a, m, r);
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+  ensures \result >= 0;
+*/
+_Safe int merge_count(int a[_Nonnull ], int tmp[_Nonnull ], int l, int m, int r) {
+    int i = l, j = m, k = l, inv = 0;
+
+    /*@
+        loop assigns i, j, k, inv, tmp[l .. r-1];
+    */
+    while (i < m || j < r) {
+        if (j >= r || (i < m && a[i] <= a[j])) {
+            tmp[k] = a[i];
+            i = i + 1;
+        } else {
+            tmp[k] = a[j];
+            j = j + 1;
+            inv = inv + (m - i);
+        }
+        k = k + 1;
+    }
+
+    /*@
+        loop assigns k, a[l .. r-1];
+    */
+    for (k = l; k < r; k++) {
+        a[k] = tmp[k];
+    }
+
+    return inv;
+}
+
+/*@
+  requires \valid(a + (l .. r-1));
+  requires \valid(tmp + (l .. r-1));
+  requires \separated(a + (l .. r-1), tmp + (l .. r-1));
+  requires l <= r;
+  decreases r - l;
+  assigns a[l .. r-1], tmp[l .. r-1];
+  ensures sorted(a, l, r);
+  ensures \result >= 0;
+*/
+_Safe int count_inversions(int a[_Nonnull ], int tmp[_Nonnull ], int l, int r) {
+    if (r - l <= 1) return 0;
+
+    int m = l + (r - l) / 2;
+    int inv;
+
+    inv  = count_inversions(a, tmp, l, m);
+    inv += count_inversions(a, tmp, m, r);
+    inv += merge_count(a, tmp, l, m, r);
+
+    return inv;
+}

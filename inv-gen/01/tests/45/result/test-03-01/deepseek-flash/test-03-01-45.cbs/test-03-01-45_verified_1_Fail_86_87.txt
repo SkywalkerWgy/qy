@@ -1,0 +1,4255 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 86 goals scheduled
+[wp] [Timeout] typed_sieve_eratosthenes_loop_invariant_i_14_preserved (Qed 17ms) (Alt-Ergo)
+[wp] Proved goals:   86 / 87
+  Unreachable:       1
+  Qed:              43 (3ms-15ms-105ms)
+  Alt-Ergo 2.6.3:   42 (8ms-31ms-200ms)
+  Timeout:           1
+------------------------------------------------------------
+  Function sieve_eratosthenes
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 30) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(sieve_eratosthenes_0) /\ is_sint32(is_p_0[i]) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= sieve_eratosthenes_0) /\ ((2 + sieve_eratosthenes_0) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < sieve_eratosthenes_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < sieve_eratosthenes_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < sieve_eratosthenes_0))).
+  (* Else *)
+  Have: n < i.
+}
+Prove: sieve_eratosthenes_0 < n.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:27ms) (11ms) (113)
+Prover CVC5 1.1.2 returns Valid (Qed:27ms) (11ms) (11663)
+Prover Z3 4.13.3 returns Valid (Qed:27ms) (9ms) (60685)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 31) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(sieve_eratosthenes_0) /\ is_sint32(is_p_0[i]) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= sieve_eratosthenes_0) /\ ((2 + sieve_eratosthenes_0) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < sieve_eratosthenes_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < sieve_eratosthenes_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      ((i_2 < sieve_eratosthenes_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < sieve_eratosthenes_0))).
+  (* Else *)
+  Have: n < i.
+}
+Prove: 0 < sieve_eratosthenes_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:26ms) (13ms) (103)
+Prover CVC5 1.1.2 returns Valid (Qed:26ms) (11ms) (11645)
+Prover Z3 4.13.3 returns Valid (Qed:26ms) (7ms) (60565)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 32) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(p) /\ is_sint32(is_p_0[i]) /\ is_sint32(Mint_0[a]) /\
+      is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_0) -> ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Else *)
+  Have: n < i.
+}
+Prove: a_2 = 2.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:30ms) (14ms) (108)
+Prover CVC5 1.1.2 returns Valid (Qed:30ms) (11ms) (11644)
+Prover Z3 4.13.3 returns Valid (Qed:30ms) (7ms) (60577)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 33) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Let a_3 = a_1[shift_sint32(primes_0, i)].
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i_1) /\ is_sint32(i_2) /\
+      is_sint32(n) /\ is_sint32(p) /\ is_sint32(is_p_0[i_1]) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_4 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((a_4 < i_1) /\ (2 <= a_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Else *)
+  Have: n < i_1.
+}
+Prove: (a_3 <= n) /\ (2 <= a_3).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:31ms) (26ms) (696)
+Prover CVC5 1.1.2 returns Valid (Qed:31ms) (29ms) (19575)
+Prover Z3 4.13.3 returns Valid (Qed:31ms) (4ms) (74648)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 34) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i_1) /\ is_sint32(i_2) /\
+      is_sint32(n) /\ is_sint32(p) /\ is_sint32(is_p_0[i_1]) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Else *)
+  Have: n < i_1.
+}
+Prove: P_is_prime(a_1[shift_sint32(primes_0, i)]).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:28ms) (26ms) (557)
+Prover CVC5 1.1.2 returns Valid (Qed:28ms) (38ms) (21752)
+Prover Z3 4.13.3 returns Valid (Qed:28ms) (7ms) (66490)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 35) in 'sieve_eratosthenes':
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x = 1 + n.
+Let x_1 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i_2) /\ is_sint32(i_3) /\
+      is_sint32(n) /\ is_sint32(p) /\ is_sint32(is_p_0[i_2]) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_1) /\ (i_1 < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_1[i_4] = is_p_2[i_4])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_3) /\ (i_3 <= x).
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((i_4 < i_3) -> ((2 <= i_4) -> (is_p_2[i_4] = 1))).
+  (* Else *)
+  Have: n < i_3.
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_2 = is_p_2[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_2[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_2[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      ((i_4 <= 3) -> P_is_prime(i_4))))).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_2[i_4] = is_p_0[i_4])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x).
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_2 = is_p_0[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_0[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x_1) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_0[i_5] = 0)))))).
+  (* Else *)
+  Have: n < x_1.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      P_is_prime(i_4)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_2) /\ (i_2 <= x).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i_2).
+  (* Invariant 'i_4' *)
+  Have: forall i_4 : Z. let a_3 = a_1[shift_sint32(primes_0, i_4)] in
+      ((0 <= i_4) -> ((i_4 < cnt_0) -> ((a_3 < i_2) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_4)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_4)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_4)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 < i_2) -> ((2 <= i_4) ->
+      (exists i_5 : Z. (a_1[shift_sint32(primes_0, i_5)] = i_4) /\
+       (0 <= i_5) /\ (i_5 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_4) -> ((i_4 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_5)] < a_1[shift_sint32(primes_0, i_4)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_2) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Else *)
+  Have: n < i_2.
+}
+Prove: a_1[shift_sint32(primes_0, i)] < a_1[shift_sint32(primes_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:26ms) (26ms) (654)
+Prover CVC5 1.1.2 returns Valid (Qed:26ms) (44ms) (26920)
+Prover Z3 4.13.3 returns Valid (Qed:26ms) (9ms) (69673)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 44):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 44):
+Prove: true.
+Prover Qed returns Valid (0.90ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 46):
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 <= i) /\ (2 <= i_1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i) /\ (i <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i) -> ((2 <= i_2) -> (is_p_0[i_2] = 1))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_0' *)
+  Have: 0 < i.
+}
+Prove: is_p_0[i <- 1][i_1] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:3ms) (20ms) (82)
+Prover CVC5 1.1.2 returns Valid (Qed:3ms) (16ms) (13710)
+Prover Z3 4.13.3 returns Valid (Qed:3ms) (8ms) (34049)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 46):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 59):
+Prove: true.
+Prover Qed returns Valid (12ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 59):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 61):
+Let x = p * p.
+Let x_1 = n + p.
+Let x_2 = 1 + n.
+Let x_3 = is_p_0[i].
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(1 + p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((x <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+}
+Prove: (x_3 = 0) \/ (x_3 = 1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:17ms) (21ms) (348)
+Prover CVC5 1.1.2 returns Valid (Qed:17ms) (18ms) (19369)
+Prover Z3 4.13.3 returns Valid (Qed:17ms) (8ms) (49291)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 61):
+Let x = is_p_0[i].
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_0[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+}
+Prove: (x = 0) \/ (x = 1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:3ms) (17ms) (48)
+Prover CVC5 1.1.2 returns Valid (Qed:3ms) (22ms) (13588)
+Prover Z3 4.13.3 returns Valid (Qed:3ms) (7ms) (33752)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 63):
+Let x = p * p.
+Let x_1 = n + p.
+Let x_2 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(1 + p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i) /\ P_is_prime(i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_3 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_3 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_3 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((x <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+}
+Prove: is_p_0[i] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (20ms) (360)
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (22ms) (19339)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (9ms) (52568)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 63):
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i) /\ P_is_prime(i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_0[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x = is_p_0[i_2] in ((i_2 <= n) -> ((2 <= i_2) ->
+      ((x = 0) \/ (x = 1)))).
+}
+Prove: is_p_0[i] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (13ms) (47)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (21ms) (14119)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (8ms) (36236)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 65):
+Let x = p * p.
+Let x_1 = n + p.
+Let x_2 = 1 + n.
+Let x_3 = 1 + p.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_3) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= n) /\ (i < (x_3 * x_3)) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((x <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Timeout (Qed:17ms) (10s)
+Prover CVC5 1.1.2 returns Timeout (Qed:17ms) (10s)
+Prover Z3 4.13.3 returns Timeout (Qed:17ms) (10s)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 65):
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= n) /\ (2 <= i) /\ (i <= 3).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_0[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x = is_p_0[i_2] in ((i_2 <= n) -> ((2 <= i_2) ->
+      ((x = 0) \/ (x = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (22ms) (68)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (9ms) (60328)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 67):
+Let x = 1 + p.
+Let x_1 = p * p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (i_3 <= p) /\ ((i_3 * i_3) <= i) /\ (2 <= i_3) /\
+      P_divides(i_3, i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_1[i_4] = is_p_2[i_4])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((i_4 < i_2) -> ((2 <= i_4) -> (is_p_2[i_4] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_2[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_2[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_2[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      ((i_4 <= 3) -> P_is_prime(i_4))))).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_2[i_4] = is_p_3[i_4])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_3[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_3[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_3[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x_1) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_3[i_5] = 0)))))).
+  (* Then *)
+  Have: x_1 <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 < x_1)) -> (is_p_3[i_4] = is_p_0[i_4])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_4 : Z. let x_4 = is_p_0[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_0[i_4] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x_1) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_0[i_5] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_4 : Z. ((i_4 < i_1) -> ((x_1 <= i_4) ->
+      (P_divides(p, i_4) -> (is_p_0[i_4] = 0)))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) ->
+      ((i_4 < (x * x)) -> ((2 <= i_4) -> P_is_prime(i_4))))).
+}
+Prove: is_p_0[i] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:14ms) (40ms) (806)
+Prover CVC5 1.1.2 returns Valid (Qed:14ms) (28ms) (21117)
+Prover Z3 4.13.3 returns Valid (Qed:14ms) (59ms) (385240)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 67):
+Prove: true.
+Prover Qed returns Valid (0.63ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 76):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 76):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(p).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_0[i_1] = is_p_1[i_1])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i) /\ (i <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i_1 < i) -> ((2 <= i_1) -> (is_p_1[i_1] = 1))).
+  (* Else *)
+  Have: n < i.
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_1[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_1[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_1[i_1] = 1) -> ((i_1 <= n) -> ((2 <= i_1) ->
+      ((i_1 <= 3) -> P_is_prime(i_1))))).
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_1[i_1] = is_p_2[i_1])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_2[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_2[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_2[i_1] = 1) -> ((i_1 <= n) -> ((i_1 < x) ->
+      ((2 <= i_1) -> P_is_prime(i_1))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2,i_1 : Z. ((i_1 < p) -> ((i_2 <= n) ->
+      (((i_1 * i_1) <= i_2) -> ((2 <= i_1) -> (P_divides(i_1, i_2) ->
+      (is_p_2[i_2] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+}
+Prove: p <= n.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:6ms) (8ms) (88)
+Prover CVC5 1.1.2 returns Valid (Qed:6ms) (29ms) (18108)
+Prover Z3 4.13.3 returns Valid (Qed:6ms) (5ms) (42166)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 78):
+Let x = p * p.
+Let x_1 = n + p.
+Let x_2 = 1 + n.
+Let x_3 = i + p.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_3) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_0[i_2] = is_p_1[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_1[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_1[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_1[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_1[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_2[i_3] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 < x)) -> (is_p_2[i_2] = is_p_3[i_2])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i) /\ (i <= x_1).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_2 : Z. let x_4 = is_p_3[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_3[i_2] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_2 : Z. ((is_p_3[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_3[i_3] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_2 : Z. ((i_2 < i) -> ((x <= i_2) -> (P_divides(p, i_2) ->
+      (is_p_3[i_2] = 0)))).
+  (* Then *)
+  Have: i <= n.
+}
+Prove: x <= x_3.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (13ms) (99)
+Prover CVC5 1.1.2 returns Valid (Qed:13ms) (13ms) (12569)
+Prover Z3 4.13.3 returns Valid (Qed:13ms) (10ms) (47356)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 78):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_0[i_1] = is_p_1[i_1])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i) /\ (i <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i_1 < i) -> ((2 <= i_1) -> (is_p_1[i_1] = 1))).
+  (* Else *)
+  Have: n < i.
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_1[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_1[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_1[i_1] = 1) -> ((i_1 <= n) -> ((2 <= i_1) ->
+      ((i_1 <= 3) -> P_is_prime(i_1))))).
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_1[i_1] = is_p_2[i_1])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_2[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_2[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_2[i_1] = 1) -> ((i_1 <= n) -> ((i_1 < x) ->
+      ((2 <= i_1) -> P_is_prime(i_1))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2,i_1 : Z. ((i_1 < p) -> ((i_2 <= n) ->
+      (((i_1 * i_1) <= i_2) -> ((2 <= i_1) -> (P_divides(i_1, i_2) ->
+      (is_p_2[i_2] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+}
+Prove: x <= (n + p).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (9ms) (64)
+Prover CVC5 1.1.2 returns Valid (Qed:12ms) (8ms) (10871)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (4ms) (41711)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 80):
+Let x = p * p.
+Let x_1 = i + p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_0[i_2] = is_p_1[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_1[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_1[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_1[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_1[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_2[i_3] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 < x)) -> (is_p_2[i_2] = is_p_3[i_2])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_2 : Z. let x_4 = is_p_3[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_3[i_2] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_2 : Z. ((is_p_3[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_3[i_3] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_2 : Z. ((i_2 < i) -> ((x <= i_2) -> (P_divides(p, i_2) ->
+      (is_p_3[i_2] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+}
+Prove: P_divides(p, x_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (15ms) (368)
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (29ms) (20021)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (17ms) (49185)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 80):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_0[i_1] = is_p_1[i_1])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i) /\ (i <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i_1 < i) -> ((2 <= i_1) -> (is_p_1[i_1] = 1))).
+  (* Else *)
+  Have: n < i.
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_1[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_1[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_1[i_1] = 1) -> ((i_1 <= n) -> ((2 <= i_1) ->
+      ((i_1 <= 3) -> P_is_prime(i_1))))).
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_1[i_1] = is_p_2[i_1])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_2 = is_p_2[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_2[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_2[i_1] = 1) -> ((i_1 <= n) -> ((i_1 < x) ->
+      ((2 <= i_1) -> P_is_prime(i_1))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2,i_1 : Z. ((i_1 < p) -> ((i_2 <= n) ->
+      (((i_1 * i_1) <= i_2) -> ((2 <= i_1) -> (P_divides(i_1, i_2) ->
+      (is_p_2[i_2] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= (n + p).
+}
+Prove: P_divides(p, x).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:9ms) (19ms) (209)
+Prover Z3 4.13.3 returns Valid (Qed:9ms) (13ms) (42654)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 82):
+Let x = i + p.
+Let x_1 = p * p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Let x_4 = is_p_0[i <- 0][i_1].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 <= n) /\ (2 <= i_1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_5 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_5 = 0) \/ (x_5 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_5 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_5 = 0) \/ (x_5 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x_1 <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x_1)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_5 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_5 = 0) \/ (x_5 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i) -> ((x_1 <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+}
+Prove: (x_4 = 0) \/ (x_4 = 1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (24ms) (665)
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (27ms) (20625)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (30ms) (161171)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 82):
+Let x = p * p.
+Let x_1 = 1 + n.
+Let x_2 = is_p_0[i].
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_3 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_3 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= (n + p).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+}
+Prove: (x_2 = 0) \/ (x_2 = 1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:10ms) (13ms) (229)
+Prover CVC5 1.1.2 returns Valid (Qed:10ms) (32ms) (16787)
+Prover Z3 4.13.3 returns Valid (Qed:10ms) (8ms) (43081)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 84):
+Let m = is_p_0[i <- 0].
+Let x = i + p.
+Let x_1 = p * p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 <= n) /\ (2 <= i_1) /\ P_is_prime(i_1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x_1 <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x_1)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i) -> ((x_1 <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = m[i_3] in ((i_3 <= n) -> ((2 <= i_3) ->
+      ((x_4 = 0) \/ (x_4 = 1)))).
+}
+Prove: m[i_1] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:18ms) (69ms) (4073)
+Prover CVC5 1.1.2 returns Valid (Qed:18ms) (33ms) (21085)
+Prover Z3 4.13.3 returns Valid (Qed:18ms) (33ms) (161897)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 84):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i <= n) /\ (2 <= i) /\ P_is_prime(i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= (n + p).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+}
+Prove: is_p_0[i] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:11ms) (21ms) (237)
+Prover CVC5 1.1.2 returns Valid (Qed:11ms) (19ms) (16752)
+Prover Z3 4.13.3 returns Valid (Qed:11ms) (8ms) (44765)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 86):
+Let m = is_p_0[i_1 <- 0].
+Let x = i_1 + p.
+Let x_1 = p * p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (m[i] = 1) /\ (i <= n) /\ (i < x_1) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x_1 <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x_1)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_1) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((x_1 <= i_3) ->
+      (P_divides(p, i_3) -> (is_p_0[i_3] = 0)))).
+  (* Then *)
+  Have: i_1 <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = m[i_3] in ((i_3 <= n) -> ((2 <= i_3) ->
+      ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (m[i_3] = 1)))).
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:22ms) (24ms) (600)
+Prover CVC5 1.1.2 returns Valid (Qed:22ms) (37ms) (22018)
+Prover Z3 4.13.3 returns Valid (Qed:22ms) (17ms) (72767)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 86):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= n) /\ (i < x) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= (n + p).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:11ms) (17ms) (242)
+Prover CVC5 1.1.2 returns Valid (Qed:11ms) (31ms) (17518)
+Prover Z3 4.13.3 returns Valid (Qed:11ms) (8ms) (45892)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 88):
+Let m = is_p_0[i <- 0].
+Let x = p * p.
+Let x_1 = i + p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_3 < p) /\ (i_1 <= n) /\ ((i_3 * i_3) <= i_1) /\ (2 <= i_3) /\
+      P_divides(i_3, i_1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_1[i_4] = is_p_2[i_4])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((i_4 < i_2) -> ((2 <= i_4) -> (is_p_2[i_4] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_2[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_2[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_2[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      ((i_4 <= 3) -> P_is_prime(i_4))))).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_2[i_4] = is_p_3[i_4])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_3[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_3[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_3[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_3[i_5] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 < x)) -> (is_p_3[i_4] = is_p_0[i_4])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_4 : Z. let x_4 = is_p_0[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_0[i_4] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_0[i_5] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_4 : Z. ((i_4 < i) -> ((x <= i_4) -> (P_divides(p, i_4) ->
+      (is_p_0[i_4] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_4 : Z. let x_4 = m[i_4] in ((i_4 <= n) -> ((2 <= i_4) ->
+      ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (m[i_4] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_4 : Z. ((m[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+}
+Prove: m[i_1] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:23ms) (25ms) (801)
+Prover CVC5 1.1.2 returns Valid (Qed:23ms) (21ms) (22557)
+Prover Z3 4.13.3 returns Valid (Qed:23ms) (15ms) (58277)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 88):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_2 < p) /\ (i <= n) /\ ((i_2 * i_2) <= i) /\ (2 <= i_2) /\
+      P_divides(i_2, i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_1) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_2 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= (n + p).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+}
+Prove: is_p_0[i] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (25ms) (315)
+Prover CVC5 1.1.2 returns Valid (Qed:12ms) (31ms) (17525)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (8ms) (44063)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 90):
+Let m = is_p_0[i <- 0].
+Let x = p * p.
+Let x_1 = i + p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i_1 < x_1) /\ (x <= i_1) /\ P_divides(p, i_1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_3[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_3[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_3[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_3[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_3[i_4] = 0)))))).
+  (* Then *)
+  Have: x <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 < x)) -> (is_p_3[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_17' *)
+  Have: (x <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_3 : Z. ((i_3 < i) -> ((x <= i_3) -> (P_divides(p, i_3) ->
+      (is_p_0[i_3] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x <= x_1.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Invariant 'i_19' *)
+  Have: forall i_3 : Z. let x_4 = m[i_3] in ((i_3 <= n) -> ((2 <= i_3) ->
+      ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (m[i_3] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_3 : Z. ((m[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (m[i_4] = 0)))))).
+}
+Prove: m[i_1] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:21ms) (44ms) (991)
+Prover CVC5 1.1.2 returns Valid (Qed:21ms) (28ms) (22742)
+Prover Z3 4.13.3 returns Valid (Qed:21ms) (56ms) (251997)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 90):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 100):
+Let x = p * p.
+Let x_1 = 1 + n.
+Let x_2 = is_p_0[2].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_1[i_1] = is_p_2[i_1])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i) /\ (i <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((i_1 < i) -> ((2 <= i_1) -> (is_p_2[i_1] = 1))).
+  (* Else *)
+  Have: n < i.
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_3 = is_p_2[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_2[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_2[i_1] = 1) -> ((i_1 <= n) -> ((2 <= i_1) ->
+      ((i_1 <= 3) -> P_is_prime(i_1))))).
+  (* Loop assigns ... *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 <= 100) ->
+      (((n < i_1) \/ (i_1 <= 1)) -> (is_p_2[i_1] = is_p_0[i_1])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_1 : Z. let x_3 = is_p_0[i_1] in ((i_1 <= n) ->
+      ((2 <= i_1) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_1 : Z. ((i_1 <= n) -> ((2 <= i_1) -> (P_is_prime(i_1) ->
+      (is_p_0[i_1] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_1 : Z. ((is_p_0[i_1] = 1) -> ((i_1 <= n) -> ((i_1 < x) ->
+      ((2 <= i_1) -> P_is_prime(i_1))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_2,i_1 : Z. ((i_1 < p) -> ((i_2 <= n) ->
+      (((i_1 * i_1) <= i_2) -> ((2 <= i_1) -> (P_divides(i_1, i_2) ->
+      (is_p_0[i_2] = 0)))))).
+  (* Else *)
+  Have: n < x.
+}
+Prove: x_2 = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:9ms) (21ms) (331)
+Prover CVC5 1.1.2 returns Valid (Qed:9ms) (27ms) (16919)
+Prover Z3 4.13.3 returns Valid (Qed:9ms) (8ms) (55722)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 101):
+Let x = p * p.
+Let x_1 = 1 + n.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= n) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_2 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_2 = 0) \/ (x_2 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:9ms) (18ms) (237)
+Prover CVC5 1.1.2 returns Valid (Qed:9ms) (22ms) (16764)
+Prover Z3 4.13.3 returns Valid (Qed:9ms) (13ms) (60699)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 122):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: 2 <= i.
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_3) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: i <= x_2.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_2) -> ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i).
+    (* Assertion *)
+    Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_2)] < i))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_0) -> ((x_4 <= i) /\ (2 <= x_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (is_p_0[Mint_0[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      P_is_prime(Mint_0[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (Mint_0[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_3)]
+         < Mint_0[shift_sint32(primes_0, i_2)])))).
+}
+Prove: (x = 2) /\ (0 < cnt_0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:93ms) (43ms) (1224)
+Prover CVC5 1.1.2 returns Valid (Qed:93ms) (43ms) (23055)
+Prover Z3 4.13.3 returns Valid (Qed:93ms) (15ms) (88893)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 122):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 106):
+Prove: true.
+Prover Qed returns Valid (30ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 106):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 108):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_3) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_2) -> ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i).
+    (* Assertion *)
+    Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_2)] < i))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i.
+}
+Prove: (0 <= cnt_0) /\ (cnt_0 < i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:85ms) (17ms) (437)
+Prover CVC5 1.1.2 returns Valid (Qed:85ms) (12ms) (12405)
+Prover Z3 4.13.3 returns Valid (Qed:85ms) (10ms) (71332)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 108):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 110):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_1].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Let x_4 = Mint_0[shift_sint32(primes_0, i)].
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_1) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_5 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_5 = 0) \/ (x_5 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_5 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_5 = 0) \/ (x_5 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_3) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_2) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_1 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_1).
+    (* Assertion *)
+    Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_3)] < i_1))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_1] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_1 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_1.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_1).
+}
+Prove: (x_4 <= i_1) /\ (2 <= x_4).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:79ms) (57ms) (2101)
+Prover CVC5 1.1.2 returns Valid (Qed:79ms) (37ms) (22300)
+Prover Z3 4.13.3 returns Valid (Qed:79ms) (23ms) (150163)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 110):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 112):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_1].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_1) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_3) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_2) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_1 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_1).
+    (* Assertion *)
+    Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_3)] < i_1))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_1] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_1 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_1.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((x_4 <= i_1) /\ (2 <= x_4)))).
+}
+Prove: Mint_0[shift_sint32(primes_0, i)] <= n.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:75ms) (27ms) (1038)
+Prover CVC5 1.1.2 returns Valid (Qed:75ms) (37ms) (20582)
+Prover Z3 4.13.3 returns Valid (Qed:75ms) (13ms) (72884)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 112):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 114):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_1].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_1) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_3) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_2) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_1 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_1).
+    (* Assertion *)
+    Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_3)] < i_1))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_1] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_1 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_1.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((x_4 <= i_1) /\ (2 <= x_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_3)] <= n))).
+}
+Prove: is_p_0[Mint_0[shift_sint32(primes_0, i)]] = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:93ms) (62ms) (1937)
+Prover CVC5 1.1.2 returns Valid (Qed:93ms) (42ms) (22568)
+Prover Z3 4.13.3 returns Valid (Qed:93ms) (19ms) (145737)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 114):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 116):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_1].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_1) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_3) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_2) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_1 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_1).
+    (* Assertion *)
+    Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_3)] < i_1))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_1] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_1 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_1.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((x_4 <= i_1) /\ (2 <= x_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (is_p_0[Mint_0[shift_sint32(primes_0, i_3)]] = 1))).
+}
+Prove: P_is_prime(Mint_0[shift_sint32(primes_0, i)]).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:90ms) (32ms) (1037)
+Prover CVC5 1.1.2 returns Valid (Qed:90ms) (45ms) (23900)
+Prover Z3 4.13.3 returns Valid (Qed:90ms) (12ms) (73700)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 116):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 118):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_1].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_1) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (is_p_0[i] = 1) /\ (i <= i_1) /\ (2 <= i).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_4 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_3) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_2) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_1 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_1).
+    (* Assertion *)
+    Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_3)] < i_1))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_1] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_1 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_1.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((x_4 <= i_1) /\ (2 <= x_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (is_p_0[Mint_0[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      P_is_prime(Mint_0[shift_sint32(primes_0, i_3)]))).
+}
+Prove: exists i_3 : Z. (Mint_0[shift_sint32(primes_0, i_3)] = i) /\
+    (0 <= i_3) /\ (i_3 < cnt_0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:91ms) (200ms) (7579)
+Prover CVC5 1.1.2 returns Valid (Qed:91ms) (90ms) (36203)
+Prover Z3 4.13.3 returns Valid (Qed:91ms) (20ms) (158579)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 118):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 120):
+Let a = shift_sint32(primes_0, 0).
+Let x = Mint_0[a].
+Let x_1 = is_p_0[i_2].
+Let a_1 = memcpy(Mint_1, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(cnt_1) /\ is_sint32(cnt_2) /\
+      is_sint32(i_2) /\ is_sint32(i_3) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x_1) /\ is_sint32(1 + i_2) /\ is_sint32(x) /\
+      is_sint32(Mint_1[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < i_1) /\ (i_1 < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_1[i_4] = is_p_2[i_4])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_3) /\ (i_3 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_4 : Z. ((i_4 < i_3) -> ((2 <= i_4) -> (is_p_2[i_4] = 1))).
+  (* Else *)
+  Have: n < i_3.
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_2[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_2[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_2[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      ((i_4 <= 3) -> P_is_prime(i_4))))).
+  (* Loop assigns ... *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 <= 100) ->
+      (((n < i_4) \/ (i_4 <= 1)) -> (is_p_2[i_4] = is_p_0[i_4])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_4 : Z. let x_4 = is_p_0[i_4] in ((i_4 <= n) ->
+      ((2 <= i_4) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_4 : Z. ((i_4 <= n) -> ((2 <= i_4) -> (P_is_prime(i_4) ->
+      (is_p_0[i_4] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((i_4 < x_3) ->
+      ((2 <= i_4) -> P_is_prime(i_4))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_5,i_4 : Z. ((i_4 < p) -> ((i_5 <= n) ->
+      (((i_4 * i_4) <= i_5) -> ((2 <= i_4) -> (P_divides(i_4, i_5) ->
+      (is_p_0[i_5] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= n) -> ((2 <= i_4) ->
+      P_is_prime(i_4)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_2) /\ ((2 + cnt_2) <= i_2).
+  (* Invariant 'i_4' *)
+  Have: forall i_4 : Z. let a_3 = a_1[shift_sint32(primes_0, i_4)] in
+      ((0 <= i_4) -> ((i_4 < cnt_2) -> ((a_3 < i_2) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_4)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_2) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_4)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_2) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_4)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 < i_2) -> ((2 <= i_4) ->
+      (exists i_5 : Z. (a_1[shift_sint32(primes_0, i_5)] = i_4) /\
+       (0 <= i_5) /\ (i_5 < cnt_2))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_5,i_4 : Z. ((0 <= i_5) -> ((i_5 < i_4) -> ((i_4 < cnt_2) ->
+      (a_1[shift_sint32(primes_0, i_5)] < a_1[shift_sint32(primes_0, i_4)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_2) -> ((a_2 = 2) /\ (0 < cnt_2))).
+  (* Then *)
+  Have: i_2 <= n.
+  If x_1 != 0
+  Then {
+    Have: cnt_2 = cnt_1.
+    (* Assertion *)
+    Have: P_is_prime(i_2).
+    (* Assertion *)
+    Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_1) ->
+        (a_1[shift_sint32(primes_0, i_4)] < i_2))).
+    Have: a_1[shift_sint32(primes_0, cnt_1) <- i_2] = Mint_0.
+    Have: (1 + cnt_1) = cnt_0.
+  }
+  Else { Have: (cnt_2 = cnt_0) /\ (a_1 = Mint_0). }
+  (* Assertion *)
+  Have: (i_2 != 2) \/ ((x = 2) /\ (0 < cnt_0)).
+  (* Invariant 'i_2' *)
+  Have: 0 < i_2.
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ (cnt_0 < i_2).
+  (* Invariant 'i_4' *)
+  Have: forall i_4 : Z. let x_4 = Mint_0[shift_sint32(primes_0, i_4)] in
+      ((0 <= i_4) -> ((i_4 < cnt_0) -> ((x_4 <= i_2) /\ (2 <= x_4)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      (Mint_0[shift_sint32(primes_0, i_4)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      (is_p_0[Mint_0[shift_sint32(primes_0, i_4)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < cnt_0) ->
+      P_is_prime(Mint_0[shift_sint32(primes_0, i_4)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_4 : Z. ((is_p_0[i_4] = 1) -> ((i_4 <= i_2) -> ((2 <= i_4) ->
+      (exists i_5 : Z. (Mint_0[shift_sint32(primes_0, i_5)] = i_4) /\
+       (0 <= i_5) /\ (i_5 < cnt_0))))).
+}
+Prove: Mint_0[shift_sint32(primes_0, i)]
+         < Mint_0[shift_sint32(primes_0, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:105ms) (106ms) (2890)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 120):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 130):
+Let x = is_p_0[i].
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_1 = 1 + n.
+Let x_2 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(p) /\ is_sint32(x) /\ is_sint32(Mint_0[a]) /\ is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_3 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_3 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_2) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_2.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x_1).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_3 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_0) -> ((a_3 < i) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Then *)
+  Have: i <= n.
+  (* Then *)
+  Have: x != 0.
+}
+Prove: P_is_prime(i).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:32ms) (24ms) (441)
+Prover CVC5 1.1.2 returns Valid (Qed:32ms) (36ms) (21004)
+Prover Z3 4.13.3 returns Valid (Qed:32ms) (10ms) (63793)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 131):
+Let x = is_p_0[i_1].
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[a].
+Let x_1 = 1 + n.
+Let x_2 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i_1) /\ is_sint32(i_2) /\
+      is_sint32(n) /\ is_sint32(p) /\ is_sint32(x) /\ is_sint32(Mint_0[a]) /\
+      is_sint32(a_2).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < cnt_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_1[i_3] = is_p_2[i_3])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_2) /\ (i_2 <= x_1).
+  (* Invariant 'i_1' *)
+  Have: forall i_3 : Z. ((i_3 < i_2) -> ((2 <= i_3) -> (is_p_2[i_3] = 1))).
+  (* Else *)
+  Have: n < i_2.
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_3 = is_p_2[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_2[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_2[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      ((i_3 <= 3) -> P_is_prime(i_3))))).
+  (* Loop assigns ... *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 <= 100) ->
+      (((n < i_3) \/ (i_3 <= 1)) -> (is_p_2[i_3] = is_p_0[i_3])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_1).
+  (* Invariant 'i_12' *)
+  Have: forall i_3 : Z. let x_3 = is_p_0[i_3] in ((i_3 <= n) ->
+      ((2 <= i_3) -> ((x_3 = 0) \/ (x_3 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_3 : Z. ((i_3 <= n) -> ((2 <= i_3) -> (P_is_prime(i_3) ->
+      (is_p_0[i_3] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((i_3 < x_2) ->
+      ((2 <= i_3) -> P_is_prime(i_3))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_4,i_3 : Z. ((i_3 < p) -> ((i_4 <= n) ->
+      (((i_3 * i_3) <= i_4) -> ((2 <= i_3) -> (P_divides(i_3, i_4) ->
+      (is_p_0[i_4] = 0)))))).
+  (* Else *)
+  Have: n < x_2.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 <= n) -> ((2 <= i_3) ->
+      P_is_prime(i_3)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_1).
+  (* Invariant 'i_3' *)
+  Have: (0 <= cnt_0) /\ ((2 + cnt_0) <= i_1).
+  (* Invariant 'i_4' *)
+  Have: forall i_3 : Z. let a_3 = a_1[shift_sint32(primes_0, i_3)] in
+      ((0 <= i_3) -> ((i_3 < cnt_0) -> ((a_3 < i_1) /\ (2 <= a_3)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_3)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_3)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_3 : Z. ((is_p_0[i_3] = 1) -> ((i_3 < i_1) -> ((2 <= i_3) ->
+      (exists i_4 : Z. (a_1[shift_sint32(primes_0, i_4)] = i_3) /\
+       (0 <= i_4) /\ (i_4 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_4)] < a_1[shift_sint32(primes_0, i_3)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i_1) -> ((a_2 = 2) /\ (0 < cnt_0))).
+  (* Then *)
+  Have: i_1 <= n.
+  (* Then *)
+  Have: x != 0.
+  (* Assertion *)
+  Have: P_is_prime(i_1).
+}
+Prove: a_1[shift_sint32(primes_0, i)] < i_1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:41ms) (24ms) (643)
+Prover CVC5 1.1.2 returns Valid (Qed:41ms) (34ms) (19732)
+Prover Z3 4.13.3 returns Valid (Qed:41ms) (8ms) (66634)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 135):
+Prove: true.
+Prover Qed returns Valid (17ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 49) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 49) (2/3):
+Effect at line 52
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 49) (3/3):
+Effect at line 52
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 70) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 70) (2/3):
+Effect at line 73
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 70) (3/3):
+Effect at line 96
+Let x = 1 + p.
+Let x_1 = p * p.
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= n) /\ (x_1 <= n) /\ (x_1 <= 100).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_0[i_2] = is_p_1[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_1[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_1[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_1[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_1[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_2[i_3] = 0)))))).
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 < x_1)) -> (is_p_2[i_2] = is_p_3[i_2])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_2 : Z. let x_4 = is_p_3[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_3[i_2] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_2 : Z. ((is_p_3[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_3[i_3] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_2 : Z. ((i_2 < i) -> ((x_1 <= i_2) -> (P_divides(p, i_2) ->
+      (is_p_3[i_2] = 0)))).
+  (* Else *)
+  Have: n < i.
+  (* Invariant 'i_11' *)
+  Have: 0 < p.
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_3[i_2] = 1) -> ((i_2 <= n) ->
+      ((i_2 < (x * x)) -> ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_3 <= n) -> ((i_2 <= p) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_3[i_3] = 0)))))).
+}
+Prove: 2 <= x_1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (9ms) (108)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (27ms) (19865)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (8ms) (58675)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 93) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 93) (2/3):
+Effect at line 96
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 93) (3/3):
+Effect at line 97
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 125) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 125) (2/3):
+Effect at line 128
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 125) (3/3):
+Effect at line 132
+Let a = shift_sint32(primes_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let x = cnt_0 - 1.
+Let a_2 = shift_sint32(primes_0, x).
+Let a_3 = a_1[a_2 <- i].
+Let x_1 = is_p_0[i].
+Let a_4 = a_1[a].
+Let x_2 = 1 + n.
+Let x_3 = p * p.
+Assume {
+  Type: is_sint32(cnt_0) /\ is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(p) /\ is_sint32(x_1) /\ is_sint32(x) /\ is_sint32(1 + i) /\
+      is_sint32(Mint_0[a]) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_2, 1).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_2).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_2[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_2[i_2] = is_p_0[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_2).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_0[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_0[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_3) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_0[i_3] = 0)))))).
+  (* Else *)
+  Have: n < x_3.
+  (* Assertion *)
+  Have: is_p_0[2] = 1.
+  (* Assertion *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      P_is_prime(i_2)))).
+  (* Invariant 'i_2' *)
+  Have: (2 <= i) /\ (i <= x_2).
+  (* Invariant 'i_3' *)
+  Have: (0 < cnt_0) /\ (cnt_0 < i).
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_5 = a_1[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> (((2 + i_2) <= cnt_0) -> ((a_5 < i) /\ (2 <= a_5)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> (((2 + i_2) <= cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> (((2 + i_2) <= cnt_0) ->
+      (is_p_0[a_1[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> (((2 + i_2) <= cnt_0) ->
+      P_is_prime(a_1[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 < i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_1[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ ((2 + i_3) <= cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) ->
+      (((2 + i_2) <= cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_3)] < a_1[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: ((3 <= i) -> ((a_4 = 2) /\ (2 <= cnt_0))).
+  (* Then *)
+  Have: i <= n.
+  (* Then *)
+  Have: x_1 != 0.
+  (* Assertion *)
+  Have: P_is_prime(i).
+  (* Assertion *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> (((2 + i_2) <= cnt_0) ->
+      (a_1[shift_sint32(primes_0, i_2)] < i))).
+  (* Invariant 'i_2' *)
+  Have: 0 < i.
+  (* Invariant 'i_4' *)
+  Have: forall i_2 : Z. let a_5 = a_3[shift_sint32(primes_0, i_2)] in
+      ((0 <= i_2) -> ((i_2 < cnt_0) -> ((a_5 <= i) /\ (2 <= a_5)))).
+  (* Invariant 'i_5' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (a_3[shift_sint32(primes_0, i_2)] <= n))).
+  (* Invariant 'i_6' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      (is_p_0[a_3[shift_sint32(primes_0, i_2)]] = 1))).
+  (* Invariant 'i_7' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < cnt_0) ->
+      P_is_prime(a_3[shift_sint32(primes_0, i_2)]))).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((is_p_0[i_2] = 1) -> ((i_2 <= i) -> ((2 <= i_2) ->
+      (exists i_3 : Z. (a_3[shift_sint32(primes_0, i_3)] = i_2) /\
+       (0 <= i_3) /\ (i_3 < cnt_0))))).
+  (* Invariant 'i_9' *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < cnt_0) ->
+      (a_3[shift_sint32(primes_0, i_3)] < a_3[shift_sint32(primes_0, i_2)])))).
+  (* Invariant 'i_10' *)
+  Have: a_3[a] = 2.
+}
+Prove: included(a_2, 1, a, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:49ms) (39ms) (1218)
+Prover CVC5 1.1.2 returns Valid (Qed:49ms) (37ms) (22914)
+Prover Z3 4.13.3 returns Valid (Qed:49ms) (13ms) (109321)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (1/7):
+Effect at line 52
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (2/7):
+Effect at line 52
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (3/7):
+Effect at line 54
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (4/7):
+Effect at line 73
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (5/7):
+Effect at line 73
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (6/7):
+Effect at line 128
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 29) in 'sieve_eratosthenes' (7/7):
+Effect at line 128
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 52):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 52):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 73):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 73):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 96):
+Prove: true.
+Prover Qed returns Valid (19ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 96):
+Let x = i + p.
+Let x_1 = p * p.
+Let m = is_p_3[i <- 0].
+Let x_2 = n + p.
+Let x_3 = 1 + n.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\ is_sint32(p) /\
+      is_sint32(x) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(primes_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (2 <= n) /\ (n <= 100).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(primes_0, 0), n).
+  (* Invariant 'i_0' *)
+  Have: 0 < n.
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_0[i_2] = is_p_1[i_2])))).
+  (* Invariant 'i_0' *)
+  Have: (2 <= i_1) /\ (i_1 <= x_3).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 < i_1) -> ((2 <= i_2) -> (is_p_1[i_2] = 1))).
+  (* Else *)
+  Have: n < i_1.
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_1[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_1[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_1[i_2] = 1) -> ((i_2 <= n) -> ((2 <= i_2) ->
+      ((i_2 <= 3) -> P_is_prime(i_2))))).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 <= 1)) -> (is_p_1[i_2] = is_p_2[i_2])))).
+  (* Invariant 'i_11' *)
+  Have: (2 <= p) /\ (p <= x_3).
+  (* Invariant 'i_12' *)
+  Have: forall i_2 : Z. let x_4 = is_p_2[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_13' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_2[i_2] = 1)))).
+  (* Invariant 'i_14' *)
+  Have: forall i_2 : Z. ((is_p_2[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_15' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_2[i_3] = 0)))))).
+  (* Then *)
+  Have: x_1 <= n.
+  (* Invariant 'i_16' *)
+  Have: p <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x_1).
+  (* Loop assigns ... *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 <= 100) ->
+      (((n < i_2) \/ (i_2 < x_1)) -> (is_p_2[i_2] = is_p_3[i_2])))).
+  (* Invariant 'i_17' *)
+  Have: (x_1 <= i) /\ (i <= x_2).
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, i).
+  (* Invariant 'i_19' *)
+  Have: forall i_2 : Z. let x_4 = is_p_3[i_2] in ((i_2 <= n) ->
+      ((2 <= i_2) -> ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (is_p_3[i_2] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_2 : Z. ((is_p_3[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (is_p_3[i_3] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_2 : Z. ((i_2 < i) -> ((x_1 <= i_2) -> (P_divides(p, i_2) ->
+      (is_p_3[i_2] = 0)))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_17' *)
+  Have: x_1 <= x.
+  (* Invariant 'i_18' *)
+  Have: P_divides(p, x).
+  (* Invariant 'i_19' *)
+  Have: forall i_2 : Z. let x_4 = m[i_2] in ((i_2 <= n) -> ((2 <= i_2) ->
+      ((x_4 = 0) \/ (x_4 = 1)))).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((i_2 <= n) -> ((2 <= i_2) -> (P_is_prime(i_2) ->
+      (m[i_2] = 1)))).
+  (* Invariant 'i_21' *)
+  Have: forall i_2 : Z. ((m[i_2] = 1) -> ((i_2 <= n) -> ((i_2 < x_1) ->
+      ((2 <= i_2) -> P_is_prime(i_2))))).
+  (* Invariant 'i_22' *)
+  Have: forall i_3,i_2 : Z. ((i_2 < p) -> ((i_3 <= n) ->
+      (((i_2 * i_2) <= i_3) -> ((2 <= i_2) -> (P_divides(i_2, i_3) ->
+      (m[i_3] = 0)))))).
+  (* Invariant 'i_23' *)
+  Have: forall i_2 : Z. ((i_2 < x) -> ((x_1 <= i_2) -> (P_divides(p, i_2) ->
+      (m[i_2] = 0)))).
+}
+Prove: i <= x_3.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:19ms) (17ms) (108)
+Prover CVC5 1.1.2 returns Valid (Qed:19ms) (17ms) (14185)
+Prover Z3 4.13.3 returns Valid (Qed:19ms) (8ms) (51545)
+
+------------------------------------------------------------
+
+Goal Decreasing of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 128):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Positivity of Loop variant at loop (file /results/test-03-01/deepseek-flash/test-03-01-45.cbs/.col2inv-trustc-ce11y_8a.c, line 128):
+Prove: true.
+Prover Qed returns Valid (10ms)
+
+------------------------------------------------------------

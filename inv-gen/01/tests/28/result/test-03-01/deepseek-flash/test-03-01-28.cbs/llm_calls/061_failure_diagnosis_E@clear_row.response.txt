@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_50: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_50 is a valid arithmetic fact, but its preservation proof fails because the WP/SMT solver cannot derive the nonlinear inequality `c + r*n < row*n` from the available bounds `0 <= r < row` and `0 <= c < n` (with `n > 0`). The loop body only modifies `j` and the `row`-th row of `board`, so it does not change `row` or `n`; the invariant is inductive in principle. The failure is due to missing arithmetic reasoning, not because the invariant is too strong. The other E@clear_row invariants (e.g., i_42) only give weaker bounds involving `j` and do not imply i_50 after the loop body.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+The missing logical fact is: for all integers `r, c, n, row`, if `0 <= r < row` and `0 <= c < n`, then `c + r*n < row*n`. This can be supplied as a lemma or an `assert` to help the prover. If i_50 is not needed for the postcondition, it can also be removed to avoid the nonlinear arithmetic obligation.

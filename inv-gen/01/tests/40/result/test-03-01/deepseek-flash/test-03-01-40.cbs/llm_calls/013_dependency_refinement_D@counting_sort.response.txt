@@ -1,0 +1,3 @@
+[Loop D@counting_sort]
+loop invariant i_28: \forall integer w; 0 <= w <= v - 1 ==> c[w] == \at(c[w], LoopEntry);
+loop invariant i_29: sum_c(c, v - 1) == \at(sum_c(c, v - 1), LoopEntry);

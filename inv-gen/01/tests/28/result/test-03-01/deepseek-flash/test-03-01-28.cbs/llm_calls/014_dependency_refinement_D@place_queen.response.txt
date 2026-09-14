@@ -1,0 +1,4 @@
+```
+[Loop D@place_queen]
+loop invariant i_13: no_attack_prefix(n, board, row) && \forall integer r, c; 0 <= r < row && 0 <= c < n ==> r * n + c != row * n + j;
+```

@@ -1,0 +1,4 @@
+Loop A@fractional_knapsack:
+  i_0: 0 <= i <= n
+  i_1: 0 <= rem <= W
+  i_2: \forall integer j; 0 <= j < i ==> 0 <= taken[j] <= w[j]

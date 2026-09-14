@@ -1,0 +1,2 @@
+[Loop D@place_queen]
+loop invariant i_52: \forall integer r; 0 <= r < row ==> n + r * n <= n * row;

@@ -1,0 +1,13 @@
+```
+[Failed Property]
+preservation of i_15: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The failed obligation is the preservation of `upper_bounds_paths_up_to` with bound `i-1` across one iteration of Loop C. The invariant requires that after an edge relaxation, the updated `dist` still satisfies `dist[v] <= c` for every path of length at most `i-1` from `start` to `v` with cost `c`. The proof fails because the available context does not relate the post-update `dist` (`Mint_0`) to the pre-update `dist` (`a_3`). In particular, it lacks the fact that the update `dist[v] = prev[u] + weight` (when taken) is strictly smaller than the old `dist[v]`, and that all other entries are unchanged. Thus, from the pre-state invariant `a_3[v] <= c`, one cannot directly conclude `Mint_0[v] <= c` without knowing `Mint_0[v] <= a_3[v]`. Additionally, the prover must know that the `edges` array is not modified by Loop C, so `path_cost_len{Mint_0}` and `path_cost_len{a_3}` coincide; otherwise the pre-state and post-state path predicates cannot be matched.
+
+[Responsible Scope]
+C@_bellmanford
+
+[Refinement Direction]
+The proof needs to make available the monotonicity of the relaxation step: for all vertices `x`, the new `dist[x]` is less than or equal to the old `dist[x]`. It also needs the frame condition that `edges` is unchanged, so the inductive path predicate `path_cost_len` is independent of the state change in `dist`. With these facts, the pre-state invariant `i_15` can be instantiated and the pointwise decrease yields the target `upper_bounds_paths_up_to` for the post-state. No new invariant is proposed here; the diagnosis is that the existing loop invariants omit this monotonicity and frame information.
+```

@@ -1,0 +1,5 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-37.cbs/.col2inv-trustc-0_w78khi.c (with preprocessing)
+[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-37.cbs/.col2inv-trustc-0_w78khi.c:194: Warning: 
+  In ACSL, there is no implicit conversion between a C array and a pointer. Either introduce an explicit cast or take the address of the first element of prev. Ignoring loop annotation
+[kernel] User Error: warning annot-error treated as fatal error.
+[kernel] Frama-C aborted: invalid user input.

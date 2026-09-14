@@ -1,0 +1,13 @@
+```
+loop invariant n >= 0;
+loop invariant \valid(a + (0..(n - 1)));
+loop invariant 0 <= dad < n;
+loop invariant leftson == 2 * dad + 1;
+loop invariant rightson == 2 * dad + 2;
+loop invariant is_max3(a, dad, leftson, rightson, n, swapindex);
+loop invariant 0 <= swapindex < n;
+loop invariant \forall integer i; (0 <= i < n && i != dad) ==> (
+    (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) &&
+    (2 * i + 2 < n ==> a[i] >= a[2 * i + 2])
+);
+```

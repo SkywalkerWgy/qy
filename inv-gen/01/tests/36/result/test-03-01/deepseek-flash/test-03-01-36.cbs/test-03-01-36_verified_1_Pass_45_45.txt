@@ -1,0 +1,1043 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 43 goals scheduled
+[wp] Proved goals:   45 / 45
+  Unreachable:       2
+  Qed:              24 (1ms-5ms-54ms)
+  Alt-Ergo 2.6.3:   17 (12ms-40ms)
+  CVC5 1.1.2:        1 (200ms)
+  Z3 4.13.3:         1 (156ms)
+------------------------------------------------------------
+  Function uf_find
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 34) in 'uf_find':
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 35) in 'uf_find':
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 36) in 'uf_find':
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(uf_find_0) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_1 = Mint_0[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Invariant 'i_3' *)
+  Have: (0 <= uf_find_0) /\ (uf_find_0 < n).
+  (* Invariant 'i_4' *)
+  Have: forall i_1 : Z. let a_3 = a_1[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_3) /\ (a_3 < n)))).
+  (* Else *)
+  Have: a_1[shift_sint32(parent_0, uf_find_0)] = uf_find_0.
+}
+Prove: (0 <= a_2) /\ (a_2 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:5ms) (22ms) (102)
+Prover CVC5 1.1.2 returns Valid (Qed:5ms) (34ms) (16906)
+Prover Z3 4.13.3 returns Valid (Qed:5ms) (7ms) (57987)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 41):
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = a_1[shift_sint32(parent_0, x)].
+Let a_3 = a_1[shift_sint32(parent_0, a_2)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(x) /\ is_sint32(x_1) /\ is_sint32(a_2) /\
+      is_sint32(a_3).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: (0 <= x_1) /\ (x_1 < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_2 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+  (* Invariant 'i_3' *)
+  Have: (0 <= x) /\ (x < n).
+  (* Invariant 'i_4' *)
+  Have: forall i : Z. let a_4 = a_1[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= a_4) /\ (a_4 < n)))).
+  (* Then *)
+  Have: a_2 != x.
+}
+Prove: (0 <= a_3) /\ (a_3 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (20ms) (118)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (22ms) (15252)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (4ms) (55105)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 41):
+Prove: true.
+Prover Qed returns Valid (0.55ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 43):
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(parent_0, x).
+Let a_3 = a_1[a_2].
+Let a_4 = a_1[shift_sint32(parent_0, a_3)].
+Let a_5 = a_1[a_2 <- a_4][shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(x) /\ is_sint32(x_1) /\ is_sint32(a_3) /\
+      is_sint32(a_4).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: (0 <= x_1) /\ (x_1 < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_2 = Mint_0[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+  (* Invariant 'i_3' *)
+  Have: (0 <= x) /\ (x < n).
+  (* Invariant 'i_4' *)
+  Have: forall i_1 : Z. let a_6 = a_1[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_6) /\ (a_6 < n)))).
+  (* Then *)
+  Have: a_3 != x.
+  (* Invariant 'i_3' *)
+  Have: (0 <= a_4) /\ (a_4 < n).
+}
+Prove: (0 <= a_5) /\ (a_5 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:6ms) (25ms) (247)
+Prover CVC5 1.1.2 returns Valid (Qed:6ms) (43ms) (18761)
+Prover Z3 4.13.3 returns Valid (Qed:6ms) (17ms) (93918)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 43):
+Let x_1 = Mint_0[shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(parent_0, 0), n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_2 = Mint_0[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+}
+Prove: (0 <= x_1) /\ (x_1 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:1ms) (20ms) (49)
+Prover Z3 4.13.3 returns Valid (Qed:1ms) (4ms) (33389)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 46) (1/2):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 46) (2/2):
+Effect at line 49
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(parent_0, x).
+Let a_3 = a_1[a_2].
+Let a_4 = a_1[shift_sint32(parent_0, a_3)].
+Let a_5 = a_1[a_2 <- a_4].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(x) /\ is_sint32(x_1) /\ is_sint32(a_3) /\
+      is_sint32(a_4).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_2, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: (0 <= x_1) /\ (x_1 < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_2 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+  (* Invariant 'i_3' *)
+  Have: (0 <= x) /\ (x < n).
+  (* Invariant 'i_4' *)
+  Have: forall i : Z. let a_6 = a_1[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= a_6) /\ (a_6 < n)))).
+  (* Then *)
+  Have: a_3 != x.
+  (* Invariant 'i_3' *)
+  Have: (0 <= a_4) /\ (a_4 < n).
+  (* Invariant 'i_4' *)
+  Have: forall i : Z. let a_6 = a_5[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= a_6) /\ (a_6 < n)))).
+}
+Prove: included(a_2, 1, a, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:8ms) (32ms) (175)
+Prover CVC5 1.1.2 returns Valid (Qed:8ms) (47ms) (20438)
+Prover Z3 4.13.3 returns Valid (Qed:8ms) (12ms) (64107)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 33) in 'uf_find':
+Effect at line 48
+Prove: true.
+Prover Qed returns Valid (0.72ms)
+
+------------------------------------------------------------
+------------------------------------------------------------
+  Function uf_init
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 7) in 'uf_init':
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < n).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(parent_0, i_2)] = i_2))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(rank_0, i_2)] = 0))).
+  (* Else *)
+  Have: n <= i.
+}
+Prove: memcpy(memcpy(Mint_0, a, Mint_undef_0, a, i), a_1, Mint_undef_1, a_1,
+         i)[shift_sint32(parent_0, i_1)] = i_1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (12ms) (62)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (41ms) (17927)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (17ms) (59539)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 8) in 'uf_init':
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 < n).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(parent_0, i_2)] = i_2))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(rank_0, i_2)] = 0))).
+  (* Else *)
+  Have: n <= i.
+}
+Prove: memcpy(memcpy(Mint_0, a, Mint_undef_0, a, i), a_1, Mint_undef_1, a_1,
+         i)[shift_sint32(rank_0, i_1)] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:4ms) (16ms) (62)
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (30ms) (18274)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (15ms) (63217)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 14):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 14):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 16):
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= i).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(parent_0, i_2)] = i_2))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(rank_0, i_2)] = 0))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+}
+Prove: a_2[shift_sint32(parent_0, i) <- i][shift_sint32(rank_0, i) <- 0]
+         [shift_sint32(parent_0, i_1)] = i_1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:5ms) (40ms) (363)
+Prover CVC5 1.1.2 returns Valid (Qed:5ms) (46ms) (19440)
+Prover Z3 4.13.3 returns Valid (Qed:5ms) (21ms) (98799)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 16):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 18):
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let a_3 = a_2[shift_sint32(parent_0, i) <- i][shift_sint32(rank_0, i) <- 0].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(1 + i).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= i).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(parent_0, i_2)] = i_2))).
+  (* Invariant 'i_2' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < i) ->
+      (a_2[shift_sint32(rank_0, i_2)] = 0))).
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_0' *)
+  Have: (-1) <= i.
+  (* Invariant 'i_1' *)
+  Have: forall i_2 : Z. ((i_2 <= i) -> ((0 <= i_2) ->
+      (a_3[shift_sint32(parent_0, i_2)] = i_2))).
+}
+Prove: a_3[shift_sint32(rank_0, i_1)] = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:5ms) (28ms) (284)
+Prover CVC5 1.1.2 returns Valid (Qed:5ms) (35ms) (19785)
+Prover Z3 4.13.3 returns Valid (Qed:5ms) (12ms) (105223)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 18):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 21) (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 21) (2/3):
+Effect at line 24
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let x = i - 1.
+Let a_3 = shift_sint32(parent_0, x).
+Let a_4 = a_2[a_3 <- x][shift_sint32(rank_0, x) <- 0].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_3, 1).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 < i) /\ (i <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> (((2 + i_1) <= i) ->
+      (a_2[shift_sint32(parent_0, i_1)] = i_1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> (((2 + i_1) <= i) ->
+      (a_2[shift_sint32(rank_0, i_1)] = 0))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (a_4[shift_sint32(parent_0, i_1)] = i_1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (a_4[shift_sint32(rank_0, i_1)] = 0))).
+}
+Prove: included(a_3, 1, a_1, n) \/ included(a_3, 1, a, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:9ms) (18ms) (168)
+Prover CVC5 1.1.2 returns Valid (Qed:9ms) (35ms) (18180)
+Prover Z3 4.13.3 returns Valid (Qed:9ms) (14ms) (69627)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 21) (3/3):
+Effect at line 25
+Let a = shift_sint32(rank_0, 0).
+Let a_1 = shift_sint32(parent_0, 0).
+Let a_2 = memcpy(memcpy(Mint_0, a, Mint_undef_0, a, n), a_1, Mint_undef_1,
+            a_1, n).
+Let x = i - 1.
+Let a_3 = shift_sint32(rank_0, x).
+Let a_4 = a_2[shift_sint32(parent_0, x) <- x][a_3 <- 0].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_3, 1).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a, n).
+  (* Invariant 'i_0' *)
+  Have: (0 < i) /\ (i <= (1 + n)).
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> (((2 + i_1) <= i) ->
+      (a_2[shift_sint32(parent_0, i_1)] = i_1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> (((2 + i_1) <= i) ->
+      (a_2[shift_sint32(rank_0, i_1)] = 0))).
+  (* Then *)
+  Have: i <= n.
+  (* Invariant 'i_1' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (a_4[shift_sint32(parent_0, i_1)] = i_1))).
+  (* Invariant 'i_2' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < i) ->
+      (a_4[shift_sint32(rank_0, i_1)] = 0))).
+}
+Prove: included(a_3, 1, a_1, n) \/ included(a_3, 1, a, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:6ms) (34ms) (171)
+Prover CVC5 1.1.2 returns Valid (Qed:6ms) (26ms) (18398)
+Prover Z3 4.13.3 returns Valid (Qed:6ms) (14ms) (68365)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 6) in 'uf_init' (1/2):
+Effect at line 23
+Prove: true.
+Prover Qed returns Valid (0.50ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 6) in 'uf_init' (2/2):
+Effect at line 23
+Prove: true.
+Prover Qed returns Valid (0.88ms)
+
+------------------------------------------------------------
+------------------------------------------------------------
+  Function uf_union
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 63) in 'uf_union':
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_3, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = shift_sint32(rank_0, 0).
+Let x_1 = Mint_0[shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(rx_1) /\
+      is_sint32(rx_2) /\ is_sint32(rx_3) /\ is_sint32(ry_0) /\
+      is_sint32(ry_1) /\ is_sint32(ry_2) /\ is_sint32(ry_3) /\
+      is_sint32(x) /\ is_sint32(y) /\
+      is_sint32(Mint_1[shift_sint32(rank_0, rx_2)]) /\
+      is_sint32(Mint_1[shift_sint32(rank_0, ry_2)]) /\
+      is_sint32(Mint_2[shift_sint32(rank_0, rx_3)]) /\
+      is_sint32(Mint_2[shift_sint32(rank_0, ry_3)]).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_2 = Mint_3[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_3[shift_sint32(rank_0, i_1)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_3)] = rx_3) /\ (0 <= rx_3) /\
+      (rx_3 < n) /\
+      (forall i_1 : Z. let a_4 = a_1[shift_sint32(parent_0, i_1)] in
+       ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_4) /\ (a_4 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[shift_sint32(parent_0, ry_3)] = ry_3) /\ (0 <= ry_3) /\
+      (ry_3 < n) /\
+      (forall i_1 : Z. let a_4 = a_2[shift_sint32(parent_0, i_1)] in
+       ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_4) /\ (a_4 < n))))).
+  If ry_3 = rx_3
+  Then { Have: a_2 = Mint_0. }
+  Else {
+    Have: a_2 = Mint_2.
+    If Mint_2[shift_sint32(rank_0, rx_3)]
+         < Mint_2[shift_sint32(rank_0, ry_3)]
+    Then {
+      Have: (rx_3 = rx_0) /\ (ry_3 = ry_4).
+      Have: Mint_2[shift_sint32(parent_0, rx_0) <- ry_4] = Mint_0.
+    }
+    Else {
+      Have: (Mint_2 = Mint_1) /\ (rx_3 = rx_2) /\ (ry_3 = ry_2).
+      If Mint_2[shift_sint32(rank_0, ry_2)]
+           < Mint_2[shift_sint32(rank_0, rx_2)]
+      Then {
+        Have: (rx_2 = rx_4) /\ (ry_2 = ry_0).
+        Have: Mint_2[shift_sint32(parent_0, ry_0) <- rx_4] = Mint_0.
+      }
+      Else {
+        Let m = Mint_2[shift_sint32(parent_0, ry_1) <- rx_1].
+        Let a_4 = shift_sint32(rank_0, rx_1).
+        Have: (rx_2 = rx_1) /\ (ry_2 = ry_1).
+        Have: m[a_4 <- 1 + m[a_4]] = Mint_0.
+      }
+    }
+  }
+}
+Prove: (0 <= x_1) /\ (x_1 < n).
+Prover CVC5 1.1.2 returns Valid (Qed:51ms) (200ms) (54353)
+Prover Z3 4.13.3 returns Valid (Qed:51ms) (158ms) (983796)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 64) in 'uf_union':
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_3, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = shift_sint32(rank_0, 0).
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(rx_1) /\
+      is_sint32(rx_2) /\ is_sint32(rx_3) /\ is_sint32(ry_0) /\
+      is_sint32(ry_1) /\ is_sint32(ry_2) /\ is_sint32(ry_3) /\
+      is_sint32(x) /\ is_sint32(y) /\
+      is_sint32(Mint_1[shift_sint32(rank_0, rx_2)]) /\
+      is_sint32(Mint_1[shift_sint32(rank_0, ry_2)]) /\
+      is_sint32(Mint_2[shift_sint32(rank_0, rx_3)]) /\
+      is_sint32(Mint_2[shift_sint32(rank_0, ry_3)]).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_3, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_1 = Mint_3[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_3[shift_sint32(rank_0, i_1)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_3, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_3)] = rx_3) /\ (0 <= rx_3) /\
+      (rx_3 < n) /\
+      (forall i_1 : Z. let a_4 = a_1[shift_sint32(parent_0, i_1)] in
+       ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_4) /\ (a_4 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[shift_sint32(parent_0, ry_3)] = ry_3) /\ (0 <= ry_3) /\
+      (ry_3 < n) /\
+      (forall i_1 : Z. let a_4 = a_2[shift_sint32(parent_0, i_1)] in
+       ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_4) /\ (a_4 < n))))).
+  If ry_3 = rx_3
+  Then { Have: a_2 = Mint_0. }
+  Else {
+    Have: a_2 = Mint_2.
+    If Mint_2[shift_sint32(rank_0, rx_3)]
+         < Mint_2[shift_sint32(rank_0, ry_3)]
+    Then {
+      Have: (rx_3 = rx_0) /\ (ry_3 = ry_4).
+      Have: Mint_2[shift_sint32(parent_0, rx_0) <- ry_4] = Mint_0.
+    }
+    Else {
+      Have: (Mint_2 = Mint_1) /\ (rx_3 = rx_2) /\ (ry_3 = ry_2).
+      If Mint_2[shift_sint32(rank_0, ry_2)]
+           < Mint_2[shift_sint32(rank_0, rx_2)]
+      Then {
+        Have: (rx_2 = rx_4) /\ (ry_2 = ry_0).
+        Have: Mint_2[shift_sint32(parent_0, ry_0) <- rx_4] = Mint_0.
+      }
+      Else {
+        Let m = Mint_2[shift_sint32(parent_0, ry_1) <- rx_1].
+        Let a_4 = shift_sint32(rank_0, rx_1).
+        Have: (rx_2 = rx_1) /\ (ry_2 = ry_1).
+        Have: m[a_4 <- 1 + m[a_4]] = Mint_0.
+      }
+    }
+  }
+}
+Prove: 0 <= Mint_0[shift_sint32(rank_0, i)].
+Prover Z3 4.13.3 returns Valid (Qed:54ms) (156ms) (1063970)
+
+------------------------------------------------------------
+
+Goal Exit-condition (generated) in 'uf_union':
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (1/3):
+Call Effect at line 67
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (2/3):
+Call Result at line 67
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (3/3):
+Call Effect at line 68
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (1/8):
+Call Effect at line 67
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (2/8):
+Call Result at line 67
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (3/8):
+Call Effect at line 68
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (4/8):
+Call Result at line 68
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (5/8):
+Effect at line 72
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = a_2[shift_sint32(rank_0, rx_0)].
+Let a_4 = a_2[shift_sint32(rank_0, ry_0)].
+Let a_5 = shift_sint32(parent_0, rx_0).
+Let a_6 = shift_sint32(rank_0, 0).
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(ry_0) /\ is_sint32(x) /\
+      is_sint32(y) /\ is_sint32(a_3) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_5, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[a_5] = rx_0) /\ (0 <= rx_0) /\ (rx_0 < n) /\
+      (forall i : Z. let a_7 = a_1[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[shift_sint32(parent_0, ry_0)] = ry_0) /\ (0 <= ry_0) /\
+      (ry_0 < n) /\
+      (forall i : Z. let a_7 = a_2[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Else *)
+  Have: ry_0 != rx_0.
+  (* Then *)
+  Have: a_3 < a_4.
+}
+Prove: included(a_5, 1, a, n) \/ included(a_5, 1, a_6, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (37ms) (229)
+Prover CVC5 1.1.2 returns Valid (Qed:13ms) (74ms) (29455)
+Prover Z3 4.13.3 returns Valid (Qed:13ms) (28ms) (140700)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (6/8):
+Effect at line 74
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = a_2[shift_sint32(rank_0, ry_0)].
+Let a_4 = a_2[shift_sint32(rank_0, rx_0)].
+Let a_5 = shift_sint32(parent_0, ry_0).
+Let a_6 = shift_sint32(rank_0, 0).
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(ry_0) /\ is_sint32(x) /\
+      is_sint32(y) /\ is_sint32(a_4) /\ is_sint32(a_3).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_5, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_0)] = rx_0) /\ (0 <= rx_0) /\
+      (rx_0 < n) /\
+      (forall i : Z. let a_7 = a_1[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[a_5] = ry_0) /\ (0 <= ry_0) /\ (ry_0 < n) /\
+      (forall i : Z. let a_7 = a_2[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Else *)
+  Have: ry_0 != rx_0.
+  (* Else *)
+  Have: a_3 <= a_4.
+  (* Then *)
+  Have: a_3 < a_4.
+}
+Prove: included(a_5, 1, a, n) \/ included(a_5, 1, a_6, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (24ms) (232)
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (76ms) (29785)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (31ms) (137352)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (7/8):
+Effect at line 76
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = a_2[shift_sint32(rank_0, rx_0)].
+Let a_4 = a_2[shift_sint32(rank_0, ry_0)].
+Let a_5 = shift_sint32(parent_0, ry_0).
+Let a_6 = shift_sint32(rank_0, 0).
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(ry_0) /\ is_sint32(x) /\
+      is_sint32(y) /\ is_sint32(a_3) /\ is_sint32(a_4).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_5, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_0)] = rx_0) /\ (0 <= rx_0) /\
+      (rx_0 < n) /\
+      (forall i : Z. let a_7 = a_1[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[a_5] = ry_0) /\ (0 <= ry_0) /\ (ry_0 < n) /\
+      (forall i : Z. let a_7 = a_2[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Else *)
+  Have: ry_0 != rx_0.
+  (* Else *)
+  Have: a_4 <= a_3.
+  (* Else *)
+  Have: a_3 <= a_4.
+}
+Prove: included(a_5, 1, a, n) \/ included(a_5, 1, a_6, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (35ms) (233)
+Prover CVC5 1.1.2 returns Valid (Qed:16ms) (84ms) (29659)
+Prover Z3 4.13.3 returns Valid (Qed:16ms) (26ms) (137336)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 62) in 'uf_union' (8/8):
+Effect at line 77
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = memcpy(a_1, a, Mint_undef_1, a, n).
+Let a_3 = shift_sint32(rank_0, rx_0).
+Let a_4 = a_2[a_3].
+Let a_5 = a_2[shift_sint32(rank_0, ry_0)].
+Let a_6 = shift_sint32(rank_0, 0).
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(ry_0) /\ is_sint32(x) /\
+      is_sint32(y) /\ is_sint32(a_4) /\ is_sint32(a_5).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: !invalid(Malloc_0, a_3, 1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_6, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(parent_0, i)] in
+      ((0 <= i) -> ((i < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_6, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_0)] = rx_0) /\ (0 <= rx_0) /\
+      (rx_0 < n) /\
+      (forall i : Z. let a_7 = a_1[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Call 'uf_find' *)
+  Have: (a_2[shift_sint32(parent_0, ry_0)] = ry_0) /\ (0 <= ry_0) /\
+      (ry_0 < n) /\
+      (forall i : Z. let a_7 = a_2[shift_sint32(parent_0, i)] in ((0 <= i) ->
+       ((i < n) -> ((0 <= a_7) /\ (a_7 < n))))).
+  (* Else *)
+  Have: ry_0 != rx_0.
+  (* Else *)
+  Have: a_5 <= a_4.
+  (* Else *)
+  Have: a_4 <= a_5.
+}
+Prove: included(a_3, 1, a, n) \/ included(a_3, 1, a_6, n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:17ms) (32ms) (232)
+Prover CVC5 1.1.2 returns Valid (Qed:17ms) (72ms) (29660)
+Prover Z3 4.13.3 returns Valid (Qed:17ms) (13ms) (118893)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 30) in 'uf_find'' in 'uf_union' at initialization of 'rx' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 67)
+:
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 31) in 'uf_find'' in 'uf_union' at initialization of 'rx' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 67)
+:
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 32) in 'uf_find'' in 'uf_union' at initialization of 'rx' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 67)
+:
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = shift_sint32(rank_0, 0).
+Let x_1 = Mint_0[shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(x) /\ is_sint32(y).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_2 = Mint_0[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_2) /\ (x_2 < n)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i_1)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_1, n).
+}
+Prove: (0 <= x_1) /\ (x_1 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:5ms) (23ms) (76)
+Prover CVC5 1.1.2 returns Unknown (Qed:5ms)
+Prover Z3 4.13.3 returns Valid (Qed:5ms) (7ms) (35222)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 30) in 'uf_find'' in 'uf_union' at initialization of 'ry' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 68)
+:
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 31) in 'uf_find'' in 'uf_union' at initialization of 'ry' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 68)
+:
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 32) in 'uf_find'' in 'uf_union' at initialization of 'ry' (file /results/test-03-01/deepseek-flash/test-03-01-36.cbs/.col2inv-trustc-rb378_ah.c, line 68)
+:
+Let a = shift_sint32(parent_0, 0).
+Let a_1 = memcpy(Mint_0, a, Mint_undef_0, a, n).
+Let a_2 = shift_sint32(rank_0, 0).
+Let a_3 = a_1[shift_sint32(parent_0, i)].
+Assume {
+  Type: is_sint32(n) /\ is_sint32(rx_0) /\ is_sint32(x) /\ is_sint32(y).
+  (* Heap *)
+  Type: (region(parent_0.base) <= 0) /\ (region(rank_0.base) <= 0) /\
+      linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a, n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: (0 <= x) /\ (x < n) /\ (0 <= y) /\ (y < n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_1 = Mint_0[shift_sint32(parent_0, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> ((0 <= x_1) /\ (x_1 < n)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(rank_0, i_1)]))).
+  (* Pre-condition *)
+  Have: separated(a, n, a_2, n).
+  (* Call 'uf_find' *)
+  Have: (a_1[shift_sint32(parent_0, rx_0)] = rx_0) /\ (0 <= rx_0) /\
+      (rx_0 < n) /\
+      (forall i_1 : Z. let a_4 = a_1[shift_sint32(parent_0, i_1)] in
+       ((0 <= i_1) -> ((i_1 < n) -> ((0 <= a_4) /\ (a_4 < n))))).
+}
+Prove: (0 <= a_3) /\ (a_3 < n).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:8ms) (23ms) (127)
+Prover CVC5 1.1.2 returns Valid (Qed:8ms) (44ms) (18838)
+Prover Z3 4.13.3 returns Valid (Qed:8ms) (8ms) (67899)
+
+------------------------------------------------------------

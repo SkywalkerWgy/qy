@@ -1,0 +1,11 @@
+[Failed Property]
+establishment of i_25: the invariant must hold before the first loop iteration from the incoming program state.
+
+[Failure Cause]
+At Loop C entry, i_25 requires proving for every w in [0,k] that sum_c(c,w-1)+c[w] <= sum_c(c,k). By the definition of sum_c, the left-hand side is sum_c(c,w) for w >= 0, so the needed fact is that prefix sums are bounded by the total sum: sum_c(c,w) <= sum_c(c,k). The Loop B invariants provide c[0..k] >= 0 and sum_c(c,k)=n after Loop B, but they do not expose the monotonicity of sum_c under nonnegative coefficients. The invariant i_25 is not too strong and is not non-inductive for Loop C, since Loop C does not modify c; the failure is only in establishing i_25 from the post-Loop-B state.
+
+[Responsible Scope]
+C@counting_sort, B@counting_sort
+
+[Refinement Direction]
+Supply/use a supporting lemma, not a new loop invariant, that for nonnegative c, sum_c is monotone in its index: 0 <= w <= k ==> sum_c(c,w) <= sum_c(c,k). Then combine this with the definitional equality sum_c(c,w) = c[w] + sum_c(c,w-1) to discharge the establishment obligation.

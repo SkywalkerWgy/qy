@@ -1,0 +1,11 @@
+[Failed Property]
+establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+
+[Failure Cause]
+The base-case check for i_24 requires proving `\forall integer k; 0 <= k < n ==> t[k] >= 0` at the entry to Loop C. The incoming state only guarantees validity and length bounds for `t`, not nonnegativity of its elements. The preceding Loop B invariants only constrain `p` and `hp`; they say nothing about `t`, so they are too weak to imply the WP goal `0 <= t[i]`. Thus i_24 is too strong for the current boundary contract. It is not primarily non-inductive with respect to Loop C, since Loop C does not modify `t`; the failure is at establishment/initialization.
+
+[Responsible Scope]
+C@rabin_karp
+
+[Refinement Direction]
+The missing logical fact is that the used portion of `t` must be nonnegative, e.g. `\forall integer k; 0 <= k < n ==> t[k] >= 0`, at function entry. Without such a boundary assumption, i_24 cannot be established. The invariants of B@rabin_karp are insufficient to bridge to this goal because they only establish nonnegativity for `p`, not for `t`.

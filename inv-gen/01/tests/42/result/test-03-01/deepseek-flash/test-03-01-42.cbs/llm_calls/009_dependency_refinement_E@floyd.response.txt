@@ -1,0 +1,6 @@
+```
+[Loop E@floyd]
+loop invariant \forall integer a, b; 0 <= a < n && 0 <= b < n ==> graph[a][b] == \at(graph[a][b], Pre);
+loop invariant dist[i][k] <= graph[i][k];
+loop invariant dist[k][j] <= graph[k][j];
+```

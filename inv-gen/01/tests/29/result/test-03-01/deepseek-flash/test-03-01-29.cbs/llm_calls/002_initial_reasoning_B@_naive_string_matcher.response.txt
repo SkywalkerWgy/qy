@@ -1,0 +1,3 @@
+```
+loop invariant 0 <= i <= n - m;
+```

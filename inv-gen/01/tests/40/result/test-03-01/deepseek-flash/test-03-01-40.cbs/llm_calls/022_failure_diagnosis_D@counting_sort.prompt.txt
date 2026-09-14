@@ -1,0 +1,325 @@
+
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+
+  logic integer sum_c(int* c, integer v) =
+    v < 0 ? 0 : c[v] + sum_c(c, v - 1);
+*/
+
+/*@
+  requires 0 <= n;
+  requires 0 <= k;
+  requires \valid(a + (0 .. n-1));
+  requires \valid(b + (0 .. n-1));
+  requires \valid(c + (0 .. k));
+  requires \separated(a + (0 .. n-1), b + (0 .. n-1), c + (0 .. k));
+  requires \forall integer i; 0 <= i < n ==> 0 <= a[i] <= k;
+  assigns c[0 .. k], b[0 .. n-1];
+  ensures sorted(b, 0, n);
+  ensures \forall integer i; 0 <= i < n ==> 0 <= b[i] <= k;
+*/
+_Safe void counting_sort(int *_Nonnull a, int *_Nonnull b, int n,
+                         int *_Nonnull c, int k) {
+    int i, v, pos, j, pos_start;
+
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= v <= k + 1;
+
+        loop invariant i_1: \forall integer i; 0 <= i < v ==> c[i] == 0;
+
+        loop invariant i_24: sum_c(c, v - 1) == 0;
+
+        loop invariant i_35: \forall integer w; 0 <= w < v ==> sum_c(c, w) == 0;
+
+
+        loop assigns v, c[0 .. k];
+    */
+    for (v = 0; v <= k; v++) {
+        c[v] = 0;
+    }
+
+        // Loop B
+/*@
+        loop invariant i_5: 0 <= i <= n;
+
+        loop invariant i_6: \forall integer v; 0 <= v <= k ==> c[v] >= 0;
+
+        loop invariant i_7: sum_c(c, k) == i;
+
+        loop invariant i_36: i < n ==> 0 <= a[i] <= k;
+
+        loop invariant i_37: \forall integer w; 0 <= w <= k ==> sum_c(c, k) == sum_c(c, w - 1) + c[w] + (sum_c(c, k) - sum_c(c, w));
+
+
+        loop assigns i, c[0 .. k];
+    */
+    for (i = 0; i < n; i++) {
+        c[a[i]] = c[a[i]] + 1;
+    }
+
+    pos = 0;
+
+        // Loop C
+/*@
+        loop invariant i_8: 0 <= v <= k + 1;
+
+        loop invariant i_9: 0 <= pos <= n;
+
+        loop invariant i_10: pos == sum_c(c, v - 1);
+
+        loop invariant i_11: sum_c(c, k) == n;
+
+        loop invariant i_12: \forall integer t; 0 <= t <= k ==> c[t] >= 0;
+
+        loop invariant i_13: sorted(b, 0, pos);
+
+        loop invariant i_14: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] < v;
+
+        loop invariant i_25: \forall integer w; 0 <= w <= k ==> sum_c(c, w - 1) + c[w] <= sum_c(c, k);
+
+        loop invariant i_26: sum_c(c, k) == \at(sum_c(c, k), LoopEntry);
+
+        loop invariant i_30: \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= sum_c(c, k);
+
+        loop invariant i_31: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+
+        loop invariant i_32: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);
+
+
+        loop assigns v, j, pos, pos_start, b[0 .. n-1];
+    */
+    for (v = 0; v <= k; v++) {
+        pos_start = pos;
+
+                // Loop D
+/*@
+            loop invariant i_15: 0 <= j <= c[v];
+
+            loop invariant i_16: pos == pos_start + j;
+
+            loop invariant i_17: pos_start == sum_c(c, v - 1);
+
+            loop invariant i_18: pos_start + c[v] <= n;
+
+            loop invariant i_19: 0 <= pos_start && pos_start <= pos && pos <= n;
+
+            loop invariant i_20: sorted(b, 0, pos);
+
+            loop invariant i_21: \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v;
+
+            loop invariant i_22: \forall integer i; pos_start <= i < pos ==> b[i] == v;
+
+            loop invariant i_23: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v;
+
+            loop invariant i_27: sum_c(c, k) == \at(sum_c(c, k), LoopEntry);
+
+            loop invariant i_28: \forall integer w; 0 <= w <= v - 1 ==> c[w] == \at(c[w], LoopEntry);
+
+            loop invariant i_29: sum_c(c, v - 1) == \at(sum_c(c, v - 1), LoopEntry);
+
+            loop invariant i_33: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+
+            loop invariant i_34: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);
+
+            loop invariant i_38: \separated(b + (0 .. n-1), c + (0 .. k));
+
+
+            loop assigns j, pos, b[0 .. n-1];
+        */
+        for (j = 0; j < c[v] && pos < n; j++) {
+            b[pos] = v;
+            pos = pos + 1;
+        }
+    }
+
+        // Loop E
+/*@
+        loop invariant i_2: 0 <= pos <= n;
+
+        loop invariant i_3: sorted(b, 0, pos);
+
+        loop invariant i_4: \forall integer i; 0 <= i < pos ==> 0 <= b[i] <= k;
+
+
+        loop assigns pos, b[0 .. n-1];
+    */
+    for (; pos < n; pos++) {
+        b[pos] = k;
+    }
+}
+
+You are an expert in program verification using ACSL and Frama-C. Diagnose why the following verification obligation cannot be discharged. Do not propose new invariants.
+[Failed Invariant] i_27: sum_c(c, k) == \at(sum_c(c, k), LoopEntry)
+[Failed Property] preservation of i_27: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[WP Target] Let m = Mint_0[shift_sint32(b, pos_0) <- v].
+Let x = v - 1.
+Let x_1 = L_sum_c(m, c, x).
+Let x_2 = 1 + pos_0.
+Let a_1 = shift_sint32(c, v).
+Let x_3 = m[a_1].
+Let x_4 = x_3 + x_1.
+Let x_5 = L_sum_c(Mint_0, c, k).
+Let x_6 = Mint_0[a_1].
+Let x_7 = x_6 + x_1.
+Let a_2 = shift_sint32(c, 0).
+Let x_8 = 1 + k.
+Let a_3 = memcpy(Mint_1, a_2, Mint_undef_0, a_2, x_8).
+Let a_4 = memcpy(a_3, a_2, Mint_undef_1, a_2, x_8).
+Let a_5 = shift_sint32(b, 0).
+Let a_6 = memcpy(a_4, a_5, Mint_undef_2, a_5, x_5).
+Let a_7 = a_6[a_1].
+Let a_8 = shift_sint32(a, 0).
+Let x_9 = -x_1.
+Assume {
+  Type: is_sint32(k) /\ is_sint32(pos_0) /\ is_sint32(v) /\ is_sint32(v_1) /\
+      is_sint32(x_2) /\ is_sint32(x_5) /\ is_sint32(x_6) /\ is_sint32(x_3) /\
+      is_sint32(x_1) /\ is_sint32(pos_0 - x_1) /\
+      is_sint32(1 + pos_0 - x_1) /\ is_sint32(a_7).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(b.base) <= 0) /\
+      (region(c.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 <= k.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_8, x_5).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_5, x_5).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_2, x_8).
+  (* Pre-condition *)
+  Have: separated(a_8, x_5, a_5, x_5) /\ separated(a_8, x_5, a_2, x_8) /\
+      separated(a_5, x_5, a_2, x_8).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_10 = Mint_1[shift_sint32(a, i)] in ((0 <= i) ->
+      ((i < x_5) -> ((x_10 <= k) /\ (0 <= x_10)))).
+  (* Invariant 'i_0' *)
+  Have: (-1) <= k.
+  (* Invariant 'i_24' *)
+  Have: L_sum_c(Mint_1, c, -1) = 0.
+  (* Invariant 'i_0' *)
+  Have: (0 <= v_1) /\ (v_1 <= x_8).
+  (* Invariant 'i_1' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < v_1) ->
+      (a_3[shift_sint32(c, i)] = 0))).
+  (* Invariant 'i_24' *)
+  Have: L_sum_c(a_3, c, v_1 - 1) = 0.
+  (* Else *)
+  Have: k < v_1.
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i <= k) ->
+      (0 <= a_3[shift_sint32(c, i)]))).
+  (* Invariant 'i_7' *)
+  Have: L_sum_c(a_3, c, k) = 0.
+  (* Invariant 'i_5' *)
+  Have: 0 <= x_5.
+  (* Invariant 'i_6' *)
+  Have: forall i : Z. ((0 <= i) -> ((i <= k) ->
+      (0 <= a_4[shift_sint32(c, i)]))).
+  (* Invariant 'i_10' *)
+  Have: L_sum_c(a_4, c, -1) = 0.
+  (* Invariant 'i_11' *)
+  Have: L_sum_c(a_4, c, k) = x_5.
+  (* Invariant 'i_13' *)
+  Have: P_sorted(a_4, b, 0, 0).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i <= k) ->
+      ((a_4[shift_sint32(c, i)] + L_sum_c(a_4, c, i - 1)) <= x_5))).
+  (* Invariant 'i_8' *)
+  Have: (0 <= v) /\ (v <= x_8).
+  (* Invariant 'i_9' *)
+  Have: (x_1 <= x_5) /\ (0 <= x_1).
+  (* Invariant 'i_10' *)
+  Have: L_sum_c(a_6, c, x) = x_1.
+  (* Invariant 'i_11' *)
+  Have: L_sum_c(a_6, c, k) = x_5.
+  (* Invariant 'i_12' *)
+  Have: forall i : Z. ((0 <= i) -> ((i <= k) ->
+      (0 <= a_6[shift_sint32(c, i)]))).
+  (* Invariant 'i_13' *)
+  Have: P_sorted(a_6, b, 0, x_1).
+  (* Invariant 'i_14' *)
+  Have: forall i : Z. let a_9 = a_6[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i < x_1) -> ((0 <= a_9) /\ (a_9 < v)))).
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i <= k) ->
+      ((a_6[shift_sint32(c, i)] + L_sum_c(a_6, c, i - 1)) <= x_5))).
+  (* Then *)
+  Have: v <= k.
+  (* Invariant 'i_15' *)
+  Have: 0 <= a_7.
+  (* Invariant 'i_18' *)
+  Have: (x_1 + a_7) <= x_5.
+  (* Invariant 'i_23' *)
+  Have: forall i : Z. let a_9 = a_6[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i < x_1) -> ((a_9 <= v) /\ (0 <= a_9)))).
+  (* Loop assigns ... *)
+  Have: memcpy(a_6, a_5, Mint_undef_3, a_5, x_5) = Mint_0.
+  (* Invariant 'i_15' *)
+  Have: pos_0 <= x_7.
+  (* Invariant 'i_17' *)
+  Have: x_1 = L_sum_c(Mint_0, c, x).
+  (* Invariant 'i_18' *)
+  Have: x_7 <= x_5.
+  (* Invariant 'i_19' *)
+  Have: (pos_0 <= x_5) /\ (x_1 <= pos_0).
+  (* Invariant 'i_20' *)
+  Have: P_sorted(Mint_0, b, 0, pos_0).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z. let x_10 = Mint_0[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i < x_1) -> ((0 <= x_10) /\ (x_10 < v)))).
+  (* Invariant 'i_22' *)
+  Have: forall i : Z. ((i < pos_0) -> ((x_1 <= i) ->
+      (Mint_0[shift_sint32(b, i)] = v))).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z. let x_10 = Mint_0[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i < pos_0) -> ((x_10 <= v) /\ (0 <= x_10)))).
+  (* Invariant 'i_28' *)
+  Have: forall i : Z. let a_9 = shift_sint32(c, i) in ((0 <= i) ->
+      ((i < v) -> (a_6[a_9] = Mint_0[a_9]))).
+  (* Then *)
+  Have: pos_0 < x_7.
+  (* Then *)
+  Have: pos_0 < x_5.
+  (* Invariant 'i_15' *)
+  Have: pos_0 < x_4.
+  (* Invariant 'i_18' *)
+  Have: x_4 <= x_5.
+  (* Invariant 'i_19' *)
+  Have: x_1 <= x_2.
+  (* Invariant 'i_20' *)
+  Have: P_sorted(m, b, 0, x_2).
+  (* Invariant 'i_21' *)
+  Have: forall i : Z. let x_10 = m[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i < x_1) -> ((0 <= x_10) /\ (x_10 < v)))).
+  (* Invariant 'i_22' *)
+  Have: forall i : Z. ((i <= pos_0) -> ((x_1 <= i) ->
+      (m[shift_sint32(b, i)] = v))).
+  (* Invariant 'i_23' *)
+  Have: forall i : Z. let x_10 = m[shift_sint32(b, i)] in ((0 <= i) ->
+      ((i <= pos_0) -> ((x_10 <= v) /\ (0 <= x_10)))).
+}
+Prove: L_sum_c(m, c, k) = x_5.
+[Available Assumptions] Loop D@counting_sort invariants: i_15: 0 <= j <= c[v]; i_16: pos == pos_start + j; i_17: pos_start == sum_c(c, v - 1); i_18: pos_start + c[v] <= n; i_19: 0 <= pos_start && pos_start <= pos && pos <= n; i_20: sorted(b, 0, pos); i_21: \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v; i_22: \forall integer i; pos_start <= i < pos ==> b[i] == v; i_23: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v; i_27: sum_c(c, k) == \at(sum_c(c, k), LoopEntry); i_28: \forall integer w; 0 <= w <= v - 1 ==> c[w] == \at(c[w], LoopEntry); i_29: sum_c(c, v - 1) == \at(sum_c(c, v - 1), LoopEntry); i_33: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry); i_34: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry); i_38: \separated(b + (0 .. n-1), c + (0 .. k)) and ! (!(j < c[v] && pos < n))
+Analyze the proof failure by answering the following items:
+    - Which proof property failed and what that property requires.
+    - Whether failed invariant itself is too strong or non-inductive with respect to the loop body.
+    - Whether the invariant(s) of D@counting_sort are too weak to imply the WP goal after the inner loop terminates.
+    - Which missing logical fact is needed to bridge the available assumptions and WP target.
+
+IMPORTANT RULES:
+1. Output only a diagnosis object using the following fields:
+```
+[Failed Property]
+...
+[Failure Cause]
+...
+[Responsible Scope]
+...
+[Refinement Direction]
+...
+```
+2. The [Failed Property] field must copy the input [Failed Property] exactly; it must name the proof property that failed, not restate the invariant formula.
+3. The responsible scope must be selected from D@counting_sort, D@counting_sort, or both.
+4. Boundary contracts may be cited as assumptions or targets, but must not be selected as repair targets.

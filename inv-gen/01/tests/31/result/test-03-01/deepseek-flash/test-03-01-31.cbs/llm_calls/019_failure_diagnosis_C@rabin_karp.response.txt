@@ -1,0 +1,14 @@
+[Failed Property]
+establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.
+
+[Failure Cause]
+i_24 asserts that every text element t[k] for 0 <= k < n is nonnegative. The incoming state only provides pointer validity for t, the bounds 0 < m <= n, and Loop B facts about p and hp; it gives no sign constraint on t. Thus the reduced WP goal 0 <= t[i] for an arbitrary i with 0 <= i < n is unprovable. The invariant is too strong for the available contract and is not established from the incoming state. It is not non-inductive with respect to the loop body in the sense of t being modified, since t is not assigned, but it cannot be initially established. The B@rabin_karp invariants are too weak only because they say nothing about t; they constrain p and the pattern hash, not the text array.
+
+[Responsible Scope]
+C@rabin_karp
+
+[Refinement Direction]
+The missing logical fact is a nonnegativity assumption on t, at least \forall integer k; 0 <= k < n ==> t[k] >= 0, or a weaker condition sufficient for the hash/mod invariants. Without adding such a contract assumption, i_24 must be removed or weakened because it is not derivable from the incoming state. Strengthening B@rabin_karp is not the right direction, since B concerns p rather than t.
+
+[Failed Property]
+establishment of i_24: the invariant must hold before the first loop iteration from the incoming program state.

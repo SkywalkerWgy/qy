@@ -1,0 +1,16 @@
+```
+[Failed Property]
+preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The target is to prove `processed_vertices_are_output` after the if-body updates `result[count] = v`, increments `count`, and sets `in_degree[v] = -1`. The proof requires a case split on the marked vertex:
+- For the newly marked vertex `v`, the new result entry at index `count` witnesses `appears_in_prefix(result, count+1, v)`.
+- For any other vertex `w != v` with `in_degree[w] == -1`, the old invariant gives a witness `i < count`. Since the update only changes `result[count]` and `in_degree[v]`, and `i < count`, the same witness remains valid in the new state.
+The available context lacks this explicit case analysis and the facts that `in_degree[w]` is unchanged for `w != v` and that `result[i]` is unchanged for `i < count`. Consequently, the SMT solver cannot instantiate the old invariant i_13 to discharge the new quantified goal.
+
+[Responsible Scope]
+B@topo_sort
+
+[Refinement Direction]
+The invariant i_13 is not too strong; it is a valid property of the algorithm. The failure is due to the proof not exposing the necessary case split on the updated vertex `v`. The Loop C invariants are not too weak for this goal; they are largely irrelevant because i_13 concerns only the relation between `in_degree` and `result`, which is modified only by the if-body of Loop B. The missing logical fact is: after the update, for `w = v` the witness is the new index `count`, and for `w != v` the old witness from i_13 remains valid because the arrays are unchanged at those positions.
+```

@@ -1,0 +1,258 @@
+
+/*@ axiomatic PowMod {
+    logic integer pow_mod(integer x, integer n, integer m);
+
+    axiom pow_0: \forall integer x, m; m > 0 ==> pow_mod(x, 0, m) == 1 ;
+
+    axiom pow_range: \forall integer x, n, m;
+        m > 0 && x >= 0 && n >= 0 ==> 0 <= pow_mod(x, n, m) < m;
+
+    axiom pow_base_mod: \forall integer x, n, m;
+        m > 0 ==> pow_mod(x, n, m) == pow_mod(x % m, n, m);
+
+    axiom pow_succ: \forall integer x, n, m;
+        m > 0 && n > 0 ==>
+        pow_mod(x, n, m) == ((x % m) * pow_mod(x, n - 1, m)) % m;
+    }
+ */
+
+/*@
+    lemma pow_loop_even: \forall integer r, b, e, m;
+        m > 0 && e > 0 && e % 2 == 0 ==>
+        (r * pow_mod(b, e, m)) % m ==
+        (r * pow_mod((b * b) % m, e / 2, m)) % m;
+
+    lemma pow_loop_odd: \forall integer r, b, e, m;
+        m > 0 && e % 2 == 1 ==>
+        (r * pow_mod(b, e, m)) % m ==
+        ((r * b % m) * pow_mod((b * b) % m, e / 2, m)) % m;
+ */
+
+/*@
+    requires m > 0;
+    requires x >= 0;
+    requires n >= 0;
+    assigns \nothing;
+    ensures 0 <= \result < m;
+    ensures \result == pow_mod(x, n, m);
+*/
+_Safe int fast_pow_mod(int x, int n, int m) {
+    int res = 1 % m;
+    int base = x % m;
+    int exp = n;
+
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= res < m;
+
+        loop invariant i_1: 0 <= base < m;
+
+        loop invariant i_2: exp >= 0;
+
+        loop invariant i_3: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m);
+
+
+        loop assigns res, base, exp;
+    */
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            res = (res * base) % m;
+            base = (base * base) % m;
+            exp = exp / 2;
+        }
+        else {
+            base = (base * base) % m;
+            exp = exp / 2;
+        }
+    }
+    return res;
+}
+
+/*@
+    lemma non_trivial_root: \forall integer x, n;
+        n > 2 && 1 < x < n - 1 && (x * x) % n == 1 ==>
+        \exists integer d; 1 < d < n && n % d == 0;
+ */
+
+/*@
+    requires n > 2 && n % 2 == 1;
+    requires 2 <= a < n;
+    requires d > 0 && s >= 0;
+    assigns \nothing;
+    ensures \result == 0 || \result == 1;
+    ensures \result == 0 ==> \exists integer d; 1 < d < n && n % d == 0;
+*/
+_Safe int miller_rabin_witness(int n, int a, int d, int s) {
+    int x = fast_pow_mod(a, d, n);
+
+    if (x == 1 || x == n - 1) return 1;
+
+        // Loop B
+/*@
+        loop invariant i_4: 0 <= x < n;
+
+        loop invariant i_5: x != 1 && x != n - 1;
+
+        loop invariant i_6: i >= 0;
+
+        loop invariant i_7: x == pow_mod(a, d * (1 << i), n);
+
+        loop invariant i_16: 0 <= x < n && x != 1 && x != n - 1;
+
+        loop invariant i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n);
+
+
+        loop assigns i, x;
+    */
+    for (int i = 0; i < s - 1; i++) {
+        int prev = x;
+        x = (x * x) % n;
+        if (x == n - 1) return 1;
+        if (x == 1) {
+            //@ assert prev * prev % n == 1;
+            //@ assert 1 < prev < n - 1;
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+/*@
+    requires n > 2 && n % 2 == 1;
+    assigns \nothing;
+    ensures \result == 0 || \result == 1;
+*/
+_Safe int miller_rabin(int n) {
+    int d = n - 1;
+    int s = 0;
+
+        // Loop C
+/*@
+        loop invariant i_8: d > 0;
+
+        loop invariant i_9: s >= 0;
+
+        loop invariant i_10: d * (1 << s) == n - 1;
+
+
+        loop assigns d, s;
+    */
+    while (d % 2 == 0) {
+        d = d / 2;
+        s = s + 1;
+    }
+
+    int a;
+        // Loop D
+/*@
+        loop invariant i_11: 2 <= a;
+
+        loop invariant i_12: a <= 8;
+
+        loop invariant i_13: d > 0;
+
+        loop invariant i_14: s >= 0;
+
+        loop invariant i_15: d * (1 << s) == n - 1;
+
+
+        loop assigns a;
+    */
+    for (a = 2; a < n && a < 8; a++) {
+        if (miller_rabin_witness(n, a, d, s) == 0) return 0;
+    }
+
+    return 1;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Diagnose why the following verification obligation cannot be discharged. Do not propose new invariants.
+[Failed Invariant] i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n)
+[Failed Property] establishment and preservation of i_17: the invariant must hold both at loop entry and after each loop-body iteration.
+[WP Target] --- Preservation Context ---
+Let x = L_pow_mod(a, d * lsl(1, i), n).
+Let x_1 = (x * x) % n.
+Let x_2 = 2 + i.
+Let x_3 = 1 + i.
+Let x_4 = L_pow_mod(a, d, n).
+Assume {
+  Type: is_sint32(a) /\ is_sint32(d) /\ is_sint32(i) /\ is_sint32(n) /\
+      is_sint32(s) /\ is_sint32(x_3) /\ is_sint32(x_4) /\ is_sint32(x) /\
+      is_sint32(x_1).
+  (* Pre-condition *)
+  Have: ((n % 2) = 1) /\ (3 <= n).
+  (* Pre-condition *)
+  Have: (a < n) /\ (2 <= a).
+  (* Pre-condition *)
+  Have: (0 < d) /\ (0 <= s).
+  (* Call 'fast_pow_mod' *)
+  Have: (0 < n) /\ (0 <= a) /\ (0 <= x_4) /\ (x_4 < n).
+  (* Else *)
+  Have: x_4 != 1.
+  (* Else *)
+  Have: (1 + x_4) != n.
+  (* Invariant 'i_17' *)
+  Have: ((x_4 * x_4) % n) = L_pow_mod(a, 2 * d, n).
+  (* Invariant 'i_4' *)
+  Have: (0 <= x) /\ (x < n).
+  (* Invariant 'i_5' *)
+  Have: (x != 1) /\ ((1 + x) != n).
+  (* Invariant 'i_6' *)
+  Have: 0 <= i.
+  (* Invariant 'i_17' *)
+  Have: x_1 = L_pow_mod(a, d * lsl(1, x_3), n).
+  (* Then *)
+  Have: x_2 <= s.
+  (* Else *)
+  Have: x_1 != 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= x_1) /\ (x_1 < n).
+  (* Invariant 'i_5' *)
+  Have: (1 + x_1) != n.
+  (* Invariant 'i_6' *)
+  Have: (-1) <= i.
+}
+Prove: ((x_1 * x_1) % n) = L_pow_mod(a, d * lsl(1, x_2), n).
+--- Establishment Context ---
+Let x = L_pow_mod(a, d, n).
+Assume {
+  Type: is_sint32(a) /\ is_sint32(d) /\ is_sint32(n) /\ is_sint32(s) /\
+      is_sint32(x).
+  (* Pre-condition *)
+  Have: ((n % 2) = 1) /\ (3 <= n).
+  (* Pre-condition *)
+  Have: (a < n) /\ (2 <= a).
+  (* Pre-condition *)
+  Have: (0 < d) /\ (0 <= s).
+  (* Call 'fast_pow_mod' *)
+  Have: (0 < n) /\ (0 <= a).
+  (* Else *)
+  Have: x != 1.
+  (* Else *)
+  Have: (1 + x) != n.
+  (* Invariant 'i_4' *)
+  Have: (0 <= x) /\ (x < n).
+}
+Prove: ((x * x) % n) = L_pow_mod(a, 2 * d, n).
+[Available Assumptions] Loop B@miller_rabin_witness invariants: i_4: 0 <= x < n; i_5: x != 1 && x != n - 1; i_6: i >= 0; i_7: x == pow_mod(a, d * (1 << i), n); i_16: 0 <= x < n && x != 1 && x != n - 1; i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n) and ! (i < s - 1)
+Analyze the proof failure by answering the following items:
+    - Which proof property failed and what that property requires.
+    - Whether failed invariant itself is too strong or non-inductive with respect to the loop body.
+    - Whether the invariant(s) of B@miller_rabin_witness are too weak to imply the WP goal after the inner loop terminates.
+    - Which missing logical fact is needed to bridge the available assumptions and WP target.
+
+IMPORTANT RULES:
+1. Output only a diagnosis object using the following fields:
+```
+[Failed Property]
+...
+[Failure Cause]
+...
+[Responsible Scope]
+...
+[Refinement Direction]
+...
+```
+2. The [Failed Property] field must copy the input [Failed Property] exactly; it must name the proof property that failed, not restate the invariant formula.
+3. The responsible scope must be selected from B@miller_rabin_witness, B@miller_rabin_witness, or both.
+4. Boundary contracts may be cited as assumptions or targets, but must not be selected as repair targets.

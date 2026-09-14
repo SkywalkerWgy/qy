@@ -1,0 +1,15 @@
+Loop A@ext_gcd:
+  i_0: r0 >= 0 && r1 >= 0
+  i_1: a * s0 + b * t0 == r0
+  i_2: a * s1 + b * t1 == r1
+  i_3: gcd(r0, r1) == gcd(a, b)
+Loop B@crt:
+  i_4: 0 <= i <= n
+  i_5: M == product(m, i)
+  i_6: M > 0
+Loop C@crt:
+  i_7: 0 <= i && i <= n
+  i_8: M == product(m, n)
+  i_9: M > 0
+  i_10: 0 <= result && result < M
+  i_11: crt_prefix(a, m, i, result)

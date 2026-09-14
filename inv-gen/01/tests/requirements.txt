@@ -1,0 +1,2 @@
+# Conventional pip filename; the locked dependency set lives in requirement.txt.
+-r requirement.txt

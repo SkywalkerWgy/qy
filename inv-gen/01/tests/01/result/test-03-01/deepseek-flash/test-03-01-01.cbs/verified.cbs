@@ -1,0 +1,45 @@
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
+/*@ requires n >= 0;
+    requires \valid(base + (0 .. n-1));
+    requires \forall integer k1, integer k2; 0 <= k1 < k2 < n ==> base[k1] < base[k2];
+
+    assigns \nothing;
+
+    ensures \result == \null ==>
+            \forall integer i; 0 <= i < n ==> base[i] != key;
+    ensures \result != \null ==>
+            \exists integer i; 0 <= i < n && base[i] == key && \result == (base + i);
+*/
+_Safe int *_binary_search(int base[_Nonnull], int n, int key) {
+    int l = 0;
+    int h = n - 1;
+
+        // Loop A
+/*@
+        loop invariant i_0: 0 <= l <= h + 1 <= n;
+
+        loop invariant i_1: \forall integer i; 0 <= i < l ==> base[i] < key;
+
+        loop invariant i_2: \forall integer i; h < i < n ==> base[i] > key;
+
+
+        loop assigns l, h;
+    */
+    while (l <= h) {
+        int m = l + (h - l) / 2;
+        int val = base[m];
+
+        if (val < key) {
+            l = m + 1;
+        } else if (val > key) {
+            h = m - 1;
+        } else {
+            return base + m;
+        }
+    }
+
+    return nullptr;
+}

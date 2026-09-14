@@ -1,0 +1,4 @@
+Loop A@NULL:
+  i_0: 0 <= l <= h + 1 <= n
+  i_1: \forall integer i; 0 <= i < l ==> base[i] < key
+  i_2: \forall integer i; h < i < n ==> base[i] > key

@@ -1,0 +1,3 @@
+loop invariant i >= -1;
+loop invariant i <= degree - 1;
+loop invariant res == poly_val2(coeff, i + 1, degree, x);

@@ -1,0 +1,30 @@
+Loop A@_bellmanford:
+  i_0: 1 <= i <= n
+  i_1: dist[start] == 0
+  i_2: \forall integer v; 0 <= v < n ==> dist[v] >= 0
+  i_3: \forall integer v; 0 <= v < n ==> finite_distance_bound(dist[v], i-1)
+  i_4: \forall integer v; 0 <= v < n ==> parent_edge(edges, e, parent, v)
+  i_5: has_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1)
+  i_6: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1)
+  i_22: \forall integer from, to, len, cost; len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==> path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e)
+Loop B@_bellmanford:
+  i_7: 0 <= k <= n
+  i_8: \forall integer x; 0 <= x < k ==> prev[x] == dist[x]
+Loop C@_bellmanford:
+  i_9: 0 <= j <= e
+  i_10: dist[start] == 0
+  i_11: \forall integer v; 0 <= v < n ==> dist[v] >= 0
+  i_12: \forall integer v; 0 <= v < n ==> finite_distance_bound(dist[v], i)
+  i_13: \forall integer v; 0 <= v < n ==> parent_edge(edges, e, parent, v)
+  i_14: has_paths_up_to{Here,Here}(edges, e, n, start, dist, i)
+  i_15: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1)
+  i_16: \forall integer v, c; 0 <= v < n && 0 <= c < INF && path_cost_len_last_before{Here}(edges, e, start, v, i, c, j) ==> dist[v] <= c
+  i_17: prev[start] == 0
+  i_18: \forall integer v; 0 <= v < n ==> finite_distance_bound(prev[v], i-1)
+  i_23: \forall integer from, to, len, cost; len > 0 && path_cost_len{Here}(edges, e, from, to, len, cost) ==> path_cost_len_last_before{Here}(edges, e, from, to, len, cost, e)
+  i_24: has_paths_up_to{Here,Here}(edges, e, n, start, prev, i-1)
+  i_25: \forall integer v; 0 <= v < n ==> dist[v] <= prev[v]
+  i_26: \forall integer v; 0 <= v < n ==> prev[v] == \at(dist[v], LoopEntry)
+  i_27: \forall integer v; 0 <= v < n ==> dist[v] <= \at(dist[v], LoopEntry)
+  i_28: \forall integer k; 0 <= k < e ==> edges[k].u == \at(edges[k].u, LoopEntry) && edges[k].v == \at(edges[k].v, LoopEntry) && edges[k].weight == \at(edges[k].weight, LoopEntry)
+  i_29: upper_bounds_paths_up_to{Here,Here}(edges, e, n, start, prev, i-1)

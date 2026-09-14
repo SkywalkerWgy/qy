@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= l <= h + 1 <= n;
+loop invariant \forall integer i; 0 <= i < l ==> base[i] < key;
+loop invariant \forall integer i; h < i < n ==> base[i] > key;
+```

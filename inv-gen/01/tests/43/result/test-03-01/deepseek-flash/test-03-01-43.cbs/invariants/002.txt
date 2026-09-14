@@ -1,0 +1,10 @@
+Loop A@_heapify:
+  i_0: n >= 0
+  i_1: \valid(a + (0..(n - 1)))
+  i_2: 0 <= dad < n
+  i_3: leftson == 2 * dad + 1
+  i_4: rightson == 2 * dad + 2
+  i_5: is_max3(a, dad, leftson, rightson, n, swapindex)
+  i_6: 0 <= swapindex < n
+  i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) )
+  i_8: dad > 0 ==> a[(dad - 1) / 2] >= a[swapindex]

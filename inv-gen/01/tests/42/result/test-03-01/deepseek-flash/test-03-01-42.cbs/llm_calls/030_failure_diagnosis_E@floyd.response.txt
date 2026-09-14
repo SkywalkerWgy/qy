@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_32: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The failing obligation tries to re-establish i_32 after the inner j-loop body increments j. i_32 is unguarded: it asserts dist[k][j] <= graph[k][j] for the current j. The loop condition before the body only gives j < n; after the body j becomes j+1, so the VC requires dist[k][j+1] <= graph[k][j+1] even when j+1 = n. At that point the access is out of bounds, and the existing no_larger_than_graph invariant (i_23) only covers indices < n. The body only updates column j, so it cannot establish the property for column j+1. Thus i_32 is too strong/non-inductive at the boundary; it lacks the guard j < n. The guarded i_37 already covers the valid-index case.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The missing logical fact is j+1 < n (equivalently j < n-1). For j+1 < n, the target follows directly from i_23 (no_larger_than_graph), since dist and graph are related for all valid indices. The failure occurs only when j = n-1 and j+1 = n, where the invariant would refer to an out-of-bounds column. Therefore the invariant's scope must be restricted to valid j; the unguarded i_32 should not be required at j = n. No new invariant is needed; use the already-present guarded form i_37 for the valid case and treat the boundary as vacuous.

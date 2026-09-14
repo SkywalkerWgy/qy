@@ -1,0 +1,434 @@
+
+/* A parameterized N-Queens solver.
+ *
+ * The board is a caller-provided flat n*n integer array.  Cell (r,c) is
+ * board[r*n + c].  A queen is encoded by 1, an empty square by 0.
+ */
+
+/*@
+  logic integer idx(integer n, integer row, integer col) = row * n + col;
+  logic integer abs_int(integer x) = x < 0 ? -x : x;
+
+  predicate valid_board(integer n, int *board) =
+    1 <= n <= 46340 &&
+    \valid(board + (0 .. n * n - 1));
+
+  predicate binary_board{L}(integer n, int *board) =
+    \forall integer r, c; 0 <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0 ||
+      \at(board[idx(n, r, c)], L) == 1;
+
+  predicate zero_board{L}(integer n, int *board) =
+    \forall integer r, c; 0 <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0;
+
+  predicate one_queen_in_row{L}(integer n, int *board, integer row) =
+    0 <= row < n &&
+    \exists integer col;
+      0 <= col < n &&
+      \at(board[idx(n, row, col)], L) == 1 &&
+      (\forall integer j; 0 <= j < n && j != col ==>
+        \at(board[idx(n, row, j)], L) == 0);
+
+  predicate rows_solved{L}(integer n, int *board, integer row_limit) =
+    0 <= row_limit <= n &&
+    \forall integer r; 0 <= r < row_limit ==>
+      one_queen_in_row{L}(n, board, r);
+
+  predicate rows_empty_from{L}(integer n, int *board, integer row_start) =
+    0 <= row_start <= n &&
+    \forall integer r, c; row_start <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0;
+
+  predicate no_attack_prefix{L}(integer n, int *board, integer row_limit) =
+    0 <= row_limit <= n &&
+    \forall integer r1, c1, r2, c2;
+      0 <= r1 < r2 < row_limit && 0 <= c1 < n && 0 <= c2 < n &&
+      \at(board[idx(n, r1, c1)], L) == 1 &&
+      \at(board[idx(n, r2, c2)], L) == 1 ==>
+        c1 != c2 && abs_int(r1 - r2) != abs_int(c1 - c2);
+
+  predicate safe_position{L}(integer n, int *board,
+                             integer row, integer col) =
+    0 <= row < n && 0 <= col < n &&
+    \forall integer r, c;
+      0 <= r < row && 0 <= c < n &&
+      \at(board[idx(n, r, c)], L) == 1 ==>
+        c != col && abs_int(row - r) != abs_int(col - c);
+
+  predicate n_queen_solution{L}(integer n, int *board) =
+    binary_board{L}(n, board) &&
+    rows_solved{L}(n, board, n) &&
+    no_attack_prefix{L}(n, board, n);
+
+  lemma rows_solved_frame{L1,L2}:
+    \forall int *board, integer n, row_limit;
+      1 <= n && 0 <= row_limit <= n &&
+      rows_solved{L1}(n, board, row_limit) &&
+      (\forall integer r, c;
+        0 <= r < row_limit && 0 <= c < n ==>
+          \at(board[idx(n, r, c)], L2) ==
+          \at(board[idx(n, r, c)], L1))
+      ==> rows_solved{L2}(n, board, row_limit);
+
+  lemma rows_solved_extend{L}:
+    \forall int *board, integer n, row_limit;
+      1 <= n && 0 <= row_limit < n &&
+      rows_solved{L}(n, board, row_limit) &&
+      one_queen_in_row{L}(n, board, row_limit)
+      ==> rows_solved{L}(n, board, row_limit + 1);
+*/
+
+/*@
+  requires valid_board(n, board);
+  assigns board[0 .. n * n - 1];
+  ensures zero_board{Here}(n, board);
+*/
+_Safe void clear_board(int n, int board[_Nonnull ])
+{
+    int i = 0;
+
+      // Loop A
+/*@
+      loop invariant i_0: valid_board(n, board);
+
+      loop invariant i_1: 0 <= i <= n * n;
+
+      loop invariant i_2: \forall integer k; 0 <= k < i ==> board[k] == 0;
+
+
+      loop assigns i, board[0 .. n * n - 1];
+      loop variant n * n - i;
+    */
+    while (i < n * n) {
+        board[i] = 0;
+        i++;
+    }
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires 0 <= col < n;
+  assigns \nothing;
+  ensures \result == 0 || \result == 1;
+  ensures \result == 1 ==> safe_position{Here}(n, board, row, col);
+*/
+_Safe int is_safe(int n, int board[_Nonnull ], int row, int col)
+{
+    int r = 0;
+
+      // Loop B
+/*@
+      loop invariant i_3: 0 <= r <= row;
+
+      loop invariant i_4: valid_board(n, board);
+
+      loop invariant i_5: \forall integer r1, c1; 0 <= r1 < r && 0 <= c1 < n && board[idx(n, r1, c1)] == 1 ==> c1 != col && abs_int(row - r1) != abs_int(col - c1);
+
+
+      loop assigns r;
+      loop variant row - r;
+    */
+    while (r < row) {
+        int c = 0;
+
+              // Loop C
+/*@
+          loop invariant i_6: 0 <= c <= n;
+
+          loop invariant i_7: valid_board(n, board);
+
+          loop invariant i_8: \forall integer c1; 0 <= c1 < c && board[idx(n, r, c1)] == 1 ==> c1 != col && abs_int(row - r) != abs_int(col - c1);
+
+
+          loop assigns c;
+          loop variant n - c;
+        */
+        while (c < n) {
+            if (board[r * n + c] == 1) {
+                if (c == col) {
+                    return 0;
+                }
+                if (row - r == col - c || row - r == c - col) {
+                    return 0;
+                }
+            }
+            c++;
+        }
+        r++;
+    }
+
+    return 1;
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires 0 <= col < n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires no_attack_prefix{Pre}(n, board, row);
+  requires rows_empty_from{Pre}(n, board, row);
+  requires safe_position{Pre}(n, board, row, col);
+  assigns board[row * n .. row * n + n - 1];
+
+  ensures binary_board{Here}(n, board);
+  ensures rows_solved{Here}(n, board, row + 1);
+  ensures no_attack_prefix{Here}(n, board, row + 1);
+  ensures rows_empty_from{Here}(n, board, row + 1);
+*/
+_Safe void place_queen(int n, int board[_Nonnull ], int row, int col)
+{
+    int j = 0;
+
+      // Loop D
+/*@
+      loop invariant i_9: 0 <= j <= n;
+
+      loop invariant i_10: valid_board(n, board);
+
+      loop invariant i_11: binary_board(n, board);
+
+      loop invariant i_12: rows_solved(n, board, row);
+
+      loop invariant i_13: no_attack_prefix(n, board, row);
+
+      loop invariant i_14: rows_empty_from(n, board, row + 1);
+
+      loop invariant i_15: safe_position(n, board, row, col);
+
+      loop invariant i_16: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+
+      loop invariant i_17: \forall integer k; 0 <= k < j ==> board[idx(n, row, k)] == (k == col ? 1 : 0);
+
+      loop invariant i_18: \forall integer k; j <= k < n ==> board[idx(n, row, k)] == 0;
+
+      loop invariant i_35: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> idx(n, r, c) != idx(n, row, j);
+
+      loop invariant i_36: j < n ==> \forall integer r, c; row < r && r < n && 0 <= c < n ==> idx(n, r, c) != idx(n, row, j);
+
+      loop invariant i_37: j < n ==> \forall integer r, c; row + 1 <= r < n && 0 <= c < n ==> idx(n, r, c) != idx(n, row, j);
+
+      loop invariant i_38: j < n ==> row * n + j < (row + 1) * n;
+
+      loop invariant i_39: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> r * n + k != row * n + j;
+
+      loop invariant i_40: no_attack_prefix(n, board, row) && \forall integer r, c; 0 <= r < row && 0 <= c < n ==> r * n + c != row * n + j;
+
+      loop invariant i_43: \forall integer k; 0 <= k < n ==> idx(n, row, k) < idx(n, row + 1, 0);
+
+      loop invariant i_44: \forall integer r, c, k; 0 <= r < row && 0 <= c < n && 0 <= k <= n ==> idx(n, r, c) != idx(n, row, k);
+
+      loop invariant i_45: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> idx(n, r, k) != idx(n, row, j);
+
+      loop invariant i_48: \forall integer r, c; row + 1 <= r < n && 0 <= c < n ==> idx(n, row + 1, 0) <= idx(n, r, c);
+
+      loop invariant i_49: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> r * n + k < row * n;
+
+      loop invariant i_52: \forall integer r; 0 <= r < row ==> r * n + n <= row * n;
+
+      loop invariant i_53: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> k + r * n < row * n;
+
+      loop invariant i_58: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> idx(n, r, k) < idx(n, row, j);
+
+      loop invariant i_59: \forall integer r; 0 <= r < row ==> n + r * n <= n * row;
+
+      loop invariant i_60: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> k + r * n < n * (r + 1) && n * (r + 1) <= n * row;
+
+      loop invariant i_61: 1 <= n;
+
+
+      loop assigns j, board[row * n .. row * n + n - 1];
+      loop variant n - j;
+    */
+    while (j < n) {
+        if (j == col) {
+            board[row * n + j] = 1;
+        } else {
+            board[row * n + j] = 0;
+        }
+        j++;
+    }
+
+    //@ assert \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+    //@ assert rows_solved(n, board, row);
+    //@ assert board[idx(n, row, col)] == 1;
+    //@ assert \forall integer k; 0 <= k < n && k != col ==> board[idx(n, row, k)] == 0;
+    //@ assert one_queen_in_row(n, board, row);
+    //@ assert \forall integer r; 0 <= r < row ==> one_queen_in_row(n, board, r);
+    //@ assert \forall integer r; 0 <= r < row + 1 ==> one_queen_in_row(n, board, r);
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires rows_solved{Pre}(n, board, row + 1);
+  requires no_attack_prefix{Pre}(n, board, row + 1);
+  requires rows_empty_from{Pre}(n, board, row + 1);
+  assigns board[row * n .. row * n + n - 1];
+
+  ensures binary_board{Here}(n, board);
+  ensures rows_solved{Here}(n, board, row);
+  ensures no_attack_prefix{Here}(n, board, row);
+  ensures rows_empty_from{Here}(n, board, row);
+*/
+_Safe void clear_row(int n, int board[_Nonnull ], int row)
+{
+    int j = 0;
+
+      // Loop E
+/*@
+      [Hint] Please refine the loop invariants in the repair scope.
+
+      loop invariant i_19: 0 <= j <= n;
+
+      loop invariant i_20: valid_board(n, board);
+
+      loop invariant i_21: 0 <= row < n;
+
+      loop invariant i_22: binary_board(n, board);
+
+      loop invariant i_23: rows_solved(n, board, row);
+
+      loop invariant i_24: no_attack_prefix(n, board, row);
+
+      loop invariant i_25: rows_empty_from(n, board, row + 1);
+
+      loop invariant i_26: \forall integer k; 0 <= k < j ==> board[idx(n, row, k)] == 0;
+
+      loop invariant i_27: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+
+      loop invariant i_41: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> idx(n, r, c) != idx(n, row, j);
+
+      loop invariant i_42: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> r * n + c < row * n + j;
+
+      loop invariant i_46: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> r * n + c < row * n;
+
+      loop invariant i_47: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> idx(n, r, c) < idx(n, row, j);
+
+      loop invariant i_50: \forall integer r, c; 0 <= r && r < row && 0 <= c && c < n ==> c + r * n < row * n;
+
+      loop invariant i_51: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> c + r * n < row * n + j;
+
+      loop invariant i_54: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> c + r * n < n * row;
+
+      loop invariant i_55: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> c + r * n < n * row + j;
+
+      loop invariant i_56: \forall integer r, c; 0 <= r && r < row && 0 <= c && c < n ==> c + r * n < n * row;
+
+      loop invariant i_57: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> c + n * r < n * row + j;
+
+      loop invariant i_62: \forall integer r; 0 <= r < row ==> r * n + n <= row * n;
+
+      loop invariant i_63: 1 <= n;
+
+
+      loop assigns j, board[row * n .. row * n + n - 1];
+      loop variant n - j;
+    */
+    while (j < n) {
+        board[row * n + j] = 0;
+        j++;
+    }
+
+    //@ assert \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+    //@ assert rows_solved(n, board, row);
+    //@ assert \forall integer k; 0 <= k < n ==> board[idx(n, row, k)] == 0;
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row <= n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires no_attack_prefix{Pre}(n, board, row);
+  requires rows_empty_from{Pre}(n, board, row);
+  assigns board[row * n .. n * n - 1];
+
+  ensures \result == 0 || \result == 1;
+  ensures \result == 1 ==> n_queen_solution{Here}(n, board);
+  ensures \result == 0 ==> binary_board{Here}(n, board);
+  ensures \result == 0 ==> rows_solved{Here}(n, board, row);
+  ensures \result == 0 ==> no_attack_prefix{Here}(n, board, row);
+  ensures \result == 0 ==> rows_empty_from{Here}(n, board, row);
+*/
+_Safe int solve_from_row(int n, int board[_Nonnull ], int row)
+{
+    if (row == n) {
+        return 1;
+    }
+
+    int col = 0;
+
+      // Loop F
+/*@
+      loop invariant i_28: valid_board(n, board);
+
+      loop invariant i_29: 0 <= row < n;
+
+      loop invariant i_30: 0 <= col <= n;
+
+      loop invariant i_31: binary_board(n, board);
+
+      loop invariant i_32: rows_solved(n, board, row);
+
+      loop invariant i_33: no_attack_prefix(n, board, row);
+
+      loop invariant i_34: rows_empty_from(n, board, row);
+
+
+      loop assigns col, board[row * n .. n * n - 1];
+      loop variant n - col;
+    */
+    while (col < n) {
+        if (is_safe(n, board, row, col)) {
+            //@ assert row < n;
+            //@ assert row * n + n <= n * n;
+            place_queen(n, board, row, col);
+            //@ assert (row + 1) * n <= n * n;
+            if (solve_from_row(n, board, row + 1)) {
+                return 1;
+            }
+            clear_row(n, board, row);
+        }
+        col++;
+    }
+
+    return 0;
+}
+
+/*@
+  requires valid_board(n, board);
+  assigns board[0 .. n * n - 1];
+
+  ensures \result == 0 || \result == 1;
+  ensures binary_board{Here}(n, board);
+  ensures \result == 1 ==> n_queen_solution{Here}(n, board);
+*/
+_Safe int _n_queen(int n, int board[_Nonnull ])
+{
+    clear_board(n, board);
+    return solve_from_row(n, board, 0);
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_55: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> c + r * n < n * row + j
+[Failed Property] preservation of i_55: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[Failure Cause] The invariant i_55 is inductive by itself: after `j++`, the right-hand side `n*row + j` increases, so the strict inequality `c + r*n < n*row + j` remains true. The proof fails because the available pre-state invariant i_57 is written as `c + n*r < n*row + j`, while the WP target uses `c + r*n <= n*row + j`. The solver cannot match `n*r` with `r*n` without applying the commutativity of multiplication. The invariant is not too strong; it is logically equivalent to i_57. The invariants of E@clear_row are not too weak; they already contain the necessary inequality in i_57. The gap is purely a syntactic arithmetic mismatch.
+[Repair Scope] E@clear_row
+[Refinement Direction] The missing logical fact is the commutativity of integer multiplication (`r * n = n * r`) together with the implication from strict `<` to non-strict `<=`. The proof requires normalizing the arithmetic term ordering or providing an explicit lemma for multiplication commutativity to instantiate i_57 and derive the WP target.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in E@clear_row.
+2. Your answer should follow the following format:
+```
+[Loop E@clear_row]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

@@ -1,0 +1,78 @@
+
+#define m 10
+#define n 10
+
+/*@
+    predicate is_min3(integer a, integer b, integer c, integer result) =
+        result <= a &&
+        result <= b &&
+        result <= c &&
+        (result == a || result == b || result == c);
+*/
+
+
+/*@
+    assigns \nothing;
+    ensures is_min3(a, b, c, \result);
+*/
+_Safe int min3(int a, int b, int c) {
+  int min_val = a;
+  if (b < min_val) min_val = b;
+  if (c < min_val) min_val = c;
+  return min_val;
+}
+
+
+/*@
+    requires \valid_read(s);
+    requires \valid_read(t);
+    requires \valid(s+(0..(m - 1)));
+    requires \valid(t+(0..(n - 1)));
+    requires \valid(dp + (0..(m)));
+    requires \valid(dp[0..(m)] + (0..(n)));
+    requires \forall integer i, j; 0 <= i <= m && 0 <= j <= m && i != j ==> \separated(&dp[i] + (0..(n)), &dp[j] + (0..(n)), &s[0..(n - 1)], &t);
+    requires \forall integer k; 0 <= k <= n ==> dp[0][k] == k;
+    requires \forall integer k; 0 <= k <= m ==> dp[k][0] == k;
+    ensures \forall integer k; 0 <= k <= n ==> dp[0][k] == k;
+    ensures \forall integer k; 0 <= k <= m ==> dp[k][0] == k;
+    ensures \forall integer p, q; 1 <= p <= m && 1 <= q <= n ==> is_min3(dp[p - 1][q - 1] + (s[p - 1] == t[q - 1] ? 0 : 1), dp[p - 1][q] + 1, dp[p][q - 1] + 1, dp[p][q]);
+    assigns dp[0..(m)][0..(n)];
+*/
+_Safe int _edit_distance(const char *_Nonnull s, const char *_Nonnull t, int dp[_Nonnull m + 1][n + 1]) {
+    int i = 1, j = 1;
+
+        // Loop A
+/*@
+        [Hint] Please infer the loop invariant for the following loop.
+
+        loop assigns dp[1..(m)][1..(n)], i, j;
+    */
+    for (i = 1; i <= m; i++) {
+                // Loop B
+/*@
+            loop assigns dp[i][1..(n)], j;
+        */
+        for (j = 1; j <= n; j++) {
+            dp[i][j] = min3(dp[i - 1][j - 1] + (s[i - 1] == t[j - 1] ? 0 : 1), dp[i - 1][j] + 1, dp[i][j - 1] + 1);
+        }
+    }
+    return dp[m][n];
+}
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { r_1: \valid_read(s); r_2: \valid_read(t); r_3: \valid(s+(0..(m - 1))); r_4: \valid(t+(0..(n - 1))); r_5: \valid(dp + (0..(m))); r_6: \valid(dp[0..(m)] + (0..(n))); r_7: \forall integer i, j; 0 <= i <= m && 0 <= j <= m && i != j ==> \separated(&dp[i] + (0..(n)), &dp[j] + (0..(n)), &s[0..(n - 1)], &t); r_8: \forall integer k; 0 <= k <= n ==> dp[0][k] == k; r_9: \forall integer k; 0 <= k <= m ==> dp[k][0] == k } int i = 1, j = 1; i = 1; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( i <= m ) } return dp[m][n]; { e_1: \forall integer k; 0 <= k <= n ==> dp[0][k] == k; e_2: \forall integer k; 0 <= k <= m ==> dp[k][0] == k; e_3: \forall integer p, q; 1 <= p <= m && 1 <= q <= n ==> is_min3(dp[p - 1][q - 1] + (s[p - 1] == t[q - 1] ? 0 : 1), dp[p - 1][q] + 1, dp[p][q - 1] + 1, dp[p][q]) }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

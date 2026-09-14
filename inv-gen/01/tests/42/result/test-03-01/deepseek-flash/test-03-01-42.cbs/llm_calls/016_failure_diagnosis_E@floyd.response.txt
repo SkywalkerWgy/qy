@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_29: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The proof obligation requires re-establishing invariant i_29 after the inner-loop body. The invariant i_29 relates `\at(dist[a][b], LoopEntry)` to the current `graph` values. The WP goal after the body uses `graph` values from the updated state (`Mint_1`), whereas the i_29 assumption uses `graph` values from the pre-state (`a_4`/`Mint_0`). The proof cannot discharge the goal because it lacks the fact that the loop body does not modify `graph`, i.e., that `graph` values are identical before and after the update. Without this equality, the i_29 assumption cannot be instantiated to match the goal.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+Use the existing frame condition (`assigns` clause and the `\separated` precondition) together with invariant i_30 to derive that `graph` is unchanged by the loop body. In particular, establish `\at(graph[a][m], Here) == \at(graph[a][m], LoopEntry)` for the indices used in the goal. This will allow the i_29 assumption to be applied directly. Do not add new invariants; rely on the existing i_30 and separation.

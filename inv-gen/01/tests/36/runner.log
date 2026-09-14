@@ -1,0 +1,26 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-36.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1951
+INFO | [INIT] functions=uf_init, uf_find, uf_union loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@uf_init prompt=llm_calls/001_initial_reasoning_A@uf_init.prompt.txt response=llm_calls/001_initial_reasoning_A@uf_init.response.txt response_chars=178
+INFO | [LLM 001] response_preview=``` loop invariant 0 <= i && i <= n; loop invariant \forall integer k; 0 <= k && k < i ==> parent[k] == k; loop invariant \forall integer k; 0 <= k && k < i ==> rank[k] == 0; ```
+INFO | [APPLY] loop=A@uf_init added=3
+INFO |   + i_0: 0 <= i && i <= n
+INFO |   + i_1: \forall integer k; 0 <= k && k < i ==> parent[k] == k
+INFO |   + i_2: \forall integer k; 0 <= k && k < i ==> rank[k] == 0
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@uf_find prompt=llm_calls/002_initial_reasoning_B@uf_find.prompt.txt response=llm_calls/002_initial_reasoning_B@uf_find.response.txt response_chars=100
+INFO | [LLM 002] response_preview=loop invariant 0 <= x && x < n; loop invariant \forall integer i; 0 <= i < n ==> 0 <= parent[i] < n;
+INFO | [APPLY] loop=B@uf_find added=2
+INFO |   + i_3: 0 <= x && x < n
+INFO |   + i_4: \forall integer i; 0 <= i < n ==> 0 <= parent[i] < n
+INFO | [INVARIANTS] total=5 loops=A@uf_init:3, B@uf_find:2 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-36_verified_1.cbs invariants=5
+INFO | [FRAMAC] attempt=1 result=Pass_45_45 stdout=test-03-01-36_verified_1_Pass_45_45.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-36_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 43.84256911277771
+INFO | ------------------------

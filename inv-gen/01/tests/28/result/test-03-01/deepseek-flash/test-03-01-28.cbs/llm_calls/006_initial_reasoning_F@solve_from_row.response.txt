@@ -1,0 +1,9 @@
+```
+loop invariant valid_board(n, board);
+loop invariant 0 <= row < n;
+loop invariant 0 <= col <= n;
+loop invariant binary_board(n, board);
+loop invariant rows_solved(n, board, row);
+loop invariant no_attack_prefix(n, board, row);
+loop invariant rows_empty_from(n, board, row);
+```

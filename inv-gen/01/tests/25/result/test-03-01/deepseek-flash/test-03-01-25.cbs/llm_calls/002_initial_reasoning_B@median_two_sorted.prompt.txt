@@ -1,0 +1,257 @@
+
+/*@
+  axiomatic CountLeq {
+    logic integer count_leq{L}(int* arr, integer len, integer x);
+    axiom base{L}: \forall int* arr, integer x;
+        count_leq(arr, 0, x) == 0;
+    axiom step{L}: \forall int* arr, integer len, integer x;
+        len > 0 ==>
+        count_leq(arr, len, x) ==
+        (arr[len-1] <= x ? 1 : 0) + count_leq(arr, len-1, x);
+  }
+*/
+
+/*@
+  lemma sorted_range{L}: \forall int* arr, integer n, integer p, integer q;
+    0 <= p <= q < n &&
+    (\forall integer k; 0 <= k < n-1 ==> arr[k] <= arr[k+1])
+    ==> arr[p] <= arr[q];
+
+  lemma too_high_suffix{L}: \forall int* a, int* b, integer n, integer i, integer k;
+    0 < i <= k <= n &&
+    (\forall integer t; 0 <= t < n-1 ==> a[t] <= a[t+1]) &&
+    (\forall integer t; 0 <= t < n-1 ==> b[t] <= b[t+1]) &&
+    a[i-1] > b[n-i]
+    ==> a[k-1] > b[n-k];
+
+  lemma too_low_prefix{L}: \forall int* a, int* b, integer n, integer i, integer k;
+    0 <= k <= i < n &&
+    (\forall integer t; 0 <= t < n-1 ==> a[t] <= a[t+1]) &&
+    (\forall integer t; 0 <= t < n-1 ==> b[t] <= b[t+1]) &&
+    b[n-i-1] > a[i]
+    ==> b[n-k-1] > a[k];
+
+  lemma count_leq_sorted_lower{L}: \forall int* arr, integer n, integer k, integer x;
+    0 <= k <= n &&
+    \valid_read(arr + (0 .. n-1)) &&
+    (\forall integer r; 0 <= r < n ==> -2147483648 <= arr[r] <= 2147483647) &&
+    (\forall integer i; 0 <= i < n-1 ==> arr[i] <= arr[i+1]) &&
+    (k == 0 || arr[k-1] <= x)
+    ==>
+    count_leq(arr, n, x) >= k;
+
+  lemma count_leq_sorted_upper{L}: \forall int* arr, integer n, integer k, integer x;
+    0 <= k <= n &&
+    \valid_read(arr + (0 .. n-1)) &&
+    (\forall integer r; 0 <= r < n ==> -2147483648 <= arr[r] <= 2147483647) &&
+    (\forall integer i; 0 <= i < n-1 ==> arr[i] <= arr[i+1]) &&
+    (k == n || arr[k] > x)
+    ==>
+    count_leq(arr, n, x) <= k;
+
+  lemma count_leq_sorted_strict{L}: \forall int* arr, integer n, integer k, integer x, integer val;
+    0 < k <= n &&
+    \valid_read(arr + (0 .. n-1)) &&
+    (\forall integer r; 0 <= r < n ==> -2147483648 <= arr[r] <= 2147483647) &&
+    (\forall integer i; 0 <= i < n-1 ==> arr[i] <= arr[i+1]) &&
+    arr[k-1] == val &&
+    x < val
+    ==>
+    count_leq(arr, n, x) <= k - 1;
+*/
+
+/*@
+  requires n > 0;
+  requires \valid_read(a + (0..n-1));
+  requires \valid_read(b + (0..n-1));
+  requires \forall integer r; 0 <= r < n ==> -2147483648 <= a[r] <= 2147483647;
+  requires \forall integer r; 0 <= r < n ==> -2147483648 <= b[r] <= 2147483647;
+  requires \forall integer k; 0 <= k < n-1 ==> a[k] <= a[k+1];
+  requires \forall integer k; 0 <= k < n-1 ==> b[k] <= b[k+1];
+  requires \forall integer p, q; 0 <= p <= q < n ==> a[p] <= a[q];
+  requires \forall integer p, q; 0 <= p <= q < n ==> b[p] <= b[q];
+  assigns \nothing;
+  ensures count_leq(a, n, \result) + count_leq(b, n, \result) >= n;
+  ensures \forall integer x; x < \result ==>
+      count_leq(a, n, x) + count_leq(b, n, x) < n;
+  ensures (\exists integer p; 0 <= p < n && \result == a[p]) ||
+          (\exists integer q; 0 <= q < n && \result == b[q]);
+*/
+_Safe int median_two_sorted(int a[_Nonnull ], int b[_Nonnull ], int n) {
+    int lo = 0;
+    int hi = n;
+    int i, j, left_max;
+
+      // Loop A
+/*@
+      loop invariant i_0: 0 <= lo <= n;
+
+      loop invariant i_1: 0 <= hi <= n;
+
+      loop invariant i_2: lo <= hi + 1;
+
+      loop invariant i_3: \forall integer k; 0 <= k < lo && k < n ==> b[n-k-1] > a[k];
+
+      loop invariant i_4: \forall integer k; hi < k <= n && 0 < k ==> a[k-1] > b[n-k];
+
+
+      loop assigns lo, hi, i, j, left_max;
+      loop variant hi - lo + 1;
+    */
+    while (lo <= hi) {
+        i = (lo + hi) / 2;
+        j = n - i;
+
+        if (i > 0 && a[i-1] > b[j]) {
+            if (i == lo) {
+                //@ assert 0 <= i - 1 < lo;
+                //@ assert i - 1 < n;
+                //@ assert b[n-(i-1)-1] > a[i-1];
+                //@ assert b[j] > a[i-1];
+                //@ assert \false;
+            }
+            //@ assert lo < i;
+            int proof_k_high = i;
+                      // Loop B
+/*@
+              [Hint] Please infer the loop invariant for the following loop.
+
+              loop assigns proof_k_high;
+              loop variant n + 1 - proof_k_high;
+            */
+            while (proof_k_high <= n) {
+                if (proof_k_high == i) {
+                    //@ assert a[i-1] > b[n-i];
+                } else {
+                    //@ assert i - 1 <= proof_k_high - 1 < n;
+                    //@ assert 0 <= n - proof_k_high <= n - i < n;
+                    //@ assert a[i-1] <= a[proof_k_high-1];
+                    //@ assert b[n-proof_k_high] <= b[n-i];
+                    //@ assert a[proof_k_high-1] > b[n-proof_k_high];
+                }
+                proof_k_high++;
+            }
+            /*@
+              assert \forall integer k;
+                i <= k <= n && 0 < k ==> a[k-1] > b[n-k];
+            */
+            hi = i - 1;
+        } else if (i < n && b[j-1] > a[i]) {
+            if (i == hi) {
+                //@ assert hi < i + 1 <= n;
+                //@ assert 0 < i + 1;
+                //@ assert a[(i+1)-1] > b[n-(i+1)];
+                //@ assert a[i] > b[j-1];
+                //@ assert \false;
+            }
+            //@ assert i < hi;
+            int proof_k_low = 0;
+                      // Loop C
+/*@
+              loop assigns proof_k_low;
+              loop variant i + 1 - proof_k_low;
+            */
+            while (proof_k_low <= i) {
+                if (proof_k_low == i) {
+                    //@ assert b[n-i-1] > a[i];
+                } else {
+                    //@ assert 0 <= proof_k_low <= i < n;
+                    //@ assert 0 <= n - i - 1 <= n - proof_k_low - 1 < n;
+                    //@ assert a[proof_k_low] <= a[i];
+                    //@ assert b[n-i-1] <= b[n-proof_k_low-1];
+                    //@ assert b[n-proof_k_low-1] > a[proof_k_low];
+                }
+                proof_k_low++;
+            }
+            /*@
+              assert \forall integer k;
+                0 <= k <= i && k < n ==> b[n-k-1] > a[k];
+            */
+            lo = i + 1;
+        } else {
+            if (i == 0) {
+                left_max = b[n-1];
+            } else if (i == n) {
+                left_max = a[n-1];
+            } else {
+                if (a[i-1] > b[j-1]) {
+                    left_max = a[i-1];
+                } else {
+                    left_max = b[j-1];
+                }
+            }
+
+            //@ assert i + j == n;
+            //@ assert 0 <= i <= n;
+            //@ assert 0 <= j <= n;
+
+            /* point-wise: last taken element ≤ left_max */
+            //@ assert i > 0 ==> a[i-1] <= left_max;
+            //@ assert j > 0 ==> b[j-1] <= left_max;
+
+            /* Partition correctness (negation of the two if-conditions) */
+            //@ assert i > 0 && j < n ==> a[i-1] <= b[j];
+            //@ assert j > 0 && i < n ==> b[j-1] <= a[i];
+
+            /* right half ≥ left_max */
+            //@ assert i < n ==> left_max <= a[i];
+            //@ assert j < n ==> left_max <= b[j];
+
+            /* result comes from one of the arrays */
+            /*@ assert (i == 0 && left_max == b[n-1]) ||
+                    (i == n && left_max == a[n-1]) ||
+                    (i > 0 && left_max == a[i-1]) ||
+                    (j > 0 && left_max == b[j-1]); */
+            /*@ assert (\exists integer p; 0 <= p < n && left_max == a[p]) ||
+                    (\exists integer q; 0 <= q < n && left_max == b[q]); */
+
+            //@ assert i == 0 || a[i-1] <= left_max;
+            //@ assert j == 0 || b[j-1] <= left_max;
+            //@ assert i == n || left_max <= a[i];
+            //@ assert j == n || left_max <= b[j];
+            //@ assert (i > 0 && left_max == a[i-1]) || (j > 0 && left_max == b[j-1]);
+            //@ assert count_leq(a, n, left_max) >= i;
+            //@ assert count_leq(b, n, left_max) >= j;
+            //@ assert count_leq(a, n, left_max) + count_leq(b, n, left_max) >= n;
+            //@ assert \forall integer x; x < left_max ==> count_leq(a, n, x) <= i;
+            //@ assert \forall integer x; x < left_max ==> count_leq(b, n, x) <= j;
+            //@ assert i > 0 && left_max == a[i-1] ==> \forall integer x; x < left_max ==> count_leq(a, n, x) <= i - 1;
+            //@ assert j > 0 && left_max == b[j-1] ==> \forall integer x; x < left_max ==> count_leq(b, n, x) <= j - 1;
+            /*@
+              assert \forall integer x; x < left_max && i > 0 && left_max == a[i-1] ==>
+                count_leq(a, n, x) + count_leq(b, n, x) < n;
+            */
+            /*@
+              assert \forall integer x; x < left_max && j > 0 && left_max == b[j-1] ==>
+                count_leq(a, n, x) + count_leq(b, n, x) < n;
+            */
+            /*@
+              assert \forall integer x; x < left_max ==>
+                count_leq(a, n, x) + count_leq(b, n, x) < n;
+            */
+
+            return left_max;
+        }
+    }
+    //@ assert \false;
+    return -1;
+}
+
+You are an expert in program verification. Please generate initial loop invariant candidates as C annotation comments at the hint location (annotated by "[Hint] Please infer the loop invariant for the following loop.") using ACSL language strictly based on the program's execution logic and standard correctness..
+ACSL is a specification language for C programs that conforms to the design by contract paradigm, utilizing Hoare style pre- and postconditions and invariants.
+
+Specifically, for the current verification task:
+    - { Loop A@median_two_sorted invariants: i_0: 0 <= lo <= n; i_1: 0 <= hi <= n; i_2: lo <= hi + 1; i_3: \forall integer k; 0 <= k < lo && k < n ==> b[n-k-1] > a[k]; i_4: \forall integer k; hi < k <= n && 0 < k ==> a[k-1] > b[n-k] } i = (lo + hi) / 2; j = n - i; if (i > 0 && a[i-1] > b[j]) { if (i == lo) { //@ assert 0 <= i - 1 < lo; //@ assert i - 1 < n; //@ assert b[n-(i-1)-1] > a[i-1]; //@ assert b[j] > a[i-1]; //@ assert \false; //@ assert lo < i; int proof_k_high = i; { I }:
+      after the pre-state transition, the assumption context should establish the generated invariant.
+    - { I && ! ( proof_k_high <= n ) } //@ assert \forall integer k; i <= k <= n && 0 < k ==> a[k-1] > b[n-k]; hi = i - 1; } else if (i < n && b[j-1] > a[i]) { if (i == hi) { //@ assert hi < i + 1 <= n; //@ assert 0 < i + 1; //@ assert a[(i+1)-1] > b[n-(i+1)]; //@ assert a[i] > b[j-1]; //@ assert \false; //@ assert i < hi; int proof_k_low = 0; { true }: when the current loop exits, the generated invariant together with the negated loop condition should entail the obligation context after the post-state transition.
+
+Please focus on invariants justified by the reachability and provability contexts above, and verify that the generated loop invariant is consistent with these proof contexts.
+Preservation is not the current focus and will be handled in later steps.
+Use '&&', '||', '==>', '\forall' or '\exists' if necessary.
+Your answer should follow the following format:
+```
+loop invariant ...;
+loop invariant ...;
+...
+```
+No explanation. No commentary. Just show me the loop invariant.

@@ -1,0 +1,13 @@
+```
+[Failed Property]
+establishment and preservation of i_25: the invariant must hold both at loop entry and after each loop-body iteration.
+
+[Failure Cause]
+Invariant i_25 is not inherently too strong: for nonnegative counts it follows from prefix-sum monotonicity. The failure is non-inductiveness in the given proof context. After the inner Loop D of C@counting_sort, the WP goal needs `c[i] + sum_c(c,i-1)` to be unchanged from before Loop D. The available Loop D invariants i_28 and i_29 only preserve `c[w]` for `0 <= w <= v-1` and `sum_c(c,v-1)`, not for arbitrary `i` with `0 <= i <= k`. In particular, for `i >= v`, the proof has no fact that `c[i]` or `sum_c(c,i-1)` are unchanged by Loop D. Therefore i_25 cannot be re-established after the inner loop.
+
+[Responsible Scope]
+both C@counting_sort and D@counting_sort
+
+[Refinement Direction]
+The missing logical fact is that Loop D does not modify `c` at all: for every `w` with `0 <= w <= k`, `c[w]` and `sum_c(c,w-1)` are unchanged from Loop D entry. This follows from Loop D's assigns clause and the separation precondition, but the current D invariants do not expose it. The proof must make this unchangedness of `c` across Loop D available; otherwise i_25 cannot be preserved for arbitrary `i`. For establishment, the corresponding missing fact is prefix-sum monotonicity for nonnegative `c`: `sum_c(c,i) <= sum_c(c,k)` for `0 <= i <= k`.
+```

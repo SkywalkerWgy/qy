@@ -1,0 +1,4 @@
+```
+loop invariant l <= i <= r + 1;
+loop invariant \forall integer j; l <= j < i ==> a[j] != med;
+```

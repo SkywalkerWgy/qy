@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_34: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation obligation requires showing that after one iteration of Loop D the cumulative sum `sum_c(c,w)` is still equal to its value at Loop D entry. The loop body only writes to `b[pos]` and increments `pos`; it does not modify `c`. The available invariants already give pointwise equality of `c` between the loop entry and the current state (`i_33`) and separation between `b` and `c` (`i_38`/`i_40`). However, the WP goal is an equality of the recursive logic function `sum_c`, and the prover cannot automatically lift pointwise equality of `c` to equality of `sum_c`. An induction/congruence property for `sum_c` is missing. The invariant `i_34` itself is not too strong and is semantically true, but it is non-inductive relative to the given invariant set because the needed lemma about `sum_c` is absent.
+
+[Responsible Scope]
+D@counting_sort
+
+[Refinement Direction]
+Supply an auxiliary lemma (not a loop invariant) stating the extensionality of `sum_c`, e.g. pointwise equality of `c[0..w]` implies equality of `sum_c(c,w)`, or a frame lemma that `sum_c(c,w)` is unaffected by writes to memory disjoint from `c[0..w]`. This bridges the pointwise equality and separation facts to the recursive `sum_c` equality required by `i_34`.

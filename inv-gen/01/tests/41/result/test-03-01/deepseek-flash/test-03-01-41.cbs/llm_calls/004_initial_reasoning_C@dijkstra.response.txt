@@ -1,0 +1,5 @@
+```
+loop invariant 0 <= k <= n;
+loop invariant \forall integer i; 0 <= i < k ==> prev[i] == dist[i];
+loop invariant \forall integer i; 0 <= i < n ==> dist[i] == \old(dist[i]);
+```

@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_24: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The obligation requires showing the post-state inequality for arbitrary `a,b,m` after the inner-loop body. The available invariant `i_24` only gives the inequality for the pre-state. To reuse it, the prover must know that the update at `dist[i][j]` cannot increase the queried cell, i.e., `Mint_0[dist[a][b]] <= a_2[dist[a][b]]` for all `a,b`, and that `graph` is unchanged. The loop body only updates `dist[i][j]` and only when `dist[i][k] + dist[k][j] < dist[i][j]`, so the updated cell strictly decreases and all other cells remain the same. This pointwise monotonicity/frame fact is not present in the context, so WP cannot chain the pre-state bound to the post-state goal.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The invariant `i_24` is not too strong and is inductive; the gap is a local reasoning fact about the conditional assignment. Make explicit that the update leaves all cells except `dist[i][j]` unchanged and strictly decreases `dist[i][j]`, so the post-state matrix is pointwise `<=` the pre-state matrix for `dist` and equal for `graph`. This can be exposed by local assertions or a more precise memory-effect argument; no new loop invariants are needed.

@@ -1,0 +1,13 @@
+```
+[Failed Property]
+preservation of i_52: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_52 is not too strong and is inductive with respect to the loop body, since it depends only on the fixed parameters `n` and `row` and not on the modified variables `j` or `board`. The proof fails because the prover cannot discharge the arithmetic goal `(n + i*n) <= n*row`. The assumed invariant i_52 is present but is not instantiated, likely due to a syntactic mismatch: the assumption contains `n * i_1` while the goal contains `i * n`. Without recognizing multiplication commutativity, the prover attempts to prove the nonlinear inequality from scratch and fails. The other invariants of D@place_queen do not provide this arithmetic fact and are not responsible for the failure.
+
+[Responsible Scope]
+D@place_queen
+
+[Refinement Direction]
+The missing logical fact is the commutativity of multiplication, i.e., `i * n = n * i`, which would allow the instantiation of i_52 with `r = i` to directly yield the goal. Alternatively, the arithmetic lemma that `0 <= i < row` implies `n + i*n <= n*row` is needed. The invariant i_52 itself does not require modification; the prover simply needs to use the already available assumption by matching the terms.
+```

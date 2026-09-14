@@ -1,0 +1,46 @@
+Loop A@floyd:
+  i_0: 0 <= i && i <= n
+  i_1: \forall integer r, c; 0 <= r && r < i && 0 <= c && c < n ==> dist[r][c] == graph[r][c]
+Loop B@floyd:
+  i_7: 0 <= j && j <= n
+  i_8: 0 <= i && i < n
+  i_9: \forall integer c; 0 <= c < j ==> dist[i][c] == graph[i][c]
+  i_10: \forall integer r, c; 0 <= r < i && 0 <= c < n ==> dist[r][c] == graph[r][c]
+Loop C@floyd:
+  i_2: 0 <= k && k <= n
+  i_3: matrix_bounded{Here}(dist, n)
+  i_4: diagonal_zero{Here}(dist, n)
+  i_5: no_larger_than_graph{Pre,Here}(graph, dist, n)
+  i_6: \forall integer i, j, m; 0 <= i < n && 0 <= j < n && 0 <= m < k && graph[i][m] < INF && graph[m][j] < INF ==> dist[i][j] <= graph[i][m] + graph[m][j]
+Loop D@floyd:
+  i_11: 0 <= i && i <= n
+  i_12: 0 <= k && k < n
+  i_13: matrix_bounded{Here}(dist, n)
+  i_14: diagonal_zero{Here}(dist, n)
+  i_15: no_larger_than_graph{Pre,Here}(graph, dist, n)
+  i_16: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> dist[a][b] <= graph[a][m] + graph[m][b]
+  i_17: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b]
+Loop E@floyd:
+  i_18: 0 <= j && j <= n
+  i_19: 0 <= i && i < n
+  i_20: 0 <= k && k < n
+  i_21: matrix_bounded{Here}(dist, n)
+  i_22: diagonal_zero{Here}(dist, n)
+  i_23: no_larger_than_graph{Pre,Here}(graph, dist, n)
+  i_24: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> dist[a][b] <= graph[a][m] + graph[m][b]
+  i_25: \forall integer a, b; 0 <= a < i && 0 <= b < n && graph[a][k] < INF && graph[k][b] < INF ==> dist[a][b] <= graph[a][k] + graph[k][b]
+  i_26: \forall integer c; 0 <= c < j && graph[i][k] < INF && graph[k][c] < INF ==> dist[i][c] <= graph[i][k] + graph[k][c]
+  i_27: \forall integer c; 0 <= c < n && c >= j ==> dist[i][c] == \at(dist[i][c], LoopEntry)
+  i_28: \forall integer r, c; 0 <= r < n && 0 <= c < n && r != i ==> dist[r][c] == \at(dist[r][c], LoopEntry)
+  i_29: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> \at(dist[a][b], LoopEntry) <= graph[a][m] + graph[m][b]
+  i_30: \forall integer a, b; 0 <= a < n && 0 <= b < n ==> graph[a][b] == \at(graph[a][b], Pre)
+  i_31: dist[i][k] <= graph[i][k]
+  i_33: \forall integer a,b; 0 <= a < n && 0 <= b < n ==> dist[a][b] <= \at(dist[a][b], LoopEntry)
+  i_34: \forall integer c; 0 <= c < n && graph[i][k] < INF && graph[k][c] < INF && (c < j || dist[i][k] + dist[k][c] >= dist[i][c]) ==> dist[i][c] <= graph[i][k] + graph[k][c]
+  i_35: \forall integer r, b, d; 0 <= r < n && r != i && 0 <= b < n && 0 <= d < n ==> &dist[r][b] != &dist[i][d]
+  i_36: \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && \at(graph[a][m], LoopEntry) < INF && \at(graph[m][b], LoopEntry) < INF ==> \at(dist[a][b], LoopEntry) <= \at(graph[a][m], LoopEntry) + \at(graph[m][b], LoopEntry)
+  i_37: j < n ==> dist[k][j] <= graph[k][j]
+  i_38: \forall integer r, c1, c2; 0 <= r < n && 0 <= c1 < n && 0 <= c2 < n && c1 != c2 ==> &dist[r][c1] != &dist[r][c2]
+  i_39: \forall integer c; 0 <= c <= j && graph[i][k] < INF && graph[k][c] < INF ==> (c < j ==> dist[i][c] <= graph[i][k] + graph[k][c]) && (c == j ==> (dist[i][k] + dist[k][c] < dist[i][c] || dist[i][c] <= graph[i][k] + graph[k][c]))
+  i_40: \forall integer a, b, c; 0 <= a < i && 0 <= b < n && 0 <= c < n ==> &dist[a][b] != &dist[i][c]
+  i_41: \forall integer a, b, c, d; 0 <= a < n && 0 <= b < n && 0 <= c < n && 0 <= d < n ==> &graph[a][b] != &dist[c][d]

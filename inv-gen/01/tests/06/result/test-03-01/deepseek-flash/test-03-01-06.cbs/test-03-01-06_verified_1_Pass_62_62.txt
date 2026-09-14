@@ -1,0 +1,1190 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 61 goals scheduled
+[wp] Proved goals:   62 / 62
+  Unreachable:       1
+  Qed:              44 (2ms-4ms-22ms)
+  Alt-Ergo 2.6.3:   15 (12ms-27ms-127ms)
+  CVC5 1.1.2:        2 (22ms-33ms)
+------------------------------------------------------------
+  Function crt
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 100) in 'crt':
+Let x = L_product(Mint_0, m, i_1).
+Let x_1 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_2 = Mint_0[shift_sint32(m, i)].
+Assume {
+  Type: is_sint32(crt_0) /\ is_sint32(i_1) /\ is_sint32(i_2) /\
+      is_sint32(n) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_3)]))).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_3)]))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3 : Z. ((0 <= i_4) -> ((i_4 < i_3) -> ((i_3 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_4)], Mint_0[shift_sint32(m, i_3)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. ((0 <= i_3) -> ((i_3 < n) ->
+      (0 < (x_1 / Mint_0[shift_sint32(m, i_3)])))).
+  (* Pre-condition *)
+  Have: forall i_3 : Z. let x_3 = Mint_0[shift_sint32(m, i_3)] in
+      ((0 <= i_3) -> ((i_3 < n) -> (L_gcd(x_1 / x_3, x_3) = 1))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3 : Z. ((i_4 < n) -> ((0 <= i_3) -> ((i_3 < i_4) ->
+      (((x_1 / Mint_0[shift_sint32(m, i_4)]) % Mint_0[shift_sint32(m, i_3)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_5,i_4,i_3 : Z. let x_3 = Mint_0[shift_sint32(m, i_5)] in
+      ((((i_3 * (x_1 / x_3)) % x_3) = 1) -> ((0 <= i_5) -> ((i_5 < n) ->
+      ((0 <= i_3) -> ((i_3 < x_3) ->
+      P_crt_step(Mint_0, a, m, n, i_5, i_4, i_3)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_5' *)
+  Have: x_1 = x.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_1.
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i_2 <= i_1) /\ (0 <= i_2).
+  (* Invariant 'i_10' *)
+  Have: (0 <= crt_0) /\ (crt_0 < x).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i_2, crt_0).
+  (* Else *)
+  Have: i_1 <= i_2.
+}
+Prove: (Mint_0[shift_sint32(a, i)] % x_2) = (crt_0 % x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (26ms) (384)
+Prover Z3 4.13.3 returns Valid (Qed:13ms) (8ms) (45225)
+
+------------------------------------------------------------
+
+Goal Exit-condition (generated) in 'crt':
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 108):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 108):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 110):
+Let x = L_product(Mint_0, m, i).
+Let x_1 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_2 = 1 + i.
+Let x_3 = Mint_0[shift_sint32(m, i)].
+Let x_4 = x * x_3.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(x_2) /\ is_sint32(x) /\
+      is_sint32(x_3) /\ is_sint32(x_4).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_2)], Mint_0[shift_sint32(m, i_1)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < (x_1 / Mint_0[shift_sint32(m, i_1)])))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_5 = Mint_0[shift_sint32(m, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> (L_gcd(x_1 / x_5, x_5) = 1))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < i_2) ->
+      (((x_1 / Mint_0[shift_sint32(m, i_2)]) % Mint_0[shift_sint32(m, i_1)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2,i_1 : Z. let x_5 = Mint_0[shift_sint32(m, i_3)] in
+      ((((i_1 * (x_1 / x_5)) % x_5) = 1) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_1) -> ((i_1 < x_5) ->
+      P_crt_step(Mint_0, a, m, n, i_3, i_2, i_1)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_6' *)
+  Have: 0 < x.
+  (* Then *)
+  Have: i < n.
+  (* Invariant 'i_4' *)
+  Have: (-1) <= i.
+}
+Prove: x_4 = L_product(Mint_0, m, x_2).
+Prover CVC5 1.1.2 returns Valid (Qed:12ms) (22ms) (17142)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (12ms) (47021)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 110):
+Let x = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Assume {
+  Type: is_sint32(n).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (2 <= Mint_0[shift_sint32(m, i)]))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(a, i)]))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((0 <= i_1) -> ((i_1 < i) -> ((i < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_1)], Mint_0[shift_sint32(m, i)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 < (x / Mint_0[shift_sint32(m, i)])))).
+  (* Pre-condition *)
+  Have: forall i : Z. let x_1 = Mint_0[shift_sint32(m, i)] in ((0 <= i) ->
+      ((i < n) -> (L_gcd(x / x_1, x_1) = 1))).
+  (* Pre-condition *)
+  Have: forall i_1,i : Z. ((i_1 < n) -> ((0 <= i) -> ((i < i_1) ->
+      (((x / Mint_0[shift_sint32(m, i_1)]) % Mint_0[shift_sint32(m, i)]) = 0)))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1,i : Z. let x_1 = Mint_0[shift_sint32(m, i_2)] in
+      ((((i * (x / x_1)) % x_1) = 1) -> ((0 <= i_2) -> ((i_2 < n) ->
+      ((0 <= i) -> ((i < x_1) ->
+      P_crt_step(Mint_0, a, m, n, i_2, i_1, i)))))).
+}
+Prove: L_product(Mint_0, m, 0) = 1.
+Prover CVC5 1.1.2 returns Valid (Qed:4ms) (33ms) (16133)
+Prover Z3 4.13.3 returns Valid (Qed:4ms) (14ms) (40886)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 112):
+Let x = L_product(Mint_0, m, i).
+Let x_1 = Mint_0[shift_sint32(m, i)].
+Let x_2 = x * x_1.
+Let x_3 = 1 + i.
+Let x_4 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(x_3) /\ is_sint32(x) /\
+      is_sint32(x_1) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_2)], Mint_0[shift_sint32(m, i_1)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < (x_4 / Mint_0[shift_sint32(m, i_1)])))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_5 = Mint_0[shift_sint32(m, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> (L_gcd(x_4 / x_5, x_5) = 1))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < i_2) ->
+      (((x_4 / Mint_0[shift_sint32(m, i_2)]) % Mint_0[shift_sint32(m, i_1)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2,i_1 : Z. let x_5 = Mint_0[shift_sint32(m, i_3)] in
+      ((((i_1 * (x_4 / x_5)) % x_5) = 1) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_1) -> ((i_1 < x_5) ->
+      P_crt_step(Mint_0, a, m, n, i_3, i_2, i_1)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_6' *)
+  Have: 0 < x.
+  (* Then *)
+  Have: i < n.
+  Have: x_2 = L_product(Mint_0, m, x_3).
+  (* Invariant 'i_4' *)
+  Have: (-1) <= i.
+}
+Prove: 0 < x_2.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:10ms) (13ms) (274)
+Prover Z3 4.13.3 returns Valid (Qed:10ms) (195ms) (2394087)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 112):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 129):
+Let x = 1 + i_1.
+Let x_1 = L_product(Mint_0, m, i).
+Let x_2 = Mint_0[shift_sint32(m, i_1)].
+Let x_3 = x_1 / x_2.
+Let x_4 = Mint_0[shift_sint32(a, i_1)].
+Let x_5 = (result_0 + (inv_0 * x_3 * x_4)) % x_1.
+Let x_6 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_7 = x_6 / x_2.
+Let x_8 = inv_0 * x_7 * x_4.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(inv_0) /\ is_sint32(n) /\
+      is_sint32(result_0) /\ is_sint32(x) /\ is_sint32(x_6) /\
+      is_sint32(x_4) /\ is_sint32(x_2) /\ is_sint32(x_7) /\ is_sint32(x_8) /\
+      is_sint32((result_0 + x_8) % x_6).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_3)], Mint_0[shift_sint32(m, i_2)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < (x_6 / Mint_0[shift_sint32(m, i_2)])))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. let x_9 = Mint_0[shift_sint32(m, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> (L_gcd(x_6 / x_9, x_9) = 1))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < i_3) ->
+      (((x_6 / Mint_0[shift_sint32(m, i_3)]) % Mint_0[shift_sint32(m, i_2)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3,i_2 : Z. let x_9 = Mint_0[shift_sint32(m, i_4)] in
+      ((((i_2 * (x_6 / x_9)) % x_9) = 1) -> ((0 <= i_4) -> ((i_4 < n) ->
+      ((0 <= i_2) -> ((i_2 < x_9) ->
+      P_crt_step(Mint_0, a, m, n, i_4, i_3, i_2)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_5' *)
+  Have: x_6 = x_1.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_6.
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i_1 <= i) /\ (0 <= i_1).
+  (* Invariant 'i_10' *)
+  Have: (0 <= result_0) /\ (result_0 < x_1).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i_1, result_0).
+  (* Then *)
+  Have: i_1 < i.
+  (* Call 'mod_inv' *)
+  Have: (L_gcd(x_3, x_2) = 1) /\ (0 <= inv_0) /\ (inv_0 < x_2) /\
+      (0 < x_3) /\ (2 <= x_2).
+  (* Assertion *)
+  Have: ((inv_0 * x_3) % x_2) = 1.
+  (* Assertion *)
+  Have: P_crt_step(Mint_0, a, m, i, i_1, result_0, inv_0).
+  (* Assertion *)
+  Have: P_crt_prefix(Mint_0, a, m, x, x_5).
+  (* Invariant 'i_7' *)
+  Have: (-1) <= i_1.
+}
+Prove: (0 <= x_5) /\ (x_5 < x_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:22ms) (27ms) (1528)
+Prover Z3 4.13.3 returns Valid (Qed:22ms) (24ms) (285876)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 129):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 131):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 131):
+Let x = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(n) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_1)]))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((0 <= i_2) -> ((i_2 < i_1) -> ((i_1 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_2)], Mint_0[shift_sint32(m, i_1)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 < (x / Mint_0[shift_sint32(m, i_1)])))).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_1 = Mint_0[shift_sint32(m, i_1)] in
+      ((0 <= i_1) -> ((i_1 < n) -> (L_gcd(x / x_1, x_1) = 1))).
+  (* Pre-condition *)
+  Have: forall i_2,i_1 : Z. ((i_2 < n) -> ((0 <= i_1) -> ((i_1 < i_2) ->
+      (((x / Mint_0[shift_sint32(m, i_2)]) % Mint_0[shift_sint32(m, i_1)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2,i_1 : Z. let x_1 = Mint_0[shift_sint32(m, i_3)] in
+      ((((i_1 * (x / x_1)) % x_1) = 1) -> ((0 <= i_3) -> ((i_3 < n) ->
+      ((0 <= i_1) -> ((i_1 < x_1) ->
+      P_crt_step(Mint_0, a, m, n, i_3, i_2, i_1)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_5' *)
+  Have: x = L_product(Mint_0, m, i).
+  (* Invariant 'i_6' *)
+  Have: 0 < x.
+  (* Else *)
+  Have: n <= i.
+}
+Prove: P_crt_prefix(Mint_0, a, m, 0, 0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:14ms) (19ms) (103)
+Prover CVC5 1.1.2 returns Valid (Qed:14ms) (10ms) (8431)
+Prover Z3 4.13.3 returns Valid (Qed:14ms) (4ms) (6931)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 123):
+Prove: true.
+Prover Qed returns Valid (16ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 123):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 125):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 125):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 127):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 127):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 140):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 141):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 142):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 143):
+Let x = L_product(Mint_0, m, i).
+Let x_1 = Mint_0[shift_sint32(m, i_1)].
+Let x_2 = x / x_1.
+Let x_3 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_4 = Mint_0[shift_sint32(a, i_1)].
+Let x_5 = x_3 / x_1.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(inv_0) /\ is_sint32(n) /\
+      is_sint32(result_0) /\ is_sint32(x_3) /\ is_sint32(x_4) /\
+      is_sint32(x_1) /\ is_sint32(x_5) /\ is_sint32(inv_0 * x_5 * x_4).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_3)], Mint_0[shift_sint32(m, i_2)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < (x_3 / Mint_0[shift_sint32(m, i_2)])))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. let x_6 = Mint_0[shift_sint32(m, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> (L_gcd(x_3 / x_6, x_6) = 1))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < i_3) ->
+      (((x_3 / Mint_0[shift_sint32(m, i_3)]) % Mint_0[shift_sint32(m, i_2)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3,i_2 : Z. let x_6 = Mint_0[shift_sint32(m, i_4)] in
+      ((((i_2 * (x_3 / x_6)) % x_6) = 1) -> ((0 <= i_4) -> ((i_4 < n) ->
+      ((0 <= i_2) -> ((i_2 < x_6) ->
+      P_crt_step(Mint_0, a, m, n, i_4, i_3, i_2)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_5' *)
+  Have: x_3 = x.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_3.
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i_1 <= i) /\ (0 <= i_1).
+  (* Invariant 'i_10' *)
+  Have: (0 <= result_0) /\ (result_0 < x).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i_1, result_0).
+  (* Then *)
+  Have: i_1 < i.
+  (* Call 'mod_inv' *)
+  Have: (L_gcd(x_2, x_1) = 1) /\ (((inv_0 * x_2) % x_1) = 1) /\
+      (0 <= inv_0) /\ (inv_0 < x_1) /\ (0 < x_2) /\ (2 <= x_1).
+}
+Prove: P_crt_step(Mint_0, a, m, i, i_1, result_0, inv_0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:20ms) (27ms) (564)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 144):
+Let x = L_product(Mint_0, m, i_1).
+Let x_1 = Mint_0[shift_sint32(m, i)].
+Let x_2 = x / x_1.
+Let x_3 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_4 = Mint_0[shift_sint32(a, i)].
+Let x_5 = x_3 / x_1.
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(i) /\ is_sint32(inv_0) /\ is_sint32(n) /\
+      is_sint32(result_0) /\ is_sint32(x_3) /\ is_sint32(x_4) /\
+      is_sint32(x_1) /\ is_sint32(x_5) /\ is_sint32(inv_0 * x_5 * x_4).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_3)], Mint_0[shift_sint32(m, i_2)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < (x_3 / Mint_0[shift_sint32(m, i_2)])))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. let x_6 = Mint_0[shift_sint32(m, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> (L_gcd(x_3 / x_6, x_6) = 1))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < i_3) ->
+      (((x_3 / Mint_0[shift_sint32(m, i_3)]) % Mint_0[shift_sint32(m, i_2)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3,i_2 : Z. let x_6 = Mint_0[shift_sint32(m, i_4)] in
+      ((((i_2 * (x_3 / x_6)) % x_6) = 1) -> ((0 <= i_4) -> ((i_4 < n) ->
+      ((0 <= i_2) -> ((i_2 < x_6) ->
+      P_crt_step(Mint_0, a, m, n, i_4, i_3, i_2)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i_1) /\ (i_1 <= n).
+  (* Invariant 'i_5' *)
+  Have: x_3 = x.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_3.
+  (* Else *)
+  Have: n <= i_1.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i <= i_1) /\ (0 <= i).
+  (* Invariant 'i_10' *)
+  Have: (0 <= result_0) /\ (result_0 < x).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i, result_0).
+  (* Then *)
+  Have: i < i_1.
+  (* Call 'mod_inv' *)
+  Have: (L_gcd(x_2, x_1) = 1) /\ (0 <= inv_0) /\ (inv_0 < x_1) /\
+      (0 < x_2) /\ (2 <= x_1).
+  (* Assertion *)
+  Have: ((inv_0 * x_2) % x_1) = 1.
+  (* Assertion *)
+  Have: P_crt_step(Mint_0, a, m, i_1, i, result_0, inv_0).
+}
+Prove: P_crt_prefix(Mint_0, a, m, 1 + i, (result_0 + (inv_0 * x_2 * x_4))
+         % x).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:21ms) (23ms) (273)
+Prover Z3 4.13.3 returns Valid (Qed:21ms) (6ms) (11843)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 115):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 134) (1/2):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 134) (2/2):
+Call Result at line 138
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'crt' (1/3):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'crt' (2/3):
+Effect at line 117
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'crt' (3/3):
+Effect at line 136
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'crt' (1/2):
+Effect at line 117
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'crt' (2/2):
+Effect at line 136
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 71) in 'mod_inv'' in 'crt' at initialization of 'inv' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 138)
+:
+Let x = L_product(Mint_0, m, i).
+Let x_1 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_2 = Mint_0[shift_sint32(m, i_1)].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(result_0) /\ is_sint32(x_1) /\
+      is_sint32(Mint_0[shift_sint32(a, i_1)]) /\ is_sint32(x_2) /\
+      is_sint32(x_1 / x_2).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_3)], Mint_0[shift_sint32(m, i_2)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < (x_1 / Mint_0[shift_sint32(m, i_2)])))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. let x_3 = Mint_0[shift_sint32(m, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> (L_gcd(x_1 / x_3, x_3) = 1))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < i_3) ->
+      (((x_1 / Mint_0[shift_sint32(m, i_3)]) % Mint_0[shift_sint32(m, i_2)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3,i_2 : Z. let x_3 = Mint_0[shift_sint32(m, i_4)] in
+      ((((i_2 * (x_1 / x_3)) % x_3) = 1) -> ((0 <= i_4) -> ((i_4 < n) ->
+      ((0 <= i_2) -> ((i_2 < x_3) ->
+      P_crt_step(Mint_0, a, m, n, i_4, i_3, i_2)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_5' *)
+  Have: x_1 = x.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_1.
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i_1 <= i) /\ (0 <= i_1).
+  (* Invariant 'i_10' *)
+  Have: (0 <= result_0) /\ (result_0 < x).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i_1, result_0).
+  (* Then *)
+  Have: i_1 < i.
+}
+Prove: (0 < (x / x_2)) /\ (2 <= x_2).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (17ms) (137)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 72) in 'mod_inv'' in 'crt' at initialization of 'inv' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 138)
+:
+Let x = L_product(Mint_0, m, i).
+Let x_1 = L_product(Mint_0, m, n).
+Let a_1 = shift_sint32(a, 0).
+Let a_2 = shift_sint32(m, 0).
+Let x_2 = Mint_0[shift_sint32(m, i_1)].
+Assume {
+  Type: is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(n) /\
+      is_sint32(result_0) /\ is_sint32(x_1) /\
+      is_sint32(Mint_0[shift_sint32(a, i_1)]) /\ is_sint32(x_2) /\
+      is_sint32(x_1 / x_2).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ (region(m.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: 0 < n.
+  (* Pre-condition *)
+  Have: valid_rd(Malloc_0, a_1, n) /\ valid_rd(Malloc_0, a_2, n).
+  (* Pre-condition *)
+  Have: separated(a_1, n, a_2, n).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (2 <= Mint_0[shift_sint32(m, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(a, i_2)]))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((0 <= i_3) -> ((i_3 < i_2) -> ((i_2 < n) ->
+      (L_gcd(Mint_0[shift_sint32(m, i_3)], Mint_0[shift_sint32(m, i_2)]) = 1)))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 < (x_1 / Mint_0[shift_sint32(m, i_2)])))).
+  (* Pre-condition *)
+  Have: forall i_2 : Z. let x_3 = Mint_0[shift_sint32(m, i_2)] in
+      ((0 <= i_2) -> ((i_2 < n) -> (L_gcd(x_1 / x_3, x_3) = 1))).
+  (* Pre-condition *)
+  Have: forall i_3,i_2 : Z. ((i_3 < n) -> ((0 <= i_2) -> ((i_2 < i_3) ->
+      (((x_1 / Mint_0[shift_sint32(m, i_3)]) % Mint_0[shift_sint32(m, i_2)])
+         = 0)))).
+  (* Pre-condition *)
+  Have: forall i_4,i_3,i_2 : Z. let x_3 = Mint_0[shift_sint32(m, i_4)] in
+      ((((i_2 * (x_1 / x_3)) % x_3) = 1) -> ((0 <= i_4) -> ((i_4 < n) ->
+      ((0 <= i_2) -> ((i_2 < x_3) ->
+      P_crt_step(Mint_0, a, m, n, i_4, i_3, i_2)))))).
+  (* Invariant 'i_5' *)
+  Have: L_product(Mint_0, m, 0) = 1.
+  (* Invariant 'i_4' *)
+  Have: (0 <= i) /\ (i <= n).
+  (* Invariant 'i_5' *)
+  Have: x_1 = x.
+  (* Invariant 'i_6' *)
+  Have: 0 < x_1.
+  (* Else *)
+  Have: n <= i.
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, 0, 0).
+  (* Invariant 'i_7' *)
+  Have: (i_1 <= i) /\ (0 <= i_1).
+  (* Invariant 'i_10' *)
+  Have: (0 <= result_0) /\ (result_0 < x).
+  (* Invariant 'i_11' *)
+  Have: P_crt_prefix(Mint_0, a, m, i_1, result_0).
+  (* Then *)
+  Have: i_1 < i.
+}
+Prove: L_gcd(x / x_2, x_2) = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:14ms) (13ms) (132)
+
+------------------------------------------------------------
+------------------------------------------------------------
+  Function ext_gcd
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 29) in 'ext_gcd':
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 30) in 'ext_gcd':
+Let x_1 = (a * s1_0) + (b * t1_0).
+Let x_2 = a * s0_0.
+Let x_3 = x_2 + (b * t0_0).
+Let x_4 = Mint_0[x <- s0_0][y <- t0_0][x].
+Assume {
+  Type: is_sint32(a) /\ is_sint32(b) /\ is_sint32(s0_0) /\ is_sint32(s1_0) /\
+      is_sint32(t0_0) /\ is_sint32(t1_0) /\ is_sint32(x_4) /\
+      is_sint32(x_3) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(x.base) <= 0) /\ (region(y.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 <= a) /\ (0 <= b).
+  (* Pre-condition *)
+  Have: (0 < a) \/ (0 < b).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, x, 1) /\ valid_rw(Malloc_0, y, 1).
+  (* Pre-condition *)
+  Have: y != x.
+  (* Invariant 'i_0' *)
+  Have: (0 <= x_3) /\ (0 <= x_1).
+  (* Invariant 'i_3' *)
+  Have: L_gcd(x_3, x_1) = L_gcd(a, b).
+  (* Else *)
+  Have: x_1 <= 0.
+}
+Prove: (a * x_4) = x_2.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:7ms) (16ms) (609)
+Prover Z3 4.13.3 returns Valid (Qed:7ms) (7ms) (41036)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 31) in 'ext_gcd':
+Let x_1 = (a * s1_0) + (b * t1_0).
+Let x_2 = (a * s0_0) + (b * t0_0).
+Let x_3 = L_gcd(a, b).
+Assume {
+  Type: is_sint32(a) /\ is_sint32(b) /\ is_sint32(s0_0) /\ is_sint32(s1_0) /\
+      is_sint32(t0_0) /\ is_sint32(t1_0) /\ is_sint32(x_2) /\ is_sint32(x_1).
+  (* Heap *)
+  Type: (region(x.base) <= 0) /\ (region(y.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 <= a) /\ (0 <= b).
+  (* Pre-condition *)
+  Have: (0 < a) \/ (0 < b).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, x, 1) /\ valid_rw(Malloc_0, y, 1).
+  (* Pre-condition *)
+  Have: y != x.
+  (* Invariant 'i_0' *)
+  Have: (0 <= x_2) /\ (0 <= x_1).
+  (* Invariant 'i_3' *)
+  Have: L_gcd(x_2, x_1) = x_3.
+  (* Else *)
+  Have: x_1 <= 0.
+}
+Prove: x_2 = x_3.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:7ms) (27ms) (1725)
+Prover CVC5 1.1.2 returns Valid (Qed:7ms) (15ms) (11616)
+Prover Z3 4.13.3 returns Valid (Qed:7ms) (8ms) (35826)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 40):
+Let x_1 = (a * s1_0) + (b * t1_0).
+Let x_2 = a * s0_0.
+Let x_3 = b * t0_0.
+Let x_4 = x_2 + x_3.
+Let x_5 = x_4 / x_1.
+Let x_6 = x_1 * x_5.
+Assume {
+  Type: is_sint32(a) /\ is_sint32(b) /\ is_sint32(s0_0) /\ is_sint32(s1_0) /\
+      is_sint32(t0_0) /\ is_sint32(t1_0) /\ is_sint32(x_4) /\
+      is_sint32(x_1) /\ is_sint32(x_5) /\ is_sint32(x_2 + x_3 - x_6).
+  (* Heap *)
+  Type: (region(x.base) <= 0) /\ (region(y.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 <= a) /\ (0 <= b).
+  (* Pre-condition *)
+  Have: (0 < a) \/ (0 < b).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, x, 1) /\ valid_rw(Malloc_0, y, 1).
+  (* Pre-condition *)
+  Have: y != x.
+  (* Invariant 'i_0' *)
+  Have: (0 <= x_4) /\ (0 <= x_1).
+  (* Invariant 'i_3' *)
+  Have: L_gcd(x_4, x_1) = L_gcd(a, b).
+  (* Then *)
+  Have: 0 < x_1.
+}
+Prove: x_6 <= x_4.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (26ms) (3350)
+Prover CVC5 1.1.2 returns Valid (Qed:15ms) (27ms) (15391)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (6ms) (36575)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 40):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 42):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 42):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 44):
+Let x_1 = (a * s0_0) + (b * t0_0).
+Let x_2 = a * s0_1.
+Let x_3 = b * t0_1.
+Let x_4 = x_2 + x_3.
+Let x_5 = x_4 / x_1.
+Let x_6 = x_1 * x_5.
+Let x_7 = s0_1 - (s0_0 * x_5).
+Let x_8 = t0_1 - (t0_0 * x_5).
+Assume {
+  Type: is_sint32(a) /\ is_sint32(b) /\ is_sint32(s0_0) /\ is_sint32(s0_1) /\
+      is_sint32(t0_0) /\ is_sint32(t0_1) /\ is_sint32(x_1) /\
+      is_sint32(x_4) /\ is_sint32(x_5) /\ is_sint32(x_7) /\ is_sint32(x_8) /\
+      is_sint32(x_2 + x_3 - x_6).
+  (* Heap *)
+  Type: (region(x.base) <= 0) /\ (region(y.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 <= a) /\ (0 <= b).
+  (* Pre-condition *)
+  Have: (0 < a) \/ (0 < b).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, x, 1) /\ valid_rw(Malloc_0, y, 1).
+  (* Pre-condition *)
+  Have: y != x.
+  (* Invariant 'i_0' *)
+  Have: (0 <= x_1) /\ (0 <= x_4).
+  (* Invariant 'i_3' *)
+  Have: L_gcd(x_4, x_1) = L_gcd(a, b).
+  (* Then *)
+  Have: 0 < x_1.
+  (* Invariant 'i_0' *)
+  Have: x_6 <= x_4.
+}
+Prove: (x_6 + (a * x_7) + (b * x_8)) = x_4.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:18ms) (12ms) (1325)
+Prover CVC5 1.1.2 returns Valid (Qed:18ms) (6ms) (7268)
+Prover Z3 4.13.3 returns Valid (Qed:18ms) (7ms) (11586)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 44):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 46):
+Let x_1 = a * s1_0.
+Let x_2 = b * t1_0.
+Let x_3 = x_1 + x_2.
+Let x_4 = (a * s0_0) + (b * t0_0).
+Let x_5 = x_1 + x_2 + (q * x_4).
+Let x_6 = L_gcd(a, b).
+Let x_7 = s1_0 + (q * s0_0).
+Let x_8 = t1_0 + (q * t0_0).
+Assume {
+  Type: is_sint32(a) /\ is_sint32(b) /\ is_sint32(q) /\ is_sint32(s0_0) /\
+      is_sint32(s1_0) /\ is_sint32(t0_0) /\ is_sint32(t1_0) /\
+      is_sint32(x_7) /\ is_sint32(x_8) /\ is_sint32(x_4) /\ is_sint32(x_3) /\
+      is_sint32(x_5).
+  (* Heap *)
+  Type: (region(x.base) <= 0) /\ (region(y.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: (0 <= a) /\ (0 <= b).
+  (* Pre-condition *)
+  Have: (0 < a) \/ (0 < b).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, x, 1) /\ valid_rw(Malloc_0, y, 1).
+  (* Pre-condition *)
+  Have: y != x.
+  (* Invariant 'i_0' *)
+  Have: (0 <= x_4) /\ (0 <= x_5).
+  (* Invariant 'i_1' *)
+  Have: x_5 = ((a * x_7) + (b * x_8)).
+  (* Invariant 'i_3' *)
+  Have: L_gcd(x_5, x_4) = x_6.
+  (* Then *)
+  Have: 0 < x_4.
+  (* Initializer *)
+  Init: (x_5 / x_4) = q.
+  (* Invariant 'i_0' *)
+  Have: 0 <= x_3.
+}
+Prove: L_gcd(x_4, x_3) = x_6.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:15ms) (127ms) (16577)
+Prover Z3 4.13.3 returns Valid (Qed:15ms) (36ms) (2134267)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 46):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 49) (1/4):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 49) (2/4):
+Effect at line 54
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 49) (3/4):
+Effect at line 55
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 49) (4/4):
+Effect at line 56
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 28) in 'ext_gcd' (1/3):
+Effect at line 51
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 28) in 'ext_gcd' (2/3):
+Effect at line 59
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Assigns (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 28) in 'ext_gcd' (3/3):
+Effect at line 60
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+------------------------------------------------------------
+  Function mod_inv
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 74) in 'mod_inv':
+Let x_1 = (m + (x % m)) % m.
+Assume {
+  Type: is_sint32(a) /\ is_sint32(m) /\ is_sint32(x) /\ is_sint32(y) /\
+      is_sint32(x_1).
+  (* Pre-condition *)
+  Have: (0 < a) /\ (2 <= m).
+  (* Pre-condition *)
+  Have: L_gcd(a, m) = 1.
+  (* Call 'ext_gcd' *)
+  Have: (((a * x) + (m * y)) = 1) /\ (0 <= m).
+}
+Prove: (0 <= x_1) /\ (x_1 < m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:2ms) (22ms) (816)
+Prover CVC5 1.1.2 returns Valid (Qed:2ms) (12ms) (7246)
+Prover Z3 4.13.3 returns Valid (Qed:2ms) (4ms) (22601)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 75) in 'mod_inv':
+Let x_1 = (m + (x % m)) % m.
+Assume {
+  Type: is_sint32(a) /\ is_sint32(m) /\ is_sint32(x) /\ is_sint32(y) /\
+      is_sint32(x_1).
+  (* Pre-condition *)
+  Have: (0 < a) /\ (2 <= m).
+  (* Pre-condition *)
+  Have: L_gcd(a, m) = 1.
+  (* Call 'ext_gcd' *)
+  Have: (((a * x) + (m * y)) = 1) /\ (0 <= m).
+}
+Prove: ((a * x_1) % m) = 1.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:2ms) (15ms) (871)
+Prover Z3 4.13.3 returns Valid (Qed:2ms) (4ms) (22907)
+
+------------------------------------------------------------
+
+Goal Exit-condition (generated) in 'mod_inv':
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'mod_inv':
+Call Effect at line 79
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'mod_inv' (1/2):
+Call Effect at line 79
+Prove: true.
+Prover Qed returns Valid (0.70ms)
+
+------------------------------------------------------------
+
+Goal Assigns nothing in 'mod_inv' (2/2):
+Call Result at line 79
+Prove: true.
+Prover Qed returns Valid (0.72ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 24) in 'ext_gcd'' in 'mod_inv' at initialization of 'g' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 79)
+:
+Prove: true.
+Prover Qed returns Valid (0.55ms)
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 25) in 'ext_gcd'' in 'mod_inv' at initialization of 'g' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 79)
+:
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 26) in 'ext_gcd'' in 'mod_inv' at initialization of 'g' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 79)
+:
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 27) in 'ext_gcd'' in 'mod_inv' at initialization of 'g' (file /results/test-03-01/deepseek-flash/test-03-01-06.cbs/.col2inv-trustc-bnw572sy.c, line 79)
+:
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------

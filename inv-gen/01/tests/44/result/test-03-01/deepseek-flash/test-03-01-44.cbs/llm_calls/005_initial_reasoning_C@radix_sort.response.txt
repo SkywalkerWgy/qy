@@ -1,0 +1,9 @@
+```
+loop invariant 0 <= v <= BASE;
+loop invariant 0 <= pos <= n;
+loop invariant \sum integer d; 0 <= d < BASE; count[d] == n;
+loop invariant pos == \sum integer d; 0 <= d < v; count[d];
+loop invariant \forall integer k; 0 <= k < pos ==> 0 <= tmp[k] < v;
+loop invariant sorted(tmp, 0, pos);
+loop invariant \forall integer d; 0 <= d < v ==> \sum integer k; 0 <= k && k < pos && tmp[k] == d; 1 == count[d];
+```

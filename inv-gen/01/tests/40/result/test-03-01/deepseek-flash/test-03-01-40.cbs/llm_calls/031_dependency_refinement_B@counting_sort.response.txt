@@ -1,0 +1,2 @@
+[Loop B@counting_sort]
+loop invariant i_43: \forall integer idx; 0 <= idx <= k ==> sum_c(c[idx <- c[idx] + 1], k) == sum_c(c, k) + 1;

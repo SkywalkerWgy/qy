@@ -1,0 +1,32 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-34.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1820
+INFO | [INIT] functions=swap, _shell_sort loops=3 delayed_filter_threshold=4
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_shell_sort prompt=llm_calls/001_initial_reasoning_A@_shell_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@_shell_sort.response.txt response_chars=92
+INFO | [LLM 001] response_preview=``` loop invariant gap >= 0 && gap <= n; loop invariant gap == 0 ==> increasing(arr, n); ```
+INFO | [APPLY] loop=A@_shell_sort added=2
+INFO |   + i_0: gap >= 0 && gap <= n
+INFO |   + i_1: gap == 0 ==> increasing(arr, n)
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_shell_sort prompt=llm_calls/002_initial_reasoning_B@_shell_sort.prompt.txt response=llm_calls/002_initial_reasoning_B@_shell_sort.response.txt response_chars=166
+INFO | [LLM 002] response_preview=``` loop invariant gap > 0 && gap <= n; loop invariant i >= gap && i <= n; loop invariant \forall integer s; 0 <= s < gap ==> subseq_sorted{Here}(arr, i, gap, s); ```
+INFO | [APPLY] loop=B@_shell_sort added=3
+INFO |   + i_2: gap > 0 && gap <= n
+INFO |   + i_3: i >= gap && i <= n
+INFO |   + i_4: \forall integer s; 0 <= s < gap ==> subseq_sorted{Here}(arr, i, gap, s)
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@_shell_sort prompt=llm_calls/003_initial_reasoning_C@_shell_sort.prompt.txt response=llm_calls/003_initial_reasoning_C@_shell_sort.response.txt response_chars=257
+INFO | [LLM 003] response_preview=``` loop invariant -gap <= j && (i - j) % gap == 0; loop invariant \forall integer k; 0 <= k && k < j && (i - k) % gap == 0 ==> arr[k] <= arr[k+gap]; loop invariant \forall integer k; j + gap <= k && k < i && (i - k) ...
+INFO | [APPLY] loop=C@_shell_sort added=3
+INFO |   + i_5: -gap <= j && (i - j) % gap == 0
+INFO |   + i_6: \forall integer k; 0 <= k && k < j && (i - k) % gap == 0 ==> arr[k] <= arr[k+gap]
+INFO |   + i_7: \forall integer k; j + gap <= k && k < i && (i - k) % gap == 0 ==> arr[k] <= arr[k+gap]
+INFO | [INVARIANTS] total=8 loops=A@_shell_sort:2, B@_shell_sort:3, C@_shell_sort:3 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-34_verified_1.cbs invariants=8
+INFO | [FRAMAC] attempt=1 result=Pass_33_33 stdout=test-03-01-34_verified_1_Pass_33_33.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-34_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 185.79484009742737
+INFO | ------------------------

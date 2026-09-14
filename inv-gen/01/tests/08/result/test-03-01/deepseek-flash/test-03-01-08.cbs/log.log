@@ -1,0 +1,43 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-08.cbs
+INFO | [INPUT] artifact=input.cbs bytes=2333
+INFO | [INIT] functions=_dfs loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_dfs prompt=llm_calls/001_initial_reasoning_A@_dfs.prompt.txt response=llm_calls/001_initial_reasoning_A@_dfs.response.txt response_chars=526
+INFO | [LLM 001] response_preview=``` loop invariant -1 <= top < n; loop invariant top >= 0 ==> node == stack[top]; loop invariant stack[0] == start; loop invariant visited[start] == 1; loop invariant dist[start] == 0; loop invariant \forall integer i...
+INFO | [APPLY] loop=A@_dfs added=9
+INFO |   + i_0: -1 <= top < n
+INFO |   + i_1: top >= 0 ==> node == stack[top]
+INFO |   + i_2: stack[0] == start
+INFO |   + i_3: visited[start] == 1
+INFO |   + i_4: dist[start] == 0
+INFO |   + i_5: \forall integer i; 0 <= i < n && visited[i] == 1 ==> connect(graph, i, start, n)
+INFO |   + i_6: \forall integer i; 0 <= i < n && visited[i] == 1 ==> dist[i] >= 0
+INFO |   + i_7: \forall integer i; 0 <= i < n && visited[i] == 0 ==> dist[i] == -1
+INFO |   + i_8: \forall integer k; 0 <= k <= top ==> visited[stack[k]] == 1
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_dfs prompt=llm_calls/002_initial_reasoning_B@_dfs.prompt.txt response=llm_calls/002_initial_reasoning_B@_dfs.response.txt response_chars=701
+INFO | [LLM 002] response_preview=loop invariant 0 <= i <= n; loop invariant 0 <= top <= n; loop invariant stack[0] == start; loop invariant visited[start] == 1; loop invariant dist[start] == 0; loop invariant visited[node] == 1; loop invariant dist[n...
+INFO | [APPLY] loop=B@_dfs added=13
+INFO |   + i_9: 0 <= i <= n
+INFO |   + i_10: 0 <= top <= n
+INFO |   + i_11: stack[0] == start
+INFO |   + i_12: visited[start] == 1
+INFO |   + i_13: dist[start] == 0
+INFO |   + i_14: visited[node] == 1
+INFO |   + i_15: dist[node] >= 0
+INFO |   + i_16: connect(graph, node, start, n)
+INFO |   + i_17: \forall integer j; 0 <= j < n && visited[j] == 1 ==> connect(graph, j, start, n)
+INFO |   + i_18: \forall integer j; 0 <= j < n && visited[j] == 1 ==> dist[j] >= 0
+INFO |   + i_19: \forall integer j; 0 <= j < n && visited[j] == 0 ==> dist[j] == -1
+INFO |   + i_20: \forall integer k; 0 <= k <= top ==> visited[stack[k]] == 1
+INFO |   + i_21: \forall integer j; 0 <= j < i && graph[node][j] == 1 ==> visited[j] == 1
+INFO | [INVARIANTS] total=22 loops=A@_dfs:9, B@_dfs:13 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-08_verified_1.cbs invariants=22
+INFO | [FRAMAC] attempt=1 result=Pass_57_57 stdout=test-03-01-08_verified_1_Pass_57_57.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-08_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 104.91256666183472
+INFO | ------------------------

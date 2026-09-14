@@ -1,0 +1,2 @@
+[Loop D@place_queen]
+loop invariant i_39: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> idx(n, r, k) != idx(n, row, j);

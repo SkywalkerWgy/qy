@@ -1,0 +1,13 @@
+```
+[Failed Property]
+establishment of i_5: the invariant must hold before the first loop iteration from the incoming program state.
+
+[Failure Cause]
+The base case of `i_5` requires proving `has_paths_up_to(... bound=0)` at loop entry. At this point, `i = 1`, so the bound is `0`. This predicate demands that every vertex with finite `dist[v]` has a zero-length path from `start` with cost exactly `dist[v]`. After `dist[start] = 0` and with the precondition that all other `dist[v]` are `INF`, only `v = start` has a finite distance. The proof therefore needs a case split: for `v = start`, it must exhibit the reflexive `path_cost_len(..., start, start, 0, 0)` and use `dist[start] == 0`; for `v != start`, it must show `dist[v] == INF` so the implication antecedent is false. The WP context does not explicitly expose the post-assignment frame condition that `start` is the only modified index, nor that `dist[start] == 0` while all other indices remain `INF`. Without this explicit characterization of the updated `dist` array, the solver cannot discharge the universal quantifier. The invariant itself is not too strong; it is the correct zero-edge base case. The failure is not due to the invariant being non-inductive or to the outer invariants being too weak for the inner loop termination—it is purely a missing initialization fact at loop entry.
+
+[Responsible Scope]
+A@_bellmanford
+
+[Refinement Direction]
+Make the post-initialization state of `dist` explicit in the verification context, e.g. via a local assertion or lemma before the loop: `dist[start] == 0` and `\forall v != start, dist[v] == INF`. Also make the reflexive `path_cost_len` witness for `start` available if needed. Do not add new loop invariants.
+```

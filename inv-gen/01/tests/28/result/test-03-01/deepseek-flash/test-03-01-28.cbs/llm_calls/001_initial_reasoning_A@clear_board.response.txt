@@ -1,0 +1,5 @@
+```
+loop invariant valid_board(n, board);
+loop invariant 0 <= i <= n * n;
+loop invariant \forall integer k; 0 <= k < i ==> board[k] == 0;
+```

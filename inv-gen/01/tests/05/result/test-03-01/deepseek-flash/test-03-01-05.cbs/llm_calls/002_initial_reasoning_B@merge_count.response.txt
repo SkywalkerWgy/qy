@@ -1,0 +1,7 @@
+```
+loop invariant l <= k <= r;
+loop invariant inv >= 0;
+loop invariant sorted(tmp, l, r);
+loop invariant \forall integer x; l <= x < k ==> a[x] == tmp[x];
+loop invariant sorted(a, l, k);
+```

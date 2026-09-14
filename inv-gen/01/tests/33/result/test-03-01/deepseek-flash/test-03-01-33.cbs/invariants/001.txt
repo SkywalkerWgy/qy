@@ -1,0 +1,8 @@
+Loop A@_select_sort:
+  i_0: 0 <= i <= n - 1
+  i_1: sorted(arr, 0, i)
+  i_2: \forall integer k, l; 0 <= k < i && i <= l < n ==> arr[k] <= arr[l]
+Loop B@_select_sort:
+  i_3: i <= j <= n
+  i_4: i <= min < n
+  i_5: \forall integer k; i <= k < j ==> arr[min] <= arr[k]

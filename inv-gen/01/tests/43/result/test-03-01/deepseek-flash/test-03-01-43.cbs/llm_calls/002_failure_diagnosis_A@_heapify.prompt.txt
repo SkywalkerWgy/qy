@@ -1,0 +1,184 @@
+
+/*@
+  predicate max_heap{L}(int* a, integer n, integer i) =
+    (i >= n) ||
+    (((2 * i + 1 >= n) || (2 * i + 1 < n && a[i] >= a[2 * i + 1] && max_heap(a, n, 2 * i + 1))) &&
+    ((2 * i + 2 >= n) || (2 * i + 2 < n && a[i] >= a[2 * i + 2] && max_heap(a, n, 2 * i + 2))));
+*/
+
+/*@
+    predicate is_max3(int * a, integer dad, integer leftson, integer rightson, integer n, integer result) =
+        (0 <= dad < n && a[result] >= a[dad]) &&
+        (leftson < n ==> a[result] >= a[leftson]) &&
+        (rightson < n ==> a[result] >= a[rightson]) &&
+        (0 <= result < n) &&
+        (result == dad || result == leftson || result == rightson);
+*/
+
+/*@
+    requires n >= 0;
+    requires 0 <= dad < n;
+    requires leftson == 2 * dad + 1;
+    requires rightson == 2 * dad + 2;
+    requires \valid(a + (0..(n - 1)));
+    assigns \nothing;
+    ensures is_max3(a, dad, leftson, rightson, n, \result);
+    ensures \result < n;
+*/
+_Safe int max3(int*_Nonnull a, int dad, int leftson, int rightson, int n) {
+  int max_val = dad;
+  if (leftson < n) max_val = a[max_val] >= a[leftson] ? max_val : leftson;
+  if (rightson < n) max_val = a[max_val] >= a[rightson] ? max_val : rightson;
+  return max_val;
+}
+
+/*@
+    requires n >= 0;
+    requires \valid(a + (0..(n - 1)));
+    requires \forall integer i; 0 < i < n ==> (
+            (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) &&
+            (2 * i + 2 < n ==> a[i] >= a[2 * i + 2])
+            );
+    assigns a[0..(n - 1)];
+    ensures \forall integer i; 0 <= i < n ==> (
+            (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) &&
+            (2 * i + 2 < n ==> a[i] >= a[2 * i + 2])
+            );
+*/
+_Safe void _heapify(int*_Nonnull a, int n) {
+    if (n == 0){
+        return;
+    }
+    int dad = 0;
+    int leftson = 1;
+    int rightson = 2;
+    int swapindex = max3(a, dad, leftson, rightson, n);
+        // Loop A
+/*@
+        loop invariant i_0: n >= 0;
+
+        loop invariant i_1: \valid(a + (0..(n - 1)));
+
+        loop invariant i_2: 0 <= dad < n;
+
+        loop invariant i_3: leftson == 2 * dad + 1;
+
+        loop invariant i_4: rightson == 2 * dad + 2;
+
+        loop invariant i_5: is_max3(a, dad, leftson, rightson, n, swapindex);
+
+        loop invariant i_6: 0 <= swapindex < n;
+
+        loop invariant i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) );
+
+
+        loop assigns a[0..(n - 1)];
+        loop assigns dad, leftson, rightson, swapindex;
+    */
+    while (1) {
+        if (dad == swapindex){
+            return;
+        }
+        else{
+            int temp = a[dad];
+            a[dad] = a[swapindex];
+            a[swapindex] = temp;
+            dad = swapindex;
+            leftson = dad * 2 + 1;
+            rightson = dad * 2 + 2;
+            swapindex = max3(a, dad, leftson, rightson, n);
+        }
+    }
+}
+You are an expert in program verification using ACSL and Frama-C. Diagnose why the following verification obligation cannot be discharged. Do not propose new invariants.
+[Failed Invariant] i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) )
+[Failed Property] preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[WP Target] Let a_1 = shift_sint32(a, 0).
+Let a_2 = memcpy(Mint_0, a_1, Mint_undef_0, a_1, n).
+Let a_3 = shift_sint32(a, dad_0).
+Let a_4 = shift_sint32(a, dad_1).
+Let a_5 = a_2[a_3].
+Let a_6 = a_2[a_3 <- a_2[a_4]][a_4 <- a_5].
+Let x = 2 * dad_1.
+Let x_1 = 1 + x.
+Let x_2 = 2 + x.
+Let x_3 = 2 * dad_0.
+Let x_4 = 1 + x_3.
+Let x_5 = 2 + x_3.
+Let x_6 = 2 * i.
+Let x_7 = 2 + x_6.
+Let a_7 = a_6[shift_sint32(a, i)].
+Assume {
+  Type: is_sint32(dad_1) /\ is_sint32(dad_0) /\ is_sint32(max3_0) /\
+      is_sint32(max3_1) /\ is_sint32(n) /\ is_sint32(x_1) /\
+      is_sint32(x_4) /\ is_sint32(x_2) /\ is_sint32(x_5) /\ is_sint32(a_5).
+  (* Heap *)
+  Type: (region(a.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (i != dad_1) /\ (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: 0 <= n.
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, a_1, n).
+  (* Pre-condition *)
+  Have: forall i_1 : Z. let x_8 = 2 * i_1 in let x_9 = 2 + x_8 in
+      let x_10 = Mint_0[shift_sint32(a, i_1)] in ((0 < i_1) -> ((i_1 < n) ->
+      ((((x_9 <= n) -> (Mint_0[shift_sint32(a, 1 + x_8)] <= x_10))) /\
+       ((((3 + x_8) <= n) -> (Mint_0[shift_sint32(a, x_9)] <= x_10)))))).
+  (* Else *)
+  Have: n != 0.
+  (* Call 'max3' *)
+  Have: (max3_1 < n) /\ P_is_max3(Mint_0, a, 0, 1, 2, n, max3_1).
+  (* Invariant 'i_2' *)
+  Have: 0 < n.
+  (* Invariant 'i_6' *)
+  Have: 0 <= max3_1.
+  (* Invariant 'i_7' *)
+  Have: forall i_1 : Z. let x_8 = 2 * i_1 in let x_9 = 2 + x_8 in
+      let x_10 = Mint_0[shift_sint32(a, i_1)] in ((i_1 != 0) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      ((((x_9 <= n) -> (Mint_0[shift_sint32(a, 1 + x_8)] <= x_10))) /\
+       ((((3 + x_8) <= n) -> (Mint_0[shift_sint32(a, x_9)] <= x_10))))))).
+  (* Invariant 'i_2' *)
+  Have: (0 <= dad_0) /\ (dad_0 < n).
+  (* Invariant 'i_5' *)
+  Have: P_is_max3(a_2, a, dad_0, x_4, x_5, n, dad_1).
+  (* Invariant 'i_6' *)
+  Have: (0 <= dad_1) /\ (dad_1 < n).
+  (* Invariant 'i_7' *)
+  Have: forall i_1 : Z. let x_8 = 2 * i_1 in let x_9 = 2 + x_8 in
+      let a_8 = a_2[shift_sint32(a, i_1)] in ((i_1 != dad_0) ->
+      ((0 <= i_1) -> ((i_1 < n) ->
+      ((((x_9 <= n) -> (a_2[shift_sint32(a, 1 + x_8)] <= a_8))) /\
+       ((((3 + x_8) <= n) -> (a_2[shift_sint32(a, x_9)] <= a_8))))))).
+  (* Else *)
+  Have: dad_0 != dad_1.
+  (* Call 'max3' *)
+  Have: (max3_0 < n) /\ P_is_max3(a_6, a, dad_1, x_1, x_2, n, max3_0).
+  (* Invariant 'i_6' *)
+  Have: 0 <= max3_0.
+}
+Prove: (((x_7 <= n) -> (a_6[shift_sint32(a, 1 + x_6)] <= a_7))) /\
+    ((((3 + x_6) <= n) -> (a_6[shift_sint32(a, x_7)] <= a_7))).
+[Available Assumptions] Loop A@_heapify invariants: i_0: n >= 0; i_1: \valid(a + (0..(n - 1))); i_2: 0 <= dad < n; i_3: leftson == 2 * dad + 1; i_4: rightson == 2 * dad + 2; i_5: is_max3(a, dad, leftson, rightson, n, swapindex); i_6: 0 <= swapindex < n; i_7: \forall integer i; (0 <= i < n && i != dad) ==> ( (2 * i + 1 < n ==> a[i] >= a[2 * i + 1]) && (2 * i + 2 < n ==> a[i] >= a[2 * i + 2]) ) and ! (!(1))
+Analyze the proof failure by answering the following items:
+    - Which proof property failed and what that property requires.
+    - Whether failed invariant itself is too strong or non-inductive with respect to the loop body.
+    - Whether the invariant(s) of A@_heapify are too weak to imply the WP goal after the inner loop terminates.
+    - Which missing logical fact is needed to bridge the available assumptions and WP target.
+
+IMPORTANT RULES:
+1. Output only a diagnosis object using the following fields:
+```
+[Failed Property]
+...
+[Failure Cause]
+...
+[Responsible Scope]
+...
+[Refinement Direction]
+...
+```
+2. The [Failed Property] field must copy the input [Failed Property] exactly; it must name the proof property that failed, not restate the invariant formula.
+3. The responsible scope must be selected from A@_heapify, A@_heapify, or both.
+4. Boundary contracts may be cited as assumptions or targets, but must not be selected as repair targets.

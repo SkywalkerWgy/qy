@@ -1,0 +1,2 @@
+[Loop B@rabin_karp]
+loop invariant \forall integer k; 0 <= k < m ==> p[k] >= 0;

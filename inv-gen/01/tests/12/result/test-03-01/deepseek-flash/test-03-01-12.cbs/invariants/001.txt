@@ -1,0 +1,7 @@
+Loop A@_greedy_selector:
+  i_0: 0 <= j && j < i && i <= n
+  i_1: selected[0] == 1
+  i_2: selected[j] == 1
+  i_3: \forall integer k; (0 <= k && k < i && selected[k] == 1) ==> k <= j
+  i_4: \forall integer k; (i <= k && k < n) ==> selected[k] == 0
+  i_5: \forall integer p, q; (0 <= p && p < q && q < i && selected[p] == 1 && selected[q] == 1) ==> s[q] >= f[p]

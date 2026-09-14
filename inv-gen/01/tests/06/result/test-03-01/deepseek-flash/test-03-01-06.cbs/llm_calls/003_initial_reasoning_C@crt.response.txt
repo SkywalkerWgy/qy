@@ -1,0 +1,7 @@
+```
+loop invariant 0 <= i && i <= n;
+loop invariant M == product(m, n);
+loop invariant M > 0;
+loop invariant 0 <= result && result < M;
+loop invariant crt_prefix(a, m, i, result);
+```

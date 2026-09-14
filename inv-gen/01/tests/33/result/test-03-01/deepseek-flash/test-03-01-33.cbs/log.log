@@ -1,0 +1,27 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-33.cbs
+INFO | [INPUT] artifact=input.cbs bytes=904
+INFO | [INIT] functions=swap, _select_sort loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_select_sort prompt=llm_calls/001_initial_reasoning_A@_select_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@_select_sort.response.txt response_chars=157
+INFO | [LLM 001] response_preview=``` loop invariant 0 <= i <= n - 1; loop invariant sorted(arr, 0, i); loop invariant \forall integer k, l; 0 <= k < i && i <= l < n ==> arr[k] <= arr[l]; ```
+INFO | [APPLY] loop=A@_select_sort added=3
+INFO |   + i_0: 0 <= i <= n - 1
+INFO |   + i_1: sorted(arr, 0, i)
+INFO |   + i_2: \forall integer k, l; 0 <= k < i && i <= l < n ==> arr[k] <= arr[l]
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_select_sort prompt=llm_calls/002_initial_reasoning_B@_select_sort.prompt.txt response=llm_calls/002_initial_reasoning_B@_select_sort.response.txt response_chars=133
+INFO | [LLM 002] response_preview=``` loop invariant i <= j <= n; loop invariant i <= min < n; loop invariant \forall integer k; i <= k < j ==> arr[min] <= arr[k]; ```
+INFO | [APPLY] loop=B@_select_sort added=3
+INFO |   + i_3: i <= j <= n
+INFO |   + i_4: i <= min < n
+INFO |   + i_5: \forall integer k; i <= k < j ==> arr[min] <= arr[k]
+INFO | [INVARIANTS] total=6 loops=A@_select_sort:3, B@_select_sort:3 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-33_verified_1.cbs invariants=6
+INFO | [FRAMAC] attempt=1 result=Pass_25_25 stdout=test-03-01-33_verified_1_Pass_25_25.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-33_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 65.78990077972412
+INFO | ------------------------

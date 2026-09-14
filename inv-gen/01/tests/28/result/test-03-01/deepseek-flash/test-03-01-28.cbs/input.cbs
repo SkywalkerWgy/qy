@@ -1,0 +1,272 @@
+/* A parameterized N-Queens solver.
+ *
+ * The board is a caller-provided flat n*n integer array.  Cell (r,c) is
+ * board[r*n + c].  A queen is encoded by 1, an empty square by 0.
+ */
+
+/*@
+  logic integer idx(integer n, integer row, integer col) = row * n + col;
+  logic integer abs_int(integer x) = x < 0 ? -x : x;
+
+  predicate valid_board(integer n, int *board) =
+    1 <= n <= 46340 &&
+    \valid(board + (0 .. n * n - 1));
+
+  predicate binary_board{L}(integer n, int *board) =
+    \forall integer r, c; 0 <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0 ||
+      \at(board[idx(n, r, c)], L) == 1;
+
+  predicate zero_board{L}(integer n, int *board) =
+    \forall integer r, c; 0 <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0;
+
+  predicate one_queen_in_row{L}(integer n, int *board, integer row) =
+    0 <= row < n &&
+    \exists integer col;
+      0 <= col < n &&
+      \at(board[idx(n, row, col)], L) == 1 &&
+      (\forall integer j; 0 <= j < n && j != col ==>
+        \at(board[idx(n, row, j)], L) == 0);
+
+  predicate rows_solved{L}(integer n, int *board, integer row_limit) =
+    0 <= row_limit <= n &&
+    \forall integer r; 0 <= r < row_limit ==>
+      one_queen_in_row{L}(n, board, r);
+
+  predicate rows_empty_from{L}(integer n, int *board, integer row_start) =
+    0 <= row_start <= n &&
+    \forall integer r, c; row_start <= r < n && 0 <= c < n ==>
+      \at(board[idx(n, r, c)], L) == 0;
+
+  predicate no_attack_prefix{L}(integer n, int *board, integer row_limit) =
+    0 <= row_limit <= n &&
+    \forall integer r1, c1, r2, c2;
+      0 <= r1 < r2 < row_limit && 0 <= c1 < n && 0 <= c2 < n &&
+      \at(board[idx(n, r1, c1)], L) == 1 &&
+      \at(board[idx(n, r2, c2)], L) == 1 ==>
+        c1 != c2 && abs_int(r1 - r2) != abs_int(c1 - c2);
+
+  predicate safe_position{L}(integer n, int *board,
+                             integer row, integer col) =
+    0 <= row < n && 0 <= col < n &&
+    \forall integer r, c;
+      0 <= r < row && 0 <= c < n &&
+      \at(board[idx(n, r, c)], L) == 1 ==>
+        c != col && abs_int(row - r) != abs_int(col - c);
+
+  predicate n_queen_solution{L}(integer n, int *board) =
+    binary_board{L}(n, board) &&
+    rows_solved{L}(n, board, n) &&
+    no_attack_prefix{L}(n, board, n);
+
+  lemma rows_solved_frame{L1,L2}:
+    \forall int *board, integer n, row_limit;
+      1 <= n && 0 <= row_limit <= n &&
+      rows_solved{L1}(n, board, row_limit) &&
+      (\forall integer r, c;
+        0 <= r < row_limit && 0 <= c < n ==>
+          \at(board[idx(n, r, c)], L2) ==
+          \at(board[idx(n, r, c)], L1))
+      ==> rows_solved{L2}(n, board, row_limit);
+
+  lemma rows_solved_extend{L}:
+    \forall int *board, integer n, row_limit;
+      1 <= n && 0 <= row_limit < n &&
+      rows_solved{L}(n, board, row_limit) &&
+      one_queen_in_row{L}(n, board, row_limit)
+      ==> rows_solved{L}(n, board, row_limit + 1);
+*/
+
+/*@
+  requires valid_board(n, board);
+  assigns board[0 .. n * n - 1];
+  ensures zero_board{Here}(n, board);
+*/
+_Safe void clear_board(int n, int board[_Nonnull ])
+{
+    int i = 0;
+
+    /*@
+      loop assigns i, board[0 .. n * n - 1];
+      loop variant n * n - i;
+    */
+    while (i < n * n) {
+        board[i] = 0;
+        i++;
+    }
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires 0 <= col < n;
+  assigns \nothing;
+  ensures \result == 0 || \result == 1;
+  ensures \result == 1 ==> safe_position{Here}(n, board, row, col);
+*/
+_Safe int is_safe(int n, int board[_Nonnull ], int row, int col)
+{
+    int r = 0;
+
+    /*@
+      loop assigns r;
+      loop variant row - r;
+    */
+    while (r < row) {
+        int c = 0;
+
+        /*@
+          loop assigns c;
+          loop variant n - c;
+        */
+        while (c < n) {
+            if (board[r * n + c] == 1) {
+                if (c == col) {
+                    return 0;
+                }
+                if (row - r == col - c || row - r == c - col) {
+                    return 0;
+                }
+            }
+            c++;
+        }
+        r++;
+    }
+
+    return 1;
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires 0 <= col < n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires no_attack_prefix{Pre}(n, board, row);
+  requires rows_empty_from{Pre}(n, board, row);
+  requires safe_position{Pre}(n, board, row, col);
+  assigns board[row * n .. row * n + n - 1];
+
+  ensures binary_board{Here}(n, board);
+  ensures rows_solved{Here}(n, board, row + 1);
+  ensures no_attack_prefix{Here}(n, board, row + 1);
+  ensures rows_empty_from{Here}(n, board, row + 1);
+*/
+_Safe void place_queen(int n, int board[_Nonnull ], int row, int col)
+{
+    int j = 0;
+
+    /*@
+      loop assigns j, board[row * n .. row * n + n - 1];
+      loop variant n - j;
+    */
+    while (j < n) {
+        if (j == col) {
+            board[row * n + j] = 1;
+        } else {
+            board[row * n + j] = 0;
+        }
+        j++;
+    }
+
+    //@ assert \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+    //@ assert rows_solved(n, board, row);
+    //@ assert board[idx(n, row, col)] == 1;
+    //@ assert \forall integer k; 0 <= k < n && k != col ==> board[idx(n, row, k)] == 0;
+    //@ assert one_queen_in_row(n, board, row);
+    //@ assert \forall integer r; 0 <= r < row ==> one_queen_in_row(n, board, r);
+    //@ assert \forall integer r; 0 <= r < row + 1 ==> one_queen_in_row(n, board, r);
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row < n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires rows_solved{Pre}(n, board, row + 1);
+  requires no_attack_prefix{Pre}(n, board, row + 1);
+  requires rows_empty_from{Pre}(n, board, row + 1);
+  assigns board[row * n .. row * n + n - 1];
+
+  ensures binary_board{Here}(n, board);
+  ensures rows_solved{Here}(n, board, row);
+  ensures no_attack_prefix{Here}(n, board, row);
+  ensures rows_empty_from{Here}(n, board, row);
+*/
+_Safe void clear_row(int n, int board[_Nonnull ], int row)
+{
+    int j = 0;
+
+    /*@
+      loop assigns j, board[row * n .. row * n + n - 1];
+      loop variant n - j;
+    */
+    while (j < n) {
+        board[row * n + j] = 0;
+        j++;
+    }
+
+    //@ assert \forall integer r, k; 0 <= r < row && 0 <= k < n ==> board[idx(n, r, k)] == \at(board[idx(n, r, k)], Pre);
+    //@ assert rows_solved(n, board, row);
+    //@ assert \forall integer k; 0 <= k < n ==> board[idx(n, row, k)] == 0;
+}
+
+/*@
+  requires valid_board(n, board);
+  requires 0 <= row <= n;
+  requires binary_board{Pre}(n, board);
+  requires rows_solved{Pre}(n, board, row);
+  requires no_attack_prefix{Pre}(n, board, row);
+  requires rows_empty_from{Pre}(n, board, row);
+  assigns board[row * n .. n * n - 1];
+
+  ensures \result == 0 || \result == 1;
+  ensures \result == 1 ==> n_queen_solution{Here}(n, board);
+  ensures \result == 0 ==> binary_board{Here}(n, board);
+  ensures \result == 0 ==> rows_solved{Here}(n, board, row);
+  ensures \result == 0 ==> no_attack_prefix{Here}(n, board, row);
+  ensures \result == 0 ==> rows_empty_from{Here}(n, board, row);
+*/
+_Safe int solve_from_row(int n, int board[_Nonnull ], int row)
+{
+    if (row == n) {
+        return 1;
+    }
+
+    int col = 0;
+
+    /*@
+      loop assigns col, board[row * n .. n * n - 1];
+      loop variant n - col;
+    */
+    while (col < n) {
+        if (is_safe(n, board, row, col)) {
+            //@ assert row < n;
+            //@ assert row * n + n <= n * n;
+            place_queen(n, board, row, col);
+            //@ assert (row + 1) * n <= n * n;
+            if (solve_from_row(n, board, row + 1)) {
+                return 1;
+            }
+            clear_row(n, board, row);
+        }
+        col++;
+    }
+
+    return 0;
+}
+
+/*@
+  requires valid_board(n, board);
+  assigns board[0 .. n * n - 1];
+
+  ensures \result == 0 || \result == 1;
+  ensures binary_board{Here}(n, board);
+  ensures \result == 1 ==> n_queen_solution{Here}(n, board);
+*/
+_Safe int _n_queen(int n, int board[_Nonnull ])
+{
+    clear_board(n, board);
+    return solve_from_row(n, board, 0);
+}

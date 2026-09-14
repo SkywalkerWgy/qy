@@ -1,0 +1,28 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-16.cbs
+INFO | [INPUT] artifact=input.cbs bytes=687
+INFO | [INIT] functions=_insertion_sort loops=2 delayed_filter_threshold=3
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_insertion_sort prompt=llm_calls/001_initial_reasoning_A@_insertion_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@_insertion_sort.response.txt response_chars=67
+INFO | [LLM 001] response_preview=``` loop invariant Sorted(t, 0, i); loop invariant 1 <= i <= n; ```
+INFO | [APPLY] loop=A@_insertion_sort added=2
+INFO |   + i_0: Sorted(t, 0, i)
+INFO |   + i_1: 1 <= i <= n
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_insertion_sort prompt=llm_calls/002_initial_reasoning_B@_insertion_sort.prompt.txt response=llm_calls/002_initial_reasoning_B@_insertion_sort.response.txt response_chars=239
+INFO | [LLM 002] response_preview=loop invariant 0 <= j <= i; loop invariant Sorted(t, 0, j); loop invariant Sorted(t, j + 1, i + 1); loop invariant \forall integer k; j < k <= i ==> t[k] > mv; loop invariant \forall integer a, b; 0 <= a < j && j < b ...
+INFO | [APPLY] loop=B@_insertion_sort added=5
+INFO |   + i_2: 0 <= j <= i
+INFO |   + i_3: Sorted(t, 0, j)
+INFO |   + i_4: Sorted(t, j + 1, i + 1)
+INFO |   + i_5: \forall integer k; j < k <= i ==> t[k] > mv
+INFO |   + i_6: \forall integer a, b; 0 <= a < j && j < b <= i ==> t[a] <= t[b]
+INFO | [INVARIANTS] total=7 loops=A@_insertion_sort:2, B@_insertion_sort:5 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-16_verified_1.cbs invariants=7
+INFO | [FRAMAC] attempt=1 result=Pass_29_29 stdout=test-03-01-16_verified_1_Pass_29_29.txt stderr=
+INFO | [PASS] attempt=1 candidate=test-03-01-16_verified_1.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 1
+INFO | Verified code: verified.cbs
+INFO | Running time: 107.53782320022583
+INFO | ------------------------

@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_42: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation proof for i_42 fails because the invariant is non-inductive as stated. The loop body increments `j`, so the invariant must hold for `j+1`. Although the inequality is monotonic, the available invariants do not provide the basic index bound that `r < row` and `c < n` imply `r*n + c < row*n`. Without this fact, the prover cannot instantiate the quantifier to discharge the WP goal `(i + i_1*n) <= row*n + j`. The invariant is not too strong; it is too weak to be inductive without the missing index bound. The other invariants of E@clear_row do not supply this fact, so they are too weak to imply the needed goal.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+The missing logical fact is that for all `r < row` and `c < n`, `r*n + c < row*n` (equivalently `r*n + c <= row*n - 1`). This fact bridges the available assumptions and the WP target by showing that any cell in a previous row has an index strictly less than the start of the current row, hence less than or equal to the current write index `row*n + j` for any `j >= 0`.

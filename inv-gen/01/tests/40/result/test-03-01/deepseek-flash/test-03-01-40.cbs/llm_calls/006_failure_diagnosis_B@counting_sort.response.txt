@@ -1,0 +1,17 @@
+[Failed Property]
+establishment and preservation of i_7: the invariant must hold both at loop entry and after each loop-body iteration.
+
+[Failure Cause]
+The failed property requires proving i_7 at loop entry and after every iteration of Loop B. The invariant i_7 is mathematically correct, but it is non-inductive with respect to the loop body because the proof lacks supporting lemmas about the recursive logic function `sum_c`.  
+- For establishment, after Loop A the available invariants i_0 and i_1 imply `v == k+1` and `c[0..k] == 0`, but WP cannot automatically derive `sum_c(c,k) == 0` from pointwise zeros without unfolding/inducting over `sum_c`.  
+- For preservation, the loop body increments `c[a[i]]` by 1. To prove `sum_c(c,k)` increases by exactly 1, one needs the fact that `0 <= a[i] <= k` (already given by the precondition) and the update lemma `sum_c(c[a[i]] <- c[a[i]]+1, k) == sum_c(c,k) + 1`. This fact is not available, so the solver cannot relate the updated `sum_c` to the old `sum_c`.  
+The invariant itself is not too strong; it is the intended specification. It is simply not inductive without the missing `sum_c` lemmas. The invariants of A@counting_sort are not too weak—they provide the needed pointwise zeros—but they do not supply the recursive sum reasoning.
+
+[Responsible Scope]
+both
+
+[Refinement Direction]
+Add global lemmas/axioms about `sum_c` (not new loop invariants), such as:  
+1. `\forall c; (\forall i; 0 <= i <= k ==> c[i] == 0) ==> sum_c(c,k) == 0`  
+2. `\forall c, v; 0 <= v <= k ==> sum_c(c[v <- c[v]+1], k) == sum_c(c,k) + 1`  
+or more generally, prove that `sum_c(c,k)` equals the sum of `c[0..k]`. This bridges the available assumptions from Loop A and the loop-body update in Loop B to the WP targets.

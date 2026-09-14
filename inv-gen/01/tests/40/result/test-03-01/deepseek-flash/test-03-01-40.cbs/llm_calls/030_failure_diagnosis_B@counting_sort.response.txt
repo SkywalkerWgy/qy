@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_7: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation goal for Loop B reduces to proving that after `c[a[i]] = c[a[i]] + 1`, the value of `sum_c(c,k)` is exactly the old `sum_c(c,k) + 1`. The available assumptions give only `0 <= a[i] <= k` and nonnegativity/current-sum facts about `c`; they do not provide any fact that unfolds `sum_c` over an updated array at a valid index and increases the sum by one. In particular, `i_37` is essentially a tautological decomposition of `sum_c` and does not connect the old and updated arrays. Thus WP cannot discharge the equality `x_2 = L_sum_c(a_7,c,k)`.
+
+[Responsible Scope]
+B@counting_sort
+
+[Refinement Direction]
+The failed invariant `i_7` is not too strong; it is the natural invariant and would be inductive once the needed array-update property of `sum_c` is available. The Loop B invariants are too weak for the preservation proof because they do not expose how `sum_c` changes under a point update. The missing bridge is the fact that for `0 <= idx <= k`, `sum_c(c[idx <- c[idx] + 1], k) = sum_c(c, k) + 1` (equivalently, adding one to an included counter increases the total sum by one). The repair belongs in the proof context for `sum_c`, not in new loop invariants.

@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_32: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The invariant i_32 is unguarded with respect to the loop index j. The preservation obligation must re-establish it for the next index, i.e. prove `dist[k][j+1] <= graph[k][j+1]`. When `j+1 == n`, this accesses column `n`, which is outside the `n x n` matrix. The available universal invariant `no_larger_than_graph` (i_23) only ranges over indices `< n`, so it cannot justify the value at column `n`. For `j+1 < n`, that invariant would suffice, but the proof obligation does not assume `j+1 < n`. Hence the unguarded invariant demands a fact about an out-of-range column and is too strong/non-inductive for the loop.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The missing logical fact is the loop-continuation/range guard for the next index: `j + 1 < n`. With this guard, the existing `no_larger_than_graph` invariant (i_23) already supplies `dist[k][j+1] <= graph[k][j+1]` for all valid columns. The unguarded i_32 should not be required at `j = n`; the existing guarded invariant i_37 (`j < n ==> dist[k][j] <= graph[k][j]`) is the appropriate shape.

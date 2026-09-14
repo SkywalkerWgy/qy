@@ -1,0 +1,1910 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c (with preprocessing)
+[wp] Running WP plugin...
+[wp] Warning: Missing RTE guards
+[wp] 74 goals scheduled
+[wp] [Timeout] typed_rabin_karp_loop_invariant_i_24_established (Qed 7ms) (Alt-Ergo)
+[wp] Proved goals:   74 / 75
+  Unreachable:       1
+  Qed:              45 (1ms-14ms-308ms)
+  Alt-Ergo 2.6.3:   27 (10ms-40ms-203ms)
+  Z3 4.13.3:         1 (121ms)
+  Timeout:           1
+------------------------------------------------------------
+  Function fast_pow_mod
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 37) in 'fast_pow_mod':
+Let x_1 = x % m.
+Let x_2 = 1 % m.
+Let x_3 = (L_pow_mod(x_1, exp_0, m) * x_2) % m.
+Assume {
+  Type: is_sint32(base_0) /\ is_sint32(exp_1) /\ is_sint32(exp_0) /\
+      is_sint32(fast_pow_mod_0) /\ is_sint32(m) /\ is_sint32(x) /\
+      is_sint32(x_2) /\ is_sint32(x_1).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_2) /\ (x_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = L_pow_mod(x, exp_0, m).
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_1.
+  (* Invariant 'i_1' *)
+  Have: (0 <= fast_pow_mod_0) /\ (fast_pow_mod_0 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= base_0) /\ (base_0 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = ((fast_pow_mod_0 * L_pow_mod(base_0, exp_1, m)) % m).
+  (* Else *)
+  Have: exp_1 <= 0.
+}
+Prove: x_3 = fast_pow_mod_0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:3ms) (145ms) (6516)
+Prover CVC5 1.1.2 returns Valid (Qed:3ms) (72ms) (31185)
+Prover Z3 4.13.3 returns Valid (Qed:3ms) (20ms) (55072)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 46):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_0' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 46):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 48):
+Let x_1 = x % m.
+Let x_2 = 1 % m.
+Let x_3 = (L_pow_mod(x_1, exp_1, m) * x_2) % m.
+Let x_4 = (base_0 * res_0) % m.
+Assume {
+  Type: is_sint32(base_0) /\ is_sint32(exp_0) /\ is_sint32(exp_1) /\
+      is_sint32(m) /\ is_sint32(res_0) /\ is_sint32(x) /\
+      is_sint32(exp_0 / 2) /\ is_sint32(x_2) /\ is_sint32(x_1) /\
+      is_sint32(x_4).
+  (* Residual *)
+  When: (exp_0 % 2) = 1.
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_1.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_2) /\ (x_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = L_pow_mod(x, exp_1, m).
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= res_0) /\ (res_0 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= base_0) /\ (base_0 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = ((res_0 * L_pow_mod(base_0, exp_0, m)) % m).
+  (* Then *)
+  Have: 0 < exp_0.
+}
+Prove: (0 <= x_4) /\ (x_4 < m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:10ms) (25ms) (507)
+Prover CVC5 1.1.2 returns Valid (Qed:10ms) (234ms) (82457)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_1' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 48):
+Let x_1 = 1 % m.
+Assume {
+  Type: is_sint32(exp_0) /\ is_sint32(m) /\ is_sint32(x) /\ is_sint32(x_1) /\
+      is_sint32(x % m).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_0.
+}
+Prove: (0 <= x_1) /\ (x_1 < m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:1ms) (23ms) (60)
+Prover CVC5 1.1.2 returns Valid (Qed:1ms) (27ms) (15080)
+Prover Z3 4.13.3 returns Valid (Qed:1ms) (5ms) (37816)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 50):
+Let x_1 = x % m.
+Let x_2 = 1 % m.
+Let x_3 = (L_pow_mod(x_1, exp_4, m) * x_2) % m.
+Assume {
+  Type: is_sint32(base_0) /\ is_sint32(base_1) /\ is_sint32(base_2) /\
+      is_sint32(base_3) /\ is_sint32(exp_0) /\ is_sint32(exp_1) /\
+      is_sint32(exp_2) /\ is_sint32(exp_3) /\ is_sint32(exp_4) /\
+      is_sint32(m) /\ is_sint32(res_0) /\ is_sint32(res_1) /\
+      is_sint32(res_2) /\ is_sint32(x) /\ is_sint32(x_2) /\ is_sint32(x_1).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_4.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_2) /\ (x_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = L_pow_mod(x, exp_4, m).
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_3.
+  (* Invariant 'i_1' *)
+  Have: (0 <= res_2) /\ (res_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= base_3) /\ (base_3 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = ((res_2 * L_pow_mod(base_3, exp_3, m)) % m).
+  (* Then *)
+  Have: 0 < exp_3.
+  If (exp_3 % 2) = 1
+  Then {
+    Have: (base_3 = base_1) /\ (exp_3 = exp_1) /\ (res_2 = res_1).
+    Have: ((base_1 * res_1) % m) = res_0.
+    Have: ((base_1 * base_1) % m) = base_0.
+    Have: (exp_1 / 2) = exp_0.
+  }
+  Else {
+    Have: (base_3 = base_2) /\ (exp_3 = exp_2) /\ (res_2 = res_0).
+    Have: ((base_2 * base_2) % m) = base_0.
+    Have: (exp_2 / 2) = exp_0.
+  }
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= res_0) /\ (res_0 < m).
+}
+Prove: (0 <= base_0) /\ (base_0 < m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (47ms) (1267)
+Prover CVC5 1.1.2 returns Valid (Qed:13ms) (453ms) (121245)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_2' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 50):
+Let x_1 = 1 % m.
+Let x_2 = x % m.
+Assume {
+  Type: is_sint32(exp_0) /\ is_sint32(m) /\ is_sint32(x) /\ is_sint32(x_1) /\
+      is_sint32(x_2).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+}
+Prove: (0 <= x_2) /\ (x_2 < m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:1ms) (11ms) (56)
+Prover CVC5 1.1.2 returns Valid (Qed:1ms) (16ms) (15167)
+Prover Z3 4.13.3 returns Valid (Qed:1ms) (7ms) (38022)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 52):
+Let x_1 = x % m.
+Let x_2 = 1 % m.
+Let x_3 = (L_pow_mod(x_1, exp_0, m) * x_2) % m.
+Assume {
+  Type: is_sint32(base_0) /\ is_sint32(base_1) /\ is_sint32(base_2) /\
+      is_sint32(base_3) /\ is_sint32(exp_1) /\ is_sint32(exp_2) /\
+      is_sint32(exp_3) /\ is_sint32(exp_4) /\ is_sint32(exp_0) /\
+      is_sint32(m) /\ is_sint32(res_0) /\ is_sint32(res_1) /\
+      is_sint32(res_2) /\ is_sint32(x) /\ is_sint32(x_2) /\ is_sint32(x_1).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_2) /\ (x_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = L_pow_mod(x, exp_0, m).
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_4.
+  (* Invariant 'i_1' *)
+  Have: (0 <= res_2) /\ (res_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= base_3) /\ (base_3 < m).
+  (* Invariant 'i_3' *)
+  Have: x_3 = ((res_2 * L_pow_mod(base_3, exp_4, m)) % m).
+  (* Then *)
+  Have: 0 < exp_4.
+  If (exp_4 % 2) = 1
+  Then {
+    Have: (base_3 = base_1) /\ (exp_4 = exp_2) /\ (res_2 = res_1).
+    Have: ((base_1 * res_1) % m) = res_0.
+    Have: ((base_1 * base_1) % m) = base_0.
+    Have: (exp_2 / 2) = exp_1.
+  }
+  Else {
+    Have: (base_3 = base_2) /\ (exp_4 = exp_3) /\ (res_2 = res_0).
+    Have: ((base_2 * base_2) % m) = base_0.
+    Have: (exp_3 / 2) = exp_1.
+  }
+  (* Invariant 'i_0' *)
+  Have: 0 <= exp_1.
+  (* Invariant 'i_1' *)
+  Have: (0 <= res_0) /\ (res_0 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= base_0) /\ (base_0 < m).
+}
+Prove: x_3 = ((res_0 * L_pow_mod(base_0, exp_1, m)) % m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:16ms) (203ms) (3867)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_3' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 52):
+Let x_1 = x % m.
+Let x_2 = 1 % m.
+Assume {
+  Type: is_sint32(exp_0) /\ is_sint32(m) /\ is_sint32(x) /\ is_sint32(x_2) /\
+      is_sint32(x_1).
+  (* Pre-condition *)
+  Have: 0 < m.
+  (* Pre-condition *)
+  Have: 0 <= x.
+  (* Pre-condition *)
+  Have: 0 <= exp_0.
+  (* Invariant 'i_1' *)
+  Have: (0 <= x_2) /\ (x_2 < m).
+  (* Invariant 'i_2' *)
+  Have: (0 <= x_1) /\ (x_1 < m).
+}
+Prove: ((L_pow_mod(x_1, exp_0, m) * x_2) % m) = L_pow_mod(x, exp_0, m).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:2ms) (32ms) (987)
+Prover Z3 4.13.3 returns Valid (Qed:2ms) (10ms) (45243)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 55):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+------------------------------------------------------------
+  Function rabin_karp
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 89) in 'rabin_karp':
+Let x = i_3 + j_3.
+Let x_1 = L_str_hash(Mint_0, t, i_3, j_3, 256, 1000000007).
+Let x_2 = L_str_hash(Mint_0, t, 0, j_4, 256, 1000000007).
+Let x_3 = L_str_hash(Mint_0, p, 0, j_4, 256, 1000000007).
+Assume {
+  Type: is_sint32(hp_0) /\ is_sint32(hp_1) /\ is_sint32(ht_0) /\
+      is_sint32(i) /\ is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(i_3) /\
+      is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(j_2) /\ is_sint32(j_3) /\
+      is_sint32(j_4) /\ is_sint32(m) /\ is_sint32(m_1) /\ is_sint32(m_2) /\
+      is_sint32(m_3) /\ is_sint32(n_1) /\ is_sint32(n) /\
+      is_sint32(rabin_karp_0) /\
+      is_sint32(L_pow_mod(256, m_3 - 1, 1000000007)) /\ is_sint32(x_3) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m_3, 256, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, i_3, m_3, 256, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m_3).
+  (* Pre-condition *)
+  Have: (0 < m_3) /\ (m_3 <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < m_3) ->
+      (0 <= Mint_0[shift_sint32(p, i_4)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_4) /\ (j_4 <= m_3).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Else *)
+  Have: m_3 <= j_4.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_4)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j_3) /\ (j_3 <= j_4).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_2 = L_str_hash(Mint_0, t, 0, j_3, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < j_3) ->
+      (0 <= Mint_0[shift_sint32(t, i_4)]))).
+  (* Else *)
+  Have: j_4 <= j_3.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i_3) /\ (x <= n).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x_1) /\ (x_1 <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_2) /\ (j_2 <= j_3).
+  If x < n
+  Then {
+    Have: (Mint_0 = Mint_1) /\ (i_3 = i) /\ (m = j_3) /\ (p = p_1) /\
+        (rabin_karp_0 = i) /\ (rabin_karp_0 = i_3) /\ (t = t_1) /\
+        (L_str_hash(Mint_1, p_1, 0, m, 256, 1000000007) = hp_0) /\
+        (L_str_hash(Mint_1, t_1, rabin_karp_0, m, 256, 1000000007) = hp_0).
+    (* Invariant 'i_19' *)
+    Have: 0 <= m.
+    (* Invariant 'i_21' *)
+    Have: (0 <= rabin_karp_0) /\ ((m + rabin_karp_0) < n).
+    (* Invariant 'i_19' *)
+    Have: (0 <= j) /\ (j <= m).
+    (* Invariant 'i_20' *)
+    Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < j) ->
+        (Mint_1[shift_sint32(t_1, rabin_karp_0 + i_4)]
+           = Mint_1[shift_sint32(p_1, i_4)]))).
+    Have: m <= j.
+  }
+  Else {
+    Let x_4 = n_1 - i_2.
+    Have: (Mint_0 = Mint_2) /\ (i_3 = i_2) /\ ((i_2 + j_3) = n_1) /\
+        ((i_2 + m_2) = n_1) /\
+        (L_str_hash(Mint_2, p, 0, x_4, 256, 1000000007) = hp_1) /\
+        (L_str_hash(Mint_2, t, i_2, x_4, 256, 1000000007) = ht_0).
+    If ht_0 = hp_1
+    Then {
+      Have: Mint_2 = Mint_3.
+      (* Invariant 'i_7' *)
+      Have: (0 <= j_1) /\ (j_1 <= m_1).
+      (* Invariant 'i_8' *)
+      Have: forall i_4 : Z. ((0 <= i_4) -> ((i_4 < j_1) ->
+          (Mint_3[shift_sint32(t, n_1 + i_4 - m_1)]
+             = Mint_3[shift_sint32(p, i_4)]))).
+      Core: (i_2 + m_1) = n_1.
+      If j_1 < m_1
+      Then {
+        Have: (Mint_3 = Mint_4) /\ ((i_1 + m_1) = n_1).
+        (* Else *)
+        Have: Mint_4[shift_sint32(t, i_1 + j_1)]
+                != Mint_4[shift_sint32(p, j_1)].
+      }
+      If m_1 = j_1
+      Then { Have: (j_1 + rabin_karp_0) = n_1. }
+      Else { Have: rabin_karp_0 = (-1). }
+    }
+    Else { Have: rabin_karp_0 = (-1). }
+  }
+}
+Prove: (rabin_karp_0 < n) /\ ((-1) <= rabin_karp_0).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:247ms) (20ms) (226)
+Prover CVC5 1.1.2 returns Valid (Qed:247ms) (23ms) (13960)
+Prover Z3 4.13.3 returns Valid (Qed:247ms) (8ms) (59527)
+
+------------------------------------------------------------
+
+Goal Post-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 90) in 'rabin_karp':
+Let x = i_4 + j_3.
+Let x_1 = L_str_hash(Mint_0, t, i_4, j_3, 256, 1000000007).
+Let x_2 = L_str_hash(Mint_0, t, 0, j_4, 256, 1000000007).
+Let x_3 = L_str_hash(Mint_0, p, 0, j_4, 256, 1000000007).
+Assume {
+  Type: is_sint32(hp_0) /\ is_sint32(hp_1) /\ is_sint32(ht_0) /\
+      is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(i_3) /\ is_sint32(i_4) /\
+      is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(j_2) /\ is_sint32(j_3) /\
+      is_sint32(j_4) /\ is_sint32(m) /\ is_sint32(m_1) /\ is_sint32(m_2) /\
+      is_sint32(m_3) /\ is_sint32(n) /\ is_sint32(n_1) /\ is_sint32(n_2) /\
+      is_sint32(rabin_karp_0) /\
+      is_sint32(L_pow_mod(256, m_3 - 1, 1000000007)) /\ is_sint32(x_3) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m_3, 256, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, i_4, m_3, 256, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < m_3) /\ (0 <= rabin_karp_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n_2).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m_3).
+  (* Pre-condition *)
+  Have: (0 < m_3) /\ (m_3 <= n_2).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < m_3) ->
+      (0 <= Mint_0[shift_sint32(p, i_5)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_4) /\ (j_4 <= m_3).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Else *)
+  Have: m_3 <= j_4.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < n_2) ->
+      (0 <= Mint_0[shift_sint32(t, i_5)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j_3) /\ (j_3 <= j_4).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_2 = L_str_hash(Mint_0, t, 0, j_3, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < j_3) ->
+      (0 <= Mint_0[shift_sint32(t, i_5)]))).
+  (* Else *)
+  Have: j_4 <= j_3.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i_4) /\ (x <= n_2).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x_1) /\ (x_1 <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_2) /\ (j_2 <= j_3).
+  If x < n_2
+  Then {
+    Have: (i_4 = i_1) /\ (m = j_3) /\ (n_2 = n) /\ (rabin_karp_0 = i_1) /\
+        (rabin_karp_0 = i_4) /\
+        (L_str_hash(Mint_0, p, 0, m, 256, 1000000007) = hp_0) /\
+        (L_str_hash(Mint_0, t, rabin_karp_0, m, 256, 1000000007) = hp_0).
+    (* Invariant 'i_19' *)
+    Have: 0 <= m.
+    (* Invariant 'i_21' *)
+    Have: (m + rabin_karp_0) < n.
+    (* Invariant 'i_19' *)
+    Have: (0 <= j) /\ (j <= m).
+    (* Invariant 'i_20' *)
+    Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < j) ->
+        (Mint_0[shift_sint32(t, rabin_karp_0 + i_5)]
+           = Mint_0[shift_sint32(p, i_5)]))).
+    Have: m <= j.
+  }
+  Else {
+    Let x_4 = n_1 - i_3.
+    Have: (i_4 = i_3) /\ ((i_3 + j_3) = n_1) /\ ((i_3 + m_2) = n_1) /\
+        (L_str_hash(Mint_0, p, 0, x_4, 256, 1000000007) = hp_1) /\
+        (L_str_hash(Mint_0, t, i_3, x_4, 256, 1000000007) = ht_0).
+    If ht_0 = hp_1
+    Then {
+      (* Invariant 'i_7' *)
+      Have: (0 <= j_1) /\ (j_1 <= m_1).
+      (* Invariant 'i_8' *)
+      Have: forall i_5 : Z. ((0 <= i_5) -> ((i_5 < j_1) ->
+          (Mint_0[shift_sint32(t, n_1 + i_5 - m_1)]
+             = Mint_0[shift_sint32(p, i_5)]))).
+      Core: (i_3 + m_1) = n_1.
+      If j_1 < m_1
+      Then {
+        Have: (i_2 + m_1) = n_1.
+        (* Else *)
+        Have: Mint_0[shift_sint32(t, i_2 + j_1)]
+                != Mint_0[shift_sint32(p, j_1)].
+      }
+      If m_1 = j_1
+      Then { Have: (j_1 + rabin_karp_0) = n_1. }
+      Else { Have: rabin_karp_0 = (-1). }
+    }
+    Else { Have: rabin_karp_0 = (-1). }
+  }
+}
+Prove: Mint_0[shift_sint32(t, i + rabin_karp_0)] = Mint_0[shift_sint32(p, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:308ms) (70ms) (821)
+Prover Z3 4.13.3 returns Valid (Qed:308ms) (88ms) (837891)
+
+------------------------------------------------------------
+
+Goal Exit-condition (generated) in 'rabin_karp':
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 98):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 110):
+Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(p, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Let x_3 = 1 + j.
+Assume {
+  Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(x_3) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < m).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Then *)
+  Have: j < m.
+  Have: x_2 = L_str_hash(Mint_0, p, 0, x_3, 256, 1000000007).
+  (* Invariant 'i_4' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+}
+Prove: 0 <= Mint_0[shift_sint32(p, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:10ms) (19ms) (119)
+Prover Z3 4.13.3 returns Valid (Qed:10ms) (8ms) (41774)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_25' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 110):
+Assume {
+  Type: is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < m).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+}
+Prove: 0 <= Mint_0[shift_sint32(p, i)].
+Prover Z3 4.13.3 returns Valid (Qed:6ms) (121ms) (2059956)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 104):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_4' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 104):
+Prove: true.
+Prover Qed returns Valid (1ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 106):
+Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(p, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Assume {
+  Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(1 + j) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < m) ->
+      (0 <= Mint_0[shift_sint32(p, i)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Then *)
+  Have: j < m.
+  (* Invariant 'i_4' *)
+  Have: (-1) <= j.
+}
+Prove: (0 <= x_2) /\ (x_2 <= 1000000006).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:7ms) (22ms) (155)
+Prover Z3 4.13.3 returns Valid (Qed:7ms) (7ms) (41086)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_5' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 106):
+Prove: true.
+Prover Qed returns Valid (0.92ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 108):
+Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(p, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Let x_3 = 1 + j.
+Assume {
+  Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(x_3) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < m) ->
+      (0 <= Mint_0[shift_sint32(p, i)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Then *)
+  Have: j < m.
+  (* Invariant 'i_4' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+}
+Prove: x_2 = L_str_hash(Mint_0, p, 0, x_3, 256, 1000000007).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:7ms) (22ms) (126)
+Prover CVC5 1.1.2 returns Valid (Qed:7ms) (17ms) (17298)
+Prover Z3 4.13.3 returns Valid (Qed:7ms) (5ms) (44277)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_6' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 108):
+Assume {
+  Type: is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+}
+Prove: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:3ms) (18ms) (50)
+Prover CVC5 1.1.2 returns Valid (Qed:3ms) (16ms) (15204)
+Prover Z3 4.13.3 returns Valid (Qed:3ms) (3ms) (38441)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 123):
+Prove: true.
+Prover Qed returns Valid (13ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_12' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 123):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 125):
+Let x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+Let x_1 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Let x_2 = Mint_0[shift_sint32(t, j)].
+Let x_3 = (x_2 + (256 * x)) % 1000000007.
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(1 + j) /\ is_sint32(x_2) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_1) /\
+      is_sint32(x) /\ is_sint32(x_3).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < m) ->
+      (0 <= Mint_0[shift_sint32(p, i)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_1) /\ (x_1 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(t, i)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < j) ->
+      (0 <= Mint_0[shift_sint32(t, i)]))).
+  (* Then *)
+  Have: j < j_1.
+  (* Invariant 'i_12' *)
+  Have: (-1) <= j.
+}
+Prove: (0 <= x_3) /\ (x_3 <= 1000000006).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (28ms) (282)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (12ms) (44159)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_13' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 125):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 127):
+Let x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(t, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Let x_3 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Let x_4 = 1 + j.
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(x_4) /\ is_sint32(x_1) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_3) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < m) ->
+      (0 <= Mint_0[shift_sint32(p, i)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < n) ->
+      (0 <= Mint_0[shift_sint32(t, i)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < j) ->
+      (0 <= Mint_0[shift_sint32(t, i)]))).
+  (* Then *)
+  Have: j < j_1.
+  (* Invariant 'i_12' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+}
+Prove: x_2 = L_str_hash(Mint_0, t, 0, x_4, 256, 1000000007).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:11ms) (24ms) (174)
+Prover CVC5 1.1.2 returns Valid (Qed:11ms) (38ms) (23662)
+Prover Z3 4.13.3 returns Valid (Qed:11ms) (20ms) (95240)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_14' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 127):
+Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i : Z. ((0 <= i) -> ((i < m) ->
+      (0 <= Mint_0[shift_sint32(p, i)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Else *)
+  Have: m <= j.
+}
+Prove: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:7ms) (10ms) (90)
+Prover CVC5 1.1.2 returns Valid (Qed:7ms) (23ms) (16731)
+Prover Z3 4.13.3 returns Valid (Qed:7ms) (4ms) (39907)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 129):
+Let x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(t, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Let x_3 = 1 + j.
+Let x_4 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(x_3) /\ is_sint32(x_1) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_4) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_4) /\ (x_4 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Then *)
+  Have: j < j_1.
+  Have: x_2 = L_str_hash(Mint_0, t, 0, x_3, 256, 1000000007).
+  (* Invariant 'i_12' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+}
+Prove: 0 <= Mint_0[shift_sint32(t, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (25ms) (163)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (7ms) (43786)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_24' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 129):
+Let x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Else *)
+  Have: m <= j.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+}
+Prove: 0 <= Mint_0[shift_sint32(t, i)].
+Prover Alt-Ergo 2.6.3 returns Timeout (Qed:7ms) (10s)
+Prover CVC5 1.1.2 returns Timeout (Qed:7ms) (10s)
+Prover Z3 4.13.3 returns Timeout (Qed:7ms) (10s)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_28' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 131):
+Let x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(t, j)].
+Let x_2 = (x_1 + (256 * x)) % 1000000007.
+Let x_3 = 1 + j.
+Let x_4 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(x_3) /\ is_sint32(x_1) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_4) /\
+      is_sint32(x) /\ is_sint32(x_2).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i <= j).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_4) /\ (x_4 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Then *)
+  Have: j < j_1.
+  Have: x_2 = L_str_hash(Mint_0, t, 0, x_3, 256, 1000000007).
+  (* Invariant 'i_12' *)
+  Have: (-1) <= j.
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+}
+Prove: 0 <= Mint_0[shift_sint32(t, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (24ms) (211)
+Prover Z3 4.13.3 returns Valid (Qed:13ms) (8ms) (44174)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_28' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 131):
+Prove: true.
+Prover Qed returns Valid (0.84ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 143):
+Prove: true.
+Prover Qed returns Valid (42ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_15' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 143):
+Prove: true.
+Prover Qed returns Valid (4ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 145):
+Let x = L_str_hash(Mint_0, t, i, j, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(t, i)].
+Let x_2 = i + j.
+Let x_3 = (256000001792 + Mint_0[shift_sint32(t, x_2)] + (256 * x)
+           - (256 * ((L_pow_mod(256, j - 1, 1000000007) * x_1) % 1000000007)))
+    % 1000000007.
+Let x_4 = 1 + i.
+Let x_5 = L_str_hash(Mint_0, t, 0, m, 256, 1000000007).
+Let x_6 = L_str_hash(Mint_0, p, 0, m, 256, 1000000007).
+Let x_7 = L_pow_mod(256, m - 1, 1000000007).
+Let x_8 = L_str_hash(Mint_0, t, i, m, 256, 1000000007).
+Let x_9 = Mint_0[shift_sint32(t, i + m)].
+Assume {
+  Type: is_sint32(ht_0) /\ is_sint32(i) /\ is_sint32(j_1) /\
+      is_sint32(j_2) /\ is_sint32(j) /\ is_sint32(m) /\ is_sint32(m_1) /\
+      is_sint32(n) /\ is_sint32(x_4) /\ is_sint32(x_1) /\ is_sint32(x_7) /\
+      is_sint32(L_pow_mod(256, m_1 - 1, 1000000007)) /\ is_sint32(x_6) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m_1, 256, 1000000007)) /\
+      is_sint32(x_8) /\
+      is_sint32(L_str_hash(Mint_0, t, i, m_1, 256, 1000000007)) /\
+      is_sint32(x_9) /\
+      is_sint32((256000001792 + x_9 + (256 * x_8)
+                 - (256 * ((x_7 * x_1) % 1000000007))) % 1000000007).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m_1).
+  (* Pre-condition *)
+  Have: (0 < m_1) /\ (m_1 <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m_1) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= m) /\ (m <= m_1).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_6) /\ (x_6 <= 1000000006).
+  (* Else *)
+  Have: m_1 <= m.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_5) /\ (x_5 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_5 = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Else *)
+  Have: m <= j.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i) /\ (x_2 <= n).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_2) /\ (j_2 <= j).
+  (* Then *)
+  Have: x_2 < n.
+  If x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007)
+  Then {
+    Have: (p = p_1) /\
+        (L_str_hash(Mint_0, p_1, 0, j, 256, 1000000007) = ht_0) /\
+        (x = ht_0).
+    (* Invariant 'i_19' *)
+    Have: (0 <= j_1) /\ (j_1 <= j).
+    (* Invariant 'i_20' *)
+    Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j_1) ->
+        (Mint_0[shift_sint32(t, i + i_1)] = Mint_0[shift_sint32(p_1, i_1)]))).
+    Have: j_1 < j.
+    (* Else *)
+    Have: Mint_0[shift_sint32(t, i + j_1)] != Mint_0[shift_sint32(p_1, j_1)].
+  }
+  (* Assertion *)
+  Have: x_3 = L_str_hash(Mint_0, t, x_4, j, 256, 1000000007).
+  (* Invariant 'i_15' *)
+  Have: (-1) <= i.
+}
+Prove: (0 <= x_3) /\ (x_3 <= 1000000006).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:53ms) (90ms) (1864)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_16' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 145):
+Prove: true.
+Prover Qed returns Valid (6ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 147):
+Prove: true.
+Prover Qed returns Valid (16ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_17' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 147):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 149):
+Let x = L_str_hash(Mint_0, t, i, j_1, 256, 1000000007).
+Let x_1 = Mint_0[shift_sint32(t, i)].
+Let x_2 = i + j_1.
+Let x_3 = (256000001792 + Mint_0[shift_sint32(t, x_2)] + (256 * x)
+           - (256
+              * ((L_pow_mod(256, j_1 - 1, 1000000007) * x_1) % 1000000007)))
+    % 1000000007.
+Let x_4 = 1 + i.
+Let x_5 = L_str_hash(Mint_0, t, 0, m, 256, 1000000007).
+Let x_6 = L_str_hash(Mint_0, p, 0, m, 256, 1000000007).
+Let x_7 = L_pow_mod(256, m - 1, 1000000007).
+Let x_8 = L_str_hash(Mint_0, t, i, m, 256, 1000000007).
+Let x_9 = Mint_0[shift_sint32(t, i + m)].
+Assume {
+  Type: is_sint32(ht_0) /\ is_sint32(i) /\ is_sint32(j) /\ is_sint32(j_2) /\
+      is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(m_1) /\ is_sint32(n) /\
+      is_sint32(x_4) /\ is_sint32(x_1) /\ is_sint32(x_7) /\
+      is_sint32(L_pow_mod(256, m_1 - 1, 1000000007)) /\ is_sint32(x_6) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m_1, 256, 1000000007)) /\
+      is_sint32(x_8) /\
+      is_sint32(L_str_hash(Mint_0, t, i, m_1, 256, 1000000007)) /\
+      is_sint32(x_9) /\
+      is_sint32((256000001792 + x_9 + (256 * x_8)
+                 - (256 * ((x_7 * x_1) % 1000000007))) % 1000000007).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m_1).
+  (* Pre-condition *)
+  Have: (0 < m_1) /\ (m_1 <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m_1) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= m) /\ (m <= m_1).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_6) /\ (x_6 <= 1000000006).
+  (* Else *)
+  Have: m_1 <= m.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_5) /\ (x_5 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_5 = L_str_hash(Mint_0, t, 0, j_1, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j_1) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i) /\ (x_2 <= n).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_2) /\ (j_2 <= j_1).
+  (* Then *)
+  Have: x_2 < n.
+  If x = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007)
+  Then {
+    Have: (p = p_1) /\
+        (L_str_hash(Mint_0, p_1, 0, j_1, 256, 1000000007) = ht_0) /\
+        (x = ht_0).
+    (* Invariant 'i_19' *)
+    Have: (0 <= j) /\ (j <= j_1).
+    (* Invariant 'i_20' *)
+    Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+        (Mint_0[shift_sint32(t, i + i_1)] = Mint_0[shift_sint32(p_1, i_1)]))).
+    Have: j < j_1.
+    (* Else *)
+    Have: Mint_0[shift_sint32(t, i + j)] != Mint_0[shift_sint32(p_1, j)].
+  }
+  Else { Have: j_2 = j. }
+  (* Assertion *)
+  Have: x_3 = L_str_hash(Mint_0, t, x_4, j_1, 256, 1000000007).
+  (* Invariant 'i_15' *)
+  Have: (-1) <= i.
+  (* Invariant 'i_16' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+}
+Prove: (0 <= j) /\ (j <= j_1).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:61ms) (17ms) (151)
+Prover CVC5 1.1.2 returns Valid (Qed:61ms) (12ms) (12999)
+Prover Z3 4.13.3 returns Valid (Qed:61ms) (16ms) (60614)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_18' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 149):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_26' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 151):
+Let x = L_str_hash(Mint_0, t, i_1, j_2, 256, 1000000007).
+Let x_1 = L_pow_mod(256, j_2 - 1, 1000000007).
+Let x_2 = Mint_0[shift_sint32(t, i_1)].
+Let x_3 = i_1 + j_2.
+Let x_4 = Mint_0[shift_sint32(t, x_3)].
+Let x_5 = (256000001792 + x_4 + (256 * x)
+           - (256 * ((x_1 * x_2) % 1000000007))) % 1000000007.
+Let x_6 = 1 + i_1.
+Let x_7 = L_str_hash(Mint_0, p, 0, j_2, 256, 1000000007).
+Let x_8 = L_str_hash(Mint_0, t, 0, j_2, 256, 1000000007).
+Assume {
+  Type: is_sint32(ht_0) /\ is_sint32(i_1) /\ is_sint32(j) /\
+      is_sint32(j_1) /\ is_sint32(j_2) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(x_6) /\ is_sint32(x_2) /\ is_sint32(x_1) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_7) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)) /\
+      is_sint32(x) /\
+      is_sint32(L_str_hash(Mint_0, t, i_1, m, 256, 1000000007)) /\
+      is_sint32(x_4) /\ is_sint32(x_5).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_2)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_2) /\ (j_2 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_7) /\ (x_7 <= 1000000006).
+  (* Else *)
+  Have: m <= j_2.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_8) /\ (x_8 <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j_2) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_15' *)
+  Have: (0 <= i_1) /\ (x_3 <= n).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_1) /\ (j_1 <= j_2).
+  (* Then *)
+  Have: x_3 < n.
+  If x = x_7
+  Then {
+    Have: (p = p_1) /\
+        (L_str_hash(Mint_0, p_1, 0, j_2, 256, 1000000007) = ht_0) /\
+        (x = ht_0).
+    (* Invariant 'i_20' *)
+    Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+        (Mint_0[shift_sint32(t, i_1 + i_2)] = Mint_0[shift_sint32(p_1, i_2)]))).
+    Have: j < j_2.
+    (* Else *)
+    Have: Mint_0[shift_sint32(t, i_1 + j)] != Mint_0[shift_sint32(p_1, j)].
+  }
+  Else { Have: j_1 = j. }
+  (* Assertion *)
+  Have: x_5 = L_str_hash(Mint_0, t, x_6, j_2, 256, 1000000007).
+  (* Invariant 'i_15' *)
+  Have: (-1) <= i_1.
+  (* Invariant 'i_16' *)
+  Have: (0 <= x_5) /\ (x_5 <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j) /\ (j <= j_2).
+}
+Prove: 0 <= Mint_0[shift_sint32(t, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:51ms) (32ms) (307)
+Prover Z3 4.13.3 returns Valid (Qed:51ms) (17ms) (48460)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_26' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 151):
+Let x = L_str_hash(Mint_0, t, 0, j_1, 256, 1000000007).
+Let x_1 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_1) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_1) /\ (x_1 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Else *)
+  Have: j_1 <= j.
+}
+Prove: 0 <= Mint_0[shift_sint32(t, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:13ms) (19ms) (140)
+Prover Z3 4.13.3 returns Valid (Qed:13ms) (4ms) (42635)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_27' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 153):
+Let x = L_str_hash(Mint_0, t, i_1, j_2, 256, 1000000007).
+Let x_1 = L_pow_mod(256, j_2 - 1, 1000000007).
+Let x_2 = Mint_0[shift_sint32(t, i_1)].
+Let x_3 = i_1 + j_2.
+Let x_4 = Mint_0[shift_sint32(t, x_3)].
+Let x_5 = (256000001792 + x_4 + (256 * x)
+           - (256 * ((x_1 * x_2) % 1000000007))) % 1000000007.
+Let x_6 = 1 + i_1.
+Let x_7 = L_str_hash(Mint_0, p, 0, j_2, 256, 1000000007).
+Let x_8 = L_str_hash(Mint_0, t, 0, j_2, 256, 1000000007).
+Assume {
+  Type: is_sint32(i_1) /\ is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(j_2) /\
+      is_sint32(m) /\ is_sint32(n) /\ is_sint32(x_6) /\ is_sint32(x_2) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(x_7) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)) /\
+      is_sint32(x) /\
+      is_sint32(L_str_hash(Mint_0, t, i_1, m, 256, 1000000007)) /\
+      is_sint32(x_4) /\ is_sint32(x_5).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < j_2).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_2)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_2) /\ (j_2 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_7) /\ (x_7 <= 1000000006).
+  (* Else *)
+  Have: m <= j_2.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_8) /\ (x_8 <= 1000000006).
+  (* Invariant 'i_28' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j_2) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_15' *)
+  Have: (0 <= i_1) /\ (x_3 <= n).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_1) /\ (j_1 <= j_2).
+  (* Then *)
+  Have: x_3 < n.
+  If x = x_7
+  Then {
+    (* Invariant 'i_20' *)
+    Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+        (Mint_0[shift_sint32(t, i_1 + i_2)] = Mint_0[shift_sint32(p, i_2)]))).
+    Have: j < j_2.
+    (* Else *)
+    Have: Mint_0[shift_sint32(t, i_1 + j)] != Mint_0[shift_sint32(p, j)].
+  }
+  Else { Have: j_1 = j. }
+  (* Assertion *)
+  Have: x_5 = L_str_hash(Mint_0, t, x_6, j_2, 256, 1000000007).
+  (* Invariant 'i_15' *)
+  Have: (-1) <= i_1.
+  (* Invariant 'i_16' *)
+  Have: (0 <= x_5) /\ (x_5 <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j) /\ (j <= j_2).
+}
+Prove: 0 <= Mint_0[shift_sint32(p, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:52ms) (33ms) (290)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_27' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 153):
+Let x = L_str_hash(Mint_0, t, 0, j_1, 256, 1000000007).
+Let x_1 = L_str_hash(Mint_0, p, 0, j_1, 256, 1000000007).
+Assume {
+  Type: is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(m) /\ is_sint32(n) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\ is_sint32(x_1) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i) /\ (i < m).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_1) /\ (j_1 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_1) /\ (x_1 <= 1000000006).
+  (* Else *)
+  Have: m <= j_1.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= j_1).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Else *)
+  Have: j_1 <= j.
+}
+Prove: 0 <= Mint_0[shift_sint32(p, i)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:12ms) (22ms) (140)
+Prover Z3 4.13.3 returns Valid (Qed:12ms) (10ms) (42664)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 164):
+Prove: true.
+Prover Qed returns Valid (17ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_19' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 164):
+Prove: true.
+Prover Qed returns Valid (5ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 166):
+Let x = Mint_0[shift_sint32(t, i + j)].
+Let x_1 = Mint_0[shift_sint32(p, j)].
+Let x_2 = i + j_2.
+Let x_3 = L_str_hash(Mint_0, t, 0, j_3, 256, 1000000007).
+Let x_4 = L_str_hash(Mint_0, t, i, m, 256, 1000000007).
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(j_2) /\
+      is_sint32(j_3) /\ is_sint32(m) /\ is_sint32(n) /\ is_sint32(1 + j) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)) /\
+      is_sint32(x_4) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= j).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (m <= n).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_2)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_3) /\ (j_3 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_4) /\ (x_4 <= 1000000006).
+  (* Invariant 'i_6' *)
+  Have: x_4 = L_str_hash(Mint_0, p, 0, j_3, 256, 1000000007).
+  (* Else *)
+  Have: m <= j_3.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < n) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j_2) /\ (j_2 <= j_3).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_3 = L_str_hash(Mint_0, t, 0, j_2, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j_2) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Else *)
+  Have: j_3 <= j_2.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i) /\ (x_2 <= n).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_1) /\ (j_1 <= j_2).
+  (* Then *)
+  Have: x_2 < n.
+  (* Invariant 'i_19' *)
+  Have: (0 <= j) /\ (j <= j_2).
+  (* Invariant 'i_20' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      (Mint_0[shift_sint32(t, i + i_2)] = Mint_0[shift_sint32(p, i_2)]))).
+  (* Then *)
+  Have: j < j_2.
+  (* Then *)
+  Have: x = x_1.
+  (* Invariant 'i_19' *)
+  Have: (-1) <= j.
+}
+Prove: Mint_0[shift_sint32(t, i + i_1)] = Mint_0[shift_sint32(p, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:45ms) (35ms) (262)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_20' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 166):
+Prove: true.
+Prover Qed returns Valid (3ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 168):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_21' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 168):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 170):
+Prove: true.
+Prover Qed returns Valid (11ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_22' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 170):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 172):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_23' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 172):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 180):
+Prove: true.
+Prover Qed returns Valid (24ms)
+
+------------------------------------------------------------
+
+Goal Assertion (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 182):
+Let x = L_str_hash(Mint_0, t, i, j, 256, 1000000007).
+Let x_1 = i + j.
+Let x_2 = L_str_hash(Mint_0, t, 0, m, 256, 1000000007).
+Let x_3 = L_str_hash(Mint_0, p, 0, m, 256, 1000000007).
+Let x_4 = Mint_0[shift_sint32(t, i)].
+Assume {
+  Type: is_sint32(ht_0) /\ is_sint32(i) /\ is_sint32(j_1) /\
+      is_sint32(j_2) /\ is_sint32(j) /\ is_sint32(m) /\ is_sint32(m_1) /\
+      is_sint32(n) /\ is_sint32(n_1) /\ is_sint32(x_4) /\
+      is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(L_pow_mod(256, m_1 - 1, 1000000007)) /\ is_sint32(x_3) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m_1, 256, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, i, m, 256, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, i, m_1, 256, 1000000007)) /\
+      is_sint32(Mint_0[shift_sint32(t, i + m)]).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), n_1).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m_1).
+  (* Pre-condition *)
+  Have: (0 < m_1) /\ (m_1 <= n_1).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < m_1) ->
+      (0 <= Mint_0[shift_sint32(p, i_1)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= m) /\ (m <= m_1).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Else *)
+  Have: m_1 <= m.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < n_1) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j) /\ (j <= m).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_2 = L_str_hash(Mint_0, t, 0, j, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j) ->
+      (0 <= Mint_0[shift_sint32(t, i_1)]))).
+  (* Else *)
+  Have: m <= j.
+  (* Invariant 'i_15' *)
+  Have: (0 <= i) /\ (x_1 <= n_1).
+  (* Invariant 'i_16' *)
+  Have: (0 <= x) /\ (x <= 1000000006).
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_2) /\ (j_2 <= j).
+  (* Then *)
+  Have: x_1 < n_1.
+  If x = L_str_hash(Mint_0, p, 0, j, 256, 1000000007)
+  Then {
+    Have: (n_1 = n) /\ (p = p_1) /\
+        (L_str_hash(Mint_0, p_1, 0, j, 256, 1000000007) = ht_0) /\
+        (x = ht_0).
+    (* Invariant 'i_21' *)
+    Have: x_1 < n.
+    (* Invariant 'i_19' *)
+    Have: (0 <= j_1) /\ (j_1 <= j).
+    (* Invariant 'i_20' *)
+    Have: forall i_1 : Z. ((0 <= i_1) -> ((i_1 < j_1) ->
+        (Mint_0[shift_sint32(t, i + i_1)] = Mint_0[shift_sint32(p_1, i_1)]))).
+    Have: j_1 < j.
+    (* Else *)
+    Have: Mint_0[shift_sint32(t, i + j_1)] != Mint_0[shift_sint32(p_1, j_1)].
+  }
+}
+Prove: ((256000001792 + Mint_0[shift_sint32(t, x_1)] + (256 * x)
+         - (256 * ((L_pow_mod(256, j - 1, 1000000007) * x_4) % 1000000007)))
+        % 1000000007) = L_str_hash(Mint_0, t, 1 + i, j, 256, 1000000007).
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:53ms) (45ms) (1007)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 197):
+Prove: true.
+Prover Qed returns Valid (9ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_10' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 197):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 199):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_11' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 199):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 191):
+Prove: true.
+Prover Qed returns Valid (19ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_7' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 191):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 193):
+Let x = Mint_0[shift_sint32(t, i + j)].
+Let x_1 = Mint_0[shift_sint32(p, j)].
+Let x_2 = L_str_hash(Mint_0, t, 0, j_3, 256, 1000000007).
+Let x_3 = L_str_hash(Mint_0, t, i, m, 256, 1000000007).
+Let x_4 = i + m.
+Assume {
+  Type: is_sint32(i) /\ is_sint32(j) /\ is_sint32(j_1) /\ is_sint32(j_2) /\
+      is_sint32(j_3) /\ is_sint32(m) /\ is_sint32(1 + j) /\ is_sint32(x_4) /\
+      is_sint32(x_1) /\ is_sint32(L_pow_mod(256, m - 1, 1000000007)) /\
+      is_sint32(L_str_hash(Mint_0, t, 0, m, 256, 1000000007)) /\
+      is_sint32(x_3) /\ is_sint32(x).
+  (* Heap *)
+  Type: (region(p.base) <= 0) /\ (region(t.base) <= 0) /\ linked(Malloc_0).
+  (* Goal *)
+  When: (0 <= i_1) /\ (i_1 <= j).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(t, 0), x_4).
+  (* Pre-condition *)
+  Have: valid_rw(Malloc_0, shift_sint32(p, 0), m).
+  (* Pre-condition *)
+  Have: (0 < m) /\ (0 <= i).
+  (* Invariant 'i_6' *)
+  Have: L_str_hash(Mint_0, p, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_25' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < m) ->
+      (0 <= Mint_0[shift_sint32(p, i_2)]))).
+  (* Invariant 'i_4' *)
+  Have: (0 <= j_3) /\ (j_3 <= m).
+  (* Invariant 'i_5' *)
+  Have: (0 <= x_3) /\ (x_3 <= 1000000006).
+  (* Invariant 'i_6' *)
+  Have: x_3 = L_str_hash(Mint_0, p, 0, j_3, 256, 1000000007).
+  (* Else *)
+  Have: m <= j_3.
+  (* Invariant 'i_14' *)
+  Have: L_str_hash(Mint_0, t, 0, 0, 256, 1000000007) = 0.
+  (* Invariant 'i_24' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < (i + j_3)) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Invariant 'i_12' *)
+  Have: (0 <= j_2) /\ (j_2 <= j_3).
+  (* Invariant 'i_13' *)
+  Have: (0 <= x_2) /\ (x_2 <= 1000000006).
+  (* Invariant 'i_14' *)
+  Have: x_2 = L_str_hash(Mint_0, t, 0, j_2, 256, 1000000007).
+  (* Invariant 'i_28' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j_2) ->
+      (0 <= Mint_0[shift_sint32(t, i_2)]))).
+  (* Else *)
+  Have: j_3 <= j_2.
+  (* Invariant 'i_18' *)
+  Have: (0 <= j_1) /\ (j_1 <= j_2).
+  (* Invariant 'i_7' *)
+  Have: (0 <= j) /\ (j <= j_2).
+  (* Invariant 'i_8' *)
+  Have: forall i_2 : Z. ((0 <= i_2) -> ((i_2 < j) ->
+      (Mint_0[shift_sint32(t, i + i_2)] = Mint_0[shift_sint32(p, i_2)]))).
+  (* Then *)
+  Have: j < j_2.
+  (* Then *)
+  Have: x = x_1.
+  (* Invariant 'i_7' *)
+  Have: (-1) <= j.
+}
+Prove: Mint_0[shift_sint32(t, i + i_1)] = Mint_0[shift_sint32(p, i_1)].
+Prover Alt-Ergo 2.6.3 returns Valid (Qed:24ms) (23ms) (257)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_8' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 193):
+Prove: true.
+Prover Qed returns Valid (2ms)
+
+------------------------------------------------------------
+
+Goal Preservation of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 195):
+Prove: true.
+Prover Qed returns Valid (7ms)
+
+------------------------------------------------------------
+
+Goal Establishment of Invariant 'i_9' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 195):
+Prove: true.
+Prover Qed returns Valid (8ms)
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 113):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 134):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 156):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 175):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Loop assigns (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 202):
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 34) in 'fast_pow_mod'' in 'rabin_karp' at call 'fast_pow_mod' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 97)
+:
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 35) in 'fast_pow_mod'' in 'rabin_karp' at call 'fast_pow_mod' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 97)
+:
+Prove: true.
+Prover Qed returns Valid
+
+------------------------------------------------------------
+
+Goal Instance of 'Pre-condition (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 36) in 'fast_pow_mod'' in 'rabin_karp' at call 'fast_pow_mod' (file /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c, line 97)
+:
+Prove: true.
+Prover Qed returns Valid (0.87ms)
+
+------------------------------------------------------------
+[wp:pedantic-assigns] /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c:39: Warning: 
+  No 'assigns' specification for function 'fast_pow_mod'.
+  Callers assumptions might be imprecise.
+[wp:pedantic-assigns] /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-9pvzj16g.c:93: Warning: 
+  No 'assigns' specification for function 'rabin_karp'.
+  Callers assumptions might be imprecise.

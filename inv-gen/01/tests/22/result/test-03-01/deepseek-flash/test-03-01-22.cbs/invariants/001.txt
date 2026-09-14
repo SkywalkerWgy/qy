@@ -1,0 +1,9 @@
+Loop A@_longest_palindrome_subseq:
+  i_0: -1 <= i && i < n
+  i_1: \forall integer p, q; 0 <= p && p < n && 0 <= q && q < p ==> dp[p][q] == 0
+  i_2: \forall integer p; i < p && p < n ==> dp[p][p] == 1
+  i_3: \forall integer p, q; i < p && p < n && p < q && q < n ==> (s[p] == s[q] && dp[p][q] == dp[p + 1][q - 1] + 2) || (is_max(dp[p + 1][q], dp[p][q - 1], dp[p][q]))
+Loop B@_longest_palindrome_subseq:
+  i_4: i + 1 <= j && j <= n
+  i_5: dp[i][i] == 1
+  i_6: \forall integer q; i < q && q < j ==> (s[i] == s[q] && dp[i][q] == dp[i + 1][q - 1] + 2) || (is_max(dp[i + 1][q], dp[i][q - 1], dp[i][q]))

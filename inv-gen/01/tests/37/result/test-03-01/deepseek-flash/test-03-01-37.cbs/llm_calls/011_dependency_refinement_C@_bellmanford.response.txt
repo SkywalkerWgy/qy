@@ -1,0 +1,10 @@
+```
+[Loop C@_bellmanford]
+loop invariant \forall integer v; 0 <= v < n ==> dist[v] <= prev[v];
+loop invariant \forall integer v; 0 <= v < n ==> prev[v] == \at(dist[v], LoopEntry);
+loop invariant \forall integer v; 0 <= v < n ==> dist[v] <= \at(dist[v], LoopEntry);
+loop invariant \forall integer k; 0 <= k < e ==> 
+    edges[k].u == \at(edges[k].u, LoopEntry) &&
+    edges[k].v == \at(edges[k].v, LoopEntry) &&
+    edges[k].weight == \at(edges[k].weight, LoopEntry);
+```

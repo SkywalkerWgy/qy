@@ -1,0 +1,6 @@
+```
+loop invariant lo <= down && down <= up;
+loop invariant sorted_range(a, lo, down);
+loop invariant sorted_range(a, down, up + 1);
+loop invariant \forall integer k1, k2; lo <= k1 < down && down < k2 <= up ==> a[k1] <= a[k2];
+```

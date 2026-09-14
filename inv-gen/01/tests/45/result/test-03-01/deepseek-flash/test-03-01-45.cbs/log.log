@@ -1,0 +1,67 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-45.cbs
+INFO | [INPUT] artifact=input.cbs bytes=2287
+INFO | [INIT] functions=sieve_eratosthenes loops=4 delayed_filter_threshold=5
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@sieve_eratosthenes prompt=llm_calls/001_initial_reasoning_A@sieve_eratosthenes.prompt.txt response=llm_calls/001_initial_reasoning_A@sieve_eratosthenes.response.txt response_chars=107
+INFO | [LLM 001] response_preview=``` loop invariant 2 <= i && i <= n + 1; loop invariant \forall integer k; 2 <= k < i ==> is_p[k] == 1; ```
+INFO | [APPLY] loop=A@sieve_eratosthenes added=2
+INFO |   + i_0: 2 <= i && i <= n + 1
+INFO |   + i_1: \forall integer k; 2 <= k < i ==> is_p[k] == 1
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=D@sieve_eratosthenes prompt=llm_calls/002_initial_reasoning_D@sieve_eratosthenes.prompt.txt response=llm_calls/002_initial_reasoning_D@sieve_eratosthenes.response.txt response_chars=606
+INFO | [LLM 002] response_preview=``` loop invariant 2 <= i <= n + 1; loop invariant 0 <= cnt <= i - 2; loop invariant \forall integer k; 0 <= k < cnt ==> 2 <= primes[k] < i; loop invariant \forall integer k; 0 <= k < cnt ==> primes[k] <= n; loop inva...
+INFO | [APPLY] loop=D@sieve_eratosthenes added=9
+INFO |   + i_2: 2 <= i <= n + 1
+INFO |   + i_3: 0 <= cnt <= i - 2
+INFO |   + i_4: \forall integer k; 0 <= k < cnt ==> 2 <= primes[k] < i
+INFO |   + i_5: \forall integer k; 0 <= k < cnt ==> primes[k] <= n
+INFO |   + i_6: \forall integer k; 0 <= k < cnt ==> is_p[primes[k]] == 1
+INFO |   + i_7: \forall integer k; 0 <= k < cnt ==> is_prime(primes[k])
+INFO |   + i_8: \forall integer k; 2 <= k < i && is_p[k] == 1 ==> \exists integer j; 0 <= j < cnt && primes[j] == k
+INFO |   + i_9: \forall integer a, b; 0 <= a < b < cnt ==> primes[a] < primes[b]
+INFO |   + i_10: i > 2 ==> 1 <= cnt && primes[0] == 2
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@sieve_eratosthenes prompt=llm_calls/003_initial_reasoning_B@sieve_eratosthenes.prompt.txt response=llm_calls/003_initial_reasoning_B@sieve_eratosthenes.response.txt response_chars=406
+INFO | [LLM 003] response_preview=``` loop invariant 2 <= p && p <= n + 1; loop invariant \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1; loop invariant \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1; loop invariant \f...
+INFO | [APPLY] loop=B@sieve_eratosthenes added=5
+INFO |   + i_11: 2 <= p && p <= n + 1
+INFO |   + i_12: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1
+INFO |   + i_13: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1
+INFO |   + i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k)
+INFO |   + i_15: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0
+INFO | [LLM 004] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@sieve_eratosthenes prompt=llm_calls/004_initial_reasoning_C@sieve_eratosthenes.prompt.txt response=llm_calls/004_initial_reasoning_C@sieve_eratosthenes.response.txt response_chars=553
+INFO | [LLM 004] response_preview=loop invariant 2 <= p && p <= n; loop invariant p * p <= i && i <= n + p; loop invariant divides(p, i); loop invariant \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1; loop invariant \forall integer k;...
+INFO | [APPLY] loop=C@sieve_eratosthenes added=8
+INFO |   + i_16: 2 <= p && p <= n
+INFO |   + i_17: p * p <= i && i <= n + p
+INFO |   + i_18: divides(p, i)
+INFO |   + i_19: \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1
+INFO |   + i_20: \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1
+INFO |   + i_21: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k)
+INFO |   + i_22: \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0
+INFO |   + i_23: \forall integer k; p * p <= k && k < i && divides(p,k) ==> is_p[k] == 0
+INFO | [INVARIANTS] total=24 loops=A@sieve_eratosthenes:2, B@sieve_eratosthenes:5, C@sieve_eratosthenes:8, D@sieve_eratosthenes:9 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-45_verified_1.cbs invariants=24
+INFO | [FRAMAC] attempt=1 result=Fail_86_87 stdout=test-03-01-45_verified_1_Fail_86_87.txt stderr=
+INFO | [FAIL] attempt=1 failures=1 summary=i_14 [preservation] Prove: P_is_prime(i).
+INFO | [REVISE] kind=invariant id=i_14 loop=B@sieve_eratosthenes status=preservation property=preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. invariant=\forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k)
+INFO | [DIAGNOSE] loop=B@sieve_eratosthenes dependency=C@sieve_eratosthenes target=i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k) property=preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. wp=Let x = p * p. Let x_1 = n + p. Let x_2 = 1 + n. Let x_3 = 1 + p. Assume { Type: is_sint32(i_1) /\ is_sint32(i_2) /\ is_sint32(n) /\ is_sint32(p) /\ is_sint32(x_3) /\ is_sint32(...
+INFO | [LLM 005] provider=deepseek api_model=deepseek-flash type=failure_diagnosis loop=B@sieve_eratosthenes prompt=llm_calls/005_failure_diagnosis_B@sieve_eratosthenes.prompt.txt response=llm_calls/005_failure_diagnosis_B@sieve_eratosthenes.response.txt response_chars=1470
+INFO | [LLM 005] response_preview=[Failed Property] preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. [Failure Cause] The proof is trying to show that after the inn...
+INFO | [DIAGNOSIS] property=preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body. scope=both cause=The proof is trying to show that after the inner loop C (which clears multiples of p from p*p to n), any surviving k with 2 <= k <= n, k < (p+1)^2, and is_p[k] == 1 is prime. The available invariants only state that multiples of p in [p*... direction=The missing bridge is the arithmetic fact that if 2 <= k < (p+1)^2 and k is composite, then k has a divisor d with 2 <= d <= p and d*d <= k. If d = p, i_23 marks k as not surviving; if d < p, i_22 marks k as not surviving. Hence is_p[k] ...
+INFO | [REFINE] failed=i_14: \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k) scope=B@sieve_eratosthenes, C@sieve_eratosthenes property=preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+INFO | [LLM 006] provider=deepseek api_model=deepseek-flash type=dependency_refinement loop=B@sieve_eratosthenes prompt=llm_calls/006_dependency_refinement_B@sieve_eratosthenes.prompt.txt response=llm_calls/006_dependency_refinement_B@sieve_eratosthenes.response.txt response_chars=364
+INFO | [LLM 006] response_preview=[Loop B@sieve_eratosthenes] loop invariant \forall integer k; 2 <= k <= n && k < (p + 1) * (p + 1) && !is_prime(k) ==> \exists integer d; 2 <= d <= p && d * d <= k && divides(d, k); [Loop C@sieve_eratosthenes] loop in...
+INFO | [APPLY] loop=B@sieve_eratosthenes added=1
+INFO |   + i_24: \forall integer k; 2 <= k <= n && k < (p + 1) * (p + 1) && !is_prime(k) ==> \exists integer d; 2 <= d <= p && d * d <= k && divides(d, k)
+INFO | [APPLY] loop=C@sieve_eratosthenes added=1
+INFO |   + i_25: \forall integer k; 2 <= k <= n && k < (p + 1) * (p + 1) && !is_prime(k) ==> \exists integer d; 2 <= d <= p && d * d <= k && divides(d, k)
+INFO | [INVARIANTS] total=26 loops=A@sieve_eratosthenes:2, B@sieve_eratosthenes:6, C@sieve_eratosthenes:9, D@sieve_eratosthenes:9 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-45_verified_2.cbs invariants=26
+INFO | [FRAMAC] attempt=2 result=Pass_91_91 stdout=test-03-01-45_verified_2_Pass_91_91.txt stderr=
+INFO | [PASS] attempt=2 candidate=test-03-01-45_verified_2.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 2
+INFO | Verified code: verified.cbs
+INFO | Running time: 342.10512137413025
+INFO | ------------------------

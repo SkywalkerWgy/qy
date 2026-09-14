@@ -1,0 +1,4 @@
+```
+loop invariant gap >= 0 && gap <= n;
+loop invariant gap == 0 ==> increasing(arr, n);
+```

@@ -1,0 +1,12 @@
+```
+loop invariant 0 <= u <= n;
+loop invariant 1 <= round <= n;
+loop invariant \forall integer k; 0 <= k < n ==> 0 <= dist[k] <= INF;
+loop invariant \forall integer k; 0 <= k < n ==> 0 <= prev[k] <= INF;
+loop invariant dist[start] == 0;
+loop invariant \forall integer k; 0 <= k < n ==> visited[k] == 0;
+loop invariant \forall integer k; 0 <= k < n ==> parent[k] == -1;
+loop invariant has_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+loop invariant upper_bounds_paths_up_to{Pre,Here}(graph, n, start, prev, round - 1);
+loop invariant processed_prefix_certificate{Pre,Here}(graph, n, start, dist, round, u * n);
+```

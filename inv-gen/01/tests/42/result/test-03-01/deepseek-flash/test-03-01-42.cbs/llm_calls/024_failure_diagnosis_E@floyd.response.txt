@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_25: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The inner loop body updates `dist[i][j]` for the current row `i`, while invariant `i_25` only constrains rows `a < i`. Therefore `i_25` is inductive, but the prover cannot discharge the preservation obligation because it lacks the framing fact that the write to `dist[i][j]` does not affect `dist[a][b]` when `a != i`. The available non-aliasing invariant `i_35` provides address inequality between different rows, but it is not connected to the pre-state `i_25` and the post-state goal to establish that `dist[a][b]` is unchanged by the inner loop body.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+The failed invariant `i_25` is not too strong; it is preserved by the loop body. The missing logical fact is the frame condition that the inner loop body only modifies row `i`, so for any `a < i` the cell `dist[a][b]` remains unchanged. This fact should be derivable from the write set of the inner loop body and the existing row-separation invariant `i_35`, but the proof context does not make this framing explicit. No new invariants are required; the existing non-aliasing information needs to be used to bridge the pre-state and post-state memory.

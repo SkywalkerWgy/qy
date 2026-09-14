@@ -1,0 +1,6 @@
+```
+loop invariant 0 <= i <= n;
+loop invariant \forall integer k; 0 <= k < i ==> a[k] == tmp[k];
+loop invariant sorted(tmp, 0, n);
+loop invariant \forall integer k; 0 <= k < n ==> 0 <= tmp[k] < BASE;
+```

@@ -1,0 +1,13 @@
+[Failed Property]
+preservation of i_29: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+After the inner loop body, the WP goal is to prove
+`Mint_0[dist[a][b]] <= Mint_1[graph[a][m]] + Mint_1[graph[m][b]]`.
+The available pre-state invariant i_29 gives the same inequality but with `graph` read in the pre-state memory (`a_4[graph...]`). The prover cannot equate `a_4[graph...]` with `Mint_1[graph...]`. Thus the failure is not because i_29 is too strong or inherently non-inductive; i_29 only refers to `dist` at LoopEntry and to `graph`, and the inner loop body does not modify either of those two components of its RHS. The problem is that the proof context does not expose the frame fact that `graph` is unchanged by the inner loop body, so the RHS of i_29 cannot be rewritten into the RHS required by the WP target. The E@floyd invariants, especially i_30 (`graph[a][b] == \at(graph[a][b], Pre)`), are not too weak in principle to imply this, but the needed equality between LoopEntry graph and post-body graph is not directly instantiated in the proof state.
+
+[Responsible Scope]
+E@floyd
+
+[Refinement Direction]
+Use the existing Loop E assigns clause, which assigns only `dist[i][0 .. n-1]`, together with i_30 to derive that `graph` is unchanged from LoopEntry to the post-body state. Then instantiate i_29 with `a = i`, `b = i_1`, `m = i_2` to close the goal. No new invariant is needed; the missing step is the direct frame/equality fact for `graph` between the pre-body and post-body memories.

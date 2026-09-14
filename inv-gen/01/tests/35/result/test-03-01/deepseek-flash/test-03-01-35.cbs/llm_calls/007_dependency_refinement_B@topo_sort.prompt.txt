@@ -1,0 +1,160 @@
+
+/*@
+  predicate valid_vertex_prefix(int* a, integer len, integer n) =
+    \forall integer i; 0 <= i < len ==> 0 <= a[i] < n;
+
+  predicate appears_in_prefix(int* a, integer len, integer v) =
+    \exists integer i; 0 <= i < len && a[i] == v;
+
+  predicate processed_vertices_are_output(int* result, int* mark,
+                                          integer len, integer n) =
+    \forall integer v;
+      0 <= v < n && mark[v] == -1 ==> appears_in_prefix(result,len,v);
+
+  predicate output_edge_order{L}(int** graph, int* result,
+                                 integer len, integer n) =
+    \forall integer pos_to, from;
+      0 <= pos_to < len &&
+      0 <= from < n &&
+      \at(graph[from][\at(result[pos_to],L)],L) == 1
+      ==> \exists integer pos_from;
+            0 <= pos_from < pos_to &&
+            \at(result[pos_from],L) == from;
+*/
+
+/*@
+  requires 1 <= n <= 1000000;
+  requires \valid(graph + (0..n-1));
+  requires \forall integer i; 0 <= i < n ==> \valid(graph[i] + (0..n-1));
+  requires \valid(result + (0..n-1));
+  requires \valid(in_degree + (0..n-1));
+  requires \valid(queue + (0..n-1));
+  requires \separated(result + (0..n-1), in_degree + (0..n-1),
+                      queue + (0..n-1));
+  requires \forall integer i; 0 <= i < n ==>
+    \separated(graph[i] + (0..n-1), result + (0..n-1),
+               in_degree + (0..n-1), queue + (0..n-1));
+  requires \forall integer i, j; 0 <= i < n && 0 <= j < n && i != j ==>
+    \separated(graph[i] + (0..n-1), graph[j] + (0..n-1));
+  requires \forall integer i, j; 0 <= i < n && 0 <= j < n ==>
+    (graph[i][j] == 0 || graph[i][j] == 1);
+  requires \forall integer i; 0 <= i < n ==> in_degree[i] == 0;
+
+  assigns result[0..n-1], in_degree[0..n-1];
+
+  ensures 0 <= \result <= n;
+  ensures valid_vertex_prefix(result,\result,n);
+  ensures output_edge_order(graph,result,\result,n);
+*/
+_Safe int topo_sort(int*_Nonnull*_Nonnull graph, int*_Nonnull result, int*_Nonnull in_degree, int*_Nonnull queue, int n) {
+  int count = 0;
+
+  // Loop A
+/*@
+    loop invariant i_0: 0 <= pass <= n;
+
+    loop invariant i_1: 0 <= count <= n;
+
+    loop invariant i_2: valid_vertex_prefix(result, count, n);
+
+    loop invariant i_3: output_edge_order(graph, result, count, n);
+
+    loop invariant i_4: processed_vertices_are_output(result, in_degree, count, n);
+
+    loop invariant i_5: \forall integer v; 0 <= v < n ==> (in_degree[v] == -1 || in_degree[v] == 0);
+
+    loop invariant i_6: \forall integer i; 0 <= i < count ==> in_degree[result[i]] == -1;
+
+    loop invariant i_7: \forall integer i, j; 0 <= i < j < count ==> result[i] != result[j];
+
+
+    loop assigns pass, count, result[0..n-1], in_degree[0..n-1];
+    loop variant n - pass;
+  */
+  for (int pass = 0; pass < n; pass++) {
+      // Loop B
+/*@
+      [Hint] Please refine the loop invariants in the repair scope.
+
+      loop invariant i_8: 0 <= v <= n;
+
+      loop invariant i_9: 0 <= pass <= n;
+
+      loop invariant i_10: 0 <= count <= n;
+
+      loop invariant i_11: valid_vertex_prefix(result, count, n);
+
+      loop invariant i_12: output_edge_order(graph, result, count, n);
+
+      loop invariant i_13: processed_vertices_are_output(result, in_degree, count, n);
+
+      loop invariant i_14: \forall integer x; 0 <= x < n ==> (in_degree[x] == -1 || in_degree[x] == 0);
+
+      loop invariant i_15: \forall integer i; 0 <= i < count ==> in_degree[result[i]] == -1;
+
+      loop invariant i_16: \forall integer i, j; 0 <= i < j < count ==> result[i] != result[j];
+
+      loop invariant i_20: \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> \forall integer u; 0 <= u < n && graph[u][w] == 1 ==> in_degree[u] == -1;
+
+
+      loop assigns v, count, result[0..n-1], in_degree[0..n-1];
+      loop variant n - v;
+    */
+    for (int v = 0; v < n; v++) {
+      if (in_degree[v] != -1) {
+        int can_output = 1;
+
+              // Loop C
+/*@
+          [Hint] Please refine the loop invariants in the repair scope.
+
+          loop invariant i_17: 0 <= u <= n;
+
+          loop invariant i_18: can_output == 0 <==> \exists integer x; 0 <= x < u && graph[x][v] == 1 && in_degree[x] != -1;
+
+          loop invariant i_19: can_output == 0 || can_output == 1;
+
+          loop invariant i_21: can_output == 1 ==> \forall integer x; 0 <= x < u ==> graph[x][v] == 1 ==> in_degree[x] == -1;
+
+
+          loop assigns u, can_output;
+          loop variant n - u;
+        */
+        for (int u = 0; u < n; u++) {
+          if (graph[u][v] == 1 && in_degree[u] != -1) {
+            can_output = 0;
+          }
+        }
+
+        if (can_output && count < n) {
+          result[count] = v;
+          count++;
+          in_degree[v] = -1;
+        }
+      }
+    }
+  }
+
+  return count;
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_12: output_edge_order(graph, result, count, n)
+[Failed Property] preservation of i_12: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[Failure Cause] The loop body appends vertex `v` to `result` at index `count`. To preserve `output_edge_order`, every predecessor `u` of `v` must already appear in the prefix `result[0..count-1]`. The inner loop C establishes that all predecessors of `v` have `in_degree[u] == -1` (via i_18/i_21 when `u == n`). However, this does not exclude the possibility that `v` itself is a predecessor of `v`. If `graph[v][v] == 1`, then `v` would need to appear before itself, which is impossible because `in_degree[v] != -1` implies `v` is not yet in the prefix. The available assumptions do not explicitly state that `v` is not a predecessor of itself (`graph[v][v] == 0`). While this can be derived by instantiating i_18 with `i = v` and using `in_degree[v] != -1`, the prover fails to make this instantiation, leaving a gap in the proof.
+[Repair Scope] B@topo_sort, C@topo_sort
+[Refinement Direction] The missing logical fact is that the current vertex `v` is not a predecessor of itself, i.e., `graph[v][v] == 0`. This fact is needed to rule out the case `from = v` when proving `output_edge_order` for the newly appended vertex `v`. Without it, the prover cannot show that all incoming edges to `v` originate from vertices already present in the result prefix.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in B@topo_sort, C@topo_sort.
+2. Your answer should follow the following format:
+```
+[Loop B@topo_sort]
+
+[Loop C@topo_sort]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

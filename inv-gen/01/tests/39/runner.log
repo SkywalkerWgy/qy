@@ -1,0 +1,85 @@
+INFO | [MODEL] type=deepseek-flash
+INFO | [INPUT] source=../Benchmark/test-03-01/test-03-01-39.cbs
+INFO | [INPUT] artifact=input.cbs bytes=1361
+INFO | [INIT] functions=_bucket_sort loops=5 delayed_filter_threshold=6
+INFO | [LLM 001] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=A@_bucket_sort prompt=llm_calls/001_initial_reasoning_A@_bucket_sort.prompt.txt response=llm_calls/001_initial_reasoning_A@_bucket_sort.response.txt response_chars=111
+INFO | [LLM 001] response_preview=``` loop invariant 0 <= i <= BUCKET_COUNT; loop invariant \forall integer k; 0 <= k < i ==> bucket[k] == 0; ```
+INFO | [APPLY] loop=A@_bucket_sort added=2
+INFO |   + i_0: 0 <= i <= BUCKET_COUNT
+INFO |   + i_1: \forall integer k; 0 <= k < i ==> bucket[k] == 0
+INFO | [LLM 002] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=E@_bucket_sort prompt=llm_calls/002_initial_reasoning_E@_bucket_sort.prompt.txt response=llm_calls/002_initial_reasoning_E@_bucket_sort.response.txt response_chars=109
+INFO | [LLM 002] response_preview=``` loop invariant 0 <= pos <= n; loop invariant sorted(a, 0, pos); loop invariant in_bucket_range(a, n); ```
+INFO | [APPLY] loop=E@_bucket_sort added=3
+INFO |   + i_2: 0 <= pos <= n
+INFO |   + i_3: sorted(a, 0, pos)
+INFO |   + i_4: in_bucket_range(a, n)
+INFO | [LLM 003] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=B@_bucket_sort prompt=llm_calls/003_initial_reasoning_B@_bucket_sort.prompt.txt response=llm_calls/003_initial_reasoning_B@_bucket_sort.response.txt response_chars=348
+INFO | [LLM 003] response_preview=``` loop invariant 0 <= i <= n; loop invariant in_bucket_range(a, n); loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] == \sum(integer j; 0 <= j < i; (a[j] == k ? 1 : 0)); loop invariant \forall i...
+INFO | [APPLY] loop=B@_bucket_sort added=5
+INFO |   + i_5: 0 <= i <= n
+INFO |   + i_6: in_bucket_range(a, n)
+INFO |   + i_7: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] == \sum(integer j; 0 <= j < i; (a[j] == k ? 1 : 0))
+INFO |   + i_8: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0
+INFO |   + i_9: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] <= i
+INFO | [LLM 004] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=C@_bucket_sort prompt=llm_calls/004_initial_reasoning_C@_bucket_sort.prompt.txt response=llm_calls/004_initial_reasoning_C@_bucket_sort.response.txt response_chars=415
+INFO | [LLM 004] response_preview=loop invariant 0 <= v <= BUCKET_COUNT; loop invariant 0 <= pos <= n; loop invariant in_bucket_range(a, n); loop invariant \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0; loop invariant \sum(integer k; 0 <...
+INFO | [APPLY] loop=C@_bucket_sort added=8
+INFO |   + i_10: 0 <= v <= BUCKET_COUNT
+INFO |   + i_11: 0 <= pos <= n
+INFO |   + i_12: in_bucket_range(a, n)
+INFO |   + i_13: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0
+INFO |   + i_14: \sum(integer k; 0 <= k < BUCKET_COUNT; bucket[k]) == n
+INFO |   + i_15: pos == \sum(integer k; 0 <= k < v; bucket[k])
+INFO |   + i_16: sorted(a, 0, pos)
+INFO |   + i_17: \forall integer i; 0 <= i < pos ==> 0 <= a[i] < v
+INFO | [LLM 005] provider=deepseek api_model=deepseek-flash type=initial_reasoning loop=D@_bucket_sort prompt=llm_calls/005_initial_reasoning_D@_bucket_sort.prompt.txt response=llm_calls/005_initial_reasoning_D@_bucket_sort.response.txt response_chars=654
+INFO | [LLM 005] response_preview=loop invariant 0 <= j <= bucket[v]; loop invariant 0 <= v < BUCKET_COUNT; loop invariant start == \sum(integer k; 0 <= k < v; bucket[k]); loop invariant pos == start + j; loop invariant start + bucket[v] <= n; loop in...
+INFO | [APPLY] loop=D@_bucket_sort added=13
+INFO |   + i_18: 0 <= j <= bucket[v]
+INFO |   + i_19: 0 <= v < BUCKET_COUNT
+INFO |   + i_20: start == \sum(integer k; 0 <= k < v; bucket[k])
+INFO |   + i_21: pos == start + j
+INFO |   + i_22: start + bucket[v] <= n
+INFO |   + i_23: 0 <= pos <= n
+INFO |   + i_24: sorted(a, 0, pos)
+INFO |   + i_25: in_bucket_range(a, n)
+INFO |   + i_26: \forall integer i; start <= i < pos ==> a[i] == v
+INFO |   + i_27: \forall integer i; 0 <= i < start ==> a[i] < v
+INFO |   + i_28: \forall integer i; 0 <= i < pos ==> 0 <= a[i] <= v
+INFO |   + i_29: \forall integer k; 0 <= k < BUCKET_COUNT ==> bucket[k] >= 0
+INFO |   + i_30: \sum(integer k; 0 <= k < BUCKET_COUNT; bucket[k]) == n
+INFO | [INVARIANTS] total=31 loops=A@_bucket_sort:2, B@_bucket_sort:5, C@_bucket_sort:8, D@_bucket_sort:13, E@_bucket_sort:3 snapshot=invariants/001.txt
+INFO | [ATTEMPT 1] phase=bounded candidate=test-03-01-39_verified_1.cbs invariants=31
+INFO | [FRAMAC] attempt=1 result=Invalid stdout=test-03-01-39_verified_1_Invalid.txt stderr=
+INFO | [INVALID] attempt=1 remove=i_7
+INFO | [INVARIANTS] total=30 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:8, D@_bucket_sort:13, E@_bucket_sort:3 snapshot=invariants/002.txt
+INFO | [ATTEMPT 2] phase=bounded candidate=test-03-01-39_verified_2.cbs invariants=30
+INFO | [FRAMAC] attempt=2 result=Invalid stdout=test-03-01-39_verified_2_Invalid.txt stderr=
+INFO | [INVALID] attempt=2 remove=i_14
+INFO | [INVARIANTS] total=29 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:7, D@_bucket_sort:13, E@_bucket_sort:3 snapshot=invariants/003.txt
+INFO | [ATTEMPT 3] phase=bounded candidate=test-03-01-39_verified_3.cbs invariants=29
+INFO | [FRAMAC] attempt=3 result=Invalid stdout=test-03-01-39_verified_3_Invalid.txt stderr=
+INFO | [INVALID] attempt=3 remove=i_15
+INFO | [INVARIANTS] total=28 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:6, D@_bucket_sort:13, E@_bucket_sort:3 snapshot=invariants/004.txt
+INFO | [ATTEMPT 4] phase=bounded candidate=test-03-01-39_verified_4.cbs invariants=28
+INFO | [FRAMAC] attempt=4 result=Invalid stdout=test-03-01-39_verified_4_Invalid.txt stderr=
+INFO | [INVALID] attempt=4 remove=i_20
+INFO | [INVARIANTS] total=27 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:6, D@_bucket_sort:12, E@_bucket_sort:3 snapshot=invariants/005.txt
+INFO | [ATTEMPT 5] phase=bounded candidate=test-03-01-39_verified_5.cbs invariants=27
+INFO | [FRAMAC] attempt=5 result=Invalid stdout=test-03-01-39_verified_5_Invalid.txt stderr=
+INFO | [INVALID] attempt=5 remove=i_30
+INFO | [INVARIANTS] total=26 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:6, D@_bucket_sort:11, E@_bucket_sort:3 snapshot=invariants/006.txt
+INFO | [ATTEMPT 6] phase=final candidate=test-03-01-39_verified_final_attempt_6.cbs invariants=26
+INFO | [FRAMAC] attempt=6 result=Fail_72_73 stdout=test-03-01-39_verified_final_attempt_6_Fail_72_73.txt stderr=
+INFO | [FAIL] attempt=6 failures=1 summary=i_22 [establishment] Prove: (start_0 + x) <= i.
+INFO | [INVARIANTS] total=25 loops=A@_bucket_sort:2, B@_bucket_sort:4, C@_bucket_sort:6, D@_bucket_sort:10, E@_bucket_sort:3 snapshot=invariants/007.txt
+INFO | [ATTEMPT 7] phase=final candidate=test-03-01-39_verified_final_attempt_7.cbs invariants=25
+INFO | [FRAMAC] attempt=7 result=Pass_71_71 stdout=test-03-01-39_verified_final_attempt_7_Pass_71_71.txt stderr=
+INFO | [PASS] attempt=7 candidate=test-03-01-39_verified_final_attempt_7.cbs
+INFO | ---------Result---------
+INFO | Success
+INFO | Model: deepseek-flash
+INFO | Proposal number: 7
+INFO | Verified code: verified.cbs
+INFO | Running time: 168.78813934326172
+INFO | ------------------------

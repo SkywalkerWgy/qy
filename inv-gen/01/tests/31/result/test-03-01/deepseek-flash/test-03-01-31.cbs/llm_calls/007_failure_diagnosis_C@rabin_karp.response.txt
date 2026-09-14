@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_13: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation obligation for i_13 requires `0 <= ht < Q` after executing `ht = (ht * D + t[j]) % Q`. The available assumptions only give `0 <= ht < Q`, and `t[j]` is an arbitrary `int` constrained only by memory validity. Therefore `ht * D + t[j]` can be negative, for example when `ht = 0` and `t[j] < 0`. With signed C/ACSL modulo, a negative dividend can yield a negative remainder, so the lower bound `0 <= ht` can fail. Thus i_13 is not too strong as a desired range property, but it is non-inductive under the current contract. The Loop C invariants are too weak because they do not constrain the values of `t[j]`, so they cannot imply the post-body range goal.
+
+[Responsible Scope]
+C@rabin_karp
+
+[Refinement Direction]
+The missing bridge is a non-negativity fact for the hashed array elements, e.g. `\forall integer k; 0 <= k < n ==> t[k] >= 0`, or an equivalent guarantee that the dividend fed to `% Q` is nonnegative. This must come from the contract/precondition or from changing the modular representation to unsigned/nonnegative arithmetic; it cannot be discharged from the current loop invariants alone.

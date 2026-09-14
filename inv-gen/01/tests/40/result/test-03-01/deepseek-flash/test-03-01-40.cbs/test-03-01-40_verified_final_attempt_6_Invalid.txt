@@ -1,0 +1,5 @@
+[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-40.cbs/.col2inv-trustc-qeqzkuku.c (with preprocessing)
+[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-40.cbs/.col2inv-trustc-qeqzkuku.c:58: Warning: 
+  subscripted value is neither array nor pointer. Ignoring loop annotation
+[kernel] User Error: warning annot-error treated as fatal error.
+[kernel] Frama-C aborted: invalid user input.

@@ -1,0 +1,83 @@
+#define MAX 100
+
+/*@
+  axiomatic PrimeMath {
+    predicate divides(integer d, integer x) =
+      d != 0 && x % d == 0;
+
+    predicate is_prime(integer x) =
+      2 <= x &&
+      (\forall integer d; 2 <= d && d * d <= x ==> !divides(d,x));
+
+    axiom divides_square:
+      \forall integer d; d != 0 ==> divides(d,d*d);
+
+    axiom divides_plus:
+      \forall integer d, x; 0 < d && divides(d,x) ==> divides(d,x+d);
+
+    axiom close_multiples_equal:
+      \forall integer d, a, b;
+        0 < d && divides(d,a) && divides(d,b) && a <= b < a + d ==> a == b;
+  }
+*/
+
+/* Sieve of Eratosthenes: returns all primes <= n.
+   primes[] must have space for at least n entries. */
+/*@
+  requires 2 <= n <= 100;
+  requires \valid(primes + (0..n-1));
+  assigns primes[0..n-1];
+  ensures 0 <= \result <= n - 1;
+  ensures 1 <= \result;
+  ensures primes[0] == 2;
+  ensures \forall integer k; 0 <= k < \result ==> 2 <= primes[k] <= n;
+  ensures \forall integer k; 0 <= k < \result ==> is_prime(primes[k]);
+  ensures \forall integer a, b; 0 <= a < b < \result ==> primes[a] < primes[b];
+*/
+_Safe int sieve_eratosthenes(int n, int primes[_Nonnull]) {
+    int is_p[MAX + 1];
+    int i, p, cnt;
+
+    /* initialize: all numbers >= 2 are candidates */
+    /*@
+      loop assigns i, is_p[2..n];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) is_p[i] = 1;
+
+    cnt = 0;
+
+    /* mark composites: for each prime p, mark p*p, p*(p+1), ... */
+    /*@
+      loop assigns p, i, is_p[2..n];
+      loop variant n - p;
+    */
+    for (p = 2; p * p <= n; p++) {
+        /*@
+          loop assigns i, is_p[p * p..n];
+          loop variant n - i + 1;
+        */
+        for (i = p * p; i <= n; i += p) {
+            is_p[i] = 0;
+        }
+    }
+    /*@ assert is_p[2] == 1; */
+    /*@ assert \forall integer k; 2 <= k <= n && is_p[k] == 1 ==> is_prime(k); */
+
+    /* collect surviving primes */
+    /*@
+      loop assigns i, cnt, primes[0..n-1];
+      loop variant n - i + 1;
+    */
+    for (i = 2; i <= n; i++) {
+        if (is_p[i]) {
+            /*@ assert is_prime(i); */
+            /*@ assert \forall integer k; 0 <= k < cnt ==> primes[k] < i; */
+            primes[cnt] = i;
+            cnt = cnt + 1;
+        }
+        /*@ assert i != 2 || (1 <= cnt && primes[0] == 2); */
+    }
+
+    return cnt;
+}

@@ -1,0 +1,164 @@
+
+/*@
+  predicate sorted(int* a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i < j < hi ==> a[i] <= a[j];
+
+  logic integer sum_c(int* c, integer v) =
+    v < 0 ? 0 : c[v] + sum_c(c, v - 1);
+*/
+
+/*@
+  requires 0 <= n;
+  requires 0 <= k;
+  requires \valid(a + (0 .. n-1));
+  requires \valid(b + (0 .. n-1));
+  requires \valid(c + (0 .. k));
+  requires \separated(a + (0 .. n-1), b + (0 .. n-1), c + (0 .. k));
+  requires \forall integer i; 0 <= i < n ==> 0 <= a[i] <= k;
+  assigns c[0 .. k], b[0 .. n-1];
+  ensures sorted(b, 0, n);
+  ensures \forall integer i; 0 <= i < n ==> 0 <= b[i] <= k;
+*/
+_Safe void counting_sort(int *_Nonnull a, int *_Nonnull b, int n,
+                         int *_Nonnull c, int k) {
+    int i, v, pos, j, pos_start;
+
+        // Loop A
+/*@
+        [Hint] Please refine the loop invariants in the repair scope.
+
+        loop invariant i_0: 0 <= v <= k + 1;
+
+        loop invariant i_1: \forall integer i; 0 <= i < v ==> c[i] == 0;
+
+        loop invariant i_24: sum_c(c, v - 1) == 0;
+
+
+        loop assigns v, c[0 .. k];
+    */
+    for (v = 0; v <= k; v++) {
+        c[v] = 0;
+    }
+
+        // Loop B
+/*@
+        loop invariant i_5: 0 <= i <= n;
+
+        loop invariant i_6: \forall integer v; 0 <= v <= k ==> c[v] >= 0;
+
+        loop invariant i_7: sum_c(c, k) == i;
+
+
+        loop assigns i, c[0 .. k];
+    */
+    for (i = 0; i < n; i++) {
+        c[a[i]] = c[a[i]] + 1;
+    }
+
+    pos = 0;
+
+        // Loop C
+/*@
+        loop invariant i_8: 0 <= v <= k + 1;
+
+        loop invariant i_9: 0 <= pos <= n;
+
+        loop invariant i_10: pos == sum_c(c, v - 1);
+
+        loop invariant i_11: sum_c(c, k) == n;
+
+        loop invariant i_12: \forall integer t; 0 <= t <= k ==> c[t] >= 0;
+
+        loop invariant i_13: sorted(b, 0, pos);
+
+        loop invariant i_14: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] < v;
+
+        loop invariant i_25: \forall integer w; 0 <= w <= k ==> sum_c(c, w - 1) + c[w] <= sum_c(c, k);
+
+        loop invariant i_26: sum_c(c, k) == \at(sum_c(c, k), LoopEntry);
+
+        loop invariant i_30: \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= sum_c(c, k);
+
+        loop invariant i_31: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+
+        loop invariant i_32: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);
+
+
+        loop assigns v, j, pos, pos_start, b[0 .. n-1];
+    */
+    for (v = 0; v <= k; v++) {
+        pos_start = pos;
+
+                // Loop D
+/*@
+            loop invariant i_15: 0 <= j <= c[v];
+
+            loop invariant i_16: pos == pos_start + j;
+
+            loop invariant i_17: pos_start == sum_c(c, v - 1);
+
+            loop invariant i_18: pos_start + c[v] <= n;
+
+            loop invariant i_19: 0 <= pos_start && pos_start <= pos && pos <= n;
+
+            loop invariant i_20: sorted(b, 0, pos);
+
+            loop invariant i_21: \forall integer i; 0 <= i < pos_start ==> 0 <= b[i] && b[i] < v;
+
+            loop invariant i_22: \forall integer i; pos_start <= i < pos ==> b[i] == v;
+
+            loop invariant i_23: \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] <= v;
+
+            loop invariant i_27: sum_c(c, k) == \at(sum_c(c, k), LoopEntry);
+
+            loop invariant i_28: \forall integer w; 0 <= w <= v - 1 ==> c[w] == \at(c[w], LoopEntry);
+
+            loop invariant i_29: sum_c(c, v - 1) == \at(sum_c(c, v - 1), LoopEntry);
+
+            loop invariant i_33: \forall integer w; 0 <= w <= k ==> c[w] == \at(c[w], LoopEntry);
+
+            loop invariant i_34: \forall integer w; 0 <= w <= k ==> sum_c(c, w) == \at(sum_c(c, w), LoopEntry);
+
+
+            loop assigns j, pos, b[0 .. n-1];
+        */
+        for (j = 0; j < c[v] && pos < n; j++) {
+            b[pos] = v;
+            pos = pos + 1;
+        }
+    }
+
+        // Loop E
+/*@
+        loop invariant i_2: 0 <= pos <= n;
+
+        loop invariant i_3: sorted(b, 0, pos);
+
+        loop invariant i_4: \forall integer i; 0 <= i < pos ==> 0 <= b[i] <= k;
+
+
+        loop assigns pos, b[0 .. n-1];
+    */
+    for (; pos < n; pos++) {
+        b[pos] = k;
+    }
+}
+
+You are an expert in program verification using ACSL and Frama-C. Refine only the loop invariants in the repair scope so that the failed verification obligation can be discharged.
+[Failed Invariant] i_24: sum_c(c, v - 1) == 0
+[Failed Property] preservation of i_24: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+[Failure Cause] The failed obligation is the preservation of Loop A invariant i_24. After the loop body sets `c[v] = 0`, WP must re-establish i_24 for the next loop check, which requires proving `sum_c(c, v) == 0` from the pre-state facts `sum_c(c, v - 1) == 0`, `v >= 0`, and the zero-prefix information. The assumptions do give that after the assignment `c[0..v]` are all zero, so semantically `sum_c(c, v) == 0` follows by unfolding `sum_c(c, v) = c[v] + sum_c(c, v - 1)`. However, the proof context does not expose the needed auxiliary fact about `sum_c`: that a zero prefix implies `sum_c` over that prefix is zero, or the corresponding induction/frame property for the recursive definition of `sum_c`. Therefore WP/SMT cannot bridge the gap from `forall i; 0 <= i <= v ==> c[i] == 0` to `sum_c(c, v) == 0`. The invariant i_24 itself is not too strong; it is true for this loop. It is non-inductive only relative to the current proof context, because its preservation requires this missing `sum_c` lemma. The A@counting_sort invariants are not semantically too weak, since i_1 plus the body gives all `c[0..v]` zero, but they are too weak as an automated proof context because they do not provide the `sum_c`-prefix fact. The missing logical fact is: for `v >= 0`, if all `c[i]` for `0 <= i <= v` are zero, then `sum_c(c, v) == 0`; equivalently, the recursive unfolding `sum_c(c, v) = c[v] + sum_c(c, v - 1)` together with preservation of `sum_c(c, v - 1)` under the update at index `v`.
+[Repair Scope] A@counting_sort
+[Refinement Direction] Supply or prove the missing auxiliary lemma about `sum_c` (zero-prefix implies `sum_c` is zero, or the needed recursive unfolding/frame property) so that preservation of i_24 can be discharged. The current loop invariant i_24 is not the root cause, and no new loop invariant is required.
+Use the failed property and diagnosis to refine the failed invariant and its related invariants.
+IMPORTANT RULES:
+1. Modify only invariants in A@counting_sort.
+2. Your answer should follow the following format:
+```
+[Loop A@counting_sort]
+loop invariant ...;
+...
+```
+Output one block for each loop in the repair scope. All invariants must strictly satisfy ACSL rules.
+3. Do not output any of the original invariants. Only output the new or modified invariants you propose.
+4. No explanation. No commentary. Just show me the loop invariant.

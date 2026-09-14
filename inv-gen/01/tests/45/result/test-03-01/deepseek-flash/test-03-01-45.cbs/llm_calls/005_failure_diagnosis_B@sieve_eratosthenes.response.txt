@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_14: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The proof is trying to show that after the inner loop C (which clears multiples of p from p*p to n), any surviving k with 2 <= k <= n, k < (p+1)^2, and is_p[k] == 1 is prime. The available invariants only state that multiples of p in [p*p, n] are cleared (i_23) and that numbers with a divisor d < p and d*d <= k are cleared (i_22). They do not provide the number-theoretic fact that every composite k < (p+1)^2 has a divisor d <= p with d*d <= k. Without that fact, is_p[k] == 1 cannot rule out k being composite, so P_is_prime(k) cannot be concluded. Thus i_14 is not too strong, but it is not inductive from the provided inner-loop invariants alone; the inner loop only removes multiples of p, not all composites in the newly covered interval. The C invariants are too weak to imply the goal after the inner loop terminates.
+
+[Responsible Scope]
+both
+
+[Refinement Direction]
+The missing bridge is the arithmetic fact that if 2 <= k < (p+1)^2 and k is composite, then k has a divisor d with 2 <= d <= p and d*d <= k. If d = p, i_23 marks k as not surviving; if d < p, i_22 marks k as not surviving. Hence is_p[k] == 1 contradicts compositeness, so k must be prime. The refinement should expose or prove this number-theoretic fact (or an equivalent prime-divisor existence lemma), not weaken i_14.

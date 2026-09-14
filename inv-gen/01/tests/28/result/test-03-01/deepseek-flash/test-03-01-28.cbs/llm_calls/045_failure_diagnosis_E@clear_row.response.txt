@@ -1,0 +1,11 @@
+[Failed Property]
+preservation of i_50: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
+
+[Failure Cause]
+The preservation proof for i_50 reduces to showing, for arbitrary `i_1 < row_0` and `i < n`, that `(i + i_1 * n) < n * row_0`. This is exactly the arithmetic fact already present in the available invariant `i_51`/`i_54` (depending on labeling), which states `c + r*n < n*row`. The mismatch is syntactic: the available quantified invariant uses `n * r`, while the goal uses `r * n`. The prover cannot instantiate the quantifier because the multiplication terms are not syntactically identical and it lacks automatic normalization for commutativity of multiplication. The loop body of `clear_row` does not modify `n`, `row`, or the row indices involved in i_50, so the invariant is mathematically inductive; the failure is due to missing arithmetic normalization, not a counterexample.
+
+[Responsible Scope]
+E@clear_row
+
+[Refinement Direction]
+Provide the missing commutativity fact for multiplication so the prover can relate `r * n` and `n * r` (or ensure the existing arithmetic invariant is written with the same term order as the goal). No new invariant is required; the existing invariants already contain the necessary fact modulo multiplication commutativity.

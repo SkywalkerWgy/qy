@@ -1,0 +1,55 @@
+/*@
+  predicate sorted{L}(int *a, integer lo, integer hi) =
+    \forall integer i, j; lo <= i <= j < hi ==> \at(a[i], L) <= \at(a[j], L);
+
+  predicate root_max{L}(int *a, integer heap_size) =
+    \forall integer k; 0 <= k < heap_size ==> \at(a[k], L) <= \at(a[0], L);
+*/
+
+/*@
+  requires \valid(a + (0 .. n - 1));
+  requires 1 <= heap_size <= n;
+  requires \forall integer p, q;
+    0 <= p < heap_size <= q < n ==> a[p] <= a[q];
+  assigns a[0 .. heap_size - 1];
+  ensures root_max(a, heap_size);
+  ensures \forall integer p, q;
+    0 <= p < heap_size <= q < n ==> a[p] <= a[q];
+*/
+_Safe void heap_promote_root(int *_Nonnull a, int heap_size, int n)
+{
+    /*@
+      loop assigns i, a[0 .. heap_size - 1];
+    */
+    for (int i = 1; i < heap_size; i++) {
+        if (a[0] < a[i]) {
+            int tmp = a[0];
+            a[0] = a[i];
+            a[i] = tmp;
+        }
+    }
+}
+
+/*@
+  requires \valid(a + (0 .. n - 1));
+  requires 1 <= n;
+  assigns a[0 .. n - 1];
+  ensures sorted(a, 0, n);
+*/
+_Safe void _heap_sort(int *_Nonnull a, int n)
+{
+    int heap_size = n;
+
+    /*@
+      loop assigns heap_size, a[0 .. n - 1];
+    */
+    while (heap_size > 1) {
+        heap_promote_root(a, heap_size, n);
+
+        int tmp = a[0];
+        a[0] = a[heap_size - 1];
+        a[heap_size - 1] = tmp;
+
+        heap_size--;
+    }
+}
