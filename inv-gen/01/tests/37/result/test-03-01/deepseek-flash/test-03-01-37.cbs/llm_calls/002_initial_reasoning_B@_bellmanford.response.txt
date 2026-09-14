@@ -1,2 +1,0 @@
-loop invariant 0 <= k <= n;
-loop invariant \forall integer x; 0 <= x < k ==> prev[x] == dist[x];

@@ -1,5 +1,0 @@
-[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-39.cbs/.col2inv-trustc-zfpiv_yy.c (with preprocessing)
-[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-39.cbs/.col2inv-trustc-zfpiv_yy.c:104: Warning: 
-  unexpected token 'k'
-[kernel] User Error: warning annot-error treated as fatal error.
-[kernel] Frama-C aborted: invalid user input.

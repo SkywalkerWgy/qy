@@ -1,3 +1,0 @@
-[Loop D@place_queen]
-loop invariant i_53: \forall integer r, k; 0 <= r < row && 0 <= k < n ==> k + r * n < n * (r + 1) && n * (r + 1) <= n * row;
-loop invariant i_60: 1 <= n;

@@ -1,6 +1,0 @@
-```
-loop invariant 1 <= i <= m + 1;
-loop invariant \forall integer k; 0 <= k <= n ==> dp[0][k] == k;
-loop invariant \forall integer k; 0 <= k <= m ==> dp[k][0] == k;
-loop invariant \forall integer p, q; 1 <= p < i && 1 <= q <= n ==> is_min3(dp[p - 1][q - 1] + (s[p - 1] == t[q - 1] ? 0 : 1), dp[p - 1][q] + 1, dp[p][q - 1] + 1, dp[p][q]);
-```

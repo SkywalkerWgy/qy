@@ -1,4 +1,0 @@
-```
-loop invariant 1 <= up <= length;
-loop invariant sorted(a, 0, up);
-```

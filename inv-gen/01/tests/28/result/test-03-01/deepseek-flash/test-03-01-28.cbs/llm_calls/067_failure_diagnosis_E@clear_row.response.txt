@@ -1,8 +1,0 @@
-[Failed Property]
-preservation of i_55: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
-[Failure Cause]
-The invariant i_55 is inductive by itself: after `j++`, the right-hand side `n*row + j` increases, so the strict inequality `c + r*n < n*row + j` remains true. The proof fails because the available pre-state invariant i_57 is written as `c + n*r < n*row + j`, while the WP target uses `c + r*n <= n*row + j`. The solver cannot match `n*r` with `r*n` without applying the commutativity of multiplication. The invariant is not too strong; it is logically equivalent to i_57. The invariants of E@clear_row are not too weak; they already contain the necessary inequality in i_57. The gap is purely a syntactic arithmetic mismatch.
-[Responsible Scope]
-E@clear_row
-[Refinement Direction]
-The missing logical fact is the commutativity of integer multiplication (`r * n = n * r`) together with the implication from strict `<` to non-strict `<=`. The proof requires normalizing the arithmetic term ordering or providing an explicit lemma for multiplication commutativity to instantiate i_57 and derive the WP target.

@@ -1,7 +1,0 @@
-Loop A@fast_pow_mod:
-  i_0: m > 0
-  i_1: x >= 0 && n >= 0
-  i_2: 0 <= res && res < m
-  i_3: 0 <= base && base < m
-  i_4: 0 <= exp && exp <= n
-  i_5: (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m) % m

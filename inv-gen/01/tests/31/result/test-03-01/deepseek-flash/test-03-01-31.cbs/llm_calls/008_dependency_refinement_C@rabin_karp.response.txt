@@ -1,2 +1,0 @@
-[Loop C@rabin_karp]
-loop invariant \forall integer k; 0 <= k < n ==> t[k] >= 0;

@@ -1,6 +1,0 @@
-```
-loop invariant -1 <= i && i < n;
-loop invariant \forall integer p, q; 0 <= p && p < n && 0 <= q && q < p ==> dp[p][q] == 0;
-loop invariant \forall integer p; i < p && p < n ==> dp[p][p] == 1;
-loop invariant \forall integer p, q; i < p && p < n && p < q && q < n ==> (s[p] == s[q] && dp[p][q] == dp[p + 1][q - 1] + 2) || (is_max(dp[p + 1][q], dp[p][q - 1], dp[p][q]));
-```

@@ -1,5 +1,0 @@
-[Loop E@floyd]
-loop invariant i_26: \forall integer c;
-  0 <= c <= j && graph[i][k] < INF && graph[k][c] < INF ==>
-    (c < j ==> dist[i][c] <= graph[i][k] + graph[k][c]) &&
-    (c == j ==> (dist[i][k] + dist[k][c] < dist[i][c] || dist[i][c] <= graph[i][k] + graph[k][c]));

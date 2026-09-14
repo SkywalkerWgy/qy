@@ -1,8 +1,0 @@
-```
-loop invariant m > 0;
-loop invariant x >= 0 && n >= 0;
-loop invariant 0 <= res && res < m;
-loop invariant 0 <= base && base < m;
-loop invariant 0 <= exp && exp <= n;
-loop invariant (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m) % m;
-```

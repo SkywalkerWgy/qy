@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= i <= n;
-loop invariant \forall integer d; 0 <= d < BASE ==> 0 <= count[d] <= i;
-loop invariant \forall integer d; 0 <= d < BASE ==> count[d] == \sum integer k; 0 <= k < i && ((a[k] / exp) % BASE) == d; 1;
-```

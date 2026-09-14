@@ -1,4 +1,0 @@
-```
-loop invariant 0 <= j < i;
-loop invariant pre_post(s, i - 1, j);
-```

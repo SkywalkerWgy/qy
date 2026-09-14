@@ -1,7 +1,0 @@
-```
-loop invariant lo <= j && j <= hi;
-loop invariant lo - 1 <= i && i < j;
-loop invariant a[hi] == pivot;
-loop invariant \forall integer k; lo <= k && k <= i ==> a[k] <= pivot;
-loop invariant \forall integer k; i < k && k < j ==> a[k] > pivot;
-```

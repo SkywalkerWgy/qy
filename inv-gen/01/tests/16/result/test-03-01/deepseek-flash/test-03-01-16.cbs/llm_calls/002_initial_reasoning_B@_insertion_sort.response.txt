@@ -1,5 +1,0 @@
-loop invariant 0 <= j <= i;
-loop invariant Sorted(t, 0, j);
-loop invariant Sorted(t, j + 1, i + 1);
-loop invariant \forall integer k; j < k <= i ==> t[k] > mv;
-loop invariant \forall integer a, b; 0 <= a < j && j < b <= i ==> t[a] <= t[b];

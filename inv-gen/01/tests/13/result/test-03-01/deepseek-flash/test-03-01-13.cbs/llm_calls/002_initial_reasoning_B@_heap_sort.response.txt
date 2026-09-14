@@ -1,5 +1,0 @@
-```
-loop invariant 1 <= heap_size <= n;
-loop invariant \forall integer p, q; 0 <= p < heap_size <= q < n ==> a[p] <= a[q];
-loop invariant sorted(a, heap_size, n);
-```

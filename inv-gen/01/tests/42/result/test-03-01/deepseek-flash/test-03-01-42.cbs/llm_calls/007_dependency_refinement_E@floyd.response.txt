@@ -1,6 +1,0 @@
-```
-[Loop E@floyd]
-loop invariant \forall integer c; 0 <= c < n && c >= j ==> dist[i][c] == \at(dist[i][c], LoopEntry);
-loop invariant \forall integer r, c; 0 <= r < n && 0 <= c < n && r != i ==> dist[r][c] == \at(dist[r][c], LoopEntry);
-loop invariant \forall integer a, b, m; 0 <= a < n && 0 <= b < n && 0 <= m < k && graph[a][m] < INF && graph[m][b] < INF ==> \at(dist[a][b], LoopEntry) <= graph[a][m] + graph[m][b];
-```

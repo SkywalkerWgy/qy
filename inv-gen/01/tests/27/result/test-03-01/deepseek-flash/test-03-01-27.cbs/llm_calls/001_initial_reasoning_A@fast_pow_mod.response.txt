@@ -1,6 +1,0 @@
-```
-loop invariant 0 <= res < m;
-loop invariant 0 <= base < m;
-loop invariant exp >= 0;
-loop invariant (res * pow_mod(base, exp, m)) % m == pow_mod(x, n, m);
-```

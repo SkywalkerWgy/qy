@@ -1,7 +1,0 @@
-```
-loop invariant 0 <= j <= m;
-loop invariant \forall integer k; 0 <= k < j ==> t[i + k] == p[k];
-loop invariant 0 <= i && i < n - m;
-loop invariant ht == str_hash(t, i, m, D, Q);
-loop invariant dp == pow_mod(D, m - 1, Q);
-```

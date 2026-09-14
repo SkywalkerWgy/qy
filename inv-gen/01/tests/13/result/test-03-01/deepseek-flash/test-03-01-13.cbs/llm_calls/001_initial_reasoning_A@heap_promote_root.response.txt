@@ -1,5 +1,0 @@
-```
-loop invariant 1 <= i <= heap_size;
-loop invariant \forall integer k; 0 <= k < i ==> a[k] <= a[0];
-loop invariant \forall integer p, q; 0 <= p < heap_size <= q < n ==> a[p] <= a[q];
-```

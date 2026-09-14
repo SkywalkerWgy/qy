@@ -1,7 +1,0 @@
-```
-loop invariant i == l + 5 * m;
-loop invariant i >= l;
-loop invariant i <= r + 1;
-loop invariant m >= 0;
-loop invariant m <= (r - l + 1) / 5;
-```

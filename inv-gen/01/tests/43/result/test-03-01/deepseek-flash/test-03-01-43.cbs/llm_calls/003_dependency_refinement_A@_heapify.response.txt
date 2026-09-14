@@ -1,4 +1,0 @@
-```
-[Loop A@_heapify]
-loop invariant dad > 0 ==> a[(dad - 1) / 2] >= a[swapindex];
-```

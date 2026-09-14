@@ -1,6 +1,0 @@
-[Loop B@topo_sort]
-loop invariant \forall integer w; 0 <= w < n && in_degree[w] == -1 ==>
-  \forall integer u; 0 <= u < n && graph[u][w] == 1 ==> in_degree[u] == -1;
-
-[Loop C@topo_sort]
-loop invariant can_output == 1 ==> \forall integer x; 0 <= x < u ==> graph[x][v] == 1 ==> in_degree[x] == -1;

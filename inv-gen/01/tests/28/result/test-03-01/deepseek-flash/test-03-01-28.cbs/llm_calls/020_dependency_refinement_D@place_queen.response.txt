@@ -1,4 +1,0 @@
-```
-[Loop D@place_queen]
-loop invariant \forall integer k; 0 <= k < n ==> idx(n, row, k) < idx(n, row + 1, 0);
-```

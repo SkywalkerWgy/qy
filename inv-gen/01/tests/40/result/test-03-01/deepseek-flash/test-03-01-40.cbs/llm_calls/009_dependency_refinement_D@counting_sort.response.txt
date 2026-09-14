@@ -1,6 +1,0 @@
-```
-[Loop D@counting_sort]
-
-[Loop C@counting_sort]
-loop invariant i_25: \forall integer w; 0 <= w <= k ==> sum_c(c, w - 1) + c[w] <= sum_c(c, k);
-```

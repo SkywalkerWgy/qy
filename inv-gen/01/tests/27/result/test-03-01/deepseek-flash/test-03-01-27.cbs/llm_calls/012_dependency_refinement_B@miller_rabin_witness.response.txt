@@ -1,3 +1,0 @@
-[Loop B@miller_rabin_witness]
-loop invariant i_7: \true;
-loop invariant i_17: \true;

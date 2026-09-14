@@ -1,5 +1,0 @@
-[Loop B@counting_sort]
-loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= i;
-
-[Loop C@counting_sort]
-loop invariant \forall integer w; 0 <= w <= k ==> sum_c(c, w) <= sum_c(c, k);

@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= c <= n;
-loop invariant valid_board(n, board);
-loop invariant \forall integer c1; 0 <= c1 < c && board[idx(n, r, c1)] == 1 ==> c1 != col && abs_int(row - r) != abs_int(col - c1);
-```

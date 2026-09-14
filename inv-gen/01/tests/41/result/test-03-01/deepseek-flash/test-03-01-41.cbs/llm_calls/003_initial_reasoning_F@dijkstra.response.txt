@@ -1,8 +1,0 @@
-loop invariant 0 <= k <= n;
-loop invariant \forall integer i; 0 <= i < k ==> (visited[i] == 1 <==> dist[i] != INF);
-loop invariant \forall integer i; k <= i < n ==> visited[i] == 0;
-loop invariant \forall integer i; 0 <= i < n ==> (visited[i] == 0 || visited[i] == 1);
-loop invariant \forall integer i; 0 <= i < n ==> 0 <= dist[i] <= INF;
-loop invariant graph_valid(graph, n);
-loop invariant parent_valid(n, start, parent);
-loop invariant shortest_path_result{Pre,Here}(graph, n, start, dist);

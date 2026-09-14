@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= j <= m;
-loop invariant 0 <= ht < Q;
-loop invariant ht == str_hash(t, 0, j, D, Q);
-```

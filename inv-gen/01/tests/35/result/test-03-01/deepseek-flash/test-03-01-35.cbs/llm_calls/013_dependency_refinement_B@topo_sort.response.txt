@@ -1,2 +1,0 @@
-[Loop C@topo_sort]
-loop invariant \forall integer w; 0 <= w < n && in_degree[w] == -1 ==> graph[v][w] == 0;

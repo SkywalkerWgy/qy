@@ -1,4 +1,0 @@
-```
-loop invariant 0 <= v <= k + 1;
-loop invariant \forall integer i; 0 <= i < v ==> c[i] == 0;
-```

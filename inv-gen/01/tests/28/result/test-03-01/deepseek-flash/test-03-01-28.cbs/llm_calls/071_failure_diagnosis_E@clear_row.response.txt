@@ -1,8 +1,0 @@
-[Failed Property]
-preservation of i_57: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
-[Failure Cause]
-The arithmetic invariant i_57 is inductive for the `clear_row` loop: the body only increments `j`, so the right-hand side `n * row + j` increases and the old invariant already implies the new one. The proof failure is instead caused by a term-order mismatch. The WP goal requires `i + i_1 * n <= x_1`, while the available quantified invariant is phrased as `i_2 + n * i_3 < x_1`. To instantiate and use it, the solver must know `i_1 * n = n * i_1` and that `<` implies `<=`. The invariant is not too strong or non-inductive, and the existing invariant set is not too weak; the issue is missing arithmetic normalization/commutativity in the proof context.
-[Responsible Scope]
-E@clear_row
-[Refinement Direction]
-No new loop invariant is needed. Expose the missing arithmetic fact to the solver: either normalize the term order in the existing arithmetic invariants so they match the goal’s `r * n` form, or add a local assertion/lemma (not a loop invariant) stating the commutativity of multiplication and the strict-to-non-strict inequality step needed for the instantiation.

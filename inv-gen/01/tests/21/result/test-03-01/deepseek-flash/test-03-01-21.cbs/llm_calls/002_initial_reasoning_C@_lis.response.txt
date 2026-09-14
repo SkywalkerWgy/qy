@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= i <= n;
-loop invariant \forall integer k; 0 <= k < i ==> ans >= dp[k];
-loop invariant 0 <= res < n && ans == dp[res];
-```

@@ -1,6 +1,0 @@
-Loop A@partition:
-  i_0: lo <= hi
-  i_1: lo - 1 <= i && i < j && j <= hi
-  i_2: pivot == a[hi]
-  i_3: \forall integer t; lo <= t <= i ==> a[t] <= pivot
-  i_4: \forall integer t; i + 1 <= t < j ==> a[t] > pivot

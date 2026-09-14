@@ -1,7 +1,0 @@
-Loop A@uf_init:
-  i_0: 0 <= i && i <= n
-  i_1: \forall integer k; 0 <= k && k < i ==> parent[k] == k
-  i_2: \forall integer k; 0 <= k && k < i ==> rank[k] == 0
-Loop B@uf_find:
-  i_3: 0 <= x && x < n
-  i_4: \forall integer i; 0 <= i < n ==> 0 <= parent[i] < n

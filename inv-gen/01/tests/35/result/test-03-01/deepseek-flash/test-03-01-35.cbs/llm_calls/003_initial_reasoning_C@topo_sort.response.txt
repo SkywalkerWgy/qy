@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= u <= n;
-loop invariant can_output == 0 <==> \exists integer x; 0 <= x < u && graph[x][v] == 1 && in_degree[x] != -1;
-loop invariant can_output == 0 || can_output == 1;
-```

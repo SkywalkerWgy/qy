@@ -1,4 +1,0 @@
-[Loop B@miller_rabin_witness]
-loop invariant 0 <= x < n;
-loop invariant x != 1 && x != n - 1;
-loop invariant i >= 0;

@@ -1,4 +1,0 @@
-```
-loop invariant lo < up && up <= hi + 1;
-loop invariant sorted_range(a, lo, up);
-```

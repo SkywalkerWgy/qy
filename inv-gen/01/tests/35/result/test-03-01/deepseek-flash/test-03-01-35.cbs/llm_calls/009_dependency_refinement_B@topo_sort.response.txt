@@ -1,4 +1,0 @@
-[Loop B@topo_sort]
-
-[Loop C@topo_sort]
-loop invariant i_23: can_output == 1 ==> \forall integer x; (0 <= x < u && graph[x][v] == 1) ==> appears_in_prefix(result, count, x);

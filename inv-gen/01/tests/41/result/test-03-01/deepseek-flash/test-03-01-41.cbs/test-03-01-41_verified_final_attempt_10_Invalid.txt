@@ -1,5 +1,0 @@
-[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-41.cbs/.col2inv-trustc-y6wqeb92.c (with preprocessing)
-[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-41.cbs/.col2inv-trustc-y6wqeb92.c:479: Warning: 
-  \old undefined in this context. Ignoring loop annotation
-[kernel] User Error: warning annot-error treated as fatal error.
-[kernel] Frama-C aborted: invalid user input.

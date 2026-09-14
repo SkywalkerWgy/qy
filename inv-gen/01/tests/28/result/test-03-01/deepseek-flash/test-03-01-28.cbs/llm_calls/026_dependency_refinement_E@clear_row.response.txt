@@ -1,2 +1,0 @@
-[Loop E@clear_row]
-loop invariant i_42_refined: \forall integer r, c; 0 <= r < row && 0 <= c < n ==> r * n + c < row * n;

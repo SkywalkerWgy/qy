@@ -1,2 +1,0 @@
-[Loop B@miller_rabin_witness]
-loop invariant i_17: (x * x) % n == pow_mod(a, d * (1 << (i + 1)), n);

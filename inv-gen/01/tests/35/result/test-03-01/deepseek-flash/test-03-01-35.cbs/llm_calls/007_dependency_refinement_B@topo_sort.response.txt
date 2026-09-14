@@ -1,4 +1,0 @@
-[Loop B@topo_sort]
-
-[Loop C@topo_sort]
-loop invariant (can_output == 1 && v < u) ==> graph[v][v] == 0;

@@ -1,4 +1,0 @@
-```
-loop invariant 0 <= i <= BUCKET_COUNT;
-loop invariant \forall integer k; 0 <= k < i ==> bucket[k] == 0;
-```

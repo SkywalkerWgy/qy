@@ -1,4 +1,0 @@
-loop invariant 1 <= i <= m;
-loop invariant 0 <= len < i;
-loop invariant (*lps)[0] == 0;
-loop invariant \forall integer k; 0 <= k < i ==> 0 <= (*lps)[k] <= k;

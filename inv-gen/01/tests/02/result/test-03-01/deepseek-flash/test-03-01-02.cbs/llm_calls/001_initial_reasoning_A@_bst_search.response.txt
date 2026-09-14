@@ -1,1 +1,0 @@
-loop invariant BST(cur);

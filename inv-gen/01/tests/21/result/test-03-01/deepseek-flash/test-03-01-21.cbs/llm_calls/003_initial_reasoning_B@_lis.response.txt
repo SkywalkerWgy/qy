@@ -1,8 +1,0 @@
-loop invariant 0 <= j <= i;
-loop invariant 0 <= i < n;
-loop invariant \forall integer k; i < k < n ==> dp[k] == 1;
-loop invariant \forall integer k; 0 <= k < n ==> dp[k] >= 1;
-loop invariant \forall integer p; 0 <= p < i ==> (\forall integer q; (0 <= q < p && arr[q] < arr[p]) ==> dp[p] >= dp[q] + 1);
-loop invariant \forall integer p; 0 <= p < i ==> (dp[p] == 1 || \exists integer q; 0 <= q < p && arr[q] < arr[p] && dp[p] == dp[q] + 1);
-loop invariant \forall integer q; 0 <= q < j && arr[q] < arr[i] ==> dp[i] >= dp[q] + 1;
-loop invariant (cur == -1 ==> dp[i] == 1) && (cur != -1 ==> 0 <= cur < j && arr[cur] < arr[i] && dp[i] == dp[cur] + 1);

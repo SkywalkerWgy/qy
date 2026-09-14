@@ -1,5 +1,0 @@
-[kernel] Parsing /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-klxt1iba.c (with preprocessing)
-[kernel:annot-error] /results/test-03-01/deepseek-flash/test-03-01-31.cbs/.col2inv-trustc-klxt1iba.c:133: Warning: 
-  unbound logic variable true. Ignoring loop annotation
-[kernel] User Error: warning annot-error treated as fatal error.
-[kernel] Frama-C aborted: invalid user input.

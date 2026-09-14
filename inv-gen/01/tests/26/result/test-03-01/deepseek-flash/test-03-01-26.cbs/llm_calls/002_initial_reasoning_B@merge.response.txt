@@ -1,4 +1,0 @@
-loop invariant l <= k && k <= r;
-loop invariant sorted(tmp, l, r);
-loop invariant \forall integer p; l <= p && p < k ==> a[p] == tmp[p];
-loop invariant sorted(a, l, k);

@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= pos <= n;
-loop invariant sorted(a, 0, pos);
-loop invariant in_bucket_range(a, n);
-```

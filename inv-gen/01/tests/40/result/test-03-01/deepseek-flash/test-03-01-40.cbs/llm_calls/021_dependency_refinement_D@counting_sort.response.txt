@@ -1,2 +1,0 @@
-[Loop D@counting_sort]
-loop invariant \separated(b + (0 .. n-1), c + (0 .. k));

@@ -1,2 +1,0 @@
-[Loop E@floyd]
-loop invariant \forall integer r, c1, c2; 0 <= r < n && 0 <= c1 < n && 0 <= c2 < n && c1 != c2 ==> &dist[r][c1] != &dist[r][c2];

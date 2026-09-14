@@ -1,7 +1,0 @@
-Loop A@string_same_judge:
-  i_0: 0 <= j <= m
-  i_1: \forall integer k; 0 <= k < j ==> p[k] == t[match + k]
-Loop B@_naive_string_matcher:
-  i_2: 0 <= i <= n - m
-Loop C@_naive_string_matcher:
-  i_3: 0 <= j <= m

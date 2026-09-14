@@ -1,5 +1,0 @@
-Loop A@_quick_sort:
-  i_0: lo - 1 <= i && i < j && j <= hi
-  i_1: a[hi] == pivot
-  i_2: \forall integer k; lo <= k && k <= i ==> a[k] <= pivot
-  i_3: \forall integer k; i < k && k < j ==> a[k] > pivot

@@ -1,2 +1,0 @@
-loop invariant 1 <= i <= n;
-loop invariant Sorted(t, 0, i);

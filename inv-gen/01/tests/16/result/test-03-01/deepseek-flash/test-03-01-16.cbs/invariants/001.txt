@@ -1,9 +1,0 @@
-Loop A@_insertion_sort:
-  i_0: Sorted(t, 0, i)
-  i_1: 1 <= i <= n
-Loop B@_insertion_sort:
-  i_2: 0 <= j <= i
-  i_3: Sorted(t, 0, j)
-  i_4: Sorted(t, j + 1, i + 1)
-  i_5: \forall integer k; j < k <= i ==> t[k] > mv
-  i_6: \forall integer a, b; 0 <= a < j && j < b <= i ==> t[a] <= t[b]

@@ -1,5 +1,0 @@
-```
-[Loop C@rabin_karp]
-loop invariant i_12: 0 <= j <= m;
-loop invariant i_14: ht == str_hash(t, 0, j, D, Q);
-```

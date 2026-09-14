@@ -1,5 +1,0 @@
-[Loop C@counting_sort]
-loop invariant sum_c(c, k) == \at(sum_c(c, k), LoopEntry);
-
-[Loop D@counting_sort]
-loop invariant sum_c(c, k) == \at(sum_c(c, k), LoopEntry);

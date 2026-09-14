@@ -1,4 +1,0 @@
-```
-loop invariant 0 <= j <= m;
-loop invariant \forall integer k; 0 <= k < j ==> p[k] == t[match + k];
-```

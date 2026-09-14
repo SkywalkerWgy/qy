@@ -1,6 +1,0 @@
-```
-loop invariant 0 <= x < n;
-loop invariant x != 1 && x != n - 1;
-loop invariant i >= 0;
-loop invariant x == pow_mod(a, d * (1 << i), n);
-```

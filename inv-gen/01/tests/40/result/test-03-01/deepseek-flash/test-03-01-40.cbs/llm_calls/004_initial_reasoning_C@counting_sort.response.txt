@@ -1,7 +1,0 @@
-loop invariant 0 <= v <= k + 1;
-loop invariant 0 <= pos <= n;
-loop invariant pos == sum_c(c, v - 1);
-loop invariant sum_c(c, k) == n;
-loop invariant \forall integer t; 0 <= t <= k ==> c[t] >= 0;
-loop invariant sorted(b, 0, pos);
-loop invariant \forall integer i; 0 <= i < pos ==> 0 <= b[i] && b[i] < v;

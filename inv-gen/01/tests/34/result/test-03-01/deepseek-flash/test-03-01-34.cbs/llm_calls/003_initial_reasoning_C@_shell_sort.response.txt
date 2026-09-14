@@ -1,5 +1,0 @@
-```
-loop invariant -gap <= j && (i - j) % gap == 0;
-loop invariant \forall integer k; 0 <= k && k < j && (i - k) % gap == 0 ==> arr[k] <= arr[k+gap];
-loop invariant \forall integer k; j + gap <= k && k < i && (i - k) % gap == 0 ==> arr[k] <= arr[k+gap];
-```

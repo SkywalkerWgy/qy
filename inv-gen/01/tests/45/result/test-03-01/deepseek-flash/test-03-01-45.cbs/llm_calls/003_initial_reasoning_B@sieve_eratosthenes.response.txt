@@ -1,7 +1,0 @@
-```
-loop invariant 2 <= p && p <= n + 1;
-loop invariant \forall integer k; 2 <= k <= n ==> is_p[k] == 0 || is_p[k] == 1;
-loop invariant \forall integer k; 2 <= k <= n && is_prime(k) ==> is_p[k] == 1;
-loop invariant \forall integer k; 2 <= k <= n && k < p * p && is_p[k] == 1 ==> is_prime(k);
-loop invariant \forall integer k, d; 2 <= d && d < p && d * d <= k && k <= n && divides(d,k) ==> is_p[k] == 0;
-```

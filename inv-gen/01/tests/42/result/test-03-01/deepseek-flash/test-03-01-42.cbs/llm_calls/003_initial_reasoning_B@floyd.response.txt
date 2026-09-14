@@ -1,6 +1,0 @@
-```
-loop invariant 0 <= j && j <= n;
-loop invariant 0 <= i && i < n;
-loop invariant \forall integer c; 0 <= c < j ==> dist[i][c] == graph[i][c];
-loop invariant \forall integer r, c; 0 <= r < i && 0 <= c < n ==> dist[r][c] == graph[r][c];
-```

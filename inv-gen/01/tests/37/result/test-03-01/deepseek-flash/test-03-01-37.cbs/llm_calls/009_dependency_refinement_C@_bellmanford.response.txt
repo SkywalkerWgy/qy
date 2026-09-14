@@ -1,2 +1,0 @@
-[Loop C@_bellmanford]
-loop invariant i_24: has_paths_up_to{Here,Here}(edges, e, n, start, prev, i-1);

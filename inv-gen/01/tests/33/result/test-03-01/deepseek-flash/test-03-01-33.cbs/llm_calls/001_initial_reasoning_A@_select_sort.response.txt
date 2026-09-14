@@ -1,5 +1,0 @@
-```
-loop invariant 0 <= i <= n - 1;
-loop invariant sorted(arr, 0, i);
-loop invariant \forall integer k, l; 0 <= k < i && i <= l < n ==> arr[k] <= arr[l];
-```

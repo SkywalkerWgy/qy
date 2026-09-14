@@ -1,6 +1,0 @@
-```
-loop invariant 1 <= i <= n;
-loop invariant \forall integer k; 0 <= k < i ==> pre_post(s, k, pi[k]);
-loop invariant \forall integer k; 0 <= k < i ==> 0 <= pi[k] <= k;
-loop invariant \forall integer k; i <= k < n ==> pi[k] == 0;
-```

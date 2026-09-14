@@ -1,5 +1,0 @@
-```
-loop invariant i <= j <= n;
-loop invariant i <= min < n;
-loop invariant \forall integer k; i <= k < j ==> arr[min] <= arr[k];
-```

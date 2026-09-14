@@ -1,5 +1,0 @@
-[Loop B@_lis]
-loop invariant \forall integer p; 0 <= p <= i ==> (dp[p] == 1 || \exists integer q; 0 <= q < p && arr[q] < arr[p] && dp[p] == dp[q] + 1);
-
-[Loop A@_lis]
-loop invariant \forall integer p; 0 <= p < i ==> (dp[p] == 1 || \exists integer q; 0 <= q < p && arr[q] < arr[p] && dp[p] == dp[q] + 1);

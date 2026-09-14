@@ -1,2 +1,0 @@
-[Loop D@place_queen]
-loop invariant i_48: \forall integer r, c; row + 1 <= r < n && 0 <= c < n ==> idx(n, row + 1, 0) <= idx(n, r, c);

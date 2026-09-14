@@ -1,3 +1,0 @@
-[Loop D@counting_sort]
-loop invariant i_27: sum_c(c, k) == n;
-loop invariant i_38: \forall integer i, j; 0 <= i < n && 0 <= j <= k ==> b + i != c + j;

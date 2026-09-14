@@ -1,2 +1,0 @@
-[Loop A@_bellmanford]
-loop invariant i_5: (i == 1 ==> (dist[start] == 0 && \forall integer v; 0 <= v < n && v != start ==> dist[v] == INF)) && (i != 1 ==> has_paths_up_to{Here,Here}(edges, e, n, start, dist, i-1));

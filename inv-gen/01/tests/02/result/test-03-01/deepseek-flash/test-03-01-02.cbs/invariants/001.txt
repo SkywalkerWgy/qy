@@ -1,2 +1,0 @@
-Loop A@_bst_search:
-  i_0: BST(cur)

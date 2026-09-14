@@ -1,3 +1,0 @@
-[Loop D@rabin_karp]
-loop invariant t_nonneg: \forall integer k; 0 <= k < n ==> t[k] >= 0;
-loop invariant p_nonneg: \forall integer k; 0 <= k < m ==> p[k] >= 0;

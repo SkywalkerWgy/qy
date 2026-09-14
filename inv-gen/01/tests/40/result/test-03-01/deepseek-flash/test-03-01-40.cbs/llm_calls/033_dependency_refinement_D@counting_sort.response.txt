@@ -1,2 +1,0 @@
-[Loop D@counting_sort]
-loop invariant i_17: pos_start == sum_c(c, v - 1) && v <= k && (pos < n ==> \forall integer w; 0 <= w <= v - 1 ==> b + pos != c + w);

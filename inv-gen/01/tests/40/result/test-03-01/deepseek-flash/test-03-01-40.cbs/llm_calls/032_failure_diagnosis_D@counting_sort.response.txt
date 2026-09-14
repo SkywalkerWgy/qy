@@ -1,8 +1,0 @@
-[Failed Property]
-preservation of i_17: assuming the invariant and loop condition before one iteration, the invariant must hold again after the loop body.
-[Failure Cause]
-The proof obligation is to re-establish `pos_start == sum_c(c, v - 1)` after one Loop D iteration. The body updates only `b[pos]` and `pos`; it does not assign `pos_start`, `v`, or `c`. Therefore, i_17 is mathematically inductive and is not too strong. WP reduces the obligation to `L_sum_c(m, c, v - 1) == L_sum_c(Mint_0, c, v - 1)`, where `m` is the memory after `b[pos] = v`. The needed fact is that this write to `b` does not modify the `c` cells read by `sum_c(c, v - 1)`. The existing separation/no-alias invariants `i_38`/`i_40` are sufficient in principle, using `pos < n` and `v <= k` (and the case `v = 0` trivially), but they are not exposed as a pointwise equality of `c` under the update, nor as a frame lemma for the recursive logic function `sum_c`. Thus WP cannot lift the no-alias fact to equality of the whole `sum_c` expression. The D invariants are not mathematically too weak, but they are too weak for WP to bridge to the target without the `sum_c` preservation fact.
-[Responsible Scope]
-D@counting_sort
-[Refinement Direction]
-Do not add a new loop invariant. The missing bridge is the pointwise fact that the write `b[pos] = v` does not modify any `c[w]` read by `sum_c(c, v - 1)`; for `v = 0`, `v - 1 < 0` is trivial. Derive or assert this from the existing separation/no-alias invariants `i_38`/`i_40` with `pos < n` and `v <= k`, then use a `sum_c` frame/induction fact to conclude that `sum_c(c, v - 1)` is unchanged.
